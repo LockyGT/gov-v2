@@ -1,0 +1,200 @@
+<style>
+area:hover {
+	/*background-color:rgba(173,255,47,0.5);*/
+	background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 50%, #000
+		50%, #000 75%, transparent 75%, #fff);
+	background-size: 50px 50px;
+}
+
+.image-map-container {
+	position: relative;
+	display: inline-block;
+}
+
+.image-map-container img {
+	display: block;
+}
+
+.image-map-container .map-selector {
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	color: #546E7A00;
+	transition-duration: .3s;
+	transition-timing-function: ease-out;
+	transition-property: top, left, right, bottom, color;
+}
+
+.image-map-container .map-selector.hover {
+	color: #546E7A80;
+}
+
+.map-selector:after {
+	content: '';
+	position: absolute;
+	background: currentColor;
+	top: inherit;
+	right: inherit;
+	bottom: inherit;
+	left: inherit;
+	background: currentColor;
+	transition-duration: .3s;
+	transition-timing-function: ease-out;
+	transition-property: top, left, right, bottom, background;
+	pointer-events: none;
+}
+
+.has-finger-print {
+	background: lime;
+}
+</style>
+<div class="container-fluid">
+	<div class="well animation-if" data-ng-if="!grabar">
+		<div class="row"  style="margin-bottom: 1vh;">
+			<div class="col-6">
+				<div class="row" style="text-align: center; background: #B1B5E4;">
+					<span>MANO IZQUIERDA</span>
+				</div>
+				<div class="row" style="background: #c7c3be;">					
+					<div class="col"
+						style="border-style: solid; border-width: thin; border-color: black;"
+						data-ng-class="finger.dedo.color"
+						data-ng-repeat="finger in manoIzquierda.mano.dedos | orderBy: {dedo :index} : true  track by $index ">
+						<a href="" data-ng-click="grabarHuella(finger.dedo)"> <i class="fas fa-fingerprint"></i>
+							{{finger.dedo.nombre}}
+						</a>
+
+					</div>
+				</div>
+			</div>			
+			<div class="col-6">
+				<div class="row" style="text-align: center; background: #B1B5E4;">
+					<span>MANO DERECHA</span>
+				</div>
+				<div class="row" style="background: #C5EDDB;">
+					<div class="col"
+						style="border-style: solid; border-width: thin; border-color: black;"
+						data-ng-class="finger.dedo.color"
+						data-ng-repeat="finger in manoDerecha.mano.dedos track by $index">
+						<a href="" data-ng-click="grabarHuella(finger.dedo)"> <i class="fas fa-fingerprint"></i> {{finger.dedo.nombre}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<map name="image-map" id="image-map">
+			<area target="" class="area1" alt="Pulgar derecho"
+				title="Pulgar derecho" data-ng-click="grabarHuellaMapa(0)"
+				coords="294,161,27" shape="circle">
+			<area target="" alt="Índice derecho" title="Índice derecho"
+				data-ng-click="grabarHuellaMapa(1)"
+				coords="361,106,335,129,315,58,320,33,336,38" shape="poly">
+			<area target="" alt="Dedo médio derecho" title="Dedo médio derecho"
+				data-ng-click="grabarHuellaMapa(2)"
+				coords="383,1,401,12,406,105,377,103,377,29" shape="poly">
+			<area target="" alt="Anular derecho" title="Anular derecho"
+				data-ng-click="grabarHuellaMapa(3)"
+				coords="469,25,469,44,453,118,427,106,445,44,453,26" shape="poly">
+			<area target="" alt="Meñique derecho" title="Meñique derecho"
+				data-ng-click="grabarHuellaMapa(4)"
+				coords="491,84,467,123,494,132,511,86,505,71" shape="poly">
+			<area target="" alt="Pulgar izquierdo" title="Pulgar izquierdo"
+				data-ng-click="grabarHuellaMapa(5)" coords="218,165,27"
+				shape="circle">
+			<area target="" alt="Índice izquierdo" title="Índice izquierdo"
+				data-ng-click="grabarHuellaMapa(6)"
+				coords="168,61,151,111,180,118,194,78,197,37,183,33" shape="poly">
+			<area target="" alt="Dedo médio izquierdo"
+				title="Dedo médio izquierdo" data-ng-click="grabarHuellaMapa(7)"
+				coords="137,50,140,104,110,106,112,18,124,0,134,8" shape="poly">
+			<area target="" alt="Anular izquierdo" title="Anular izquierdo"
+				data-ng-click="grabarHuellaMapa(8)"
+				coords="52,84,62,116,89,106,70,44,53,25,46,35,47,55" shape="poly">
+			<area target="" alt="Meñique izquierdo" title="Meñique izquierdo"
+				data-ng-click="grabarHuellaMapa(9)"
+				coords="6,96,23,132,44,124,16,74,1,75" shape="poly">
+		</map>
+	</div>
+	<div data-ng-if="grabar" class="animation-if">
+		<div id="content-reader" data-ng-show="!myVal">
+			<div class="pull-left">
+				<h4>Lector:</h4>
+			</div>
+			<div class="pull-right">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-xs"
+						data-ng-click="cancelReaderSelection()">&times;</button>
+				</div>
+			</div>
+			<select class="form-control" id="readersDropDown"
+				data-ng-change="selectChangeEvent(selectedItem)"
+				data-ng-model="selectedItem">
+				<option value="" selected="selected">Seleccione un
+					lector...</option>
+				<option data-ng-repeat="lector in lectoresHuella"
+					data-ng-value="lector">{{lector}}</option>
+			</select>
+			<div id="readerDivButtons">
+				<table width=70% align="center">
+					<tr>
+						<td><input type="button" class="btn btn-primary"
+							id="refreshList" value="Actualizar lista de dispositivos"
+							data-ng-click="readersDropDownPopulate(false)"></td>						
+					</tr>
+				</table>				
+			</div>
+			<!-- ReaderDivButtons -->
+		</div>
+		<div class="well" data-ng-show="fingerGrabar && myVal">
+			<div class="row">
+				<div class="float-left">
+					<h3>Grabando huella {{fingerGrabar.nombre}}</h3>
+				</div>
+				<div class="float-right">
+					<div class="btn-group">
+						<button type="button" class="btn btn-danger btn-xs"
+							data-ng-click="cancelEnroll()">&times;</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<div class="row">
+						<div id="Scores">
+							<h5>
+								Calidad : <input type="text"
+									id="qualityInputBox" size="20" readonly="readonly"
+									data-ng-model="calidadDeTemplate"
+									style="background-color: #DCDCDC; text-align: center;">
+							</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div id="content-capture">
+							<div id="status"></div>
+							<div id="imagediv" style="margin-left: 20vh; text-align: center;">
+							</div>							
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div id="content-capture">						
+						<div class="row" id="imageGallery"></div>
+						<div class="row">
+							<div style="margin-left: 5vh; text-align: center;" data-ng-show="!huellaCapturada">
+								<img alt="finger_loading" src="img/finger-loading.gif"
+									width="50vh"><br/>
+									<span class="text-info">{{mensajeCaptura}}</span>
+							</div>
+						</div>
+						<div id="deviceInfo"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ContentReader -->
+
+</div>

@@ -1,0 +1,57 @@
+{"properties": [
+  {
+    "name": "dir.carpeta.multimedia",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.carpeta.multimedia'"
+  },
+  {
+    "name": "authentication.by.finger.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'authentication.by.finger.enabled'"
+  },
+  {
+    "name": "dir.carpeta.multimedia",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.carpeta.multimedia'"
+  },
+  {
+    "name": "dir.archivo.lector.sdk",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.archivo.lector.sdk'"
+  },
+  {
+    "name": "dir.archivo.sincroizardor",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.archivo.sincroizardor'"
+  },
+  {
+    "name": "dir.archivo.sincronizardor",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.archivo.sincronizardor'"
+  },
+  {
+    "name": "spring.security.basic.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.security.basic.enabled'"
+  },
+  {
+    "name": "spring.http.log-request-details",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.http.log-request-details'"
+  },
+  {
+    "name": "app.server.security.add",
+    "type": "java.lang.String",
+    "description": "A description for 'app.server.security.add'"
+  },
+  {
+    "name": "app.server.security.add",
+    "type": "java.lang.String",
+    "description": "A description for 'app.server.security.add'"
+  },
+  {
+    "name": "dir.carpeta.multimedia",
+    "type": "java.lang.String",
+    "description": "A description for 'dir.carpeta.multimedia'"
+  }
+]}

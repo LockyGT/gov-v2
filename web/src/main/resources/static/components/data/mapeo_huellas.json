@@ -1,0 +1,78 @@
+{
+	"manos": [
+		{
+			"mano": {
+				"lado": "derecha",
+				"dedos": [
+					{
+						"dedo": {
+							"nombre": "pulgar",
+							"index": 0
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "indice",
+							"index": 1
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Médio",
+							"index": 2
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Anular",
+							"index": 3
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Meñique",
+							"index": 4
+						}
+					}
+				]
+			}
+		},
+		{
+			"mano": {
+				"lado": "izquierda",
+				"dedos": [
+					{
+						"dedo": {
+							"nombre": "pulgar",
+							"index": 5
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "indice",
+							"index": 6
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Médio",
+							"index": 7
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Anular",
+							"index": 8
+						}
+					},
+					{
+						"dedo": {
+							"nombre": "Meñique",
+							"index": 9
+						}
+					}
+				]
+			}
+		}
+	]
+}
