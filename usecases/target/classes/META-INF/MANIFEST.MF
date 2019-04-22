@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Business Use Cases Module
+Implementation-Version: 2.0.0.BETA.01
+Built-By: javier
+Implementation-Vendor-Id: com.solucionesdigitales.realtime
+Build-Jdk: 1.8.0_201
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/voting-app-parent/voting-usecases
+Created-By: Maven Integration for Eclipse
+
