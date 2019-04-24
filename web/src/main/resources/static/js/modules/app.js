@@ -169,6 +169,16 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/listaAsistenciaSesionSinIniciativa.html',
 		controller : 'quorumCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('gazette', {
+		url : '/gazette',
+		templateUrl : './views/admin/gazette.html',
+		controller : 'gazetteCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('orderoftheday', {
+		url : '/orderoftheday',
+		templateUrl : './views/admin/orderOfTheDay.html',
+		controller : 'orderOfTheDayCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	function authenticate($q, $state, $timeout, LoginService) {

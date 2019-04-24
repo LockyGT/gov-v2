@@ -75,7 +75,9 @@
 	</nav>
 
 	<!-- Page Content -->
-	<div data-ng-class="title === 'PANEL' ? 'container-fluid': 'container container-body'" style="margin-top: 6vh;">
+	<div
+		data-ng-class="title === 'PANEL' ? 'container-fluid': 'container container-body'"
+		style="margin-top: 6vh;">
 		<div ui-view></div>
 
 	</div>
@@ -220,6 +222,8 @@
 		src="js/controllers/reportePresentesCtrl.js"></script>
 	<script type="text/javascript"
 		src="js/controllers/reporteAsistenciasSesionesCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/gazetteCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/orderOfTheDayCtrl.js"></script>
 
 	<!-- Services Angular -->
 	<script type="text/javascript" src="js/services/LoginService.js"></script>
@@ -230,7 +234,8 @@
 	<script type="text/javascript"
 		src="js/services/partnerHasFingerPrintService.js"></script>
 	<script type="text/javascript" src="js/services/partnerService.js"></script>
-	<script type="text/javascript" src="js/services/partnerHasVoteService.js"></script>
+	<script type="text/javascript"
+		src="js/services/partnerHasVoteService.js"></script>
 	<script type="text/javascript" src="js/services/initiativeService.js"></script>
 	<script type="text/javascript" src="js/services/voteService.js"></script>
 	<script type="text/javascript" src="js/services/voteSessionService.js"></script>
