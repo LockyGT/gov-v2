@@ -111,7 +111,7 @@
 				<li class="nav-item"><a class="nav-link active" id="home-tab"
 					data-toggle="tab" data-ui-sref="state" href="#home" role="tab"
 					aria-controls="home" aria-selected="true"
-					data-ng-click="changeTitleTabView('SESIONES')">Sessiones</a></li>				
+					data-ng-click="changeTitleTabView('SESIONES')">Sessiones</a></li>
 			</ul>
 		</div>
 		<div class="card-body">
@@ -143,7 +143,7 @@
 									<th>Fecha/Hora</th>
 									<th>Tipo</th>
 									<th>Estado</th>
-									<th>Agregar</th>									
+									<th>Agregar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -153,7 +153,10 @@
 									<td>{{voteSession.fechaHora | date:'dd/MM/yyyy HH:mma'}}</td>
 									<td>{{voteSession.type.name}}</td>
 									<td>{{getStatusString(voteSession.status)}}</td>
-									<td><button class="btn btn-primary btn-sm" data-ng-click="addOrderOfTheDay()"><i class="fas fa-plus-square"></i></button></td>								
+									<td><button class="btn btn-primary btn-sm"
+											data-ng-click="addOrderOfTheDay()">
+											<i class="fas fa-plus-square"></i>
+										</button></td>
 								</tr>
 							</tbody>
 							<tfoot>
@@ -163,17 +166,32 @@
 							</tfoot>
 						</table>
 					</div>
-				</div>				
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-    	<h1>Ordenes del día para la sesión dummy</h1>
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Ordenes del día para la sesión dummy</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
-  </div>
-</div>
 	<script type="text/javascript">
 		//../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png
 
