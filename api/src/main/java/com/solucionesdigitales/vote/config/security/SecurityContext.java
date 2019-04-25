@@ -46,7 +46,7 @@ public class SecurityContext {
 			boolean allowed = false;
 			if(macs != null && macs.length > 0){
 				for(String m : macs) {
-					if(m != null) {
+					if(m != null && !m.isEmpty()) {
 						//logger.info("MAC ADDRESS for["+m+"]");
 						if(m.equals(add)) {
 							allowed = true;

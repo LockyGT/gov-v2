@@ -1,0 +1,138 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Page Heading -->
+<h1 class="my-4">PARTIDOS POLÍTICOS <small></small></h1>
+<section  data-ng-show="politicalParty !== null" >
+	<div class="row">
+		<div class="col-ld-12 col-md-12 col-sm-12">
+			<form name="politicalPartyForm" data-ng-submit="submitForm(politicalPartyForm.$valid)" novalidate>
+				<div class="card">
+				  <div class="card-header">
+					 <h5 class="card-title">{{!politicalParty.id ? 'Nuevo ': 'Actualizar '}}</h5>
+				  </div>
+				  <div class="card-body">
+					  <div class="form-group row">
+					    <label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
+					    <div class="col-sm-10">
+						    <div class="input-group">
+						      <input type="text" class="form-control" autofocus="autofocus" id="txtNombre" placeholder="Nombre" data-ng-model="politicalParty.name" data-ng-class="invalidClassName" required>
+						    </div>
+					    </div>
+					  </div>
+					  <div class="form-group row">
+					    <label for="txtSiglas" class="col-sm-2 col-form-label">Siglas</label>
+					    <div class="col-sm-10">
+					    	<div class="input-group">	
+					      		<input type="text" class="form-control" id="txtSiglas" data-ng-model="politicalParty.acronym"  data-ng-class="invalidClassSigla" required>
+					      	</div>
+					    </div>
+					  </div>
+					   <div class="form-group row">
+					    <label for="txtColor" class="col-sm-2 col-form-label">Color</label>
+					    <div class="col-sm-3">
+					      <input class="jscolor form-control" id="txtColor" readonly data-ng-model="politicalParty.colour">
+					    </div> 
+					    <div class="col-sm-1"><button type="button" id="btnshowColor" class="btn btn-dark"> ... </button></div>
+					  </div>
+					   <div class="row"> 
+					   <label for="txtColor" class="col-sm-2 col-form-label">Logo Partido</label>   
+				        <div class="col-sm10">  
+				            <!-- image-preview-filename input [CUT FROM HERE]-->
+				            <div class="input-group image-preview">
+				                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+				                <span class="input-group-btn">
+				                    <!-- image-preview-clear button -->
+				                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+				                        <span class="glyphicon glyphicon-remove"></span> Borrar
+				                    </button>
+				                    <!-- image-preview-input -->
+				                    <label class="btn btn-default image-preview-input">
+				                        <span class="glyphicon glyphicon-folder-open"></span>
+				                        <span class="image-preview-input-title">Buscar</span>
+				                        <input type="file" accept="image/png, image/jpeg" name="input-file-preview" fileread="politicalParty.logo"/> <!-- rename it -->
+				                    </label>
+				                </span>
+				            </div><!-- /input-group image-preview [TO HERE]--> 
+				        </div>
+				    </div>
+				    <br>
+				    <div class="row">
+				        <div class="col-sm-2">
+				  	    </div>
+					    <div class="col-sm-3">
+					   		<img alt="Vista previa logo" data-ng-src="{{politicalParty.logo != null ? politicalParty.logo : './img/archivo-de-imagen.png' }}"  onerror="this.src='./img/archivo-de-imagen.png'" width="100" height="100" >
+					   	 </div>
+					</div>
+				  	</div><!-- CardBody -->
+				   <div class="card-footer">
+				   	<button type="submit" class="btn btn-success">{{!politicalParty.id ? 'Guardar': 'Actualizar'}}</button>
+					<button type="button" class="btn btn-danger" data-ng-click="cancelAddUpdatePoliticalParty()">Cancelar</button>
+				  </div><!-- CardFooter -->
+				</div><!-- Card -->
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+    $(document).ready(function() {
+    	   /*ColorJS*/
+        jscolor.installByClassName(jscolor.lookupClass);
+		  console.log('jsColorCallToLoad');
+			$("#btnshowColor").on('click', function(){
+				console.log('OnclickEvent');
+				document.getElementById('txtColor').jscolor.show();
+			});
+		});
+    
+    </script>
+	</section>
+	<section data-ng-if="politicalParty === null">
+	<div class="col-ld-12 col-md-12 col-sm-12" >
+		<div class="card">
+		  	<div class="card-header">
+			<div class="row">
+				<div class="btn-group">
+					<button type="button" class="btn btn-success" data-ng-click="addPoliticalParty()"> Nuevo </button>
+				</div>
+			</div>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="alert alert-primary" role="alert"
+					data-ng-if="!politicalParties.length">
+					No se han encontrado partidos políticos registrados en el sistema <a
+						data-ng-click="addPoliticalParty()" style="cursor: pointer;"
+						class="alert-link">Agregue un partido político para comenzar</a>.
+				</div>
+					<div class="table-responsive" data-ng-if="politicalParties.length">
+						<table class="table table-inversed table-hover table-striped">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Siglas</th>
+									<th>Color</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-ng-repeat="politicalParty in politicalParties track by $index">
+									<td>{{politicalParty.name}}</td>
+									<td>{{politicalParty.acronym}}</td>
+									<td><span style="background-color: #{{politicalParty.colour}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+									<td><button type="button" class="btn btn-warning" data-ng-click="updatePoliticalParty(politicalParty)" data-ng-if="politicalParty.id != null" >Actualizar</button></td>
+									<td><button type="button" class="btn btn-danger"
+										data-ng-click="confirmDelete('Esta Seguro de Eliminar ',politicalParty.name,politicalParty)"
+										data-ng-if="politicalParty.id != null">Eliminar</button></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr> 
+									<th colspan="5"></th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

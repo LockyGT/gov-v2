@@ -1,0 +1,121 @@
+<style>
+<!--
+.btn-xlarge {
+	font-size: 3rem !important;
+	padding: 18px 28px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+-->
+</style>
+<div class="header">
+	<h1 class="my-4"
+		data-ng-if="iniciativa && iniciativa.result && !iniciativa.result.resultName">{{iniciativa.name}}</h1>
+<!-- 	<h1 class="my-4 text-muted" -->
+<!-- 		data-ng-if="iniciativa && iniciativa.result && iniciativa.result.resultName">{{iniciativa.name}}</h1> -->
+	<h1 class="my-4 text-muted" data-ng-if="iniciativaFinal">{{iniciativaFinal.name}}</h1>
+	<h1 class="my-4" data-ng-if="!iniciativa ">Esperando inicio de
+		votaci&oacute;n...</h1>
+</div>
+
+<div class="well animate-if" style="text-align: center;"
+	data-ng-if="iniciativa != null  || (iniciativa != null && votoEmitido.id != null && !votacionFinalizada) ">
+	<div class="row">
+		<div class="col-2"></div>
+		<div class="col-8" style="text-align: center;">
+			<span id="spnTimer" style="font-size: 14vh"
+				class="label-fecha-timer-red">{{timer}}</span>
+		</div>
+		<div class="col-2"></div>
+	</div>
+</div>
+<div class="well animate-if" style="text-align: center;"
+	data-ng-if="asistencia && asistencia.id && iniciativa && !votoEmitido && !votacionFinalizada">
+	<div class="row">
+		<div class="col-12">
+			<div class="btn-group btn-group-lg" role="group"
+				aria-label="votacionBtn">
+				<button data-ng-repeat="voteOption in iniciativa.tiposVotos"
+					data-ng-click="addVote(voteOption)" type="button"
+					data-ng-disabled="votacionFinalizada"
+					class="btn btn-{{voteOption.voteColor}} btn-lg btn-xlarge mr-5">{{voteOption.name}}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="well animate-if" style="text-align: center;"
+	data-ng-if="!asistencia && iniciativa && !votoEmitido && !votacionFinalizada && !iniciativa.result.resultName">
+	<div class="btn-group btn-group-lg" role="group"
+		aria-label="votacionBtn">
+		<button data-ng-disabled="votacionFinalizada || onlyShowing"
+			data-ng-click="startFingerValidator()"
+			class="btn btn-info btn-lg btn-block">
+			<h1>
+				REGISTRAR PRESENCIA <i class="fas fa-fingerprint"></i>
+			</h1>
+		</button>
+	</div>
+	<small class="my-4 form-text text-muted"
+		data-ng-if="iniciativa && onlyShowing && !votacionFinalizada">Esperando
+		inicio de votaci&oacute;n...</small>
+</div>
+<div class="well animate-if" style="text-align: center;"
+	data-ng-if="(iniciativa || iniciativaFinal) && votoEmitido">
+	<div class="text-center" role="group" aria-label="votacionBtn">
+		<h1>
+			VOTO REGISTRADO <span class="text-{{votoEmitido.option.voteColor}}">{{votoEmitido.option.name}}</span>
+		</h1>
+
+	</div>
+</div>
+<div class="well animate-if" style="text-align: center;"
+	data-ng-if="votacionFinalizada">
+	<div class="text-center" role="group" aria-label="votacionBtn">
+		<h1>LA VOTACIÓN DE LA INICIATIVA HA FINALIZADO</h1>
+		<br />
+<!-- 		<h1 class="display-1 animate-if" data-ng-if="iniciativaFinal.result.resultName"> -->
+<!-- 			RESULTADO <span -->
+<!-- 				data-ng-class="iniciativa.result.resultName == 'Aprobado'? 'text-success': 'text-danger'">{{iniciativaFinal.result.resultName}}</span> -->
+<!-- 		</h1> -->
+
+	</div>
+</div>
+
+<!-- <div class="well animate-if" style="text-align: center;" -->
+<!-- 	data-ng-if="iniciativa.result.resultName"> -->
+<!-- 	<div class="text-center" role="group" aria-label="votacionBtn">		 -->
+<!-- 		<h1 class="display-1 animate-if"> -->
+<!-- 			RESULTADO: <span -->
+<!-- 				data-ng-class="iniciativa.result.resultName == 'Aprobado'? 'text-success': 'text-danger'">{{iniciativa.result.resultName}}</span> -->
+<!-- 		</h1> -->
+<!-- 	</div> -->
+<!-- </div> -->
+
+<div class="modal" tabindex="-1" role="dialog" id="modalHuella">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<i class="fas fa-fingerprint"></i> CONFIRMA CON HUELLA <span
+						data-ng-show="voteToSend"
+						class="text-{{voteToSend.option.voteColor}}">, VOTO:
+						{{voteToSend.option.name}}</span>
+				</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>CAPTURE SU HUELLA.</p>
+				<div id="imagediv"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar
+					({{countdownHuella}})</button>
+			</div>
+		</div>
+	</div>
+</div>

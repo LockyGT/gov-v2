@@ -7,9 +7,13 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 	angular.element('#txtUserName').focus();
 	$scope.formSubmit = function() {
 		$log.log("submit form");
+		
 		partnerService.getPartnerByUsernameInit($scope.username).then(function(response) {
+			console.log(response)
 			if (response && response.mensaje === "valid") {
-				$scope.getAccessToken();
+				$log.log("username:"+$scope.username);
+				$log.log("password:"+$scope.password);
+				$scope.getAccessToken($scope.username,$scope.password);
 				swal({
 					title: "Validando credenciales",
 					text: "Por favor espere ...",
@@ -65,7 +69,8 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 					}, function error(response) {
 						swal.stopLoading();
 						swal.close();
-						swal("Error", "Usuario con error " + response, "error")
+						swal("Error", ""+response.status, "error");
+						$scope.error = "Usuario/Password incorrecto!";
 					})
 				}, 1000)
 			} else {
@@ -161,7 +166,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 			}
 			partnerService.getPartnerByUsernameInit($scope.username).then(function(response) {
 				if (response && response.mensaje === "valid") {
-					$scope.getAccessToken();
+					// $scope.getAccessToken();
 					swal({
 						title: "Validando huella",
 						text: "Por favor espere ...",
@@ -173,6 +178,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 						closeOnClickOutside: false,
 						closeOnEsc: false
 					});
+					$scope.getAccessToken($scope.username, fp.templateSt);
 					$timeout(function() {
 						partnerHasFingerPrintService.validateFingerPrintUsername(partner, fp).then(function mySuccess(response) {
 							if (response) {
@@ -237,7 +243,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 				$scope.testFingerSdk.stopCapture();
 				swal.stopLoading();
 				swal.close();
-				swal("Error", "PETICION NO REALIZADA" + $scope.myWelcome, "error")
+				swal("Error", $scope.myWelcome, "error")
 			})
 		}else{
 			$timeout(function() {
@@ -398,7 +404,8 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 		quorumService.postInDay(asistencia).then(function mySuccess(data) {			
 			if(data){								
 				console.log('AsistenciaRegistrada quorumService');
-				//stompClient.send("/votesapp/reset/quorum", {}, $scope.userSession.name);
+				// stompClient.send("/votesapp/reset/quorum", {},
+				// $scope.userSession.name);
 			}else{
 				swal("Error", "Asistencia no agregada 2", "error");
 			}						
@@ -409,11 +416,11 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 	};
 
 
-	$scope.getAccessToken = function() {
+	$scope.getAccessToken = function(user,password) {
 		$scope.login = window.location.protocol+"//" + window.location.hostname + ":" + window.location.port + "/login";
 		$scope.userLogin = {
-				"username": "admin",
-				"password": "password"
+				"username": user,
+				"password": password
 		};
 		$scope.headerLogin = {
 				headers: {
@@ -480,7 +487,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 							}, 1000)
 						} else {
 							if (response && response.mensaje === "allowed") {
-								$scope.getAccessToken();
+								//$scope.getAccessToken();
 								swal({
 									title: "Configurando sistema para su primer uso",
 									text: "Por favor espere ...",
@@ -516,7 +523,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 							$scope.enterEnable = !0
 						} else {
 							if (response && response.mensaje === "allowed") {
-								$scope.getAccessToken();
+								//$scope.getAccessToken();
 								swal({
 									title: "Configurando sistema para su primer uso",
 									text: "Por favor espere ...",

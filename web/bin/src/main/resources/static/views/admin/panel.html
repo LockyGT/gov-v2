@@ -1,0 +1,78 @@
+<section>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+		style="background-color: #000000 !important;">
+		<div class="container">
+			<a class="navbar-brand" href="#"> <img
+				class="img-responsive rounded"
+				src="../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png"
+				alt="img_brand">
+			</a> <a class="navbar-brand"> <span id="spnTimer"
+				class="label-fecha-timer-white">{{timer}}</span>
+			</a>
+			<ul class="navbar-nav ml-auto panel-totales">
+				<li class="nav-item active"
+					data-ng-repeat=" voto in iniciativa.tiposVotos track by voto.id">
+					<a class="nav-link">{{voto.name}} <span id="spnFavor"
+						class="badge badge-{{voto.voteColor}} badge-pill"
+						style="font-size: 100%;">{{voto.totalTipoVoto}}</span>
+				</a>
+				</li>
+				<li class="nav-item active"><a class="nav-link"><b>PRESENTES</b>
+						<span id="spnNoIdentificado" class="badge badge-light badge-pill"
+						style="font-size: 100%; background-color: #c4dcf3 !important;">{{totalPresentes}}</span></a></li>
+			</ul>
+		</div>
+	</nav>
+	<!-- Page Content -->
+	<div class="container-body"
+		style="padding-right: 0px !important; margin-right: 0px !important; margin-left: 0px !important; background-color: #000000 !important;">
+		<!-- Page Heading -->
+		<h1 id="sessionTitle" class="my-4"
+			data-ng-if="initLegislatorsHasVote.initiative">
+			<small id="txtPregunta" class="text-left text-white">
+				{{initLegislatorsHasVote.initiative.name}} </small>
+		</h1>
+		<h1 id="sessionTitle" class="my-4 text-white" data-ng-if="voteSession && !initLegislatorsHasVote.initiative">
+			{{voteSession.attendanceNumber > 1 ? 'Verificación de quórum' : 'Pase de lista'}}: <small id="txtPregunta" class="text-left text-white">
+				{{voteSession.nombre}} </small>
+		</h1>
+		<div class="table-responsive animate-if"
+			data-ng-show="megaArray.length"> <!-- data-ng-if="!initLegislatorsHasVote.initiative.result.resultName" -->
+			<table class="table" style="width: 100%">
+				<tr>
+					<td class="align-top" data-ng-repeat="partnersSet in megaArray"
+						style="width: 33%; border: none;">
+						<table class="table" style="width: 100%">
+							<tr data-ng-repeat="partnerVoto in partnersSet">
+								<td style="width: 10%; text-align: center; border: none; padding: 0.25rem;">
+								<span class="badge badge-pill "
+									data-ng-class="partnerVoto.vote.id.length > 0 ? 'badge-'+ partnerVoto.vote.option.voteColor + ' badge-panel-'+ partnerVoto.vote.option.voteColor : partnerVoto.asistencia.id.length > 0 ? 'badge-presente': 'badge-secondary badge-panel-secondary'">
+										&nbsp; </span></td>
+								<td style="width: 90%; border: none; vertical-align: middle;" class="list-group-panel"><span
+									class="text-right"
+									data-ng-class="partnerVoto.asistencia.id.length > 0 ? 'text-white': 'text-secondary2'">
+										{{partnerVoto.partner.apPaterno}}
+										{{partnerVoto.partner.apMaterno}} {{partnerVoto.partner.name}}
+								</span></td>
+
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+<!-- 		<div class="row animate-if text-center" -->
+<!-- 			data-ng-if="initLegislatorsHasVote.initiative.result.resultName"> -->
+<!-- 			<div class="col-2"></div> -->
+<!-- 			<div class="col-8" style="text-align: center;"> -->
+<!-- 				<h1 class="display-1" -->
+<!-- 					data-ng-class="initLegislatorsHasVote.initiative.result.resultName == 'Aprobado'? 'text-success': 'text-danger'">{{initLegislatorsHasVote.initiative.result.resultName}}</h1> -->
+<!-- 			</div> -->
+<!-- 			<div class="col-2"></div> -->
+<!-- 		</div> -->
+		<!-- /.row -->
+		<!-- Pagination -->
+		<!-- /.container -->
+	</div>
+</section>

@@ -1,0 +1,309 @@
+
+<!-- Page Heading -->
+<h1 class="my-4">
+	{{voteSession.id !== null ? voteSession.nombre : 'INICIATIVAS DEL
+	D&Iacute;A'}} <br data-ng-if="voteSession.id !== null"> <small>
+		{{voteSession.id !== null ? ' INICIATIVAS ' : ''}} </small>
+</h1>
+
+<section data-ng-if="initiative === null">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="btn-group pull-left">
+					<button class="btn btn-success" data-ng-click="addInitiative()"
+						data-ng-disabled="voteSession.status == _SESION._FINALIZED">
+						Nueva</button>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="alert alert-primary" role="alert"
+				data-ng-if="!initiatives.length">
+				La sesión seleccionada no cuenta con iniciativas <a
+					data-ng-click="addInitiative()" style="cursor: pointer;"
+					data-ng-disabled="voteSession.status == _SESION._FINALIZED"
+					class="alert-link">Agregue una nueva iniciativa</a>. O seleccione
+				otra sesión
+			</div>
+			<div class="table-responsive" data-ng-if="initiatives.length">
+				<table class="table table-stripped">
+					<thead>
+						<tr>
+							<th>NOMBRE</th>
+							<th>TIEMPO</th>
+							<th>ESTATUS</th>
+							<th>ACCIONES</th>
+							<th colspan="2">OPCIONES</th>
+							<th>RESULTADO</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th colspan="7"></th>
+						</tr>
+					</tfoot>
+					<tbody>
+						<tr
+							data-ng-repeat="initiative in initiatives track by initiative.id">
+							<td>{{initiative.name}}</td>
+							<td>{{ (initiative.hours <= 9 ) ? ('0' + initiative.hours) :
+								initiative.hours}} : {{ (initiative.minutes <= 9 ) ? ('0' +
+								initiative.minutes) : initiative.minutes}} : {{
+								(initiative.seconds <= 9 ) ? ('0' + initiative.seconds) :
+								initiative.seconds}}</td>
+							<td>{{getStatusString(initiative.status)}}</td>
+							<td>
+								<button type="button" class="btn btn-info" id="playIniciativa_1"
+									data-ng-click="showVotation(initiative, $index)"
+									data-ng-disabled="voteSession.status == 6"
+									data-ng-if="!initiative.closed && initiative.status != _INICIATIVA._INITIATED && !iniciativaRecibidaInicia">
+									<i class="far fa-eye"></i>
+								</button> &nbsp;&nbsp;&nbsp;
+								<button type="button" class="button play pointer"
+									id="playIniciativa_1"
+									data-ng-click="initVotation(initiative, $index)"
+									data-ng-disabled="voteSession.status == 6"
+									data-ng-if="!initiative.closed && initiative.status != _INICIATIVA._INITIATED && !iniciativaRecibidaInicia">
+								</button> <i class="text-success fas fa-check-circle fa-2x"
+								data-ng-if="initiative.closed"></i> <i
+								class="text-warning fas fa-broadcast-tower fa-2x"
+								data-ng-if="(iniciativaRecibidaInicia.id == initiative.id && !initiative.closed && iniciativaRecibidaFin != initiative.id ) || initiative.status == _INICIATIVA._INITIATED"></i>
+							</td>
+							<td>
+								<button type="button"
+									class="btn btn-{{initiative.status == _INICIATIVA._FINALIZED ? 'info' : 'warning'}}"
+									data-ng-click="updateInitiative(initiative)"
+									data-ng-if="initiative.id != null && initiative.status != _INICIATIVA._INITIATED">{{initiative.status
+									== _INICIATIVA._FINALIZED ? 'Informaci&oacute;n' :
+									'Actualizar'}}</button>
+							</td>
+							<td><button type="button" class="btn btn-danger"
+									data-ng-disabled="initiative.closed"
+									data-ng-click="confirmDelete('Esta Seguro de Eliminar la Iniciativa',initiative.name,initiative)"
+									data-ng-if="initiative.id != null && initiative.status != _INICIATIVA._FINALIZED && initiative.status != _INICIATIVA._INITIATED">Eliminar</button></td>
+							<td><button type="button" class="btn btn-default"
+									data-ng-disabled="!initiative.closed"
+									data-ng-click="qualification(initiative)"
+									data-ng-if="initiative.id != null && initiative.status == _INICIATIVA._FINALIZED && initiative.status != _INICIATIVA._INITIATED">
+									<span data-ng-class="initiative.result.resultName == 'Aprobado' ? 'text-success' : 'text-danger'">{{initiative.result.resultName}}</span></button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button class="btn btn-info" data-ng-if="voteSession.id != null"
+				data-ng-click="regresarVoteSession()">Regresar</button>
+		</div>
+	</div>
+	<!-- /.row -->
+
+</section>
+<section data-ng-show="initiative !== null">
+	<div class="row">
+		<div class="col-ld-12 col-md-12 col-sm-12">
+			<form name="initiativeForm"
+				data-ng-submit="submitForm(initiativeForm.$valid)" novalidate>
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">{{!initiative.id ? 'Nuevo ':
+							initiative.status == _INICIATIVA._FINALIZED ?
+							'Informaci&oacute;n' : 'Actualizar'}}</h5>
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<label for="name">Nombre: </label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="initName"
+									autofocus="autofocus" required data-ng-class="invalidClassName"
+									data-ng-model="initiative.name"
+									data-ng-disabled="voteSession.status == _SESION._FINALIZED  || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name">Tipo de Respuesta: </label>
+							<div class="input-group col-sm-2">
+								<label class="form-control"> ACOTADA</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name">Opciones de Respuesta Acotada: </label>
+							<div class="row">
+								<div class="col-sm-2"
+									data-ng-repeat="voteOption in voteOptions track by $index">
+									<button type="button" id="btn{{$index}}"
+										class="btn btn-{{voteOption.voteColor}}" disabled="disabled">
+										{{voteOption.name}}</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name">Tiempo para Votar: </label>
+							<div class="row">
+								<div class="col-sm-3 input-group" style="display: none;">
+									<input type="number" class="form-control" name="txtHours"
+										maxlength="2" data-ng-model="initiative.hours" hidden="true"
+										data-ng-class="invalidClassHours" max="36" min="0"
+										data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED">
+									<label> Hrs.</label>
+								</div>
+								<div class="col-sm-3 input-group">
+									<input type="number" class="form-control" name="txtMinutes"
+										maxlength="2" data-ng-model="initiative.minutes"
+										data-ng-class="invalidClassMinutes" min="0" max="10"
+										data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED">
+									<label> Min.</label>
+								</div>
+								<div class="col-sm-3 input-group">
+									<input type="number" class="form-control"
+										data-ng-class="invalidClassSeconds" name="txtSeconds"
+										maxlength="2" data-ng-required="true"
+										data-ng-model="initiative.seconds" min="0" max="59"
+										data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED">
+									<label> Seg.</label>
+								</div>
+								<div class="invalid-feedback d-block"
+									data-ng-if="invalidClassHours.length > 0 || invalidClassMinutes.length > 0 || invalidClassSeconds.length > 0 ">
+									{{errMsjNoTime.length > 0 ? errMsjNoTime : errMsjHours.length >
+									0 ? errMsjHours : errMsjMinutes.length > 0 ? errMsjMinutes :
+									errMsjSeconds.length > 0 ? errMsjSeconds : errMsjNoTime}}</div>
+								<div class="invalid-feedback d-block"
+									data-ng-if="!initiativeForm.txtHours.$valid">Valor
+									numerico de 0 a 36 Hrs</div>
+								<div class="invalid-feedback d-block"
+									data-ng-if="!initiativeForm.txtMinutes.$valid">Valor
+									numerico de 0 a 59 Min</div>
+								<div class="invalid-feedback d-block"
+									data-ng-if="!initiativeForm.txtSeconds.$valid">Valor
+									numerico de 0 a 59 Seg</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="formulaSelect" class="col-sm-2 col-form-label">Formula
+								de cálculo</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
+										class="fas fa-calculator"></i></span>
+								</div>
+								<select required="required" class="form-control" data-ng-class="invalidClassFormula" id="formulaSelect" data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
+									data-ng-options="formula.formulaName + ' (' + formula.formulaExpression + ')' for formula in formulas track by formula.id"
+									data-ng-model="initiative.result.formula">
+									<option value="">Seleccione una formula...</option>
+								</select>
+							</div>
+							<small id="formulaSelectHelpBlock" data-ng-if="initiative.result.formula.formulaDescription"
+								class="form-text text-muted animate-if">
+								{{initiative.result.formula.formulaDescription}} 
+								</small>
+						</div>
+						<div class="form-group row">
+							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">Método de redondeo</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
+										class="fas fa-calculator"></i></span>
+								</div>
+								<select required="required" class="form-control" data-ng-class="invalidClassRoundMethod" id="formulaRoundMethod" data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
+									data-ng-options="roundMethod as roundMethod.name + '('+roundMethod.value+')' for roundMethod in roundMethods track by roundMethod.id"
+									data-ng-model="initiative.result.roundMethod">
+									<option value="">Seleccione una método de redondeo...</option>
+								</select>
+							</div>
+							
+						</div>
+					</div>
+					<!-- CardBody -->
+					<div class="card-footer">
+						<button type="submit" class="btn btn-success"
+							data-ng-disabled="initiative.status == _INICIATIVA._FINALIZED">{{initiative.id
+							== null ? 'Guardar': 'Actualizar'}}</button>
+						<button class="btn btn-danger" data-ng-click="cancelAddUpdate()">
+							Cancelar</button>
+					</div>
+					<!-- CardFooter -->
+				</div>
+				<!-- Card -->
+			</form>
+		</div>
+	</div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="modalQualification" tabindex="-1"
+	role="dialog" aria-labelledby="modalQualificationTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xl"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalQualificationTitle">Calificar</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h3>{{initiativeQualify.name}}</h3>
+				<div class="container">
+					<div class="row">
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th>A favor</th>
+										<th>En contra</th>
+										<th>Abstención</th>
+										<th>No votó</th>
+										<th>Ausente</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>{{initiativeQualify.result.totalAFavor}}</td>
+										<td>{{initiativeQualify.result.totalEnContra}}</td>
+										<td>{{initiativeQualify.result.totalAbstencion}}</td>
+										<td>{{initiativeQualify.result.totalNoVoto}}</td>
+										<td>{{initiativeQualify.result.totalAusente}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row" data-ng-repeat="formula in formulas"
+						data-ng-if="!initiativeQualify.result.formula">
+						<div class="col-6">
+							<button class="btn btn-default btn-block"
+								data-ng-click="preQualify(formula)">{{formula.formulaName}}</button>
+						</div>
+						<div class="col-6">
+							<p>{{formula.formulaDescription}}</p>
+						</div>
+					</div>
+					<div class="row" data-ng-if="initiativeQualify.result.formula">
+						Calculado con: <a class="badge badge-info">{{initiativeQualify.result.formula.formulaName}}</a>
+					</div>
+					<div class="row text-center"
+						data-ng-if="initiativeQualify.result.formula">
+						<button class="btn btn-primary" type="button" data-ng-if="calculating">
+							<span class="spinner-border spinner-border-sm" role="status"
+								aria-hidden="true"></span> Calificando...
+						</button>
+					</div>
+					<div class="row">
+						<span class="badge badge-pill badge-light" data-ng-class="initiativeQualify.result.resultName == 'Aprobado' ? 'badge-success' : 'badge-danger'">{{initiativeQualify.result.resultName}}</span>
+						<button type="button" class="btn btn-info" id="playIniciativa_1"
+									data-ng-click="showVotation(initiativeQualify, 0)">
+									<i class="far fa-eye"></i></button>
+					</div>
+					
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" data-ng-disabled="initiativeQualify.result.resultName" data-ng-click="qualify()">Guardar
+					cambios</button>
+			</div>
+		</div>
+	</div>
+</div>
