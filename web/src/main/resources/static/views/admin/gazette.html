@@ -5,18 +5,32 @@
 <!-- </h1> -->
 
 <div class="row" style="margin-top: 4vh; text-align: center;">
-	<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item" data-ng-if="validateRol(m)"
+	<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item"
+		data-ng-if="validateRol(m)"
 		data-ng-repeat="m in subMenus | filter: {app: 'gazette', status: 1} | orderBy: m.index">
 		<div class="card-panel h-100" style="text-align: center;">
-		<a href="{{m.url}}">
-		<i class="{{m.icon}} fa-10x" style="color: {{m.color}}"></i>
-<!-- 			<img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}"> -->
-		</a>
+			<a href="{{m.url}}"> <i class="{{m.icon}} fa-10x"
+				style="color: {{m.color"></i> <!-- 			<img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}"> -->
+			</a>
 			<div class="card-body">
 				<h4 class="card-title">
 					<a href="{{m.url}}">{{m.title}}</a>
 				</h4>
 				<p class="card-text">{{m.text}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item"
+		data-ng-repeat="mod in modulosod">
+		<div class="card-panel h-100" style="text-align: center;">
+			<a href="#"> <i class="{{mod.icon}} fa-10x"
+				style="color: {{mod.color"></i> <!-- 			<img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}"> -->
+			</a>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a href="#">{{mod.nombre}}</a>
+				</h4>
+				<!-- 				<p class="card-text">{{mod.text}}</p> -->
 			</div>
 		</div>
 	</div>

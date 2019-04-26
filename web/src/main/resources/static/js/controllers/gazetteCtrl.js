@@ -1,14 +1,23 @@
-app.controller('gazetteCtrl', function($scope, $rootScope, $stateParams, $state, LoginService, factory, MenuHasSubMenuService) {
+app.controller('gazetteCtrl', function($scope, $rootScope, $stateParams, $state, LoginService, factory, MenuHasSubMenuService, moduloodService) {
 	$rootScope.title = "AngularJS Login Sample";    
 	$scope.bgClassBody  = 'bg-body-panel';
 	angular.element('body').removeClass($scope.bgClassBody);
 	$scope.userData = LoginService.getUserData();
+	$scope.modulosod = [];
 
 	$scope.subMenus = [];
 	
 	$scope.setIndexMenu=(index)=>{
 		console.log(index);
 		MenuHasSubMenuService.setIndexMenu(index);
+	};
+	
+	$scope.getModulosod = () => {
+		moduloodService.get().then((data)=>{
+			$scope.modulosod = data;
+		},(error)=>{
+			console.log("Error al obtener los modulos de orden del dia: ",error);
+		});
 	};
 	
 	$scope.getSubMenu=(indexMenu)=>{
@@ -41,18 +50,22 @@ app.controller('gazetteCtrl', function($scope, $rootScope, $stateParams, $state,
 		return res;
 	};
 	
+
 	
-	const constructor =()=>{		
+	const constructor =()=>{
+		
 		if(!LoginService.isAuthenticated()) {
 			$rootScope.title = "sin sesion";
 		}else{
 			if($rootScope.userSession){
+				
 				$scope.rols = [];
 				$scope.userRol = $rootScope.userSession.user.userRol.roleName;
 				if(MenuHasSubMenuService.getIndexMenu() > 0){
 					console.log('GetSubMenus ');
 					console.log(MenuHasSubMenuService.getIndexMenu());
 					$scope.getSubMenu(MenuHasSubMenuService.getIndexMenu());
+					$scope.getModulosod();
 					//MenuHasSubMenuService.setIndexMenu(0);
 				}else{
 					$scope.getMenu();	

@@ -179,6 +179,16 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/orderOfTheDay.html',
 		controller : 'orderOfTheDayCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('modulood', {
+		url : '/modulood',
+		templateUrl : './views/admin/modulood.html',
+		controller : 'moduloodCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('orderday', {
+		url : '/orderday',
+		templateUrl : './views/admin/orderDay.html',
+		controller : 'orderDayCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	function authenticate($q, $state, $timeout, LoginService) {
