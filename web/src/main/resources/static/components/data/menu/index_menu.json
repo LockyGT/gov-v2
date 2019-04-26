@@ -256,6 +256,22 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
+			},
+			{
+				"id": 2,
+				"app": "gazette",
+				"index": 1.0,
+				"title": "Orden",
+				"url": "#!orderday",
+				"icon": "fab fa-accusoft",
+				"color": "#FA8072",
+				"image": "../img/periodico.png",
+				"alt": "Orden del día",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
 			}
 		],
 		"status": 1
