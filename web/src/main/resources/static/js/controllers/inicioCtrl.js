@@ -178,7 +178,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 						closeOnClickOutside: false,
 						closeOnEsc: false
 					});
-					$scope.getAccessToken($scope.username, fp.templateSt);
+					$scope.getAccessToken($scope.username, "test");
 					$timeout(function() {
 						partnerHasFingerPrintService.validateFingerPrintUsername(partner, fp).then(function mySuccess(response) {
 							if (response) {
@@ -428,6 +428,7 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 				}
 		};
 		$http.post($scope.login, $scope.userLogin, $scope.headerLogin).then(function(response) {
+			console.log(response);
 			$http.defaults.headers.common.Authorization = response.headers(["authorization"]);
 			$rootScope.httpHeader = response.headers(["authorization"])
 		}, function(response) {

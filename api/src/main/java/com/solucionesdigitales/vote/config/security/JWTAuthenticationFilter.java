@@ -63,23 +63,28 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request,	HttpServletResponse response) 
 			throws AuthenticationException {
+		LOGGER.error("AUTENTICANDO");
 		com.solucionesdigitales.vote.entity.user.User access;
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = null;
 			access = new ObjectMapper().readValue(request.getInputStream(),
-					com.solucionesdigitales.vote.entity.user.User.class);
+					com.solucionesdigitales.vote.entity.user.User.class);			
+			LOGGER.info("access object -->" + access.toString());
 			
-			Partner partner = partnerService.findByUserUsername(access.getUsername());
+			Partner partner =partnerService.findByUserUsername(access.getUsername());
+			if(partner != null) {
+				partner = partnerService.findByUsernameAndPassword(access.getUsername(), access.getPassword());
+			}
 			
-			//FingerPrint  fingerPrint = fingerPrintRepository.findByTemplateSt(access.getPassword());
+			//FingerPrint  fingerPrint = fingerPrintRepository.findByTemplateSt(access.getPassword());//?
 			FingerPrint fp = new FingerPrint();
 			fp.setTemplateSt(access.getPassword());
 			
 			PartnerHasFingerPrint partnerHasFingerPrint = new PartnerHasFingerPrint();
 			partnerHasFingerPrint.setPartner(partner);
 			partnerHasFingerPrint.setFingerPrint(fp);
-			LOGGER.debug("VALIDANDO HUELLA");
-			boolean result = validadorDeHuella.identify(partnerHasFingerPrint);
+			
+			//boolean result = validadorDeHuella.identify(partnerHasFingerPrint);
 			
 			
 			usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(access.getUsername(), access.getPassword(),	new ArrayList<>());

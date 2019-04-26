@@ -24,6 +24,7 @@ import com.solucionesdigitales.vote.service.impl.partner.PartnerHasFingerPrintSe
 import com.solucionesdigitales.vote.service.partner.PartnerService;
 import com.solucionesdigitales.vote.service.user.MongoUserDetailsService;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -52,7 +53,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}*/
 	
-	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return NoOpPasswordEncoder.getInstance();

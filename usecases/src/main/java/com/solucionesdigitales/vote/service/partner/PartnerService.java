@@ -21,4 +21,6 @@ public interface PartnerService {
 	Partner fetchOneByStatus(int status);
 	
 	Partner fetchById(String id);
+
+	Partner findByUsernameAndPassword(String username, String password);
 }

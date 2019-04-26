@@ -130,6 +130,14 @@ public class PartnerServiceImpl implements PartnerService {
 	@Override
 	public Partner fetchById(String id) {
 		return repo.findFirstById(id);
+	}
+
+	@Override
+	public Partner findByUsernameAndPassword(String username, String password) {
+		Partner p = null;
+		User u = repoUser.findByUsernameAndPassword(username, password);
+		p = repo.findByUserId(u.getId());
+		return p;
 	}	
 
 }
