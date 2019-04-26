@@ -23,3 +23,8 @@
 hs_err_pid*
 /.project
 /.metadata/
+#target files
+
+*.project
+*.settings/
+*/target/**
