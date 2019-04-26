@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Implementation-Title: Web Module
-Implementation-Version: 1.0.0.BETA.01
+Implementation-Version: 2.0.0.BETA.01
 Built-By: javier
 Implementation-Vendor-Id: com.solucionesdigitales.realtime
 Build-Jdk: 1.8.0_201

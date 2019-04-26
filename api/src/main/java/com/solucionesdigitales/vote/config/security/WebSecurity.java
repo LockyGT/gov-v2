@@ -1,5 +1,7 @@
 package com.solucionesdigitales.vote.config.security;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,6 @@ import com.solucionesdigitales.vote.service.impl.partner.PartnerHasFingerPrintSe
 import com.solucionesdigitales.vote.service.partner.PartnerService;
 import com.solucionesdigitales.vote.service.user.MongoUserDetailsService;
 
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -53,14 +54,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}*/
 	
+	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return NoOpPasswordEncoder.getInstance();
 	}
+	@PostConstruct
+	void test() {
+		LOGGER.debug("hola");
+	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		
+		LOGGER.debug("configurando seguridad!");
 		//Limitando el numero a 1 sesión activa por usuario.
 		httpSecurity.sessionManagement().maximumSessions(MAX_NUMBER_OF_SESSIONS_PEER_USER);
 		//Creando sesión solo si es requerida.

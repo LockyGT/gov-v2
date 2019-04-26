@@ -43,7 +43,7 @@ public class AttendanceController {
 	}	
 	
 	/**
-	 * 
+	 * INICIATIVAS
 	 * @param initiativeId
 	 * @return List<Attendance>
 	 */
