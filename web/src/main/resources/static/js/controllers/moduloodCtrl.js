@@ -81,7 +81,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 				swal("Error", "Modulo de orden del día no actualizado", "error");
 			}
 		}, function error(error){
-			$scope.myWelcome = response.statusText;
+			$scope.myWelcome = error.statusText;
 			swal.stopLoading();
 			swal("Error", $scope.myWelcome, "error");
 		});
@@ -102,7 +102,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	$scope.confirmDelete = (modulood) =>{
 		swal({
 			title: 'Esta seguro de eliminara a',
-			text: modulood.titulo,
+			text: modulood.nombre,
 			icon: "warning",
 			buttons: true,
 			dangerMode: true
@@ -119,8 +119,8 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 				swal("Exito","Modulo eliminado exitosamente", "success");
 				$scope.getModulosod();
 			}
-		}, function error(){
-			swal("Errpr","Modulo no eliminado","error");
+		}, function error(error){
+			swal("Error","Modulo no eliminado","error");
 		});
 	};
 
@@ -141,8 +141,10 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		}
 	};
 
-
-
+//	$scope.topReturn = () => {
+//		window.history.back();
+//	};
+//	
 	$scope.addIcon = () =>{
 		let popup = parent.window.open('https://fontawesome.com/icons?d=gallery','Iconos','popup','width=600, height=700, t op=350,left=300,scrollbars=NO,menubar=NO,titlebar= NO,status=NO,toolbar=NO"');
 		var timer = $interval(() => {

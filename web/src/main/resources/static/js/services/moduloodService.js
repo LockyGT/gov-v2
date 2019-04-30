@@ -6,7 +6,7 @@ app.service('moduloodService', function($q, factory) {
 			factory.get('modulood').then(function success(data){
 				resolve(data);
 			}, function error(errorData){
-				resolve(errorData);
+				reject(errorData);
 			});
 		});
 	};
@@ -16,7 +16,7 @@ app.service('moduloodService', function($q, factory) {
 			factory.post('modulood', modulood).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
-				resolve(errorData);
+				reject(errorData);
 			});
 		});
 	};
@@ -26,7 +26,7 @@ app.service('moduloodService', function($q, factory) {
 			factory.put('modulood',modulood).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
-				resolve(errorData);
+				reject(errorData);
 			});
 		});
 	};
@@ -36,7 +36,7 @@ app.service('moduloodService', function($q, factory) {
 			factory.put('modulood/delete',modulood).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
-				resolve(errorData);
+				reject(errorData);
 			});
 		});
 	};

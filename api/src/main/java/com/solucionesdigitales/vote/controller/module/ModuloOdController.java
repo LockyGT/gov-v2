@@ -46,13 +46,13 @@ public class ModuloOdController {
 	}
 	
 	@PutMapping
-	public ModuloOd deleteData(@RequestBody final ModuloOd entity) {
-		logger.info("Orden del dia a eliminar: ["+entity.toString()+"]");
+	public ModuloOd putData(@RequestBody final ModuloOd entity) {
+		logger.info("Orden del dia a actualizar: ["+entity.toString()+"]");
 		return service.put(entity);
 	}
 	@PutMapping(value="/delete")
-	public ModuloOd putData(@RequestBody final ModuloOd entity) {
-		logger.info("Orden del dia a actualizar: ["+entity.toString()+"]");
+	public ModuloOd deleteData(@RequestBody final ModuloOd entity) {
+		logger.info("Orden del dia a eliminar: ["+entity.toString()+"]");
 		return service.delete(entity);
 	}
 }
