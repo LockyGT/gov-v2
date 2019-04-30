@@ -1,19 +1,30 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.solucionesdigitales.vote.entity.module.ModuloOd;
 
 @Document(collection = "orderday")
 public class OrderDay {
 	
 	@Id
 	private String id;
-	private String version;
+	//version
+	private String sku;
+	private int status;
+	/*
+	 * Modulo de la gaceta 
+	 */
+	@DBRef
+	private ModuloOd moduloOd;
+	/*
+	 * Contenido de OD
+	 */
+	@DBRef
+	private ParagraphOD parrafo;
 	
-	/*idGaceta
-	@DBRef*/
-	private String gaceta;
-
 	
 	public String getId() {
 		return id;
@@ -23,29 +34,50 @@ public class OrderDay {
 		this.id = id;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+	public ModuloOd getModuloOd() {
+		return moduloOd;
 	}
 
-	public String getGaceta() {
-		return gaceta;
+	public void setModuloOd(ModuloOd moduloOd) {
+		this.moduloOd = moduloOd;
+	}
+	public ParagraphOD getParrafo() {
+		return parrafo;
 	}
 
-	public void setGaceta(String gaceta) {
-		this.gaceta = gaceta;
+	public void setParrafo(ParagraphOD subparrafo) {
+		this.parrafo = subparrafo;
 	}
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	
 	
 	@Override
 	public String toString() {
-		return "OrderDay [id=" + id + ", version" + version + ", gaceta" + gaceta + "]";
+		return "OrderDay [id=" + id + ", sku" + sku + ", moduloOd" + moduloOd + ",parrafo" + parrafo + ",status" + status +"]";
 		
 		
 	}
+
+	
+
+	
+
+	
+
 	
 	
 

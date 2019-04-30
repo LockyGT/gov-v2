@@ -25,12 +25,22 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public OrderDay post(OrderDay entity) {
-		return repository.save(entity);
+		OrderDay orderday = new OrderDay();
+		if (entity.getSku() != null) {
+			orderday = repository.save(entity);
+		}
+		return orderday;
 	}
 	@Override
 	public OrderDay put(OrderDay entity) {
-		return repository.save(entity);
+		OrderDay orderday = new OrderDay();
+		if (entity.getSku() != null) {
+			orderday = repository.save(entity);
+		}
+		return orderday;
 	}
+	
+	
 
 	
 

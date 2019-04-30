@@ -11,12 +11,12 @@ public class ParagraphOD {
 	private String id;
 	private String contenidotxt;
 	private String activo;
-
 	@DBRef
-	private OrderDay orderday;
-	private String subparrafos;
-
-
+	private ParagraphOD subparrafos;
+	
+	/*
+	 * Gettters & Setters
+	 */
 	public String getId() {
 		return id;
 	}
@@ -35,23 +35,19 @@ public class ParagraphOD {
 	public void setActivo(String activo) {
 		this.activo = activo;
 	}
-	public OrderDay getOrderday() {
-		return orderday;
-	}
-	public void setOrderday(OrderDay orderday) {
-		this.orderday = orderday;
-	}
-	public String getSubparrafos() {
+	
+	public ParagraphOD getSubparrafos() {
 		return subparrafos;
 	}
-	public void setSubparrafos(String subparrafos) {
+	public void setSubparrafos(ParagraphOD subparrafos) {
 		this.subparrafos = subparrafos;
-	}
+	}	
 
 	@Override
 	public String toString() {
-		return "ParagraphOD [id=" + id + ", contenidotxt=" + contenidotxt + ", activo=" + activo + ", orderday=" + orderday + ",subparrafos=" + subparrafos +  "]";
+		return "ParagraphOD [id=" + id + ", contenidotxt=" + contenidotxt + ", activo=" + activo +  ",subparrafos=" + subparrafos +  "]";
 
-	}	
+	}
+	
 
 }

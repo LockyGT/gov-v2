@@ -1,143 +1,204 @@
-app.controller('orderDayCtrl', function($rootScope, $timeout, $filter, $scope, $window, $log, $filter, $state, voteSessionService, VoteSessionHasInitiativesService, voteSessionTypeService, _SESION, _PARTNER, attendanceService) {
-	var self = this;
+app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, moduloodService,$location) {
+	 	
 	$scope.titleTabView = '';
-	$scope.titleSession = '' ;
-	$scope.voteSessionOn = {};
-	$scope.tab = 1;
-
-
-
-	$scope.setTab = function(newTab){
-		$scope.tab = newTab;
-	};
-
-	$scope.isSet = function(tabNum){
-		return $scope.tab === tabNum;
-	}; 
-
-	$scope.models = {
-			selected: null,
-			lists: {"A": [], "B": []}
-	};
-	for (var i = 1; i <= 3; ++i) {
-		$scope.models.lists.A.push({label: "Item A" + i});
-		$scope.models.lists.B.push({label: "Item B" + i});
-	}
-	$scope.$watch('models', function(model) {
-		$scope.modelAsJson = angular.toJson(model, true);
-	}, true);
-
-
-
-
+	$scope.orderDays = [];
+	$scope.orderday = null;
+	$scope.modulosod= [];
+	$scope.paragraphODs=[];
+	$scope.paragraphOD=null;
 
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
-
-	$scope.iniciarFecha=()=>{
-		console.log('Se inicia la fecha');
-		let now = new Date();
-		//now.setTime( now.getTime() - now.getTimezoneOffset()*60*1000 );
-		if(VoteSessionHasInitiativesService.getDateSearch() != null){		
-			$scope.voteSessionOn.fechaBusqueda= VoteSessionHasInitiativesService.getDateSearch();			
-		}else{					
-			$scope.voteSessionOn.fechaBusqueda = now;		
-		}
-		if(VoteSessionHasInitiativesService.getDateSearchEnd() != null){			
-			$scope.voteSessionOn.fechaBusquedaFin = VoteSessionHasInitiativesService.getDateSearchEnd();
-		}else{			
-			$scope.voteSessionOn.fechaBusquedaFin = now;
-		}
+	
+	
+	
+	$scope.getModulosOd = function(){
+		moduloodService.get().then(function success(data) {
+			$scope.modulosod = data;
+		},function error(error){
+			console.log('Error al obtener los mudulos', error);
+		});
 	};
-
-
-
-	$scope.getStatusString = (status)=>{
-		let statusString = "--";
-		switch (status) {
-		case _SESION._CREATED:
-			statusString = "CREADA";
-			break;
-		case _SESION._INITIATED:
-			statusString = "INICIADA";
-			break;
-		case _SESION._FINALIZED:
-			statusString = "FINALIZADA";
-			break;
-		case _SESION._DELETED:
-			statusString = "ELIMINADA";
-			break;
-		default:
-			statusString = " "+status;
-		break;
-		}
-		return statusString;
+	
+	$scope.getParagraphODs = function(){
+		paragraphODService.get().then(function success(data){
+			$scope.paragraphODs = data;
+		},function error(error){
+			console.log('Error al obtener los parrafos')
+		})
 	};
-	$scope.getVoteSessionsDateOnly = (fecha, fechaFin) =>{			
-		let dateInit = new Date(fecha);
-		dateInit.setTime( dateInit.getTime() - dateInit.getTimezoneOffset()*60*1000 );
-		VoteSessionHasInitiativesService.setDateSearch(dateInit);
-		let dateEnd = new Date(fechaFin);		
-		dateEnd.setTime( dateEnd.getTime() - dateEnd.getTimezoneOffset()*60*1000 );
-		VoteSessionHasInitiativesService.setDateSearchEnd(dateEnd);
-		let map = new Object(); 
-		map['fecha'] = dateInit;
-		map['fechaFin'] = dateEnd;
-		voteSessionService.getInDateBetweenEndBetween(map).then(function mySuccess(data) {
-			$scope.voteSessions = data;
-			angular.forEach($scope.voteSessions, function(val, key){
-				if(val.fechaHora != null && val.fechaHora.length > 0){
-					val.fechaHora = new Date(val.fechaHora);
-				}
-			});
-		}, function myError(response) {
+	
+	$scope.NewParagraph = function (p) {
+		var paragraph;
+		for (var i = 0; i < $scope.paragraphOD.length; i++) {
+			if ($scope.paragraphOD[i].ParagraphOD.id == p.id) {
+				paragraph = $scope.paragraphOD[i];
+			}
 
-			swal("Error", "Error en la consulta", "error");			
+		}if (!paragraph) {
+			$scope.paragraphOD.push();
+
+		} 
+	}
+	
+	
+	$scope.getOrderDays = function (){
+		swal({
+			title: "Consultando Orden del día",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
 		});
 
-	};
-
-	$scope.addVoteSession= ()=>{
-		$scope.getVoteSessionTypes();
-		document.getElementById("txtNombre").focus(); 
-		$scope.voteSession = {
-				fechaHora : new Date(),
-				type:{
-					name: ''
-				}
-		};		
-		$scope.voteSession.status = _SESION._CREATED;
-	};
-
-	$scope.cancelAddUpdateVoteSession = () =>{
-		$log.log("cancelAddUpdateVoteSession event");
-		$scope.invalidClassName = '';
-		$scope.invalidClassDate= '';
-		$scope.invalidClassTime= '';
-		$scope.invalidClassType = '';
-		$scope.voteSession = null;
-		$scope.iniciarFecha();
-		$scope.getVoteSessionsDateOnly($scope.voteSessionOn.fechaBusqueda, $scope.voteSessionOn.fechaBusquedaFin);
-	};
-
-	$scope.getVoteSessionTypes = () =>{
-		voteSessionTypeService.get().then(function mySuccess(data) {
-			$scope.voteSessionTypes = data;
-		}, function myError(response) {
+		orderdayService.get().then(function success(data){
+			$scope.orderdays = data;
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+			},500);
+		}, function error(response){
 			$scope.myWelcome = response;
-			swal("Error",$scope.myWelcome, "error");			
+			swal.stopLoading();
+			swal('Error', $scope.myWelcome, "error");
+		});
+	};
+	
+	
+	$scope.postOrderDay = function(){
+		swal({
+			title: "Guardando Orden del día",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+
+		orderdayService.post($scope.orderday).then(function success(data){
+			if(data){
+				swal("Exito", "Orden del día agregado correctamente", "success");
+				swal.stopLoading();
+				$scope.getOrderDays();
+				$scope.orderday = null;
+			} else {
+				swal("Error", "Orden del día no agregado", "error");
+			}
+		}, function error(error){
+			$scope.myWelcome = error.statusText;
+			swal("Error","Orden del día no agregado "+$scope.myWelcome, "error");
+			swal.stopLoading();
+		});
+	};
+	
+	
+	$scope.putOrderDay = () => {
+		swal({
+			title: "Actualizando  Orden del día",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+
+		orderdayService.put($scope.orderday).then(function success(data){
+			if(data){
+				swal.stopLoading();
+				swal("Exito", "Orden del dia actualizado correctamente", "success");
+				$scope.getOrderDays();
+				$scope.orderday = null;
+			} else {
+				swal("Error", "Orden del día no actualizado", "error");
+			}
+		}, function error(error){
+			$scope.myWelcome = response.statusText;
+			swal.stopLoading();
+			swal("Error", $scope.myWelcome, "error");
+		});
+	};
+	
+	$scope.addUpdate = () => {
+		if($scope.orderday != null){
+			if($scope.orderday.id != null){
+				$scope.putOrderDay();
+			} else {
+				$scope.postOrderDay();
+			}
+		} else {
+			console.log("Falta informacion para completar el registro");
+		}
+	};
+	
+	$scope.confirmDelete = (orderday) =>{
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: orderday.titulo,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteOrderDay(orderday);
+			};
 		});
 	};
 
+	$scope.deleteOrderDay = orderday=> {
+		orderdayService.deleteOrderDay(orderday).then(function success(data){
+			if(data){
+				swal("Exito","Orden del dia eliminado exitosamente", "success");
+				$scope.getOrderDays();
+			}
+		}, function error(){
+			swal("Errpr","Orden del dia no eliminado","error");
+		});
+	};
 
+	$scope.addMudulesOd = function (){
+		$location.path('modulood');
+	};
+	
+	$scope.addOrderday = () => {
+		$scope.orderday = {
+				//nombre: '',
+				
+		}
+	};
+	
+	$scope.updateOrderday = (orderday) =>{
+		$scope.orderday= orderday;
+	};
+	$scope.submitForm = (isValid) => {
+		console.log('validForm');
+		console.log(isValid);
+
+		if(isValid) {
+			$scope.addUpdate();
+		}
+	};
+	
+	$scope.cancelAddUpOrderday = () =>{
+		$scope.getOrderDays();
+		$scope.orderday = null;
+	};
 
 	const initController = () =>{
-		//$scope.iniciarFecha();
 		$scope.changeTitleTabView('ORDEN DEL DÍA');
 		$rootScope.title = "ORDENES DEL DÍA";
-
-		//$scope.connect();
+		$scope.getOrderDays();
+		$scope.getModulosOd();
 	};
 
 

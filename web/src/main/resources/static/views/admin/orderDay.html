@@ -1,67 +1,136 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
+<style>
+.li-style-none {
+	list-style: none;
+}
+
+.margin-top {
+	margin-top: 1em;
+}
+
+.marggin {
+	margin-left: 1em;
+	margin-top: 4em;
+}
+
+.new {
+	margin-top: 2em;
+}
+</style>
 <h1 class="my-4">
 	{{titleTabView}} <small>{{titleSession}}</small>
 </h1>
 <!-- data-ng-show="voteSession !== null" -->
-<section data-ng-show="voteSession !== null">
+<section data-ng-show="orderday !== null">
 	<div class="row">
 		<div class="col-ld-12 col-md-12 col-sm-12">
-			<form name="voteSessionForm"
-				data-ng-submit="submitForm(voteSessionForm.$valid)" novalidate>
+			<form name="formOrderDay"
+				data-ng-submit="submitForm(formOrderDay.$valid)" novalidate>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">{{!voteSession.id ? 'NUEVA ':
-							'ACTUALIZAR '}}</h5>
+						<h5 class="card-title">{{!orderday.id ? 'NUEVA ': 'ACTUALIZAR
+							'}}</h5>
 
 					</div>
 					<div class="card-body">
-						<form>
-							<div class="form-row">
-								<div class="col-6 col-md-4">
-									<label>Nuevo</label> <br>
-									<button type="button" class="btn btn-info">Nuevo
-										Elemento</button>
-								</div>
-								<div class="col-6 col-md-4">
-									<label for="inputState">Seleccinar un elemento</label> <select
-										id="inputState" class="form-control">
-										<option selected>Seleccionar...</option>
-										<option>...</option>
-									</select>
+						<div class="form-row">
+							<div class="col-2 col-md-3">
+								<label>Nuevo</label> <br>
+								<button data-ng-click="addMudulesOd()" type="button"
+									class="btn btn-info">Nuevo Elemento</button>
+							</div>
+							<div class="col-2 col-md-3">
+								<label for="inputState">Seleccinar un elemento</label> <select
+									data-ng-module="orderday.moduloOd" id="inputState"
+									class="form-control">
+									<option selected>Seleccionar...</option>
+									<option data-ng-repeat="module in modulosod" value="module">{{module.nombre}}</option>
+								</select>
+							</div>
+							<div class="col-4 col-md-4">
+								<form>
+									<div class="form-group">
+										<label for="exampleFormControlFile1">Anexos
+											</label> <input type="file" class="form-control-file"
+											id="exampleFormControlFile1">
+									</div>
+								</form>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Archivos</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row"></th>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<br>
+						<div class="form-row margin-top" data-ng-module="orderday.parrafo">
+							<div class="col">
+								<input class="form-check-input marggin" type="checkbox" value=""
+									id="defaultCheck1"> <label class="form-check-label"
+									for="defaultCheck1"></label>
+
+							</div>
+							<div class="col-6 col-md-9">
+								<label for="exampleFormControlTextarea1">Elemento</label>
+								<div class="input-grou p">
+									<textarea  class="form-control" rows="4"
+										name="text" placeholder="Agregar parrafo ..."
+										aria-label="Hi there, I would like to ..." required
+										data-msg="Please enter a reason."
+										data-ng-model="paragraphOD.contenidotxt"></textarea>
 								</div>
 							</div>
-							<br>
-							<div class="form-row">
-							<div class="col-6 col-md-10">
+							<div class="col-3 col-md-2">
+								<button type="button" class="btn btn-dark new"
+									data-ng-click="NewParagraph();">Nuevo Parrafo</button>
+								<button type="button" class="btn btn-dark margin-top">Nuevo
+									SubParrafo</button>
+							</div>
+						</div>
+						<div class="form-row margin-top">
+							<div class="col-2">
+								<input class="form-check-input marggin" type="checkbox" value=""
+									id="defaultCheck1"> <label class="form-check-label"
+									for="defaultCheck1"></label>
+
+
+							</div>
+							<div class="col-4 col-md-8">
 								<div class="input-group">
-									<label>{{Elemento}}</label>
 									<textarea class="form-control" rows="4" name="text"
-										placeholder="Hi there, I would like to ..."
+										placeholder="Agregar parrafo ..."
 										aria-label="Hi there, I would like to ..." required
 										data-msg="Please enter a reason."></textarea>
 								</div>
 							</div>
-							<br><br>
-							<div class="col-6 col-md-10">
-								<div class="input-group">
-									<label>{{Elemento}}</label>
-									<textarea class="form-control" rows="4" name="text"
-										placeholder="Hi there, I would like to ..."
-										aria-label="Hi there, I would like to ..." required
-										data-msg="Please enter a reason."></textarea>
-								</div>
+							<div class="col-3 col-md-2">
+								<button type="button" class="btn btn-dark">Nuevo
+									Parrafo</button>
+								<button type="button" class="btn btn-dark margin-top">Nuevo
+									SubParrafo</button>
 							</div>
-							</div>
-						</form>
+						</div>
+
 					</div>
 					<!-- CardBody -->
 					<div class="card-footer">
-						<button type="submit" class="btn btn-success"
-							data-ng-disabled="voteSession.status == _SESION._FINALIZED">{{!voteSession.id
+						<button type="submit" class="btn btn-success">{{!orderday.id
 							? 'Guardar': 'Actualizar'}}</button>
+						<button type="button" class="btn btn-warning">Publicar</button>
+
 						<button type="button" class="btn btn-danger"
-							data-ng-click="cancelAddUpdateVoteSession()">Cancelar</button>
+							data-ng-click="cancelAddUpOrderday()">Cancelar</button>
 					</div>
 					<!-- CardFooter -->
 				</div>
@@ -72,7 +141,7 @@
 </section>
 
 <!-- data-ng-if="voteSession === null" -->
-<section data-ng-if="voteSession === null">
+<section data-ng-if="orderday === null">
 	<div class="card w-95">
 		<div class="card-body">
 			<form class="form-inline" name="formFiltros">
@@ -111,41 +180,44 @@
 					aria-labelledby="home-tab">
 					<div class="btn-group">
 						<button type="button" class="btn btn-success"
-							data-ng-click="addVoteSession()">
+							data-ng-click="addOrderday()">
 							<i class="fa fa-plus"></i> Nueva
 						</button>
 					</div>
-					<br> <br>
-					<div class="table-responsive" data-ng-if="voteSessions.length == 0">
+					<br>
+					<div class="table-responsive" data-ng-if="orderday.length == 0">
 						<div class="alert alert-primary" role="alert"
-							data-ng-if="!voteSessions.length">
-							No se han encontrado sesiones para el rango de fechas
-							seleccionado <a data-ng-click="addVoteSession()"
+							data-ng-if="!orderday.length">
+							No se han encontrado ordenes del dia para el rango de fechas
+							seleccionado <a data-ng-click="addOrderday()"
 								style="cursor: pointer;" class="alert-link">Agregue una
-								sesión para comenzar</a>. O seleccione otra rango de fechas para
-							realizar la busqueda.
+								orden del dia para comenzar</a>. O seleccione otra rango de fechas
+							para realizar la busqueda.
 						</div>
 					</div>
-					<div class="table-responsive" data-ng-if="voteSessions.length > 0">
+					<!-- data-ng-if="orderday.length > 0" -->
+					<div class="table-responsive" data-ng-if="orderday.length > 0">
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
-									<th>Nombre</th>
-									<th>Fecha/Hora</th>
-									<th>Tipo</th>
-									<th>Estado</th>
-									<th>Agregar</th>
+									<th>#</th>
+									<th>Orden del día</th>
+									<th>Actualizar</th>
+									<th>Eliminar</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr
-									data-ng-repeat="voteSession in voteSessions track by voteSession.id">
-									<td>{{voteSession.nombre}}</td>
-									<td>{{voteSession.fechaHora | date:'dd/MM/yyyy HH:mma'}}</td>
-									<td>{{voteSession.type.name}}</td>
-									<td>{{getStatusString(voteSession.status)}}</td>
-									<td><button class="btn btn-primary btn-sm"
-											data-ng-click="addOrderOfTheDay()">
+								<tr>
+									<td>1</td>
+									<td></td>
+									<td><button type="button" class="btn btn-warning"
+											data-ng-click="updateOrderday(orderday)">Actualizar</button>
+									</td>
+									<td><button type="button" class="btn btn-danger"
+											data-ng-if="orderday.id != null"
+											data-ng-click="confirmDelete(orderday)">Eliminar</button></td>
+									<td><button class="btn btn-primary btn-sm">
 											<i class="fas fa-plus-square"></i>
 										</button></td>
 								</tr>
