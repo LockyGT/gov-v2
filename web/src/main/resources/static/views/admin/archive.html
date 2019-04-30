@@ -1,0 +1,176 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+.modal-lg {
+	max-width: 80% !important;
+}
+</style>
+
+<h1 class="my-4">
+	Archivos <i class="far fa-folder-open"></i>
+</h1>
+<section data-ng-if="archive !== null">
+	<div class="row">
+		<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
+			<form name="formArchive"
+				data-ng-submit="submitForm(formArchive.$valid)" novalidate>
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">{{archive.id? 'Nuevo':'Actualizar'}}</h5>
+					</div>
+
+					<div class="card-body">
+						<div class="form-group row">
+							<label for="txtFecha" class="col-sm-2 col-form-label">Fecha</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-calendar-day"></i>
+									</span>
+								</div>
+								<input type="date" class="form-control" name="txtFecha"
+									id="txtFecha" data-ng-model="archive.fecha" placeholder="fecha"
+									required>
+
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-file-signature"></i>
+									</span>
+								</div>
+								<input type="text" class="form-control" name="txtNombre"
+									id="txtNombre" data-ng-model="archive.nombre"
+									placeholder="nombre" required>
+
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="fArchivo" class="col-sm-2 col-form-label">Archivo</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-file-alt"></i>
+									</span>
+								</div>
+								<input type="text"
+									value="{{fileName ? fileName: 'Seleccione un archivo...'}}"
+									class="form-control image-preview-filename" disabled="disabled">
+								<div class="input-group-append">
+									<button type="button"
+										class="btn btn-default image-preview-clear"
+										style="display: none;">
+										<span class="glyphicon glyphicon-remove"></span>Borrar
+									</button>
+									<!-- image-preview-input -->
+									<label class="btn btn-default image-preview-input"> <span
+										class="glyphicon glyphicon-folder-open"></span> <span
+										class="image-preview-input-title">Buscar</span> <input
+										type="file" 
+										name="input-file-preview" data-fileread="archive.urlArchivo" />
+										<!-- rename it accept="image/png, image/jpeg" -->
+									</label>
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="txtDescripcion" class="col-sm-2 col-form-label">Descripción</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-align-center"></i>
+									</span>
+								</div>
+								<textarea name="txtDescripcion" id="txtDescripcion"
+									class="form-control" data-ng-model="archive.descripcion"></textarea>
+
+							</div>
+						</div>
+
+					</div>
+					<div class="card-footer">
+						<button type="submit" class="btn btn-success">
+							<i class="fas" data-ng-class="!archive.id? 'fa-plus': 'fa-sync'"></i>
+							{{!archive.id? 'Guardar': 'Actualizar'}}
+						</button>
+						<button type="button" class="btn btn-danger"
+							data-ng-click="cancelAddUpdate()">
+							<i class="fas fa-times"></i> Cancelar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+<section data-ng-if="archive === null">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="btn-group">
+					<button type="button" class="btn btn-success"
+						data-ng-click="addArchive()">
+						<i class="fas fa-user-plus"></i> Nuevo
+					</button>
+				</div>
+				<div class="input-group col-md-4">
+					<input class="form-control py-2" type="search" value="search"
+						id="example-search-input" placeholder="Buscar"
+						data-ng-model="searchArchive"> <span
+						class="input-group-append"> </span>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="alert alert-primary" data-ng-if="!records.length">
+					No se encontraron archivos registrados en el sistema</div>
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Nombre</th>
+								<th>Descripción</th>
+								<th>Archivo</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
+						<tbody>
+							<tr
+								data-ng-repeat="ar in records | filter: searchArchive track by archive.id">
+								<td>{{ar.fecha}}</td>
+								<td>{{ar.nombre}}</td>
+								<td>{{ar.descripcion}}</td>
+								<td>{{ar.urlArchivo}}</td>
+								<td>
+									<button type="button" class="btn btn-warning"
+										data-ng-if="ar.id != null" data-ng-click="updateArchive(ar)">Actualizar</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-danger"
+										data-ng-if="ar.id != null" data-ng-click="comfirmDelete(ar)">Eliminar</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

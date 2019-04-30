@@ -189,6 +189,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/orderDay.html',
 		controller : 'orderDayCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('archive', {
+		url : '/archive',
+		templateUrl : './views/admin/archive.html',
+		controller : 'archiveCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	function authenticate($q, $state, $timeout, LoginService) {
