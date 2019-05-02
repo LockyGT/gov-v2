@@ -29,8 +29,3 @@ hs_err_pid*
 *.project
 *.settings/
 */target/**
-web/src/main/resources/application.properties
-
-api/bin/\.classpath
-
-usecases/bin/

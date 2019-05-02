@@ -17,6 +17,11 @@
 .new {
 	margin-top: 2em;
 }
+
+#check {
+	margin-left: 5em;
+	margin-top: 3em;
+}
 </style>
 <h1 class="my-4">
 	{{titleTabView}} <small>{{titleSession}}</small>
@@ -42,86 +47,81 @@
 							</div>
 							<div class="col-2 col-md-3">
 								<label for="inputState">Seleccinar un elemento</label> <select
-									data-ng-module="orderday.moduloOd" id="inputState"
-									class="form-control">
-									<option selected>Seleccionar...</option>
-									<option data-ng-repeat="module in modulosod" value="module">{{module.nombre}}</option>
+									data-ng-change="change()" data-ng-model="orderday.moduloOd"
+									id="inputState" class="form-control">
+									<option disabled value="">Seleccionar...</option>
+									<option data-ng-repeat="modulo in modulosod"
+										data-ng-value="modulo">{{modulo.nombre}}</option>
 								</select>
 							</div>
-							<div class="col-4 col-md-4">
-								<form>
-									<div class="form-group">
-										<label for="exampleFormControlFile1">Anexos
-											</label> <input type="file" class="form-control-file"
-											id="exampleFormControlFile1">
-									</div>
-								</form>
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">Archivos</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<th scope="row"></th>
-											<td></td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
+							<div class="col-2 col-md-8 margin-top">
+								<label for="inputState">Nombre OD</label> <input type="text"
+									class="form-control" placeholder="First name"
+									data-ng-model="orderday.nombre">
 							</div>
 						</div>
 						<br>
-						<div class="form-row margin-top" data-ng-module="orderday.parrafo">
-							<div class="col">
-								<input class="form-check-input marggin" type="checkbox" value=""
-									id="defaultCheck1"> <label class="form-check-label"
-									for="defaultCheck1"></label>
+						<div class="wrapper">
+							<div class="form-row margin-top"
+								data-ng-repeat="p in orderday.paragraphs track by $index">
+
+								<div class="col">
+									<input class="form-check-input marggin"
+										data-ng-model="orderday.paragraphs[$index].isIniciativa"
+										type="checkbox" value="" id="defaultCheck1"> <label
+										class="form-check-label" for="defaultCheck1"></label>
+
+								</div>
+								<div class="col-6 col-md-11">
+									<label for="exampleFormControlTextarea{{$index}}">Elemento</label>
+									<div class="input-group">
+										<textarea class="form-control" rows="4" name="text"
+											placeholder="Agregar parrafo ..."
+											aria-label="Hi there, I would like to ..." required
+											data-msg="Please enter a reason."
+											data-ng-model="orderday.paragraphs[$index].contenidotxt"></textarea>
+
+										<div class="col col-md-2">
+											<button class="btn btn-primary btn-sm"
+												data-ng-click="addParagraph(p.nivel)">
+												<i class="fas fa-plus-square"></i>
+											</button>
+
+											<button type="button" class="btn btn-info btn-sm"
+												data-ng-click="addSubParagraph(p)">
+												<i class="fa fa-plus-square"></i>SUB
+											</button>
+										</div>
+
+									</div>
+								</div>
+
 
 							</div>
-							<div class="col-6 col-md-9">
-								<label for="exampleFormControlTextarea1">Elemento</label>
-								<div class="input-grou p">
-									<textarea  class="form-control" rows="4"
-										name="text" placeholder="Agregar parrafo ..."
-										aria-label="Hi there, I would like to ..." required
-										data-msg="Please enter a reason."
-										data-ng-model="paragraphOD.contenidotxt"></textarea>
+							<div class="form-row margin-top" data-ng-if="">
+								<div class="col-2">
+									<input class="form-check-input" id="check" type="checkbox"
+										value="" id="defaultCheck1"> <label
+										class="form-check-label" for="defaultCheck1"></label>
+
+
+								</div>
+								<div class="col-4 col-md-8">
+									<div class="input-group">
+										<textarea class="form-control" rows="4" name="text"
+											placeholder="Agregar parrafo ..."
+											aria-label="Hi there, I would like to ..." required
+											data-msg="Please enter a reason."></textarea>
+									</div>
+									<div class="col col-md-2">
+										<button class="btn btn-primary btn-sm"
+											data-ng-click="addSubParagraph(p)">
+											<i class="fas fa-plus-square"></i>
+										</button>
+									</div>
 								</div>
 							</div>
-							<div class="col-3 col-md-2">
-								<button type="button" class="btn btn-dark new"
-									data-ng-click="NewParagraph();">Nuevo Parrafo</button>
-								<button type="button" class="btn btn-dark margin-top">Nuevo
-									SubParrafo</button>
-							</div>
 						</div>
-						<div class="form-row margin-top">
-							<div class="col-2">
-								<input class="form-check-input marggin" type="checkbox" value=""
-									id="defaultCheck1"> <label class="form-check-label"
-									for="defaultCheck1"></label>
-
-
-							</div>
-							<div class="col-4 col-md-8">
-								<div class="input-group">
-									<textarea class="form-control" rows="4" name="text"
-										placeholder="Agregar parrafo ..."
-										aria-label="Hi there, I would like to ..." required
-										data-msg="Please enter a reason."></textarea>
-								</div>
-							</div>
-							<div class="col-3 col-md-2">
-								<button type="button" class="btn btn-dark">Nuevo
-									Parrafo</button>
-								<button type="button" class="btn btn-dark margin-top">Nuevo
-									SubParrafo</button>
-							</div>
-						</div>
-
 					</div>
 					<!-- CardBody -->
 					<div class="card-footer">
@@ -196,30 +196,31 @@
 						</div>
 					</div>
 					<!-- data-ng-if="orderday.length > 0" -->
-					<div class="table-responsive" data-ng-if="orderday.length > 0">
+					<div class="table-responsive">
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
 									<th>#</th>
 									<th>Orden del día</th>
+									<th>Ver</th>
 									<th>Actualizar</th>
 									<th>Eliminar</th>
-									<th>Status</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td></td>
+								<tr data-ng-repeat="orderday in orderdays track by $index">
+									<td scope="row">{{$index+1}}</td>
+									<td>{{orderday.nombre}}</td>
+									<td><button class="btn btn-primary btn-sm">
+											<i class="fas fa-plus-square"></i>
+										</button></td>
 									<td><button type="button" class="btn btn-warning"
 											data-ng-click="updateOrderday(orderday)">Actualizar</button>
 									</td>
 									<td><button type="button" class="btn btn-danger"
-											data-ng-if="orderday.id != null"
 											data-ng-click="confirmDelete(orderday)">Eliminar</button></td>
-									<td><button class="btn btn-primary btn-sm">
-											<i class="fas fa-plus-square"></i>
-										</button></td>
+
 								</tr>
 							</tbody>
 							<tfoot>

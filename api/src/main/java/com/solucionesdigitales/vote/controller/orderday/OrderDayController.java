@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solucionesdigitales.vote.entity.module.ModuloOd;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
+import com.solucionesdigitales.vote.entity.orderday.OrderDayParagraph;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
 
 
@@ -44,6 +46,11 @@ public class OrderDayController {
 	public OrderDay put(@RequestBody final OrderDay entity) {				
 		logger.info("Order Day a actualizar: ["+entity.toString()+"]");		
 		return service.put(entity);
+	}
+	@PutMapping(value="/delete")
+	public OrderDay deleteData(@RequestBody final OrderDay entity) {
+		logger.info("Orden del dia a eliminar: ["+entity.toString()+"]");
+		return service.delete(entity);
 	}
 	
 	

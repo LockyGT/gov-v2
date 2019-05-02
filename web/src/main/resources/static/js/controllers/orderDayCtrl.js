@@ -1,17 +1,31 @@
-app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, moduloodService,$location) {
+app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, moduloodService,$location) {
 	 	
 	$scope.titleTabView = '';
-	$scope.orderDays = [];
-	$scope.orderday = null;
+	//$scope.orderDays = [];
+	$scope.orderday = [];
 	$scope.modulosod= [];
-	$scope.paragraphODs=[];
+	$scope.paragraphs=[];
+	$scope.numeroIndice = 0;
 	$scope.paragraphOD=null;
-
+	
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
 	
-	
+	$scope.change = function(){
+		console.log('Texto');
+		let module= $scope.orderday.moduloOd;
+		$scope.orderday = {
+				moduloOd:module,
+				paragraphs: [
+					{'contenidotxt': '',
+					'isIniciativa': false,
+					'nivel':1,
+					subparagraphs:[]
+					}
+				]
+			}
+	}
 	
 	$scope.getModulosOd = function(){
 		moduloodService.get().then(function success(data) {
@@ -20,27 +34,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			console.log('Error al obtener los mudulos', error);
 		});
 	};
-	
-	$scope.getParagraphODs = function(){
-		paragraphODService.get().then(function success(data){
-			$scope.paragraphODs = data;
-		},function error(error){
-			console.log('Error al obtener los parrafos')
-		})
-	};
-	
-	$scope.NewParagraph = function (p) {
-		var paragraph;
-		for (var i = 0; i < $scope.paragraphOD.length; i++) {
-			if ($scope.paragraphOD[i].ParagraphOD.id == p.id) {
-				paragraph = $scope.paragraphOD[i];
-			}
-
-		}if (!paragraph) {
-			$scope.paragraphOD.push();
-
-		} 
-	}
 	
 	
 	$scope.getOrderDays = function (){
@@ -71,6 +64,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	
 	
 	$scope.postOrderDay = function(){
+		console.log("Archivo enviada",$scope.orderday);
 		swal({
 			title: "Guardando Orden del día",
 			text: "Por favor espere...",
@@ -82,7 +76,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-
+		$scope.orderday.status = 0;
+		console.info($scope.orderday);
 		orderdayService.post($scope.orderday).then(function success(data){
 			if(data){
 				swal("Exito", "Orden del día agregado correctamente", "success");
@@ -130,8 +125,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 	
 	$scope.addUpdate = () => {
-		if($scope.orderday != null){
-			if($scope.orderday.id != null){
+		if($scope.orderday){
+			if($scope.orderday.id){
 				$scope.putOrderDay();
 			} else {
 				$scope.postOrderDay();
@@ -144,7 +139,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.confirmDelete = (orderday) =>{
 		swal({
 			title: 'Esta seguro de eliminara a',
-			text: orderday.titulo,
+			text: $scope.orderday.nombre,
 			icon: "warning",
 			buttons: true,
 			dangerMode: true
@@ -154,6 +149,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			};
 		});
 	};
+	
 
 	$scope.deleteOrderDay = orderday=> {
 		orderdayService.deleteOrderDay(orderday).then(function success(data){
@@ -180,13 +176,27 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.updateOrderday = (orderday) =>{
 		$scope.orderday= orderday;
 	};
+	
 	$scope.submitForm = (isValid) => {
 		console.log('validForm');
 		console.log(isValid);
-
 		if(isValid) {
 			$scope.addUpdate();
 		}
+	};
+	
+	$scope.addParagraph = function() {
+		if($scope.orderday.paragraphs.length < 3 ){
+			$scope.orderday.paragraphs.push({
+				'contenidotxt': '',
+				'isIniciativa': false,
+				'nivel':1,
+				subparagraphs:[]
+			});
+		}else{
+			console.log('Es mayor, ',$scope.orderday.paragraphs.length )
+		}
+		
 	};
 	
 	$scope.cancelAddUpOrderday = () =>{

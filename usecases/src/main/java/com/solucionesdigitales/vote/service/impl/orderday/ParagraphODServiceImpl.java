@@ -25,23 +25,15 @@ public class ParagraphODServiceImpl implements ParagraphODService {
 	}
 	@Override
 	public ParagraphOD post(ParagraphOD entity) {
-		ParagraphOD paragraphod = new ParagraphOD();
-		if(entity.getContenidotxt() != null & entity.getActivo() != null &
-				entity.getSubparrafos() != null) {
-			paragraphod = repository.save(entity);
-		}
-		return paragraphod;
+		entity = repository.save(entity);
+		return entity;
 	}
 
 
 	@Override
 	public ParagraphOD put(ParagraphOD entity) {
-		ParagraphOD paragraphod = new ParagraphOD();
-		if(entity.getContenidotxt() != null & entity.getActivo() != null &
-				entity.getSubparrafos() != null) {
-			paragraphod = repository.save(entity);
-		}
-		return paragraphod;
+		entity =  repository.save(entity);
+		return entity;
 	}
 
 }

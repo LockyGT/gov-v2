@@ -14,6 +14,8 @@ public interface OrderDayService {
 
 	OrderDay put(OrderDay entity);
 
+	OrderDay delete(OrderDay entity);
+
 	
 
 }
