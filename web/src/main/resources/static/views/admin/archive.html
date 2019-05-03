@@ -57,7 +57,7 @@
 									</span>
 								</div>
 								<input type="text"
-									value="{{fileName ? fileName: 'Seleccione un archivo...'}}"
+									value="{{archive.urlArchivo.name ? archive.urlArchivo.name: 'Seleccione un archivo...'}}"
 									class="form-control image-preview-filename" disabled="disabled">
 								<div class="input-group-append">
 									<button type="button"
@@ -70,7 +70,7 @@
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title">Buscar</span> <input
 										type="file" 
-										name="input-file-preview" data-fileread="archive.urlArchivo" />
+										name="input-file-preview" data-file-model="archive.urlArchivo" />
 										<!-- rename it accept="image/png, image/jpeg" -->
 									</label>
 								</div>
@@ -153,7 +153,7 @@
 						</tfoot>
 						<tbody>
 							<tr
-								data-ng-repeat="ar in records | filter: searchArchive track by archive.id">
+								data-ng-repeat="ar in records | filter: searchArchive track by ar.id">
 								<td>{{ar.fecha}}</td>
 								<td>{{ar.nombre}}</td>
 								<td>{{ar.descripcion}}</td>

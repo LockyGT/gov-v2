@@ -40,6 +40,20 @@ app.factory('factory', function($http,$q) {
 				return $q.reject(response);
 			});
 		},
+		postFile:function(url,_data){
+			return $http({
+				url : '/'+url,
+				method : "POST",
+				headers: {
+					'Content-Type': undefined
+				},
+				data: _data
+			}).then(function(response) {
+				return  response.data
+			}, function(response) {				
+				return $q.reject(response);
+			});
+		},
 		put:function(url,_data){
 			return $http({
 				url : '/'+url,

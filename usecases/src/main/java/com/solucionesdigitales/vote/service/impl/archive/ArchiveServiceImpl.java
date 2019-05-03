@@ -34,7 +34,6 @@ public class ArchiveServiceImpl implements ArchiveService{
 		Archive archive = new Archive();
 		if(entity.getFecha() != null & entity.getNombre() != null & entity.getUrlArchivo() != null) {
 			String strl64Archive = entity.getUrlArchivo().trim();
-			entity.setUrlArchivo("archivo.pdf");
 			archive = repository.save(entity);
 			logger.info("Archivo registrado: ["+entity.toString()+"]");
 		}

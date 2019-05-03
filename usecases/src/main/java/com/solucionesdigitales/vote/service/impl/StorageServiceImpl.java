@@ -1,6 +1,9 @@
 package com.solucionesdigitales.vote.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -11,8 +14,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import com.solucionesdigitales.vote.entity.GenericFile;
 import com.solucionesdigitales.vote.service.StorageService;
 import com.solucionesdigitales.vote.service.config.StorageConfig;
+import com.solucionesdigitales.vote.service.utils.exceptions.StorageException;
 import com.solucionesdigitales.vote.service.utils.exceptions.StorageFileNotFoundException;
 
 /**
@@ -57,6 +62,28 @@ public class StorageServiceImpl implements StorageService {
 		catch (final MalformedURLException e) {
 			throw new StorageFileNotFoundException("No se pudo leer archivo: " + filename, e);
 		}
+	}
+
+	@Override
+	public GenericFile store(GenericFile file) {
+		GenericFile gFile = new GenericFile();
+		String path = this.rootLocation.toString()+File.separator+file.getFolder()+File.separator+file.getName();
+		Path location = Paths.get(path);
+		try {
+			if(file.getFile().isEmpty()) {
+				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
+			}
+			if (!new File(path).exists() ){
+				new File(path).mkdirs();
+			}
+			Files.copy(file.getFile().getInputStream(), location.resolve(file.getFile().getOriginalFilename()));
+			
+			
+		}catch (IOException e) {
+			throw new StorageException("Failed to store file " + file.getFile().getOriginalFilename(), e);
+		}
+		
+		return gFile;
 	}
 
 }

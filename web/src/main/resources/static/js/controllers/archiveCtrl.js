@@ -41,13 +41,14 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
+		$scope.saveFile();
+		$scope.archive.urlArchivo = $scope.archive.urlArchivo.name; 
 		archiveService.post($scope.archive).then(success=>{
-			if(data){
+			if(success){
 				swal('Exito','Archivo agregado exitosamente', 'success');
+				$scope.archive = null;
 				swal.stopLoading();
 				$scope.getRecords();
-				$scope.archive = null;
 			}else {
 				swal('Error','Archivo no agreado','error');
 			}
@@ -55,6 +56,19 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			$scope.myWelcome = error.statusText;
 			swal('Error','Archivo no agregado '+$scope.myWelcome, 'error');
 			swal.stopLoading();
+		});
+	};
+	
+	$scope.saveFile = ()=>{
+		let file = {
+				file: $scope.archive.urlArchivo,
+				name: $scope.archive.nombre,
+				folder: 'gazzete'
+		};
+		storageService.save(file).then(success=>{
+			console.log('Informacion recibida: ', success);
+		}, error=>{
+			console.error('Error al enviar el archivo:', error);
 		});
 	};
 	
@@ -89,7 +103,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.addUpdate = () =>{
 		if($scope.archive != null){
-			if($scope.archive != null){
+			if($scope.archive.id != null){
 				$scope.putArchive();
 			} else {
 				$scope.postArchive();
@@ -144,7 +158,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.cancelAddUpdate = () => {
 		$scope.getRecords();
-		$scope.archive = null;t
+		$scope.archive = null;
 	};
 	
 	const initController = () => {
