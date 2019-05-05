@@ -1,0 +1,296 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Page Heading -->
+<h1 class="my-4">
+	ASISTENCIAS EN SESIONES <small></small>
+</h1>
+<section>
+	<div class="card w-95">
+		<div class="card-header">
+			<form class="form-inline" name="formFiltros">
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
+						type="date" class="form-control" id="txtFechaBusqueda"
+						data-ng-max="fechaBusquedaFin" name="fechaInicio"
+						data-ng-model="fechaBusqueda" required="required"
+						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''">
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+					<input type="date" class="form-control" id="txtFechaBusquedaFin"
+						data-ng-min="fechaBusqueda" name="fechaFin"
+						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
+						data-ng-model="fechaBusquedaFin" required="required">
+				</div>
+				<div class="form-group row animate-if"
+					data-ng-if="legislator.user.userRol.sku == _PARTNER._TYPE._LEGISLATOR">
+					<label for="cboPartido" class="col-sm-2 col-form-label">Sesión</label>
+					<div class="input-group col-sm-10">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg2"><i
+								class="fas fa-home"></i></span>
+						</div>
+						<select class="form-control" id="cboPartido"
+							data-ng-options="voteSession as voteSession.nombre for voteSession in voteSessions track by voteSession.id"
+							data-ng-model="voteSessionFilter" data-ng-change="filterBySession(voteSessionFilter)">
+							<option value="">Seleccione una sesión...</option>
+						</select>
+					</div>
+				</div>
+				<button type="button" class="btn btn-dark"
+					data-ng-click="getAttendances(fechaBusqueda,fechaBusquedaFin)">
+					Buscar</button>
+				<span class="invalid-feedback d-block"
+					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">
+					Rango de fechas inválido! </span>
+			</form>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive" data-ng-if="attendances.length == 0">
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!attendances.length">No se han encontrado
+					asistencias para el rango de fechas seleccionado</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-inversed table-hover table-striped"
+					id="attendanceTable">
+					<thead>
+						<tr>
+							<th>LEGISLADOR</th>
+							<th>PARTIDO</th>
+							<th>FECHA/HORA</th>
+							<th>SESIÓN</th>
+							<th>ASISTENCIA</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="attendance in attendances track by $index">
+							<td>{{attendance.partner.apPaterno}}
+								{{attendance.partner.apMaterno}} {{attendance.partner.name}}</td>
+							<td>{{attendance.partner.partido.acronym}}</td>
+							<td>{{attendance.dateTime | date:'dd/MM/yyyy HH:mma'}}</td>
+							<td>{{attendance.voteSession.nombre}}</td>
+							<td><img
+								data-ng-if="attendance.id != '' && attendance.partner.id != ''"
+								alt="PRESENTE" src="../img/comprobado.png" width="40"
+								height="40"> <img
+								data-ng-if="attendance.id == '' && attendance.partner.id != ''"
+								alt="N/A" src="../img/cancelar.png" width="40" height="40">
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="5"></th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<!-- CardBody -->
+		<div id="cardFooter" class="card-footer">
+			<input type="hidden" value="{{attendances}}" id="hddAttendances" />
+			<button type="button" class="btn btn-dark" onClick="PrintTable()"
+				data-ng-if="attendances.length > 0 ">Imprimir PDF</button>
+			<button type="button" class="btn btn-success"
+				onClick="tableToExcel('attendanceTable', 'Reporte de asistencia')">Imprimir
+				XLS</button>
+		</div>
+		<!-- CardFooter -->
+	</div>
+	<script type="text/javascript">
+	/*function PrintTable() {
+		var funcStr = window.location.hash.replace(/#/g, '') || 'basic';
+		var doc = printPdf();
+		
+		doc.setProperties({
+		    title: 'Example: ' + funcStr,
+		    subject: 'A jspdf-autotable example pdf (' + funcStr + ')'
+		});
+		doc.save('asistencias.pdf');
+	
+	}*/
+	function PrintTable() {
+		var _tableData = document.getElementById('hddAttendances').value;
+		var funcStr = window.location.hash.replace(/#/g, '') || 'basic';
+		var doc = printPdf(_tableData);
+		
+		doc.setProperties({
+		    title: 'Example: ' + funcStr,
+		    subject: 'A jspdf-autotable example pdf (' + funcStr + ')'
+		});
+		doc.save('asistencias.pdf');
+	
+	}
+	
+	/*function printPdf(){
+	    var doc = new jsPDF();
+	    var totalPagesExp = "{total_pages_count_string}";
+		//console.log(document.getElementById('attendanceTable').innerHTML);
+	    doc.autoTable({
+	       // head: headRows(), 
+	        //body: bodyRows(40),
+	        html: '#attendanceTable', 
+	        didDrawPage: function (data) {
+	            // Header
+	            doc.setFontSize(20);
+	            doc.setTextColor(40);
+	            doc.setFontStyle('normal');
+	            doc.text("ASISTENCIAS", data.settings.margin.left, 22);
+
+	            // Footer
+	            var str = "Pag. " + doc.internal.getNumberOfPages()
+	            // Total page number plugin only available in jspdf v1.0+
+	            if (typeof doc.putTotalPages === 'function') {
+	                str = str + " de " + totalPagesExp;
+	            }
+	            doc.setFontSize(10);
+
+	            // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+	            var pageSize = doc.internal.pageSize;
+	            var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+	            doc.text(str, data.settings.margin.left, pageHeight - 10);
+	        },
+	        margin: {top: 30}
+	    });
+
+	    // Total page number plugin only available in jspdf v1.0+
+	    if (typeof doc.putTotalPages === 'function') {
+	        doc.putTotalPages(totalPagesExp);
+	    }
+
+	    return doc;
+	}*/
+	var crossBase64Img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAwUExURQAAAOBPX+BPX+BPX+BPX+BPX+BPX+BPX/////jS1vGvtuNda/zt7u2TneVreemAjLeVGOAAAAAHdFJOUwDFQRXkgqhpRhpkAAAC80lEQVR42s1b6darMAhsVhLX93/bz3NvbdWqAVzG+Z0jFBgKCbxeGjhrQ4zGeE/kvTExBmvd6xY4G8wgdg3ehKu1GIRTAYMSl0mPnljw8QIdXGBKf+sQ3Mk/nsQ40QzWkArGQsWfpIKLdAjxYCwEOowAsv4Zfgh0EnRGcIZOg1FEgvV0IryFmV/phkinI4LcrwmEa+TzNXCeLoJ3WPk8Da6yP9sLl8ofNADwT8TGQJdjNyNZugEWQwAWFQzdAgMMgN0wsHQbLNIBm04IdCNWnODoVrj7U2AhIZYisM9NyhXv41VOTe6FcViIwJz+Iddl8fV4VhSHBQNU6Y2mqEHdjGcriQn2DVCnD3JJgfw9W/NNUDBAm9gaTOSnlm+CyPRA0bL8kzMilHLA1AK7P4x9cJELSkmwm303bTKsn5/r2OmwWAbMLJuajS93TRJ4YCgM+H+D9fzT62RkHVoNQ0YWXjghlwjAcMAkDDmFWF/UIDMD5dcHvEJkHuC/Dp6HSZEBUx8wC4F9CSX99njArYT2bNwzYmQrHfMrke0o63Ty/+cifi26yTM5AadBIKgFF5lmrA7qzMpTW0EgKYbXXa0g4DQIRO3YWrCrCPjNBMJq+FeajoDfKJT2Q0t791oCjFEobsgWGhyTPyggbogWnNMS8EMDeUPSbWogIeDnD1HREfVbCvSkUEDTE7fr8lvFp4yuKa/W5FekUkB3LVSdJH/IRMp7qXyYgKMCyvZ6SUY5Ad/AKwB3ATwI4TSEJyJ4Kob/GcH/juEFCbwkgxel8LIc35jAWzN4cwpvz+EXFPgrGvglFfyaDn9RCb+qhV9W46/r4Q8W8Ccb/KMV/NkO/3AJf7otJqN2+Kzg8TrllkQGwD/f4wcY4CMc+CEW/BgPfJAJP8qFH2aDj/PhBxrxI534oVb8WC98sBk/2o0fbseP9+MXHB6w4oFfcsGv+eAXnR6w6oVfdnvAuh9+4fEBK58PWHp9wNrvAxafn7D6/YTl9wvW//8A519pILsPqZAAAAAASUVORK5CYII=' ;
+	var tickBase64Img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURQAAAGrCWWrCWWrCWWrCWWrCWWrCWWrCWaBQEqYAAAAHdFJOUwDLEnJGrOrDJ6ErAAAC7ElEQVR42s2b2YLrIAiGi7K8/xsfm1lO24lLWCTcT79/EI0gPB4aK4iVCIBZhBmAqCKWxxYrWKFhz4yhRqtocJlYExFGJ5YlYwrQUOb/+7sfivM/L5fN0Q0avKMEBFEb2CUUEpORMRYqi9G4JnnfYx2qOJnOCQXEzUARCcjiaIxp7lcuA4m70cbNbz0SPMNPE4pR/FUFcfw1BZH8JQUkoUbJ/KmCKuE2PJFQNtjgVC68QwD3AxFki0FiAAzDAGWbYeYCdBehykarWTtgsBNItholRuB5HMJuAZDsgE8XBEUADG4XtMEB7foxUIDhDjiuP30FLy4okdevvoISewj+Xv+6CmroHny5fvYUQGQIvl1/ewowLgQ/rt8dBT9hyNH8ngKOWoGT9KMO1qCm8b/3AaTxv/ZByeN/nUWYyD+CoCbyjyCARP4RBJzIf54EJZP/jEJM5bcoxFR+E1BT+W0bUCq/fRApld8ETI8BiuS3gwA8wlTNbwJ4nr9gHL+dRLyQP2EYvwlYyt8wii/yWMsfaxRfRkuAK9mjkT+KAVz5VSO/CYDVEgZG8AfnQF35ZTO/CaD1tUV//uhbMP91B34TUK/sL/Tmt5VG7Q534U8+NSMf+PCbgKI7ZZ34z9SIReEDLz5PE5Nzkhf/SEzq5W8tuvGP42523Vh68NXerXElPV9QoL7bl6UCxVSBmg+Lfz5RoM9t6mqRaqjAkFvhcpluoMDA5wuFyq4CS25JV0q1HQWm3BYvFatPFZj4cDWNK778l1vfYpnmjwJjbaFcfrL5UGDkk+LR6k2BtbaCmmc78HvnId3D5a8Cc20JlU+33wrMfFA/Xh8K7LU11D/fNwV2PlkaGMDOP2vlyW7hyG9iyW/jSW9kym/lym9mS2/ny29ozG/pzG9qzW/rTW9szm/tzm9uz2/vzx9wuMGIR/6QS/6YT/6g0w1GvfKH3W4w7pc/8HiDkc8bDL3eYOz3BoPPdxj9vsPw+38VbuP//wDYZjn9w4zmjAAAAABJRU5ErkJggg==' ;
+	function printPdf(_tableData) {
+	    var doc = new jsPDF();
+	    var totalPagesExp = "{total_pages_count_string}";
+	    doc.autoTable({
+	        head: headRows(), 
+	        body: bodyRows(_tableData),
+	        foot: footRows(),
+	        startY: 25,
+	        tableLineColor: [231, 76, 60],
+	        tableLineWidth: 0,
+	        styles: {
+	        },
+	        headStyles: {
+	        },
+	        footStyles: {
+	        },
+	        bodyStyles: {
+	        },
+	        alternateRowStyles: {
+	        },
+	        // Note that the "email" key below is the same as the column's dataKey used for
+	        // the head and body rows. If your data is entered in array form instead you have to
+	        // use the integer index instead i.e. `columnStyles: {5: {fillColor: [41, 128, 185], ...}}`
+	        columnStyles: {
+	        },
+	        allSectionHooks: true,
+	        // Use for customizing texts or styles of specific cells after they have been formatted by this plugin.
+	        // This hook is called just before the column width and other features are computed.
+	        didParseCell: function(data) {
+
+	            if ((data.row.section === 'body') && data.column.dataKey === "attendance") {
+	                data.cell.text = '' // Use an icon in didDrawCell instead
+	            }
+	        },
+	        // Use for changing styles with jspdf functions or customize the positioning of cells or cell text
+	        // just before they are drawn to the page.
+	        willDrawCell: function(data) {
+	            if (data.row.section === 'body' && data.column.dataKey === "attendance") {
+	                if (data.cell.raw > 0) {
+	                    doc.setTextColor(231, 76, 60); // Red
+	                    doc.setFontStyle('bold');
+	                }
+	            }
+	        },
+	        // Use for adding content to the cells after they are drawn. This could be images or links.
+	        // You can also use this to draw other custom jspdf content to cells with doc.text or doc.rect
+	        // for example.
+	        didDrawCell: function(data) {
+	            //AGREGADO PARA MOSTRAR IMG BS64 EN CANTIDADES MAYORES A 750
+	            if ( data.row.section === 'body' && data.column.dataKey === "attendance" && data.cell.raw === 1) {
+	                doc.addImage(tickBase64Img, 'png', data.cell.x + 5, data.cell.y + 1, 5, 5);  
+	            }
+	           	if ( data.row.section === 'body' && data.column.dataKey === "attendance" && data.cell.raw === 0) {
+	                doc.addImage(crossBase64Img, 'png', data.cell.x + 5, data.cell.y + 1, 5, 5);  
+	            }
+	        },
+	        // Use this to add content to each page that has the autoTable on it. This can be page headers,
+	        // page footers and page numbers for example.
+	        didDrawPage: function(data) {
+	        	// Header
+	            doc.setFontSize(20);
+	            doc.setTextColor(40);
+	            doc.setFontStyle('normal');
+	            doc.text("ASISTENCIAS", data.settings.margin.left, 22);
+	            
+	            // Footer
+	            var str = "Pag. " + doc.internal.getNumberOfPages()
+	            // Total page number plugin only available in jspdf v1.0+
+	            if (typeof doc.putTotalPages === 'function') {
+	                str = str + " de " + totalPagesExp;
+	            }
+	            doc.setFontSize(10);
+
+	            // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+	            var pageSize = doc.internal.pageSize;
+	            var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+	            doc.text(str, data.settings.margin.left, pageHeight - 10);
+	        },
+	        margin: {top: 30}
+	    });
+	    // Total page number plugin only available in jspdf v1.0+
+	    if (typeof doc.putTotalPages === 'function') {
+	        doc.putTotalPages(totalPagesExp);
+	    }
+	    return doc;
+	};
+	function headRows() {
+	    return [{legislator: 'LEGISLADOR', politicalparty: 'PARTIDO', datetime: 'FECHA/HORA', attendance: 'ASISTENCIA'}];
+	}
+
+	function footRows() {
+		return [{legislator: ' ', politicalparty: ' ', datetime: ' ', attendance: ' '}];
+	}
+	function bodyRows(json) {
+		var _tableData = eval('(' + json + ')');
+	    let body = [];
+	    for (i in _tableData){
+	       console.log(_tableData[i]);
+	       var dateTime = new Date(_tableData[i]["dateTime"]);
+	       body.push({
+	            legislator: _tableData[i]["partner"]['apPaterno'] + ' ' + _tableData[i]["partner"]['apMaterno'] + ' ' + _tableData[i]["partner"]['name'],
+	            politicalparty: _tableData[i]["partner"]['partido'] != null ? _tableData[i]["partner"]['partido']['acronym'] : '',
+	            datetime: dateTime.getDate() + '/' +(dateTime.getMonth()+1)+'/'+ dateTime.getFullYear() ,
+	            attendance: (_tableData[i]["id"] != '' && _tableData[i]["partner"]['id'] != ''  ) ? 1 : (_tableData[i]["id"] == '' && _tableData[i]["partner"]['id'] != '' )? 0 : 2 
+	        });
+	    }
+	    return body;
+	}
+</script>
+	<script type="text/javascript">
+	var tableToExcel = (function() {
+		var uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', base64 = function(
+				s) {
+			return window.btoa(unescape(encodeURIComponent(s)))
+		}, format = function(s, c) {
+			return s.replace(/{(\w+)}/g, function(m, p) {
+				return c[p];
+			})
+		}
+		return function(table, name) {
+			if (!table.nodeType)
+				table = document.getElementById(table)
+			var ctx = {
+				worksheet : name || 'Worksheet',
+				table : table.innerHTML
+			}
+			window.location.href = uri
+					+ base64(format(template, ctx))
+		}
+	})()
+</script>
+</section>
