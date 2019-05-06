@@ -84,7 +84,11 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
+//		En caso que se haya cambiado el archivo se agrega el nombre
+		if($scope.archive.urlArchivo.name){
+			$scope.saveFile();
+			$scope.archive.urlArchivo = $scope.archive.urlArchivo.name;
+		}
 		archiveService.put($scope.archive).then(data=>{
 			if(data){
 				swal.stopLoading();
@@ -108,6 +112,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			} else {
 				$scope.postArchive();
 			}
+			$scope.isAdd = false;
 		} else {
 			console.log("Falta información para completar el registro");
 		}
@@ -129,6 +134,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.deleteArchive = archive => {
 		archiveService.delArchive(archive).then(data=>{
+			console.log('Archivo a eliminar: ',data);
 			swal('Exito','Archivo eliminado exitosamente', 'success');
 			$scope.getRecords();
 		}, error=>{
@@ -143,12 +149,18 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		}
 	};
 	
+	$scope.changeToAdd = () => {
+		$scope.isAdd = true;
+	};
+	
 	$scope.addArchive = () => {
+		$scope.isAdd = true;
 		$scope.archive = {
 				fecha: '',
 				nombre: '',
 				descripcion: '',
-				urlArchivo: ''
+				urlArchivo: '',
+				status:1
 		};
 	};
 	
@@ -158,6 +170,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.cancelAddUpdate = () => {
 		$scope.getRecords();
+		$scope.isAdd = false;
 		$scope.archive = null;
 	};
 	

@@ -77,7 +77,7 @@ public class StorageServiceImpl implements StorageService {
 				new File(path).mkdirs();
 			}
 			Files.copy(file.getFile().getInputStream(), location.resolve(file.getFile().getOriginalFilename()));
-			
+			gFile = file;
 			
 		}catch (IOException e) {
 			throw new StorageException("Failed to store file " + file.getFile().getOriginalFilename(), e);

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.solucionesdigitales.vote.entity.archive.Archive;
 import com.solucionesdigitales.vote.repository.archive.ArchiveRepository;
 import com.solucionesdigitales.vote.service.module.archive.ArchiveService;
-import com.solucionesdigitales.vote.service.utils.Utils;
 
 @Service("archiveService")
 public class ArchiveServiceImpl implements ArchiveService{
@@ -20,12 +19,9 @@ public class ArchiveServiceImpl implements ArchiveService{
 	@Autowired
 	private ArchiveRepository repository;
 	
-	@Autowired
-	private Utils utils;
-	
 	@Override
 	public List<Archive> fetch() {
-		List<Archive> records = repository.findAll();
+		List<Archive> records = repository.findByStatus(1);
 		return records;
 	}
 
@@ -33,7 +29,6 @@ public class ArchiveServiceImpl implements ArchiveService{
 	public Archive post(Archive entity) {
 		Archive archive = new Archive();
 		if(entity.getFecha() != null & entity.getNombre() != null & entity.getUrlArchivo() != null) {
-			String strl64Archive = entity.getUrlArchivo().trim();
 			archive = repository.save(entity);
 			logger.info("Archivo registrado: ["+entity.toString()+"]");
 		}
@@ -53,9 +48,10 @@ public class ArchiveServiceImpl implements ArchiveService{
 	@Override
 	public Archive delete(Archive entity) {
 		Archive archive = new Archive();
+		entity.setStatus(0);
 		if(entity.getFecha() != null & entity.getNombre() != null) {
 			archive = repository.save(entity);
-			logger.info("Archivo registrado: ["+entity.toString()+"]");
+			logger.info("Archivo eliminado: ["+entity.toString()+"]");
 		}
 		return archive;
 	}

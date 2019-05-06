@@ -28,7 +28,7 @@
 										<i class="fas fa-calendar-day"></i>
 									</span>
 								</div>
-								<input type="date" class="form-control" name="txtFecha"
+								<input type="date" class="form-control" name="txtFecha" data-format-date
 									id="txtFecha" data-ng-model="archive.fecha" placeholder="fecha"
 									required>
 
@@ -58,25 +58,20 @@
 								</div>
 								<input type="text"
 									value="{{archive.urlArchivo.name ? archive.urlArchivo.name: 'Seleccione un archivo...'}}"
-									class="form-control image-preview-filename" disabled="disabled">
-								<div class="input-group-append">
-									<button type="button"
-										class="btn btn-default image-preview-clear"
-										style="display: none;">
-										<span class="glyphicon glyphicon-remove"></span>Borrar
-									</button>
-									<!-- image-preview-input -->
+									class="form-control image-preview-filename" disabled="disabled" data-ng-if="isAdd">
+								<div class="input-group-append" data-ng-if="isAdd">
 									<label class="btn btn-default image-preview-input"> <span
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title">Buscar</span> <input
-										type="file" 
-										name="input-file-preview" data-file-model="archive.urlArchivo" />
-										<!-- rename it accept="image/png, image/jpeg" -->
+										type="file" name="input-file-preview"
+										data-file-model="archive.urlArchivo" />
 									</label>
 								</div>
-
+								<input type="text" data-ng-model="archive.urlArchivo" class="form-control image-preview-filename" disabled="disabled" data-ng-if="!isAdd">
+								<button type="button" class="btn btn-light" data-ng-click="changeToAdd()" data-ng-if="!isAdd">Cambiar</button>
 							</div>
 						</div>
+						
 						<div class="form-group row">
 							<label for="txtDescripcion" class="col-sm-2 col-form-label">Descripción</label>
 							<div class="input-group input-group-lg col-sm-10">

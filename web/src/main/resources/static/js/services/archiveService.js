@@ -34,7 +34,7 @@ app.service('archiveService', function ($q, factory){
 	
 	self.delArchive = (archive)  => {
 		return $q((resolve, reject)=>{
-			factory.put('archivo', archive).then(function success(data){
+			factory.put('archivo/delete', archive).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);

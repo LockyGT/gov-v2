@@ -17,6 +17,7 @@ public class Archive {
 	private String nombre;
 	private String descripcion;
 	private String urlArchivo;
+	private int status;
 	
 	/**
 	 * 
@@ -88,8 +89,20 @@ public class Archive {
 	public void setUrlArchivo(String urlArchivo) {
 		this.urlArchivo = urlArchivo;
 	}
-	
-	
+	/**
+	 * 
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+	/**
+	 * 
+	 * @param status to status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "Archive [id=" + id + ", fecha=" + fecha + ", nombre=" + nombre + ", descripcion=" + descripcion
