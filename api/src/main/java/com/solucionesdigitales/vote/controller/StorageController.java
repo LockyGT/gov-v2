@@ -76,6 +76,21 @@ public class StorageController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
+	/**
+	 * 
+	 * @param filename
+	 * @param path
+	 * @return ResponseEntity<Resource>
+	 */
+	@GetMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path,  @RequestParam(value="filename") final  String filename) {
+		logger.debug("buscando archivo: " + path +"/"+filename);		
+		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+	
 	@PostMapping("/save")
 	public GenericFile handleFileUpload(@RequestParam("file") MultipartFile file,@RequestParam("name") String name,@RequestParam("folder") String folder) {
 		GenericFile gf = new GenericFile();
