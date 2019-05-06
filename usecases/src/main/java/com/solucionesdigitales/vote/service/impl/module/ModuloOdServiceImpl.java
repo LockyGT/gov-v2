@@ -24,6 +24,12 @@ public class ModuloOdServiceImpl implements ModuloOdService {
 		List<ModuloOd> modulosOd = repository.findByStatus(1);
 		return modulosOd;
 	}
+	
+	@Override
+	public ModuloOd findFirstById(String id) {
+		
+		return repository.findFirstById(id);
+	}
 
 	@Override
 	public ModuloOd post(ModuloOd entity) {

@@ -9,4 +9,6 @@ import com.solucionesdigitales.vote.entity.module.ModuloOd;
 public interface ModuloOdRepository extends MongoRepository<ModuloOd, String>{
 	
 	List<ModuloOd> findByStatus(int status);
+	
+	ModuloOd findFirstById(String id);
 }

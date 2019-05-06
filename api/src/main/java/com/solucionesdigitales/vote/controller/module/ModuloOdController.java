@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solucionesdigitales.vote.entity.module.ModuloOd;
@@ -37,6 +38,12 @@ public class ModuloOdController {
 	public List<ModuloOd> get() {
 		logger.info("Consulta modulos por dia: ");
 		return service.fetch();
+	}
+	
+	@GetMapping(value="/byId")
+	public ModuloOd getById(@RequestParam(value="id") final String id) {
+		logger.info("Consulta modulos por dia: ");
+		return service.findFirstById(id);
 	}
 	
 	@PostMapping
