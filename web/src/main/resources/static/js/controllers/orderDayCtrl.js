@@ -2,7 +2,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	 	
 	$scope.titleTabView = '';
 	//$scope.orderDays = [];
-	$scope.orderday = [];
+	$scope.orderday = null;
 	$scope.modulosod= [];
 	$scope.paragraphs=[];
 	$scope.numeroIndice = 0;
@@ -21,7 +21,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 					{'contenidotxt': '',
 					'isIniciativa': false,
 					'nivel':1,
-					subparagraphs:[]
+					subParagraphs:[]
 					}
 				]
 			}
@@ -191,13 +191,35 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 				'contenidotxt': '',
 				'isIniciativa': false,
 				'nivel':1,
-				subparagraphs:[]
+				subParagraphs:[]
 			});
 		}else{
 			console.log('Es mayor, ',$scope.orderday.paragraphs.length )
 		}
-		
+				
 	};
+	$scope.addSubParagraphs = function(i){ 
+		console.log('Sub Parrafo',$scope.orderday.paragraphs) 
+		if($scope.orderday.paragraphs[i].subParagraphs.length < 3 ){ 
+		$scope.orderday.paragraphs[i].subParagraphs.push({ 
+			'contenidotxt': '', 
+			'isIniciativa': false, 
+			'nivel':1, 
+			 
+		}) 
+		}else{ 
+			console.log('Es mayor, ',$scope.orderday.paragraphs[i].subParagraphs.length ) 
+		} 
+	}; 
+	 
+	$scope.addOrderOfTheDay = (orderday)=>{ 
+		$scope.orderdayshow= orderday; 
+	$('#myModal').modal(); 
+	$('#myModal').modal({ 
+		keyboard: false 
+		}); 
+		$('#myModal').modal('show'); 
+	}; 
 	
 	$scope.cancelAddUpOrderday = () =>{
 		$scope.getOrderDays();

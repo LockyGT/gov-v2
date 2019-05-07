@@ -1,21 +1,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <style>
-.li-style-none {
-	list-style: none;
-}
-
 .margin-top {
 	margin-top: 1em;
 }
 
 .marggin {
-	margin-left: 1em;
-	margin-top: 4em;
+	margin-left: 2em;
+	margin-top: 3em;
 }
 
 .new {
-	margin-top: 2em;
+	margin-top: 6em;
 }
 
 #check {
@@ -54,71 +50,91 @@
 										data-ng-value="modulo">{{modulo.nombre}}</option>
 								</select>
 							</div>
-							<div class="col-2 col-md-8 margin-top">
-								<label for="inputState">Nombre OD</label> <input type="text"
-									class="form-control" placeholder="First name"
-									data-ng-model="orderday.nombre">
-							</div>
-						</div>
-						<br>
-						<div class="wrapper">
-							<div class="form-row margin-top"
-								data-ng-repeat="p in orderday.paragraphs track by $index">
-
-								<div class="col">
-									<input class="form-check-input marggin"
-										data-ng-model="orderday.paragraphs[$index].isIniciativa"
-										type="checkbox" value="" id="defaultCheck1"> <label
-										class="form-check-label" for="defaultCheck1"></label>
-
+							<div class="container">
+								<!-- <div class="col-2 col-md-6">
+									<label for="inputState">Agregar fecha</label> <input
+										class="form-control" type="date">
+								</div> -->
+								<div class="col-2 col-md-6 margin-top">
+									<label for="inputState">Nombre OD</label> <input type="text"
+										class="form-control" placeholder="First name"
+										data-ng-model="orderday.nombre">
 								</div>
-								<div class="col-6 col-md-11">
-									<label for="exampleFormControlTextarea{{$index}}">Elemento</label>
-									<div class="input-group">
-										<textarea class="form-control" rows="4" name="text"
-											placeholder="Agregar parrafo ..."
-											aria-label="Hi there, I would like to ..." required
-											data-msg="Please enter a reason."
-											data-ng-model="orderday.paragraphs[$index].contenidotxt"></textarea>
+							</div>
 
-										<div class="col col-md-2">
-											<button class="btn btn-primary btn-sm"
-												data-ng-click="addParagraph(p.nivel)">
+							<br>
+							<div class="wrapper col-md-12">
+								<div class="margin-top"
+									data-ng-repeat="p in orderday.paragraphs track by $index">
+
+									<div class="col">
+										<input class="form-check-input new"
+											data-ng-model="orderday.paragraphs[$index].isIniciativa"
+											type="checkbox" value="" id="defaultCheck1"> <label
+											class="form-check-label" for="defaultCheck1"></label>
+
+									</div>
+									<div class="col-2 col-md-11">
+										<div data-ng-value="modulo"
+											data-ng-repaet="modulo in modulosod track by $index">
+											<label for="exampleFormControlTextarea"
+												data-ng-model="modulo.nombre">{{modulo.nombre}}</label>
+										</div>
+										<div class="input-group">
+											<textarea class="form-control" rows="4" name="text"
+												placeholder="Agregar parrafo ..."
+												aria-label="Hi there, I would like to ..." required
+												data-msg="Please enter a reason."
+												data-ng-model="orderday.paragraphs[$index].contenidotxt"></textarea>
+
+											<div class="col-2 col-md-2">
+												<button class="btn btn-primary btn-sm"
+													data-ng-click="addParagraph(p.nivel)">
+													<i class="fas fa-plus-square"></i>
+												</button>
+
+												<button type="button" class="btn btn-info btn-sm"
+													data-ng-click="addSubParagraphs($index)">
+													<i class="fa fa-plus-square"></i>SUB
+												</button>
+											</div>
+
+										</div>
+									</div>
+									<!--<ul>
+									<li data-ng-repeat="sp in p.subParagraphs track by $index">subParrafo-{{$index}}</li>
+								</ul>  -->
+									<div class="row margin-top"
+										data-ng-repeat="sp in p.subParagraphs track by $index">
+										<div class="col">
+											<input data-ng-model="p.subParagraphs[$index].isIniciativa"
+												class="form-check-input marggin" type="checkbox" value=""
+												id="defaultCheck1"> <label class="form-check-label"
+												for="defaultCheck1"></label>
+
+
+										</div>
+										<div class="col-4 col-md-8">
+											<div class="input-group">
+												<textarea class="form-control" rows="4" name="text"
+													placeholder="Agregar parrafo ..."
+													aria-label="Hi there, I would like to ..." required
+													data-msg="Please enter a reason."
+													data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
+											</div>
+										</div>
+										<div class="col-2 col-md-3">
+											<button class="btn btn-primary btn-sm" data-ng-click="">
 												<i class="fas fa-plus-square"></i>
 											</button>
 
 											<button type="button" class="btn btn-info btn-sm"
-												data-ng-click="addSubParagraph(p)">
+												data-ng-click="">
 												<i class="fa fa-plus-square"></i>SUB
 											</button>
 										</div>
-
 									</div>
-								</div>
 
-
-							</div>
-							<div class="form-row margin-top" data-ng-if="">
-								<div class="col-2">
-									<input class="form-check-input" id="check" type="checkbox"
-										value="" id="defaultCheck1"> <label
-										class="form-check-label" for="defaultCheck1"></label>
-
-
-								</div>
-								<div class="col-4 col-md-8">
-									<div class="input-group">
-										<textarea class="form-control" rows="4" name="text"
-											placeholder="Agregar parrafo ..."
-											aria-label="Hi there, I would like to ..." required
-											data-msg="Please enter a reason."></textarea>
-									</div>
-									<div class="col col-md-2">
-										<button class="btn btn-primary btn-sm"
-											data-ng-click="addSubParagraph(p)">
-											<i class="fas fa-plus-square"></i>
-										</button>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -212,14 +228,16 @@
 								<tr data-ng-repeat="orderday in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
 									<td>{{orderday.nombre}}</td>
-									<td><button class="btn btn-primary btn-sm">
-											<i class="fas fa-plus-square"></i>
+									<td><button class="btn btn-primary btn-sm"
+											data-ng-click="addOrderOfTheDay(orderday)">
+											<i class="far fa-eye"></i>
 										</button></td>
 									<td><button type="button" class="btn btn-warning"
 											data-ng-click="updateOrderday(orderday)">Actualizar</button>
 									</td>
 									<td><button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(orderday)">Eliminar</button></td>
+											data-ng-click="confirmDelete(orderday)"
+											data-ng-if="orderday.id != null">Eliminar</button></td>
 
 								</tr>
 							</tbody>
@@ -234,19 +252,34 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<!-- MODAL -->
+	<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1"
+		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Ordenes del día para la sesión dummy</h5>
+					<h5 class="modal-title">Ordenes del día para la sesión</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Modal body text goes here.</p>
+					<ol class="list-paragraphs" type="a"
+						data-ng-repeat="p in orderdayshow.paragraphs track by $index">
+						<p>
+							<strong>{{$index+1}}{{Elemento}}</strong>
+						</p>
+						<li>{{p.contenidotxt}}</li>
+						<li class="list-subparagraphs">
+							<ol type="I"
+								data-ng-repeat="sp in p.subParagraphs track by $index">
+								<li>{{sp.contenidotxt}}</li>
+							</ol>
+
+						</li>
+
+					</ol>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary">Save changes</button>
@@ -256,6 +289,9 @@
 			</div>
 		</div>
 	</div>
+
+
+
 	<script type="text/javascript">
 		//../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png
 
