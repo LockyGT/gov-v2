@@ -1,6 +1,9 @@
-app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageService){
-	$scope.records = [];
-	$scope.archive = null;
+app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageService, moduloodService, $stateParams){
+	
+	$scope.records  = [];
+	$scope.archive  = null;
+	$scope.moduleod = null;
+	
 	
 	$scope.getRecords = () => {
 		swal({
@@ -15,19 +18,30 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			closeOnEsc: false
 		});
 		
-		archiveService.get().then(function success(data){
+		archiveService.get($scope.moduleod.id).then(function success(data){
 			$scope.records = data;
 			
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
 			},500);
+			
 		}, function error(response){
-			$scope.myWelcome = response();
+			$scope.myWelcome = response;
 			swal.stopLoading();
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
+	
+	$scope.getModuleOd = ()=>{
+		moduloodService.getByModuloId($stateParams.id).then(success=>{
+			console.log('Modulo obtenido:', success);
+			$scope.moduleod = success;
+			$scope.getRecords();
+		}, error=>{
+			console.log('Error al obtener la informacion del modulo');
+		});
+	}
 	
 	$scope.postArchive = () => {
 		swal({
@@ -43,6 +57,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 		$scope.saveFile();
 		$scope.archive.urlArchivo = $scope.archive.urlArchivo.name; 
+		$scope.archive.modulood = $scope.moduleod;
 		archiveService.post($scope.archive).then(success=>{
 			if(success){
 				swal('Exito','Archivo agregado exitosamente', 'success');
@@ -63,12 +78,26 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		let file = {
 				file: $scope.archive.urlArchivo,
 				name: $scope.archive.nombre,
-				folder: 'gazzete'
+				folder: 'gazzete/'+$scope.moduleod.nombre
 		};
 		storageService.save(file).then(success=>{
 			console.log('Informacion recibida: ', success);
 		}, error=>{
 			console.error('Error al enviar el archivo:', error);
+		});
+	};
+	
+	$scope.download = (download) => {
+		let file = {
+				path: 'gazzete/'+$scope.moduleod.nombre+'/'+download.nombre,
+				filename: download.urlArchivo
+		}; 
+		
+		console.log('Informacion enviada: ',file);
+		storageService.download(file).then(success=>{
+			console.log('Informacion descargada: ', success);
+		}, error=>{
+			console.error('Error al descargar el archivo:', error);
 		});
 	};
 	
@@ -167,6 +196,9 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	$scope.updateArchive = archive => {
 		$scope.archive = archive;
 	};
+	$scope.topReturn = () => {
+		window.history.back();
+	};
 	
 	$scope.cancelAddUpdate = () => {
 		$scope.getRecords();
@@ -175,7 +207,8 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	};
 	
 	const initController = () => {
-		$scope.getRecords();
+		$scope.getModuleOd();
+		
 	};
 	
 	angular.element(document).ready(function (){

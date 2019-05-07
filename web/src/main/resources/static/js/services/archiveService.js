@@ -2,9 +2,10 @@ app.service('archiveService', function ($q, factory){
 	
 	let self = this;
 	
-	self.get = ()  => {
+	self.get = (moduloodid)  => {
+		let data = {"moduloodid": moduloodid};
 		return $q((resolve, reject)=>{
-			factory.get('archivo').then(function success(data){
+			factory.get('archivo', data).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);

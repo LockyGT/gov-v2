@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.solucionesdigitales.vote.entity.archive.Archive;
 
 public interface ArchiveRepository extends MongoRepository<Archive, String> {
-	List<Archive> findByStatus(int status);
+	List<Archive> findByStatusAndModuloodIdAndModuloodStatus(int status, String moduloodId, int moduloodStatus);
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solucionesdigitales.vote.entity.archive.Archive;
@@ -31,9 +32,9 @@ public class ArchiveController {
 	private ArchiveService service;
 	
 	@GetMapping
-	public List<Archive> get(){
+	public List<Archive> get(@RequestParam(value="moduloodid") final String moduloodid){
 		logger.info("Consulta de archivos");
-		return service.fetch();
+		return service.fetch(moduloodid);
 	}
 	
 	@PostMapping

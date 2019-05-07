@@ -6,7 +6,7 @@ import com.solucionesdigitales.vote.entity.archive.Archive;
 
 public interface ArchiveService {
 	
-	List<Archive> fetch();
+	List<Archive> fetch(String id);
 	
 	Archive post(Archive entity);
 	

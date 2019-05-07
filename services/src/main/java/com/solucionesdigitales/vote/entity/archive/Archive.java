@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.solucionesdigitales.vote.entity.module.ModuloOd;
+
 @Document(collection = "archivo")
 public class Archive {
 	
@@ -18,6 +20,7 @@ public class Archive {
 	private String descripcion;
 	private String urlArchivo;
 	private int status;
+	private ModuloOd modulood;
 	
 	/**
 	 * 
@@ -102,6 +105,20 @@ public class Archive {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	/**
+	 * 
+	 * @return the modulood
+	 */
+	public ModuloOd getModulood() {
+		return modulood;
+	}
+	/**
+	 * 
+	 * @param modulood to modulood to set
+	 */
+	public void setModulood(ModuloOd modulood) {
+		this.modulood = modulood;
 	}
 	@Override
 	public String toString() {

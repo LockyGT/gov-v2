@@ -20,8 +20,8 @@ public class ArchiveServiceImpl implements ArchiveService{
 	private ArchiveRepository repository;
 	
 	@Override
-	public List<Archive> fetch() {
-		List<Archive> records = repository.findByStatus(1);
+	public List<Archive> fetch(String moduloId) {
+		List<Archive> records = repository.findByStatusAndModuloodIdAndModuloodStatus(1, moduloId,1);
 		return records;
 	}
 
