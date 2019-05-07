@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class OrderDay {
 	//version
 	private String sku;
 	private int status;
+	private LocalDate fecha;
 	private ArrayList<ParagraphOD> paragraphs;
 	/*
 	 * Modulo de la gaceta 
@@ -75,13 +77,23 @@ public class OrderDay {
 	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
 		this.paragraphs = paragraphs;
 	}
-	
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
 
 	@Override
 	public String toString() {
-		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", paragraphs=" + paragraphs
-				+ ", moduloOd=" + moduloOd +  "]";
+		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
+				+ ", paragraphs=" + paragraphs + ", moduloOd=" + moduloOd + "]";
 	}
+
+	
+
+	
 
 	
 	

@@ -12,6 +12,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		$scope.titleTabView = title;
 	};
 	
+	
+	
 	$scope.change = function(){
 		console.log('Texto');
 		let module= $scope.orderday.moduloOd;
@@ -168,7 +170,9 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.addOrderday = () => {
 		$scope.orderday = {
-				//nombre: '',
+				nombre: '',
+				fecha:'',
+				status:1
 				
 		}
 	};
@@ -205,12 +209,27 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			'contenidotxt': '', 
 			'isIniciativa': false, 
 			'nivel':1, 
-			 
+			subParagraphs:[]
 		}) 
 		}else{ 
 			console.log('Es mayor, ',$scope.orderday.paragraphs[i].subParagraphs.length ) 
 		} 
 	}; 
+	
+	$scope.addSubOfSubParagraphs= function(parent,index){
+		console.log('Subparrafos')
+		if($scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.length < 3 ){ 
+			$scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.push({ 
+				'contenidotxt': '', 
+				'isIniciativa': false, 
+				'nivel':1, 
+				 
+			}) 
+			}else{ 
+				console.log('Es mayor, ',$scope.orderday.paragraphs[i].subParagraphs.length ) 
+			} 
+		console.log($scope.orderday.paragraphs[parent].subParagraphs[index]);
+	};
 	 
 	$scope.addOrderOfTheDay = (orderday)=>{ 
 		$scope.orderdayshow= orderday; 

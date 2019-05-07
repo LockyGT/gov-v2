@@ -45,20 +45,35 @@
 								<label for="inputState">Seleccinar un elemento</label> <select
 									data-ng-change="change()" data-ng-model="orderday.moduloOd"
 									id="inputState" class="form-control">
-									<option disabled value="">Seleccionar...</option>
+									<option disabled value="" >Seleccionar...</option>
 									<option data-ng-repeat="modulo in modulosod"
-										data-ng-value="modulo">{{modulo.nombre}}</option>
+										data-ng-value="modulo" data-ng-model="modulosod.nombre">{{modulo.nombre}}</option>
 								</select>
 							</div>
-							<div class="container">
-								<!-- <div class="col-2 col-md-6">
-									<label for="inputState">Agregar fecha</label> <input
-										class="form-control" type="date">
-								</div> -->
-								<div class="col-2 col-md-6 margin-top">
-									<label for="inputState">Nombre OD</label> <input type="text"
-										class="form-control" placeholder="First name"
-										data-ng-model="orderday.nombre">
+							<div class="container margin-top">
+								<div class="form-group row">
+									<label for="txtFecha" class="col-sm-2 col-form-label">Fecha </label>
+									<div class="input-group input-group-lg col-sm-10">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-lg5"><i
+												class="far fa-calendar-alt"></i></i></span>
+										</div>
+										<input type="date" class="form-control" id="txtFecha" data-format-date
+											 required  maxlength="250" data-ng-model="orderday.fecha">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="txtNombreOD" class="col-sm-2 col-form-label">Nombre
+										de la OD</label>
+									<div class="input-group input-group-lg col-sm-10">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-lg6"><i
+												class="far fa-file-alt"></i></span> 
+										</div>
+										<input type="text" class="form-control" id="txtNombreOD"
+											placeholder="Nombre de la Orden del Dia" data-ng-model="orderday.nombre"
+											required maxlength="250">
+									</div>
 								</div>
 							</div>
 
@@ -101,12 +116,10 @@
 
 										</div>
 									</div>
-									<!--<ul>
-									<li data-ng-repeat="sp in p.subParagraphs track by $index">subParrafo-{{$index}}</li>
-								</ul>  -->
 									<div class="row margin-top"
 										data-ng-repeat="sp in p.subParagraphs track by $index">
 										<div class="col">
+
 											<input data-ng-model="p.subParagraphs[$index].isIniciativa"
 												class="form-check-input marggin" type="checkbox" value=""
 												id="defaultCheck1"> <label class="form-check-label"
@@ -124,17 +137,46 @@
 											</div>
 										</div>
 										<div class="col-2 col-md-3">
-											<button class="btn btn-primary btn-sm" data-ng-click="">
+											<button class="btn btn-primary btn-sm"
+												data-ng-click="addSubParagraphs($index)">
 												<i class="fas fa-plus-square"></i>
 											</button>
 
 											<button type="button" class="btn btn-info btn-sm"
-												data-ng-click="">
+												data-ng-click="addSubOfSubParagraphs($parent.$index,$index)">
 												<i class="fa fa-plus-square"></i>SUB
 											</button>
 										</div>
-									</div>
+										<div class="container margin-top">
+											<div class="row"
+												data-ng-repeat="sbp in sp.subParagraphs track by $index">
+												<div class="col-2">
+													<input
+														data-ng-model="sp.subParagraphs[$index].isIniciativa"
+														class="form-check-input margin" type="checkbox" value=""
+														id="defaultCheck1"> <label
+														class="form-check-label" for="defaultCheck1"></label>
 
+
+												</div>
+												<div class="col-4 col-md-7 margin-top">
+													<div class="input-group">
+														<textarea class="form-control" rows="4" name="text"
+															placeholder="Agregar parrafo ..."
+															aria-label="Hi there, I would like to ..." required
+															data-msg="Please enter a reason."
+															data-ng-model="sp.subParagraphs[$index].contenidotxt"></textarea>
+													</div>
+												</div>
+												<div class="col-2 col-md-2">
+													<button class="btn btn-primary btn-sm" id="button-sbp"
+														data-ng-click="addSubOfSubParagraphs($parent.$index,$index)">
+														<i class="fas fa-plus-square"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -275,6 +317,12 @@
 							<ol type="I"
 								data-ng-repeat="sp in p.subParagraphs track by $index">
 								<li>{{sp.contenidotxt}}</li>
+								<li class="list-subOfSubParagraphs">
+									<ol data-ng-repeat="sbp in sp.subParagraphs track by $index">
+										<li>{{sp.contenidotxt}}</li>
+
+									</ol>
+								</li>
 							</ol>
 
 						</li>
@@ -293,64 +341,6 @@
 
 
 	<script type="text/javascript">
-		//../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png
-
-		//function printAsPDF(){
-		//changetxts(1);
-		/*
-			    var pdf = new jsPDF('p', 'pt', 'letter');
-			    // source can be HTML-formatted string, or a reference
-			    // to an actual DOM element from which the text will be scraped.
-			    source = $('#tableAsistencias')[0];
-
-			    // we support special element handlers. Register them with jQuery-style 
-			    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-			    // There is no support for any other type of selectors 
-			    // (class, of compound) at this time.
-			    specialElementHandlers = {
-			        // element with id of "bypass" - jQuery style selector
-			        '#bypassme': function (element, renderer) {
-			            // true = "handled elsewhere, bypass text extraction"
-			            return true
-			        }
-			    };
-			    margins = {
-			        top: 40,
-			        bottom: 40,
-			        left: 40,
-			        width: 532
-			    };
-			    // all coords and widths are in jsPDF instance's declared units
-			    // 'inches' in this case
-			    pdf.fromHTML(
-			    source, // HTML string or DOM elem ref.
-			    margins.left, // x coord
-			    margins.top, { // y coord
-			        'width': margins.width, // max width of content on PDF
-			        'elementHandlers': specialElementHandlers
-			    },
-
-			    function (dispose) {
-			        // dispose: object with X, Y of the last line add to the PDF 
-			        //          this allow the insertion of new lines after html
-			        pdf.save('asistencia.pdf');
-			    }, margins);
-			    
-		 */
-
-		/*
-		
-		var doc = new jsPDF();
-		doc.autoTable({
-			html: '#attendanceTable', 
-			startY: 20
-			});
-		doc.output("dataurlnewwindow");
-		
-		 */
-
-		// changetxts(0);
-		//}
 		function update(shouldDownload) {
 			var funcStr = window.location.hash.replace(/#/g, '') || 'basic';
 			changetxts(1);
@@ -453,17 +443,6 @@
 
 			return doc;
 		}
-
-		/* var elementHandler = {
-		   '#ignoreElement': function (element, renderer) {
-		     return true;
-		   },
-		   '#anotherIdToBeIgnored': function (element, renderer) {
-		     return true;
-		   }
-		 };
-		 */
-
 		function changetxts(_tipo) {
 			if (_tipo == 1) {
 				document.getElementById('spnDates').innerHTML = 'del dia '
