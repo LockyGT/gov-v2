@@ -142,7 +142,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			console.log('Archivo a eliminar: ',data);
 			swal('Exito','Archivo eliminado exitosamente', 'success');
 			let folder = 'gazzete/'+$scope.moduleod.nombre+'/'+archive.nombre
-			$scope.delFile(folder);
+//			$scope.delFile(folder);
 			$scope.getRecords();
 		}, error=>{
 			swal('Error','Archivo eliminado exitosamente', 'error');

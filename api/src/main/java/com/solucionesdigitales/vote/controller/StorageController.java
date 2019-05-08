@@ -96,7 +96,7 @@ public class StorageController {
 	
 	@PostMapping("/save")
 	public GenericFile handleFileUpload(@RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name,@RequestParam("folder") String folder) {
+			@RequestParam("folder") String folder) {
 		GenericFile gf = new GenericFile();
 		gf.setFile(file);
 		gf.setFolder(folder);

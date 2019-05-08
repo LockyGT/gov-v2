@@ -3,6 +3,7 @@ package com.solucionesdigitales.vote.entity.archive;
 
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +21,7 @@ public class Archive {
 	private String descripcion;
 	private String urlArchivo;
 	private int status;
+	private Date deleteDate;
 	private ModuloOd modulood;
 	
 	/**
@@ -105,6 +107,20 @@ public class Archive {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	/**
+	 * 
+	 * @return the deleteDate
+	 */
+	public Date getDeleteDate() {
+		return deleteDate;
+	}
+	/**
+	 * 
+	 * @param deleteDate to deleteDate to set
+	 */
+	public void setDeleteDate(Date deleteDate) {
+		this.deleteDate = deleteDate;
 	}
 	/**
 	 * 

@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.service.impl.archive;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,6 +24,12 @@ public class ArchiveServiceImpl implements ArchiveService{
 	public List<Archive> fetch(String moduloId) {
 		List<Archive> records = repository.findByStatusAndModuloodIdAndModuloodStatus(1, moduloId,1);
 		return records;
+	}
+	
+	@Override
+	public List<Archive> fetchByDeleteDate(Date deleteDate) {
+	
+		return repository.findByStatusAndDeleteDateLessThan(0, deleteDate);
 	}
 
 	@Override
@@ -49,11 +56,12 @@ public class ArchiveServiceImpl implements ArchiveService{
 	public Archive delete(Archive entity) {
 		Archive archive = new Archive();
 		entity.setStatus(0);
+		entity.setDeleteDate(new Date());
 		if(entity.getFecha() != null & entity.getNombre() != null) {
-			archive = repository.save(entity);
+			repository.save(entity);
+			archive = entity;
 			logger.info("Archivo eliminado: ["+entity.toString()+"]");
 		}
 		return archive;
 	}
-
 }
