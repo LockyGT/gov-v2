@@ -42,12 +42,13 @@
 									class="btn btn-info">Nuevo Elemento</button>
 							</div>
 							<div class="col-2 col-md-3">
-								<label for="inputState">Seleccinar un elemento</label> <select
+								<label for="inputState">Seleccionar un elemento</label> <select 
+								 ng-options="modulo.nombre for modulo in modulosod track by modulo.id"
 									data-ng-change="change()" data-ng-model="orderday.moduloOd"
 									id="inputState" class="form-control">
 									<option disabled value="" >Seleccionar...</option>
-									<option data-ng-repeat="modulo in modulosod"
-										data-ng-value="modulo" data-ng-model="modulosod.nombre">{{modulo.nombre}}</option>
+<!-- 									<option data-ng-repeat="modulo in modulosod" -->
+<!-- 										data-ng-value="modulo">{{modulo.nombre}}</option> -->
 								</select>
 							</div>
 							<div class="container margin-top">
@@ -56,9 +57,9 @@
 									<div class="input-group input-group-lg col-sm-10">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-lg5"><i
-												class="far fa-calendar-alt"></i></i></span>
+												class="far fa-calendar-alt"></i></span>
 										</div>
-										<input type="date" class="form-control" id="txtFecha" data-format-date
+										<input type="date" class="form-control" min="{{v.Dt | date:'yyyy-MM-dd HH:mm:ss Z'}}" id="txtFecha" data-format-date
 											 required  maxlength="250" data-ng-model="orderday.fecha">
 									</div>
 								</div>
@@ -269,17 +270,19 @@
 							<tbody>
 								<tr data-ng-repeat="orderday in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
-									<td>{{orderday.nombre}}</td>
+									<td>{{orderday.nombre}} {{orderday.odOriginal ? 'versionado' : 'original'}}</td>
 									<td><button class="btn btn-primary btn-sm"
 											data-ng-click="addOrderOfTheDay(orderday)">
 											<i class="far fa-eye"></i>
 										</button></td>
+										<!-- updateOrderday -->
 									<td><button type="button" class="btn btn-warning"
-											data-ng-click="updateOrderday(orderday)">Actualizar</button>
+											data-ng-click="addNewOd(orderday)">nueva version</button>
 									</td>
-									<td><button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(orderday)"
-											data-ng-if="orderday.id != null">Eliminar</button></td>
+									<td>
+									
+									<button type="button" class="btn btn-danger"
+											data-ng-click="confirmDelete(orderday);">eliminar</button></td>
 
 								</tr>
 							</tbody>

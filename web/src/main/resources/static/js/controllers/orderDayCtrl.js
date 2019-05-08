@@ -11,22 +11,15 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
+	 
 	
-	
-	
+	//$scope.v.Dt = Date.parse(scope.v.Dt);
+
+	 
 	$scope.change = function(){
 		console.log('Texto');
 		let module= $scope.orderday.moduloOd;
-		$scope.orderday = {
-				moduloOd:module,
-				paragraphs: [
-					{'contenidotxt': '',
-					'isIniciativa': false,
-					'nivel':1,
-					subParagraphs:[]
-					}
-				]
-			}
+
 	}
 	
 	$scope.getModulosOd = function(){
@@ -78,7 +71,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		$scope.orderday.status = 0;
+		$scope.orderday.status = 1;
 		console.info($scope.orderday);
 		orderdayService.post($scope.orderday).then(function success(data){
 			if(data){
@@ -99,7 +92,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.putOrderDay = () => {
 		swal({
-			title: "Actualizando  Orden del día",
+			title: "versionando  Orden del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -109,7 +102,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-
+		
 		orderdayService.put($scope.orderday).then(function success(data){
 			if(data){
 				swal.stopLoading();
@@ -126,6 +119,9 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		});
 	};
 	
+	
+	
+	
 	$scope.addUpdate = () => {
 		if($scope.orderday){
 			if($scope.orderday.id){
@@ -138,10 +134,15 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		}
 	};
 	
+	$scope.addNewOd = function (orderday){
+		$scope.orderday = orderday;
+	}
+	
+	
 	$scope.confirmDelete = (orderday) =>{
 		swal({
 			title: 'Esta seguro de eliminara a',
-			text: $scope.orderday.nombre,
+			text: orderday.nombre,
 			icon: "warning",
 			buttons: true,
 			dangerMode: true
@@ -151,7 +152,6 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			};
 		});
 	};
-	
 
 	$scope.deleteOrderDay = orderday=> {
 		orderdayService.deleteOrderDay(orderday).then(function success(data){
@@ -170,11 +170,15 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.addOrderday = () => {
 		$scope.orderday = {
-				nombre: '',
-				fecha:'',
-				status:1
-				
-		}
+				moduloOd:null,
+				paragraphs: [
+					{'contenidotxt': '',
+					'isIniciativa': false,
+					'nivel':1,
+					subParagraphs:[]
+					}
+				]
+			}
 	};
 	
 	$scope.updateOrderday = (orderday) =>{
@@ -226,7 +230,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 				 
 			}) 
 			}else{ 
-				console.log('Es mayor, ',$scope.orderday.paragraphs[i].subParagraphs.length ) 
+				console.log('Es mayor, ',$scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.length ) 
 			} 
 		console.log($scope.orderday.paragraphs[parent].subParagraphs[index]);
 	};
