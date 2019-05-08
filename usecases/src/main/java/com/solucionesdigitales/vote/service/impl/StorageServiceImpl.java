@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
 import com.solucionesdigitales.vote.service.StorageService;
@@ -67,7 +68,7 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public GenericFile store(GenericFile file) {
 		GenericFile gFile = new GenericFile();
-		String path = this.rootLocation.toString()+File.separator+file.getFolder()+File.separator+file.getName();
+		String path = this.rootLocation.toString()+File.separator+file.getFolder();
 		Path location = Paths.get(path);
 		try {
 			if(file.getFile().isEmpty()) {
@@ -85,5 +86,51 @@ public class StorageServiceImpl implements StorageService {
 		
 		return gFile;
 	}
+	
+	
+	@Override
+	public GenericFile updateFile(GenericFile file, String oldFolder, String oldFileName) {
+		GenericFile gFile = new GenericFile();
+		String newPath = this.rootLocation.toString()+File.separator+file.getFolder();
+		String oldPath = this.rootLocation.toString()+File.separator+oldFolder;
+		Path location = Paths.get(newPath);
+		try {
+			if(file.getFile().isEmpty()) {
+				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
+			}
+
+			File archive = new File(oldPath+"/"+oldFileName);
+			File oldFile = new File(oldPath);
+			if(archive.exists()) {
+				archive.delete();
+				LOGGER.info("Viejo, archivo eliminado"); 
+			}
+			File p = new File(newPath);
+			if(oldFile.renameTo(p)){
+				LOGGER.info("Ruta actualizada");
+			}
+
+			Files.copy(file.getFile().getInputStream(), location.resolve(file.getFile().getOriginalFilename()));
+			file.setFile(null);
+
+			gFile = file;
+			
+		}catch (IOException e) {
+			throw new StorageException("Failed to store file " + file.getFile().getOriginalFilename(), e);
+		}
+		
+		return gFile;
+	}
+	
+	@Override
+	public GenericFile deleteAllFolder(String folder) {
+		GenericFile del = new GenericFile();
+		String path = this.rootLocation.toString()+File.separator+folder;
+		Path location = Paths.get(path);
+		FileSystemUtils.deleteRecursively(location.toFile());
+		return del;
+	}
+
+
 
 }

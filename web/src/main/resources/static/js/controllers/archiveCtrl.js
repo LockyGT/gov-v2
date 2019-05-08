@@ -74,34 +74,8 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 	};
 	
-	$scope.saveFile = ()=>{
-		let file = {
-				file: $scope.archive.urlArchivo,
-				name: $scope.archive.nombre,
-				folder: 'gazzete/'+$scope.moduleod.nombre
-		};
-		storageService.save(file).then(success=>{
-			console.log('Informacion recibida: ', success);
-		}, error=>{
-			console.error('Error al enviar el archivo:', error);
-		});
-	};
-	
-	$scope.download = (download) => {
-		let file = {
-				path: 'gazzete/'+$scope.moduleod.nombre+'/'+download.nombre,
-				filename: download.urlArchivo
-		}; 
-		
-		console.log('Informacion enviada: ',file);
-		storageService.download(file).then(success=>{
-			console.log('Informacion descargada: ', success);
-		}, error=>{
-			console.error('Error al descargar el archivo:', error);
-		});
-	};
-	
 	$scope.putArchive = () => {
+		
 		swal({
 			title: "Actualizando  archivo",
 			text: "Por favor espere...",
@@ -113,11 +87,13 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
+		
 //		En caso que se haya cambiado el archivo se agrega el nombre
 		if($scope.archive.urlArchivo.name){
-			$scope.saveFile();
+			$scope.updateFile();
 			$scope.archive.urlArchivo = $scope.archive.urlArchivo.name;
 		}
+		
 		archiveService.put($scope.archive).then(data=>{
 			if(data){
 				swal.stopLoading();
@@ -165,6 +141,8 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		archiveService.delArchive(archive).then(data=>{
 			console.log('Archivo a eliminar: ',data);
 			swal('Exito','Archivo eliminado exitosamente', 'success');
+			let folder = 'gazzete/'+$scope.moduleod.nombre+'/'+archive.nombre
+			$scope.delFile(folder);
 			$scope.getRecords();
 		}, error=>{
 			swal('Error','Archivo eliminado exitosamente', 'error');
@@ -178,7 +156,63 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		}
 	};
 	
+	$scope.download = (download) => {
+		let file = {
+				path: 'gazzete/'+$scope.moduleod.nombre+'/'+download.nombre,
+				filename: download.urlArchivo
+		}; 
+		
+		console.log('Informacion enviada: ',file);
+		storageService.download(file).then(success=>{
+			console.log('Informacion descargada: ', success);
+		}, error=>{
+			console.error('Error al descargar el archivo:', error);
+		});
+	};
+	
+	$scope.saveFile = ()=>{
+		let file = {
+				file: $scope.archive.urlArchivo,
+				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.nombre
+		};
+		storageService.save(file).then(success=>{
+			console.log('Informacion recibida: ', success);
+		}, error=>{
+			console.error('Error al enviar el archivo:', error);
+		});
+	};
+	
+	$scope.updateFile = () => {
+		let file = {
+				file: $scope.archive.urlArchivo,
+				oldFileName: $scope.oldFileName.name,
+				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.nombre,
+				oldFolder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.oldFileName.folder
+		};
+		
+		storageService.update(file).then(success=>{
+			console.log('Informacion recibida: ', success);
+		}, error=>{
+			console.error('Error al enviar el archivo:', error);
+		});
+	};
+	
+	
+	
+	$scope.delFile =(urlFolder) => {
+		console.log('Ruta a eliminar: ', urlFolder);
+		storageService.delFile(urlFolder).then(success=>{
+			console.log('Archivo eliminado ', success);
+		}, error=>{
+			console.error('Error al eliminar el archivo:', error);
+		});
+	};
+	
 	$scope.changeToAdd = () => {
+		$scope.oldFileName = {
+				name: $scope.archive.urlArchivo,
+				folder: $scope.archive.nombre
+		}
 		$scope.isAdd = true;
 	};
 	

@@ -12,4 +12,10 @@ public interface StorageService {
 	Path cargar(String filename);
 	
 	GenericFile store(GenericFile file);
+	
+	GenericFile updateFile(GenericFile file, String oldFolder ,String oldFileName);
+	
+	GenericFile deleteAllFolder(String file);
+	
+	
 }

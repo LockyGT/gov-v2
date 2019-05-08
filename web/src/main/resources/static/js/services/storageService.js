@@ -4,7 +4,6 @@ app.service('storageService', function($q, factory) {
 	self.getB64 = (file)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/stringb64', file).then(function mySuccess(data) {			
-				
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
@@ -26,9 +25,33 @@ app.service('storageService', function($q, factory) {
 		return $q(function(resolve, reject) {	
 			let fd = new FormData();
 			fd.append('file',file.file)
-			fd.append('name',file.name);
 			fd.append('folder',file.folder);
 			factory.postFile(path+'/save', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.update = file => {
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			fd.append('file',file.file);
+			fd.append('folder',file.folder);
+			fd.append('oldFolder', file.oldFolder);
+			fd.append('oldFileName', file.oldFileName);
+			factory.postFile(path+'/update', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.delFile = (folder)=>{	
+		return $q(function(resolve, reject) {			
+			factory.delet(path+'/delete', folder).then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);

@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,7 +86,8 @@ public class StorageController {
 	 */
 	@GetMapping("/download")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path,  @RequestParam(value="filename") final  String filename) {
+	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path, 
+			@RequestParam(value="filename") final  String filename) {
 		logger.debug("buscando archivo: " + path +"/"+filename);		
 		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
@@ -92,14 +95,34 @@ public class StorageController {
 	}
 	
 	@PostMapping("/save")
-	public GenericFile handleFileUpload(@RequestParam("file") MultipartFile file,@RequestParam("name") String name,@RequestParam("folder") String folder) {
+	public GenericFile handleFileUpload(@RequestParam("file") MultipartFile file,
+			@RequestParam("name") String name,@RequestParam("folder") String folder) {
 		GenericFile gf = new GenericFile();
 		gf.setFile(file);
-		gf.setName(name);
 		gf.setFolder(folder);
 		logger.info("Archivo resivido");
 		return storageService.store(gf);
 	}
+	
+	@PostMapping("/update")
+	public GenericFile updateFileUpload(@RequestParam("file") MultipartFile file,
+			 @RequestParam("folder") String folder, @RequestParam("oldFileName") String oldFileName,
+			 @RequestParam("oldFolder") String oldFolder) {
+		
+		GenericFile gf = new GenericFile();
+		gf.setFile(file);
+		gf.setFolder(folder);
+		
+		logger.info("Archivo resivido para actualizar");
+		return storageService.updateFile(gf,oldFolder, oldFileName);
+	}
+	
+	@DeleteMapping("/delete")
+	public GenericFile deleteFileUpload(@RequestBody final String folder) {
+		logger.info("Archivo preparado para eliminar");
+		return storageService.deleteAllFolder(folder);
+	}
+	
 	
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {

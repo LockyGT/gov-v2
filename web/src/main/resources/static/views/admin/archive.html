@@ -4,6 +4,9 @@
 .modal-lg {
 	max-width: 80% !important;
 }
+.text-secondary{
+	cursor:pointer;
+}
 </style>
 
 <h1 class="my-4">
@@ -43,7 +46,7 @@
 									</span>
 								</div>
 								<input type="text" class="form-control" name="txtNombre"
-									id="txtNombre" data-ng-model="archive.nombre"
+									id="txtNombre" data-ng-model="archive.nombre" data-ng-keyup="changeName()"
 									placeholder="nombre" required>
 
 							</div>
@@ -158,7 +161,7 @@
 								<td>{{ar.fecha}}</td>
 								<td>{{ar.nombre}}</td>
 								<td>{{ar.descripcion}}</td>
-								<td data-ng-click="download(ar)"><i class="fas fa-cloud-download-alt fa-3x"></i></td>
+								<td class="text-secondary" data-ng-click="download(ar)" title="{{ar.urlArchivo}}"><i class="fas fa-cloud-download-alt fa-3x"></i></td>
 								<td>
 									<button type="button" class="btn btn-warning"
 										data-ng-if="ar.id != null" data-ng-click="updateArchive(ar)">Actualizar</button>
