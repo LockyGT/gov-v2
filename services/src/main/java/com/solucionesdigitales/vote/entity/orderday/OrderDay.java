@@ -1,6 +1,7 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
@@ -20,6 +21,7 @@ public class OrderDay {
 	private int status;
 	private LocalDate fecha;
 	private String odOriginal;
+	private String referencia;
 	private ArrayList<ParagraphOD> paragraphs;
 	/*
 	 * Modulo de la gaceta 
@@ -77,13 +79,7 @@ public class OrderDay {
 	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
 		this.paragraphs = paragraphs;
 	}
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
+	
 	public String getOdOriginal() {
 		return odOriginal;
 	}
@@ -91,12 +87,36 @@ public class OrderDay {
 	public void setOdOriginal(String odOriginal) {
 		this.odOriginal = odOriginal;
 	}
+	public String getReferencia() {
+		return referencia;
+	}
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
 
 	@Override
 	public String toString() {
 		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
-				+ ", paragraphs=" + paragraphs + ", moduloOd=" + moduloOd + "]";
+				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", paragraphs=" + paragraphs
+				+ ", moduloOd=" + moduloOd + "]";
 	}
+
+	
+	
+
+	
+	
+
+	
+
+	
 
 	
 

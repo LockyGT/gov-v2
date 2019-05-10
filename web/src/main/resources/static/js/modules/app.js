@@ -32,7 +32,6 @@ app.constant('_PARTNER', {
 		_ACTIVE: 1
 	}
 });
-
 app.constant('_STATUS', {
 	_INACTIVE: 0,
 	_ACTIVE: 1
