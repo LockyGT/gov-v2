@@ -9,12 +9,12 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 //import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.solucionesdigitales.vote.entity.vote.VoteSession;
 
-//import javassist.expr.NewArray;
-
-//@RepositoryRestResource(collectionResourceRel = "voteSession", path = "voteSessions")
+@Repository
 public interface VoteSessionRepository extends MongoRepository<VoteSession, String>{
 	List<VoteSession> findVoteSessionByStatus(Integer status);	
 	List<VoteSession> findVoteSessionByFechaHora(LocalDateTime fecha);
@@ -26,13 +26,4 @@ public interface VoteSessionRepository extends MongoRepository<VoteSession, Stri
 	List<VoteSession> findVoteSessionPorIniciativa(ObjectId iniciativaId);
 	List<VoteSession> findByIsAttendanceOpen(boolean status);
 	
-//	@Query("{'iniciativas' :{'$ref' : 'initiatives' , '$id' : ?0 }}")
-//	List<VoteSession> findVoteSessionPorIniciativaId(String iniciativaId);
-//	
-//	
-//	List<VoteSession> findAllByIniciativasId(ObjectId iniciativaId);	
-	
-//	default List <VoteSession> findVoteSessionEstadoIniciativa(String iniciativa) {
-//		return (List<VoteSession>) new org.springframework.data.mongodb.core.query.Query(Criteria.where("iniciativas.$id").is(new ObjectId(iniciativa.getBytes())));
-//	}
 }
