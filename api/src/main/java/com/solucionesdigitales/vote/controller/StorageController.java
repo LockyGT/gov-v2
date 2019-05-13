@@ -129,6 +129,20 @@ public class StorageController {
 		return storageService.updateFile(gf,oldFolder, oldFileName);
 	}
 	
+	@PostMapping("/updateFiles")
+	public ArrayList<File> updateFilesUploads(@RequestParam("files") ArrayList<MultipartFile> files,
+			@RequestParam("files") ArrayList<String> oldFilesNames,
+			@RequestParam("folder")  String folder,
+			 @RequestParam("userId") String userId) {
+		
+		GenericFile gf = new GenericFile();
+		gf.setFiles(files);
+		gf.setFolder(folder);
+		
+		logger.info("Archivo resivido para actualizar");
+		return storageService.updateFiles(gf, oldFilesNames, userId);
+	}
+	
 	@DeleteMapping("/delete")
 	public GenericFile deleteFileUpload(@RequestBody final String folder) {
 		logger.info("Archivo preparado para eliminar");

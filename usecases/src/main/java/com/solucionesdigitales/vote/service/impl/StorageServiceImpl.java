@@ -141,10 +141,50 @@ public class StorageServiceImpl implements StorageService {
 	}
 	
 	@Override
+	public ArrayList<com.solucionesdigitales.vote.entity.archive.File>  
+			updateFiles(GenericFile files, ArrayList<String> oldFileName, String userId) {
+		
+		ArrayList<com.solucionesdigitales.vote.entity.archive.File> updatedFiles = 
+				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
+		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
+		String newPath = this.rootLocation.toString()+File.separator+files.getFolder();
+		UUID uuid = null;
+		try {
+			Path location = Paths.get(newPath);
+			for(MultipartFile file : files.getFiles()) {
+				if(file.isEmpty()) {
+					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
+				}
+				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
+				uuid = UUID.randomUUID();
+				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+				String fileName = uuid+fileExtention;
+				Files.copy(file.getInputStream(), location.resolve(fileName));
+				File f = new File(newPath+File.separator+fileName);
+				
+				individualFile.setUserId(userId);
+				individualFile.setOriginalName(file.getOriginalFilename());
+				individualFile.setServerName(fileName);
+				individualFile.setSize(file.getSize());
+				individualFile.setLastModification(new Date(f.lastModified()));
+				individualFile.setExtention(fileExtention);
+				individualFile.setMimeTipe(file.getContentType());
+				individualFile.setDate(new Date());
+				individualFile.setStatus(1);
+				updatedFiles.add(individualFile);
+				
+			}
+		}catch(IOException e) {
+			throw new StorageException("Failed to store files ", e);
+		}
+		return updatedFiles;
+	}
+	@Override
 	public GenericFile updateFile(GenericFile file, String oldFolder, String oldFileName) {
 		GenericFile gFile = new GenericFile();
 		String newPath = this.rootLocation.toString()+File.separator+file.getFolder();
 		String oldPath = this.rootLocation.toString()+File.separator+oldFolder;
+		
 		Path location = Paths.get(newPath);
 		try {
 			if(file.getFile().isEmpty()) {

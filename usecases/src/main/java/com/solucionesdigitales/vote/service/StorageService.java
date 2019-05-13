@@ -19,6 +19,8 @@ public interface StorageService {
 	
 	GenericFile updateFile(GenericFile file, String oldFolder ,String oldFileName);
 	
+	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldFilesNames, String userId);
+	
 	GenericFile deleteAllFolder(String file);
 	
 	
