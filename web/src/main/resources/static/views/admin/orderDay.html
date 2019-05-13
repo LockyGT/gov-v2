@@ -44,8 +44,8 @@
 							<div class="col-2 col-md-3">
 								<label for="inputState">Seleccionar un elemento</label> <select
 									data-ng-options="modulo.nombre for modulo in modulosod track by modulo.id"
-									data-ng-change="change()" data-ng-model="orderday.moduloOd"
-									id="inputState" class="form-control">
+									data-ng-change="change();" data-ng-model="orderday.moduloOd"
+									id="inputState" class="form-control" >
 									<option disabled value="">Seleccionar...</option>
 
 									<!-- 									<option data-ng-repeat="modulo in modulosod" -->
@@ -95,7 +95,7 @@
 									</div>
 									<div class="col-2 col-md-11">
 										<div>
-											<label id="" for="">{{orderday.moduloOd.nombre}}</label>
+											<label>{{orderday.moduloOd.nombre}}</label>
 
 											<div class="input-group">
 												<textarea class="form-control" rows="4" name="text"
@@ -225,9 +225,16 @@
 				<button type="button" class="btn btn-dark"
 					data-ng-click="getVoteSessionsDateOnly(voteSessionOn.fechaBusqueda, voteSessionOn.fechaBusquedaFin)">
 					Buscar</button>
-				<span class="invalid-feedback d-block"
-					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
-					de fechas inválido!</span>
+				<!-- 				<span class="invalid-feedback d-block" -->
+				<!-- 					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango -->
+				<!-- 					de fechas inválido!</span> -->
+
+				<div class="input-group input-group-lg col-sm-6 margin-top">
+					<input type="search" class="form-control" id="searchTerm"
+						placeholder="Buscar por nombre" data-ng-keyup="buscar();"
+						required="required">
+
+				</div>
 
 			</form>
 		</div>
@@ -259,7 +266,8 @@
 					</div>
 					<!-- data-ng-if="orderday.length > 0" -->
 					<div class="table-responsive">
-						<table class="table table-inversed table-hover table-striped">
+						<table id="datos"
+							class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -391,7 +399,8 @@
 									data-ng-repeat="sp in p.subParagraphs track by $index">
 									<li>{{sp.contenidotxt}}</li>
 									<li class="list-subOfSubParagraphs">
-										<ol data-ng-repeat="sbp in sp.subParagraphs track by $index">
+										<ol data-ng-repeat="sbp in sp.subParagraphs track by $index"
+											class="margin-top">
 											<li>{{sp.contenidotxt}}</li>
 
 										</ol>
@@ -416,108 +425,6 @@
 
 
 	<script type="text/javascript">
-		function update(shouldDownload) {
-			var funcStr = window.location.hash.replace(/#/g, '') || 'basic';
-			changetxts(1);
-			var doc = printPdf();
-
-			doc.setProperties({
-				title : 'Example: ' + funcStr,
-				subject : 'A jspdf-autotable example pdf (' + funcStr + ')'
-			});
-
-			if (shouldDownload) {
-				doc.save('asistencias.pdf');
-			} else {
-				//document.getElementById("output").src = doc.output('datauristring');
-				// document.getElementById("output").data = doc.output('datauristring');
-				//doc.output("dataurlnewwindow");
-				doc.save('asistencias.pdf');
-			}
-			changetxts(0);
-		}
-
-		var base64Img, coinBase64Img;
-		imgToBase64(
-				'../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png',
-				function(base64) {
-					base64Img = base64;
-					/*imgToBase64('../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png', function(base64) {
-					    coinBase64Img = base64;
-					    update();
-					});*/
-				});
-
-		function imgToBase64(src, callback) {
-			var outputFormat = src.substr(-3) === 'png' ? 'image/png'
-					: 'image/jpeg';
-			var img = new Image();
-			img.crossOrigin = 'Anonymous';
-			img.onload = function() {
-				var canvas = document.createElement('CANVAS');
-				var ctx = canvas.getContext('2d');
-				var dataURL;
-				canvas.height = this.naturalHeight;
-				canvas.width = this.naturalWidth;
-				ctx.drawImage(this, 0, 0);
-				dataURL = canvas.toDataURL(outputFormat);
-				callback(dataURL);
-			};
-			img.src = src;
-			if (img.complete || img.complete === undefined) {
-				img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-				img.src = src;
-			}
-		}
-
-		function printPdf() {
-			var doc = new jsPDF();
-			var totalPagesExp = "{total_pages_count_string}";
-
-			doc
-					.autoTable({
-						// head: headRows(), 
-						//body: bodyRows(40),
-						html : '#attendanceTable',
-						didDrawPage : function(data) {
-							// Header
-							doc.setFontSize(20);
-							doc.setTextColor(40);
-							doc.setFontStyle('normal');
-							if (base64Img) {
-								doc.addImage(base64Img, 'JPEG',
-										data.settings.margin.left, 15, 10, 10);
-							}
-							doc.text("ASISTENCIAS",
-									data.settings.margin.left + 15, 22);
-
-							// Footer
-							var str = "Pag. " + doc.internal.getNumberOfPages()
-							// Total page number plugin only available in jspdf v1.0+
-							if (typeof doc.putTotalPages === 'function') {
-								str = str + " de " + totalPagesExp;
-							}
-							doc.setFontSize(10);
-
-							// jsPDF 1.4+ uses getWidth, <1.4 uses .width
-							var pageSize = doc.internal.pageSize;
-							var pageHeight = pageSize.height ? pageSize.height
-									: pageSize.getHeight();
-							doc.text(str, data.settings.margin.left,
-									pageHeight - 10);
-						},
-						margin : {
-							top : 30
-						}
-					});
-
-			// Total page number plugin only available in jspdf v1.0+
-			if (typeof doc.putTotalPages === 'function') {
-				doc.putTotalPages(totalPagesExp);
-			}
-
-			return doc;
-		}
 		function changetxts(_tipo) {
 			if (_tipo == 1) {
 				document.getElementById('spnDates').innerHTML = 'del dia '
