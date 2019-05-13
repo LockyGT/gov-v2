@@ -221,7 +221,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		let file = {
 				file: $scope.archive.urlArchivo,
 				oldFileName: $scope.oldFileName.name,
-				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.nombre,
+				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.folder,
 				oldFolder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.oldFileName.folder
 		};
 		
@@ -260,6 +260,8 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	};
 	
 	$scope.updateArchive = archive => {
+		console.log('Archivo para actualizar: ', archive);
+		archive.fecha = new Date(archive.fecha);
 		$scope.archive = archive;
 	};
 	$scope.topReturn = () => {
