@@ -6,6 +6,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
 import com.solucionesdigitales.vote.service.StorageService;
@@ -70,6 +74,7 @@ public class StorageServiceImpl implements StorageService {
 		GenericFile gFile = new GenericFile();
 		String path = this.rootLocation.toString()+File.separator+file.getFolder();
 		Path location = Paths.get(path);
+		
 		try {
 			if(file.getFile().isEmpty()) {
 				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
@@ -88,6 +93,52 @@ public class StorageServiceImpl implements StorageService {
 		return gFile;
 	}
 	
+	@Override
+	public ArrayList<com.solucionesdigitales.vote.entity.archive.File> stores(GenericFile files,String userId) {
+		
+		ArrayList<com.solucionesdigitales.vote.entity.archive.File> savedFiles = 
+				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
+		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
+		
+		String path = this.rootLocation.toString()+File.separator+files.getFolder();
+		Path location = Paths.get(path);
+		UUID uuid = null;
+		
+		try {
+			
+			if (!new File(path).exists() ){
+				new File(path).mkdirs();
+			}
+
+			for(MultipartFile file : files.getFiles()) {
+				if(file.isEmpty()) {
+					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
+				}
+				
+				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
+				uuid = UUID.randomUUID();
+				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+				String fileName = uuid+fileExtention;
+				Files.copy(file.getInputStream(), location.resolve(fileName));
+				File f = new File(path+File.separator+fileName);
+				
+				individualFile.setUserId(userId);
+				individualFile.setOriginalName(file.getOriginalFilename());
+				individualFile.setServerName(fileName);
+				individualFile.setSize(file.getSize());
+				individualFile.setLastModification(new Date(f.lastModified()));
+				individualFile.setExtention(fileExtention);
+				individualFile.setMimeTipe(file.getContentType());
+				individualFile.setDate(new Date());
+				individualFile.setStatus(1);
+				savedFiles.add(individualFile);
+				
+			}
+		} catch(IOException e) {
+			throw new StorageException("Failed to store file " + files.getFiles().get(0).getOriginalFilename(), e);
+		}
+		return savedFiles;
+	}
 	
 	@Override
 	public GenericFile updateFile(GenericFile file, String oldFolder, String oldFileName) {
@@ -131,7 +182,4 @@ public class StorageServiceImpl implements StorageService {
 		FileSystemUtils.deleteRecursively(location.toFile());
 		return del;
 	}
-
-
-
 }

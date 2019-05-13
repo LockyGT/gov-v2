@@ -1,9 +1,9 @@
 app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageService, moduloodService, $stateParams){
 	
-	$scope.records  = [];
-	$scope.archive  = null;
-	$scope.moduleod = null;
-	
+	$scope.records   = [];
+	$scope.archive   = null;
+	$scope.moduleod  = null;
+	$scope.showFiles = null;
 	
 	$scope.getRecords = () => {
 		swal({
@@ -33,9 +33,8 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 	};
 	
-	$scope.getModuleOd = ()=>{
+	$scope.getModuleOd = (files)=>{
 		moduloodService.getByModuloId($stateParams.id).then(success=>{
-			console.log('Modulo obtenido:', success);
 			$scope.moduleod = success;
 			$scope.getRecords();
 		}, error=>{
@@ -43,7 +42,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 	}
 	
-	$scope.postArchive = () => {
+	$scope.postArchive = (files) => {
 		swal({
 			title: "Guardando archivo",
 			text: "Por favor espere...",
@@ -55,9 +54,9 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		$scope.saveFile();
-		$scope.archive.urlArchivo = $scope.archive.urlArchivo.name; 
+		$scope.archive.files = files; 
 		$scope.archive.modulood = $scope.moduleod;
+		console.log('Documento enviado: ',$scope.archive );
 		archiveService.post($scope.archive).then(success=>{
 			if(success){
 				swal('Exito','Archivo agregado exitosamente', 'success');
@@ -115,7 +114,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			if($scope.archive.id != null){
 				$scope.putArchive();
 			} else {
-				$scope.postArchive();
+				$scope.saveFiles();
 			}
 			$scope.isAdd = false;
 		} else {
@@ -139,12 +138,41 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.deleteArchive = archive => {
 		archiveService.delArchive(archive).then(data=>{
-			console.log('Archivo a eliminar: ',data);
-			swal('Exito','Archivo eliminado exitosamente', 'success');
-			let folder = 'gazzete/'+$scope.moduleod.nombre+'/'+archive.nombre
-//			$scope.delFile(folder);
+			swal('Exito','Documento eliminado exitosamente', 'success');
 			$scope.getRecords();
 		}, error=>{
+			swal('Error','Archivo eliminado exitosamente', 'error');
+		});
+	};
+	
+	$scope.comfirmDeleteFile = (doc,index) => {
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: doc.files[index].originalName,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteFile(doc, index);
+			}
+		});
+	};
+	
+	$scope.deleteFile = (doc,index) => {
+		console.log('Archivo a eliminar: ',doc);
+		doc.files[index].status = 0;
+		if($scope.showFiles){
+			$scope.showFiles.files[index].status = 0;
+		}
+		console.log(doc);
+		archiveService.put(doc).then(data=>{
+			swal('Exito','Archivo eliminado exitosamente', 'success');
+			$scope.getRecords();
+			if(doc.files.length){
+				$scope.isAdd = true;
+			}
+		}, error => {
 			swal('Error','Archivo eliminado exitosamente', 'error');
 		});
 	};
@@ -156,27 +184,32 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		}
 	};
 	
-	$scope.download = (download) => {
-		let file = {
-				path: 'gazzete/'+$scope.moduleod.nombre+'/'+download.nombre,
-				filename: download.urlArchivo
+	$scope.downloadFile = (doc, file) => {
+		let data = {
+				path: 'gazzete/'+$scope.moduleod.nombre+'/'+doc,
+				filename: file.serverName
 		}; 
 		
 		console.log('Informacion enviada: ',file);
-		storageService.download(file).then(success=>{
+		storageService.download(data).then(success=>{
 			console.log('Informacion descargada: ', success);
 		}, error=>{
 			console.error('Error al descargar el archivo:', error);
 		});
 	};
 	
-	$scope.saveFile = ()=>{
+	$scope.saveFiles = ()=>{
 		let file = {
-				file: $scope.archive.urlArchivo,
-				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.nombre
+				files: $scope.archive.files,
+				folder: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.archive.nombre,
+				userId: 'israel'
 		};
-		storageService.save(file).then(success=>{
-			console.log('Informacion recibida: ', success);
+		console.log('Archivor enviados: ', file);
+		storageService.saveFiles(file).then(success=>{
+			if(success.length){
+				$scope.postArchive(success);
+			}
+			
 		}, error=>{
 			console.error('Error al enviar el archivo:', error);
 		});
@@ -194,17 +227,6 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			console.log('Informacion recibida: ', success);
 		}, error=>{
 			console.error('Error al enviar el archivo:', error);
-		});
-	};
-	
-	
-	
-	$scope.delFile =(urlFolder) => {
-		console.log('Ruta a eliminar: ', urlFolder);
-		storageService.delFile(urlFolder).then(success=>{
-			console.log('Archivo eliminado ', success);
-		}, error=>{
-			console.error('Error al eliminar el archivo:', error);
 		});
 	};
 	
@@ -227,6 +249,11 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		};
 	};
 	
+	$scope.showDocument = (archive) => {
+		console.log('Archivos: ', archive);
+		$scope.showFiles = archive;
+	};
+	
 	$scope.updateArchive = archive => {
 		$scope.archive = archive;
 	};
@@ -238,6 +265,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		$scope.getRecords();
 		$scope.isAdd = false;
 		$scope.archive = null;
+
 	};
 	
 	const initController = () => {

@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
+import com.solucionesdigitales.vote.entity.archive.File;
 import com.solucionesdigitales.vote.service.StorageService;
 import com.solucionesdigitales.vote.service.utils.Utils;
 import com.solucionesdigitales.vote.service.utils.exceptions.StorageFileNotFoundException;
@@ -102,6 +104,16 @@ public class StorageController {
 		gf.setFolder(folder);
 		logger.info("Archivo resivido");
 		return storageService.store(gf);
+	}
+	
+	@PostMapping("/saveFiles")
+	public ArrayList<File> handleFilesUploads(@RequestParam("files") ArrayList<MultipartFile> files,
+			@RequestParam("folder") String folder,@RequestParam("userId") String userId) {
+		GenericFile gf = new GenericFile();
+		gf.setFiles(files);
+		gf.setFolder(folder);
+		logger.info("Archivo resivido");
+		return storageService.stores(gf,userId);
 	}
 	
 	@PostMapping("/update")

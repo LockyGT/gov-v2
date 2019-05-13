@@ -1,6 +1,5 @@
 package com.solucionesdigitales.vote.config.security;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -21,8 +20,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.solucionesdigitales.vote.entity.archive.Archive;
-import com.solucionesdigitales.vote.service.module.archive.ArchiveService;
+import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.service.module.archive.DocumentFileService;
 
 @Configuration
 @EnableScheduling
@@ -31,8 +30,11 @@ public class SecurityContext {
 	@Value("${app.server.security.add}")
 	private String add;	
 	
+	@Value("${dir.carpeta.multimedia}")
+	private String rootDir;	
+	
 	@Autowired
-	private ArchiveService archiveService;
+	private DocumentFileService archiveService;
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void validate() throws SocketException {
@@ -91,29 +93,26 @@ public class SecurityContext {
 	@Scheduled(fixedRate = 80000)
 	public void taskDeleteFile() {
 		logger.info("Buscando archivos para eliminar");
-		List<Archive> listArchives =archiveService.fetchByDeleteDate(new Date()); 
-		try {
-			int count = 1;
-			for (Archive archive : listArchives) {
-				logger.info("Encontrado un archivo para eliminar: "+count);
-				Files.walk(Paths.get("/home/israel/server/gazzete")).forEach(ruta-> {
-				    if (Files.isRegularFile(ruta)) {
-				    	if(ruta.getFileName().toString().equals(archive.getUrlArchivo())){
-					    	logger.info("Eliminando archivo: -----"+ ruta.getFileName().toString()+"-----");
-					    	if(ruta.toFile().delete()) {
-					    		logger.info("Archivo eliminado"+ ruta);
-					    	}
-				    	}
-
-				    	
-				    }
-				});
-				count++;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		List<DocumentFile> listArchives =archiveService.fetchByDeleteDate(new Date()); 
+//		
+//		try {
+//			for (DocumentFile archive : listArchives) {
+//				
+//				Files.walk(Paths.get(rootDir+"/gazzete")).forEach(ruta-> {
+//				    if (Files.isRegularFile(ruta)) {
+//				    	if(ruta.getFileName().toString().equals(archive.getUrlArchivo())){
+//					    	logger.info("Eliminando archivo: -----"+ ruta.getFileName().toString()+"-----");
+//					    	if(ruta.toFile().delete()) {
+//					    		logger.info("Archivo eliminado"+ ruta);
+//					    	}
+//				    	}
+//				    }
+//				});
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	    
 		

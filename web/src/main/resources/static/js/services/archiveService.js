@@ -3,9 +3,13 @@ app.service('archiveService', function ($q, factory){
 	let self = this;
 	
 	self.get = (moduloodid)  => {
-		let data = {"moduloodid": moduloodid};
+		let data = {
+				"status": 1,
+				"moduloodid": moduloodid,
+				"moduloodstatus": 1
+				};
 		return $q((resolve, reject)=>{
-			factory.get('archivo', data).then(function success(data){
+			factory.get('documentFile', data).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);
@@ -15,7 +19,7 @@ app.service('archiveService', function ($q, factory){
 	
 	self.post = (archive)  => {
 		return $q((resolve, reject)=>{
-			factory.post('archivo', archive).then(function success(data){
+			factory.post('documentFile', archive).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);
@@ -25,7 +29,7 @@ app.service('archiveService', function ($q, factory){
 	
 	self.put = (archive)  => {
 		return $q((resolve, reject)=>{
-			factory.put('archivo', archive).then(function success(data){
+			factory.put('documentFile', archive).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);
@@ -35,7 +39,7 @@ app.service('archiveService', function ($q, factory){
 	
 	self.delArchive = (archive)  => {
 		return $q((resolve, reject)=>{
-			factory.put('archivo/delete', archive).then(function success(data){
+			factory.put('documentFile/delete', archive).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				reject(errorData);

@@ -24,9 +24,26 @@ app.service('storageService', function($q, factory) {
 	self.save = (file)=>{		
 		return $q(function(resolve, reject) {	
 			let fd = new FormData();
+			
 			fd.append('file',file.file)
 			fd.append('folder',file.folder);
 			factory.postFile(path+'/save', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.saveFiles = (file)=>{		
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			angular.forEach(file.files, function(file){
+				fd.append('files',file);
+			});
+			fd.append('folder',file.folder);
+			fd.append('userId', file.userId);
+			factory.postFile(path+'/saveFiles', fd).then(function mySuccess(data) {		
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
