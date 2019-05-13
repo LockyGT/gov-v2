@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.solucionesdigitales.vote.entity.archive.Archive;
-import com.solucionesdigitales.vote.service.module.archive.ArchiveService;
+import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.service.module.archive.DocumentFileService;
 
 /**
  * 
@@ -23,35 +23,37 @@ import com.solucionesdigitales.vote.service.module.archive.ArchiveService;
  */
 
 @RestController
-@RequestMapping("archivo")
-public class ArchiveController {
+@RequestMapping("documentFile")
+public class DocumentFileController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ArchiveController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DocumentFileController.class);
 	
 	@Autowired
-	private ArchiveService service;
+	private DocumentFileService service;
 	
 	@GetMapping
-	public List<Archive> get(@RequestParam(value="moduloodid") final String moduloodid){
+	public List<DocumentFile> get(@RequestParam(value="status") final int status,
+			@RequestParam(value="moduloodid") final String moduloodId,
+			@RequestParam(value="moduloodstatus") final int moduloodStatus){
 		logger.info("Consulta de archivos");
-		return service.fetch(moduloodid);
+		return service.fetch(status,moduloodId,moduloodStatus);
 	}
 	
 	@PostMapping
-	public Archive postData(@RequestBody final Archive entity) {
+	public DocumentFile postData(@RequestBody final DocumentFile entity) {
 		logger.info("Archivo a guardar ["+entity.toString()+"]");
 		
 		return service.post(entity);
 	}
 	
 	@PutMapping
-	public Archive putData(@RequestBody final Archive entity) {
+	public DocumentFile putData(@RequestBody final DocumentFile entity) {
 		logger.info("Archivo a actualizar: ["+entity.toString()+"]");
 		return service.put(entity);
 	}
 	
 	@PutMapping(value="/delete")
-	public Archive deleteData(@RequestBody final Archive entity) {
+	public DocumentFile deleteData(@RequestBody final DocumentFile entity) {
 		logger.info("Archivo a eliminar: ["+entity.toString()+"]");
 		return service.delete(entity);
 	}

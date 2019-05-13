@@ -3,17 +3,17 @@ package com.solucionesdigitales.vote.service.module.archive;
 import java.util.Date;
 import java.util.List;
 
-import com.solucionesdigitales.vote.entity.archive.Archive;
+import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 
-public interface ArchiveService {
+public interface DocumentFileService {
 	
-	List<Archive> fetch(String id);
+	List<DocumentFile> fetch(int status, String moduloId, int moduloodStatus);
 	
-	List<Archive> fetchByDeleteDate(Date deleteDate);
+	List<DocumentFile> fetchByDeleteDate(Date deleteDate);
 	
-	Archive post(Archive entity);
+	DocumentFile post(DocumentFile entity);
 	
-	Archive put (Archive entity);
+	DocumentFile put (DocumentFile entity);
 	
-	Archive delete (Archive entity);
+	DocumentFile delete (DocumentFile entity);
 }
