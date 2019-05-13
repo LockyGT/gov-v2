@@ -44,7 +44,7 @@
 									</span>
 								</div>
 								<input type="date" class="form-control" name="txtFecha"
-									data-format-date id="txtFecha" data-ng-model="archive.fecha"
+									 id="txtFecha" data-ng-model="archive.fecha"
 									placeholder="fecha" required>
 
 							</div>
@@ -195,7 +195,7 @@
 						<tbody>
 							<tr
 								data-ng-repeat="ar in records | filter: searchArchive track by ar.id">
-								<td>{{ar.fecha}}</td>
+								<td>{{ar.fecha | date:'yyyy-MM-dd'}}</td>
 								<td>{{ar.nombre}}</td>
 								<td>{{ar.descripcion}}</td>
 								<td><button type="button" class="btn btn-info"

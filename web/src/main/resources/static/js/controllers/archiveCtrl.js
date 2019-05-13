@@ -88,7 +88,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 		
 //		En caso que se haya cambiado el archivo se agrega el nombre
-		if($scope.archive.urlArchivo.name){
+		if($scope.archive.files[0].name){
 			$scope.updateFile();
 			$scope.archive.urlArchivo = $scope.archive.urlArchivo.name;
 		}
@@ -160,21 +160,23 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	};
 	
 	$scope.deleteFile = (doc,index) => {
-		console.log('Archivo a eliminar: ',doc);
+		
 		doc.files[index].status = 0;
 		if($scope.showFiles){
 			$scope.showFiles.files[index].status = 0;
+			archiveService.put(doc).then(data=>{
+				swal('Exito','Archivo eliminado exitosamente', 'success');
+				$scope.getRecords();
+				if(doc.files.length){
+					$scope.isAdd = true;
+				}
+			}, error => {
+				swal('Error','Archivo eliminado exitosamente', 'error');
+			});
+		}else {
+			$scope.archive.files[index].status = 0;
+			console.log('Archivo a eliminar: ',$scope.archive);
 		}
-		console.log(doc);
-		archiveService.put(doc).then(data=>{
-			swal('Exito','Archivo eliminado exitosamente', 'success');
-			$scope.getRecords();
-			if(doc.files.length){
-				$scope.isAdd = true;
-			}
-		}, error => {
-			swal('Error','Archivo eliminado exitosamente', 'error');
-		});
 	};
 	
 	$scope.submitForm = isValid => {
@@ -239,14 +241,17 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	};
 	
 	$scope.addArchive = () => {
+		
 		$scope.isAdd = true;
 		$scope.archive = {
-				fecha: '',
+				fecha: new Date(),
 				nombre: '',
 				descripcion: '',
-				urlArchivo: '',
+				files: '',
 				status:1
 		};
+		
+		console.log('archivo: ',$scope.archive);
 	};
 	
 	$scope.showDocument = (archive) => {

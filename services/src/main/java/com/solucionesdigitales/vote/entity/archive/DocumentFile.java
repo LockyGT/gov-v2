@@ -14,15 +14,14 @@ public class DocumentFile {
 	
 	@Id
 	private String id;
-	
-	private LocalDate fecha;
+	private ModuloOd modulood;
+	private Date fecha;
 	private String nombre;
 	private String descripcion;
-	private int status;
 	private Date deleteDate;
-	private ModuloOd modulood;
-	
+	private String folder;
 	private ArrayList<File> files;
+	private int status;
 	/**
 	 * @return the id
 	 */
@@ -36,15 +35,27 @@ public class DocumentFile {
 		this.id = id;
 	}
 	/**
+	 * @return the modulood
+	 */
+	public ModuloOd getModulood() {
+		return modulood;
+	}
+	/**
+	 * @param modulood the modulood to set
+	 */
+	public void setModulood(ModuloOd modulood) {
+		this.modulood = modulood;
+	}
+	/**
 	 * @return the fecha
 	 */
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 	/**
 	 * @param fecha the fecha to set
 	 */
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	/**
@@ -72,18 +83,6 @@ public class DocumentFile {
 		this.descripcion = descripcion;
 	}
 	/**
-	 * @return the status
-	 */
-	public int getStatus() {
-		return status;
-	}
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	/**
 	 * @return the deleteDate
 	 */
 	public Date getDeleteDate() {
@@ -96,16 +95,16 @@ public class DocumentFile {
 		this.deleteDate = deleteDate;
 	}
 	/**
-	 * @return the modulood
+	 * @return the folder
 	 */
-	public ModuloOd getModulood() {
-		return modulood;
+	public String getFolder() {
+		return folder;
 	}
 	/**
-	 * @param modulood the modulood to set
+	 * @param folder the folder to set
 	 */
-	public void setModulood(ModuloOd modulood) {
-		this.modulood = modulood;
+	public void setFolder(String folder) {
+		this.folder = folder;
 	}
 	/**
 	 * @return the files
@@ -119,13 +118,25 @@ public class DocumentFile {
 	public void setFiles(ArrayList<File> files) {
 		this.files = files;
 	}
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "DocumentFile [id=" + id + ", fecha=" + fecha + ", nombre=" + nombre + ", descripcion=" + descripcion
-				+ ", status=" + status + ", deleteDate=" + deleteDate + ", modulood=" + modulood + ", files=" + files
-				+ "]";
+		return "DocumentFile [id=" + id + ", modulood=" + modulood + ", fecha=" + fecha + ", nombre=" + nombre
+				+ ", descripcion=" + descripcion + ", deleteDate=" + deleteDate + ", folder=" + folder + ", files="
+				+ files + ", status=" + status + "]";
 	}
 }
