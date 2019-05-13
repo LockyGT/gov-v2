@@ -68,6 +68,20 @@ app.factory('factory', function($http,$q) {
 				return $q.reject(response);
 			});
 		},
+		delet:function(url,_data){
+			return $http({
+				url : '/'+url,
+				method : "DELETE",
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: _data
+			}).then(function(response) {
+				return  response.data
+			}, function(response) {				
+				return $q.reject(response);
+			});
+		},
 		del:function(url){
 			return $http({
 				url : '/'+url,

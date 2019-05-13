@@ -8,6 +8,8 @@ public interface ModuloOdService {
 	
 	List<ModuloOd> fetch();
 	
+	ModuloOd findFirstById(String id);
+	
 	ModuloOd post(ModuloOd entity);
 	
 	ModuloOd put (ModuloOd entity);

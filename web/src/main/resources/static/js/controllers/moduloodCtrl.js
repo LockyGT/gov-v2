@@ -141,12 +141,12 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		}
 	};
 
-//	$scope.topReturn = () => {
-//		window.history.back();
-//	};
-//	
+	$scope.topReturn = () => {
+		window.history.back();
+	};
+	
 	$scope.addIcon = () =>{
-		let popup = parent.window.open('https://fontawesome.com/icons?d=gallery','Iconos','popup','width=600, height=700, t op=350,left=300,scrollbars=NO,menubar=NO,titlebar= NO,status=NO,toolbar=NO"');
+		let popup = parent.window.open('https://fontawesome.com/icons?d=gallery&m=free','Iconos','popup','width=600, height=700, t op=350,left=300,scrollbars=NO,menubar=NO,titlebar= NO,status=NO,toolbar=NO"');
 		var timer = $interval(() => {
 			if(popup.closed){
 				$interval.cancel(timer);

@@ -11,6 +11,21 @@ app.service('moduloodService', function($q, factory) {
 		});
 	};
 	
+	self.getByModuloId = (id) => {
+		return $q((resolve, reject)=>{
+			
+			let data = {
+					"id": id
+			};
+			
+			factory.get('modulood/byId', data).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				reject(errorData);
+			});
+		});
+	};
+	
 	self.post = (modulood) => {
 		return $q((resolve, reject)=>{
 			factory.post('modulood', modulood).then(function success(data){

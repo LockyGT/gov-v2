@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.solucionesdigitales.vote.entity.Attendance;
 
-
+@Repository
 public interface AttendanceRepository extends MongoRepository<Attendance, String>{
 
 	List<Attendance> findAllByInitiative(String initiative);

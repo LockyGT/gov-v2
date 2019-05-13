@@ -30,34 +30,34 @@ import com.solucionesdigitales.vote.service.user.MongoUserDetailsService;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurity.class);	
-	
+
 	@Autowired
 	private MongoUserDetailsService userDetailsService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	PartnerHasFingerPrintServiceImpl validadorDeHuella;
-	
+
 	@Autowired
 	private PartnerService partnerService; 
-	
+
 	@Autowired
 	private FingerPrintRepository fingerPrintRepository; 
-	
-	
+
+
 	private static final int MAX_NUMBER_OF_SESSIONS_PEER_USER=1;
-/*
+	/*
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}*/
-	
+
 	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	    return NoOpPasswordEncoder.getInstance();
+		return NoOpPasswordEncoder.getInstance();
 	}
 	@PostConstruct
 	void test() {
@@ -95,19 +95,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		//.addFilter(new JWTAuthenticationFilter())
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 	}
-	
+
 	/*@Bean
 	public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
 	    final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
 	    filter.setFilterProcessesUrl("/api/auth/login");
 	    return filter;
 	}*/
+	
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		LOGGER.debug("configure method");
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-		
+
 	}
 
 	@Bean

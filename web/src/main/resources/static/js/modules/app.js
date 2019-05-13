@@ -32,7 +32,6 @@ app.constant('_PARTNER', {
 		_ACTIVE: 1
 	}
 });
-
 app.constant('_STATUS', {
 	_INACTIVE: 0,
 	_ACTIVE: 1
@@ -190,7 +189,7 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		controller : 'orderDayCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('archive', {
-		url : '/archive',
+		url : '/archive/:id',
 		templateUrl : './views/admin/archive.html',
 		controller : 'archiveCtrl',
 		resolve: { authenticate: authenticate }
