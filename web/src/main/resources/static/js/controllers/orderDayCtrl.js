@@ -5,23 +5,49 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	$scope.orderday = null;
 	$scope.modulosod= [];
 	$scope.paragraphs=[];
-	$scope.voteSessionOn = {};
 	$scope.numeroIndice = 0;
 	$scope.paragraphOD=null;
+	
 	
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
-	 
 	
-	//$scope.v.Dt = Date.parse(scope.v.Dt);
-
-	 
 	$scope.change = function(){
 		console.log('Texto');
 		let module= $scope.orderday.moduloOd;
-
 	};
+	
+	$scope.buscar = function doSearch()
+	{
+		var tableReg = document.getElementById('datos');
+		var searchText = document.getElementById('searchTerm').value.toLowerCase();
+		var cellsOfRow="";
+		var found=false;
+		var compareWith="";
+		
+		for (var i = 1; i < tableReg.rows.length; i++)
+		{
+			cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+			found = false;
+			for (var j = 0; j < cellsOfRow.length && !found; j++)
+			{
+				compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+				if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
+				{
+					found = true;
+				}
+			}
+			if(found)
+			{
+				tableReg.rows[i].style.display = '';
+			} else {
+				tableReg.rows[i].style.display = 'none';
+			}
+		}
+	}
+	
+	
 	
 	$scope.getModulosOd = function(){
 		moduloodService.get().then(function success(data) {
@@ -32,11 +58,33 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	};
 	
 	$scope.getVerssionOD= function(){
-		orderdayService.getSustituidaWithAndWithoutReference().then(function success(data) {
-			$scope.orderdaysV = data;
-		},function error(error){
-			console.log('Error al obtener las versiones', error);
+		swal({
+			title: "Consultando Orden del día",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
 		});
+		//$scope.orderday.status = 1;
+		orderdayService.getSustituidaWithAndWithoutReference().then(function success(data){
+			console.log( 'informacion obtenida', $scope.orderdaysV )
+			$scope.orderdaysV = data;
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+			},500);
+		}, function error(response){
+			$scope.myWelcome = response;
+			swal.stopLoading();
+			swal('Error', $scope.myWelcome, "error");
+		});
+		
+		
+		
 	};
 //	$scope.getVersionesFecha = () =>{
 //		swal({
@@ -103,6 +151,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		//$scope.orderday.status = 1;
 		orderdayService.getActiveWithAndWithoutReference().then(function success(data){
 			$scope.orderdays = data;
+			console.log('Texto', $scope.orderdays)
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
@@ -134,8 +183,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			if(data){
 				swal("Exito", "Orden del día agregado correctamente", "success");
 				swal.stopLoading();
-				$scope.getVerssionOD();
-				//$scope.getOrderDays();
+				//$scope.getVerssionOD();
+				$scope.getOrderDays();
 				$scope.orderday = null;
 			} else {
 				swal("Error", "Orden del día no agregado", "error");
@@ -178,8 +227,30 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		});
 	};
 	
+	$scope.deleteOrderDay = orderday=> {
+		orderdayService.deleteOrderDay(orderday).then(function success(data){
+			if(data){
+				swal("Exito","Orden del dia eliminado exitosamente", "success");
+				$scope.getOrderDays();
+			}
+		}, function error(){
+			swal("Errpr","Orden del dia no eliminado","error");
+		});
+	};
 	
-	
+	$scope.confirmDelete = (orderday) =>{
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: orderday.nombre,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteOrderDay(orderday);
+			};
+		});
+	};
 	
 	$scope.addUpdate = () => {
 		if($scope.orderday){
@@ -195,36 +266,14 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.addNewOd = function (orderday){
 		$scope.orderday = orderday;
-	}
-	
-	
-	$scope.confirmDelete = (orderday) =>{
-		swal({
-			title: 'Esta seguro de eliminara a',
-			text: orderday.nombre,
-			icon: "warning",
-			buttons: true,
-			dangerMode: true
-		}).then((willDelete)=>{
-			if(willDelete){
-				$scope.deleteOrderDay(orderday);
-			};
-		});
 	};
-
-	$scope.deleteOrderDay = orderday=> {
-		orderdayService.deleteOrderDay(orderday).then(function success(data){
-			if(data){
-				swal("Exito","Orden del dia eliminado exitosamente", "success");
-				$scope.getOrderDays();
-			}
-		}, function error(){
-			swal("Errpr","Orden del dia no eliminado","error");
-		});
-	};
-
+	
 	$scope.addMudulesOd = function (){
 		$location.path('modulood');
+	};
+	
+	$scope.updateOrderday = (orderday) =>{
+		$scope.orderday= orderday;
 	};
 	
 	$scope.addOrderday = () => {
@@ -240,9 +289,6 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			}
 	};
 	
-	$scope.updateOrderday = (orderday) =>{
-		$scope.orderday= orderday;
-	};
 	
 	$scope.submitForm = (isValid) => {
 		console.log('validForm');
@@ -302,6 +348,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		}); 
 		$('#myModal').modal('show'); 
 	};
+	
 	$scope.verVersiones = (orderday)=>{ 
 		$scope.orderdayVerssion= orderday; 
 	$('#modalVerssion').modal(); 
@@ -310,10 +357,6 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		}); 
 		$('#modalVerssion').modal('show'); 
 	};
-	
-	
-	
-	
 	
 	$scope.cancelAddUpOrderday = () =>{
 		$scope.getOrderDays();
