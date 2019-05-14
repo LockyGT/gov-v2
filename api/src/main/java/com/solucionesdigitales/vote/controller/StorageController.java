@@ -97,7 +97,7 @@ public class StorageController {
 	}
 	
 	@PostMapping("/save")
-	public GenericFile handleFileUpload(@RequestParam("file") MultipartFile file,
+	public File handleFileUpload(@RequestParam("file") MultipartFile file,
 			@RequestParam("folder") String folder) {
 		GenericFile gf = new GenericFile();
 		gf.setFile(file);
@@ -131,7 +131,8 @@ public class StorageController {
 	
 	@PostMapping("/updateFiles")
 	public ArrayList<File> updateFilesUploads(@RequestParam("files") ArrayList<MultipartFile> files,
-			@RequestParam("files") ArrayList<String> oldFilesNames,
+			@RequestParam("oldServerNames") ArrayList<String> oldServerNames,
+			@RequestParam("oldOriginalNames") ArrayList<String> oldOriginalNames,
 			@RequestParam("folder")  String folder,
 			 @RequestParam("userId") String userId) {
 		
@@ -140,13 +141,14 @@ public class StorageController {
 		gf.setFolder(folder);
 		
 		logger.info("Archivo resivido para actualizar");
-		return storageService.updateFiles(gf, oldFilesNames, userId);
+		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId);
 	}
 	
 	@DeleteMapping("/delete")
-	public GenericFile deleteFileUpload(@RequestBody final String folder) {
-		logger.info("Archivo preparado para eliminar");
-		return storageService.deleteAllFolder(folder);
+	public GenericFile deleteFileUpload(@RequestBody final GenericFile file) {
+		
+		logger.info("Archivo preparado para eliminar: "+file.toString());
+		return storageService.moveRecycleBin(file.getUrlServerFile(),file.getOriginalName(),file.getServerName());
 	}
 	
 	

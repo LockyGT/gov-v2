@@ -1,6 +1,5 @@
 package com.solucionesdigitales.vote.entity.archive;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,7 +18,6 @@ public class DocumentFile {
 	private String nombre;
 	private String descripcion;
 	private Date deleteDate;
-	private String folder;
 	private ArrayList<File> files;
 	private int status;
 	/**
@@ -95,18 +93,6 @@ public class DocumentFile {
 		this.deleteDate = deleteDate;
 	}
 	/**
-	 * @return the folder
-	 */
-	public String getFolder() {
-		return folder;
-	}
-	/**
-	 * @param folder the folder to set
-	 */
-	public void setFolder(String folder) {
-		this.folder = folder;
-	}
-	/**
 	 * @return the files
 	 */
 	public ArrayList<File> getFiles() {
@@ -136,7 +122,7 @@ public class DocumentFile {
 	@Override
 	public String toString() {
 		return "DocumentFile [id=" + id + ", modulood=" + modulood + ", fecha=" + fecha + ", nombre=" + nombre
-				+ ", descripcion=" + descripcion + ", deleteDate=" + deleteDate + ", folder=" + folder + ", files="
+				+ ", descripcion=" + descripcion + ", deleteDate=" + deleteDate + ", files="
 				+ files + ", status=" + status + "]";
 	}
 }

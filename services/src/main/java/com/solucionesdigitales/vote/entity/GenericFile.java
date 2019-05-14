@@ -14,6 +14,10 @@ public class GenericFile {
 	private MultipartFile file;
 	private ArrayList<MultipartFile> files;
 	private String folder;
+	private String urlServerFile;
+	private String originalName;
+	private String serverName;
+	private String userId;
 	/**
 	 * @return the file
 	 */
@@ -50,4 +54,61 @@ public class GenericFile {
 	public void setFolder(String folder) {
 		this.folder = folder;
 	}
+	/**
+	 * @return the urlServerFile
+	 */
+	public String getUrlServerFile() {
+		return urlServerFile;
+	}
+	/**
+	 * @param urlServerFile the urlServerFile to set
+	 */
+	public void setUrlServerFile(String urlServerFile) {
+		this.urlServerFile = urlServerFile;
+	}
+	/**
+	 * @return the originalName
+	 */
+	public String getOriginalName() {
+		return originalName;
+	}
+	/**
+	 * @param originalName the originalName to set
+	 */
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+	/**
+	 * @return the serverName
+	 */
+	public String getServerName() {
+		return serverName;
+	}
+	/**
+	 * @param serverName the serverName to set
+	 */
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "GenericFile [folder=" + folder + ", urlServerFile=" + urlServerFile + ", originalName=" + originalName
+				+ ", serverName=" + serverName + ", userId=" + userId + "]";
+	}
+	
 }

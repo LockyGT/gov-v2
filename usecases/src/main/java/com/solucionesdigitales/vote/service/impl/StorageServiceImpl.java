@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
@@ -70,11 +71,13 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public GenericFile store(GenericFile file) {
-		GenericFile gFile = new GenericFile();
-		String path = this.rootLocation.toString()+File.separator+file.getFolder();
+	public com.solucionesdigitales.vote.entity.archive.File store(GenericFile file) {
+		com.solucionesdigitales.vote.entity.archive.File gFile = new com.solucionesdigitales.vote.entity.archive.File();
+		UUID uuidFolder = UUID.randomUUID();
+		String path = this.rootLocation.toString()+File.separator+file.getFolder()+File.separator+uuidFolder.toString();
 		Path location = Paths.get(path);
-		
+		MultipartFile archive = file.getFile();
+		UUID uuid = null;
 		try {
 			if(file.getFile().isEmpty()) {
 				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
@@ -82,10 +85,22 @@ public class StorageServiceImpl implements StorageService {
 			if (!new File(path).exists() ){
 				new File(path).mkdirs();
 			}
-			Files.copy(file.getFile().getInputStream(), location.resolve(file.getFile().getOriginalFilename()));
-			file.setFile(null);
-			gFile = file;
 			
+			String fileExtention = archive.getOriginalFilename().substring(archive.getOriginalFilename().lastIndexOf(".")+1);
+			String fileName = uuid+"."+fileExtention;
+			Files.copy(file.getFile().getInputStream(), location.resolve(fileName));
+			File f = new File(path+File.separator+fileName);
+			
+			gFile.setUserId(file.getUserId());
+			gFile.setOriginalName(archive.getOriginalFilename());
+			gFile.setServerName(fileName);
+			gFile.setFolder(uuidFolder.toString());
+			gFile.setSize(archive.getSize());
+			gFile.setLastModification(new Date(f.lastModified()));
+			gFile.setExtention(fileExtention);
+			gFile.setMimeTipe(archive.getContentType());
+			gFile.setDate(new Date());
+			gFile.setStatus(1);
 		}catch (IOException e) {
 			throw new StorageException("Failed to store file " + file.getFile().getOriginalFilename(), e);
 		}
@@ -99,8 +114,8 @@ public class StorageServiceImpl implements StorageService {
 		ArrayList<com.solucionesdigitales.vote.entity.archive.File> savedFiles = 
 				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
 		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
-		
-		String path = this.rootLocation.toString()+File.separator+files.getFolder();
+		UUID uuidFolder = UUID.randomUUID();
+		String path = this.rootLocation.toString()+File.separator+files.getFolder()+File.separator+uuidFolder.toString();
 		Path location = Paths.get(path);
 		UUID uuid = null;
 		
@@ -117,14 +132,15 @@ public class StorageServiceImpl implements StorageService {
 				
 				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
 				uuid = UUID.randomUUID();
-				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-				String fileName = uuid+fileExtention;
+				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+				String fileName = uuid+"."+fileExtention;
 				Files.copy(file.getInputStream(), location.resolve(fileName));
 				File f = new File(path+File.separator+fileName);
 				
 				individualFile.setUserId(userId);
 				individualFile.setOriginalName(file.getOriginalFilename());
 				individualFile.setServerName(fileName);
+				individualFile.setFolder(uuidFolder.toString());
 				individualFile.setSize(file.getSize());
 				individualFile.setLastModification(new Date(f.lastModified()));
 				individualFile.setExtention(fileExtention);
@@ -142,29 +158,33 @@ public class StorageServiceImpl implements StorageService {
 	
 	@Override
 	public ArrayList<com.solucionesdigitales.vote.entity.archive.File>  
-			updateFiles(GenericFile files, ArrayList<String> oldFileName, String userId) {
+			updateFiles(GenericFile files, ArrayList<String> oldServerName, ArrayList<String> oldOriginalName, String userId) {
 		
 		ArrayList<com.solucionesdigitales.vote.entity.archive.File> updatedFiles = 
 				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
 		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
-		String newPath = this.rootLocation.toString()+File.separator+files.getFolder();
+		String path = this.rootLocation.toString()+File.separator+files.getFolder();
 		UUID uuid = null;
+		String folder = path.substring(path.lastIndexOf("/")+1);
 		try {
-			Path location = Paths.get(newPath);
+			Path location = Paths.get(path);
+			int i = 0;
 			for(MultipartFile file : files.getFiles()) {
 				if(file.isEmpty()) {
 					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
 				}
 				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
 				uuid = UUID.randomUUID();
-				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-				String fileName = uuid+fileExtention;
+				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+				String fileName = uuid+"."+fileExtention;
+				moveRecycleBin(files.getFolder()+File.separator+oldServerName.get(i), oldServerName.get(i), oldOriginalName.get(i));
 				Files.copy(file.getInputStream(), location.resolve(fileName));
-				File f = new File(newPath+File.separator+fileName);
+				File f = new File(path+File.separator+fileName);
 				
 				individualFile.setUserId(userId);
 				individualFile.setOriginalName(file.getOriginalFilename());
 				individualFile.setServerName(fileName);
+				individualFile.setFolder(folder);
 				individualFile.setSize(file.getSize());
 				individualFile.setLastModification(new Date(f.lastModified()));
 				individualFile.setExtention(fileExtention);
@@ -172,7 +192,7 @@ public class StorageServiceImpl implements StorageService {
 				individualFile.setDate(new Date());
 				individualFile.setStatus(1);
 				updatedFiles.add(individualFile);
-				
+				i++;
 			}
 		}catch(IOException e) {
 			throw new StorageException("Failed to store files ", e);
@@ -187,9 +207,6 @@ public class StorageServiceImpl implements StorageService {
 		
 		Path location = Paths.get(newPath);
 		try {
-			if(file.getFile().isEmpty()) {
-				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
-			}
 
 			File archive = new File(oldPath+"/"+oldFileName);
 			File oldFile = new File(oldPath);
@@ -215,11 +232,26 @@ public class StorageServiceImpl implements StorageService {
 	}
 	
 	@Override
-	public GenericFile deleteAllFolder(String folder) {
+	public GenericFile moveRecycleBin(String urlServerFile, String originalName, String serverName) {
 		GenericFile del = new GenericFile();
-		String path = this.rootLocation.toString()+File.separator+folder;
-		Path location = Paths.get(path);
-		FileSystemUtils.deleteRecursively(location.toFile());
+		String[] serverFile = serverName.split("\\.");
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String urlRecycleBin = this.rootLocation.toString()+File.separator+"Recycle Bin";
+		long ms = System.currentTimeMillis();
+		Path target = Paths.get(urlRecycleBin+File.separator+serverFile[0]+"_"+dateFormat.format(date)+"_"+originalName);
+		
+		Path source = Paths.get(this.rootLocation.toString()+File.separator+urlServerFile+File.separator+serverName);
+		try {
+			if (!new File(urlRecycleBin).exists() ){
+				new File(urlRecycleBin).mkdirs();
+			}
+			Files.move(source, target);
+			target.toFile().setLastModified(ms);
+			del.setFolder(urlServerFile);
+		} catch (IOException e) {
+			throw new StorageException("Failed delete file " + originalName, e);
+		}
 		return del;
 	}
 }

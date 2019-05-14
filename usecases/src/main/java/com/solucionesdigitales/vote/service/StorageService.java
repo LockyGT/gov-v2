@@ -13,15 +13,15 @@ public interface StorageService {
 
 	Path cargar(String filename);
 	
-	GenericFile store(GenericFile file);
+	File store(GenericFile file);
 	
 	ArrayList<File> stores(GenericFile files, String userId);
 	
 	GenericFile updateFile(GenericFile file, String oldFolder ,String oldFileName);
 	
-	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldFilesNames, String userId);
+	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerName, ArrayList<String>oldOriginalName, String userId);
 	
-	GenericFile deleteAllFolder(String file);
+	GenericFile moveRecycleBin(String urlServerFile, String originalName, String serverName);
 	
 	
 }

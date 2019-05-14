@@ -2,7 +2,6 @@ package com.solucionesdigitales.vote.service.impl.archive;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,7 @@ public class DocumentFileServiceImpl implements DocumentFileService{
 	
 	@Override
 	public List<DocumentFile> fetch(int status, String moduloId, int moduloodStatus) {
-		List<DocumentFile> records = repository.findByStatusAndModuloodIdAndModuloodStatusOrderByFecha(status, moduloId,moduloodStatus);
+		List<DocumentFile> records = repository.findByStatusAndModuloodIdAndModuloodStatusOrderByFechaDesc(status, moduloId,moduloodStatus);
 		return records;
 	}
 	
@@ -37,8 +36,6 @@ public class DocumentFileServiceImpl implements DocumentFileService{
 	public DocumentFile post(DocumentFile entity) {
 		DocumentFile archive = new DocumentFile();
 		if(entity.getFecha() != null & entity.getNombre() != null) {
-			UUID uuid = UUID.randomUUID();
-			entity.setFolder(uuid.toString());
 			archive = repository.save(entity);
 			logger.info("Archivo registrado: ["+entity.toString()+"]");
 		}

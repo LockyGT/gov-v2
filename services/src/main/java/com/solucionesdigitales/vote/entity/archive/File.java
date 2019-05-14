@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class File {
 	
-	
 	private String id;
 	private String userId;
 	private String originalName;
 	private String serverName;
+	private String folder;
 	private long size;
 	private Date lastModification;
 	private String extention;
@@ -64,6 +64,18 @@ public class File {
 	 */
 	public void setServerName(String serverName) {
 		this.serverName = serverName;
+	}
+	/**
+	 * @return the folder
+	 */
+	public String getFolder() {
+		return folder;
+	}
+	/**
+	 * @param folder the folder to set
+	 */
+	public void setFolder(String folder) {
+		this.folder = folder;
 	}
 	/**
 	 * @return the size
@@ -137,7 +149,6 @@ public class File {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

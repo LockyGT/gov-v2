@@ -66,9 +66,9 @@ app.service('storageService', function($q, factory) {
 		});
 	};
 	
-	self.delFile = (folder)=>{	
+	self.delFile = (data)=>{
 		return $q(function(resolve, reject) {			
-			factory.delet(path+'/delete', folder).then(function mySuccess(data) {						
+			factory.delet(path+'/delete', data).then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);

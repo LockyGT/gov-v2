@@ -18,7 +18,6 @@ public class AppConfig {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
             return args -> {
            sec.validate();
-           sec.taskDeleteFile();
         };
     }
 }
