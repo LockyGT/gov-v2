@@ -9,7 +9,10 @@ import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 
 public interface DocumentFileRepository extends MongoRepository<DocumentFile, String> {
 	
-	List<DocumentFile> findByStatusAndModuloodIdAndModuloodStatusOrderByFechaDesc(int status, String moduloodId, int moduloodStatus);
-	List<DocumentFile> findByStatusAndDeleteDateLessThan(int status, Date deleteDate);
+	List<DocumentFile> findByStatusAndModuloodIdAndModuloodStatusOrderByFechaDesc(
+			int status, String moduloodId, int moduloodStatus);
+	
+	List<DocumentFile> findByStatusAndModuloodIdAndModuloodStatusAndFechaBetweenOrderByFechaDesc(
+			int status, String moduloodId, int moduloodStatus, Date dateStart, Date dateEnd);
 	
 }

@@ -92,7 +92,7 @@
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label"></label>
-							<div class="input-group input-group-lg col-sm-10">
+							<div class="input-group input-group-lg col-sm-10 flex-column">
 								<ul class="list-inline" data-ng-if="archive.filesUploads.length">
 									<li data-ng-repeat="file in archive.filesUploads"
 										class="list-inline-item text-center"><i
@@ -101,13 +101,9 @@
 								<ul class="list-inline" data-ng-if="archive.files.length">
 									<li
 										data-ng-repeat="file in archive.files | filter: {status: 1} track by $index"
-										class="list-inline-item text-center position-relative"><i
-										class="far fa-file fa-3x text-secondary"></i><br>{{file.originalName}}
-										<button type="button"
-											class="close position-absolute close--delete-file"
-											aria-label="Close" data-ng-click="comfirmDeleteFile(archive,$index)">
-											<span aria-hidden="true">&times;</span>
-										</button></li>
+										class="list-inline-item text-center position-relative"
+										data-ng-class="!archive.filesUploads.length? 'text-secondary': 'text-danger'"><i
+										class="far fa-file fa-3x"></i><br>{{file.originalName}}</li>
 								</ul>
 							</div>
 						</div>
@@ -160,9 +156,34 @@
 				</div>
 				<div class="input-group col-md-4">
 					<input class="form-control py-2" type="search" value="search"
-						id="example-search-input" placeholder="Buscar"
+						id="example-search-input" placeholder="Buscar por nombre"
 						data-ng-model="searchArchive"> <span
 						class="input-group-append"> </span>
+				</div>
+				<div class="btn-group" data-ng-if="isSearch">
+					<button type="button" class="btn btn-light text-secondary"
+						data-ng-click="cancelSearch()">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<!-- Formulario fecha -->
+				<div class="input-group col-sm-3 pr-0">
+					<input class="form-control py-2" type="date"
+						id="example-search-input" 
+						data-ng-model="searchDateStart"> 
+				</div>
+				<div class="input-group col-sm-3">
+					<input class="form-control py-2" type="date"
+						id="example-search-input"
+						data-ng-model="searchDateEnd">
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-dark"
+						data-ng-click="getRecordsBetweenDates(searchDateStart,searchDateEnd)">
+						<i class="fas fa-search"></i> Buscar
+					</button>
 				</div>
 			</div>
 		</div>
@@ -195,7 +216,7 @@
 						<tbody>
 							<tr
 								data-ng-repeat="ar in records | filter: searchArchive track by ar.id">
-								<td>{{ar.fecha | date:'yyyy-MM-dd'}}</td>
+								<td>{{ar.fecha | date:'dd-MM-yyyy'}}</td>
 								<td>{{ar.nombre}}</td>
 								<td>{{ar.descripcion}}</td>
 								<td><button type="button" class="btn btn-info"
@@ -259,7 +280,7 @@
 							data-ng-repeat="file in showFiles.files | filter: {status: 1} track by $index">
 							<th scope="row">{{$index+1}}</th>
 							<td>{{file.originalName}}</td>
-							<td>{{file.date | date:'yyyy-MM-dd'}}</td>
+							<td>{{file.date | date:'dd-MM-yyyy'}}</td>
 							<td>{{file.size/1000 | number : 1}}KB</td>
 							<td><button type="button" class="btn btn-info"
 									data-ng-click="downloadFile(file)">Descargar</button></td>

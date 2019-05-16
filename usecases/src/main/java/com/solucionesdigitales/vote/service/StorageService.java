@@ -19,7 +19,7 @@ public interface StorageService {
 	
 	GenericFile updateFile(GenericFile file, String oldFolder ,String oldFileName);
 	
-	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerName, ArrayList<String>oldOriginalName, String userId);
+	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String>oldOriginalNames, String userId);
 	
 	GenericFile moveRecycleBin(String urlServerFile, String originalName, String serverName);
 	

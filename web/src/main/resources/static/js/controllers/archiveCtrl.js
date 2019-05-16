@@ -1,9 +1,11 @@
-app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageService, moduloodService, $stateParams){
+app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, storageService, moduloodService, $stateParams){
 	
 	$scope.records   = [];
 	$scope.archive   = null;
 	$scope.moduleod  = null;
 	$scope.showFiles = null;
+	$scope.searchDateStart = new Date();
+	$scope.searchDateEnd = new Date();
 	
 	$scope.getRecords = () => {
 		swal({
@@ -24,6 +26,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
+				
 			},500);
 			
 		}, function error(response){
@@ -32,7 +35,41 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-	
+	$scope.getRecordsBetweenDates = (searchDateStart, searchDateEnd) => {
+
+		swal({
+			title: "Consultandos archivos",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+		
+		let dataFilter = {
+				"status": 1,
+				"moduloodid": $scope.moduleod.id,
+				"moduloodstatus": 1,
+				"datestart": $filter('date')(searchDateStart, "yyyy/MM/dd"),
+				"dateend":$filter('date')(searchDateEnd, "yyyy/MM/dd")
+				};
+		archiveService.getRecordsBetweenDates(dataFilter).then(function success(data){
+			$scope.records = data;
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+				$scope.isSearch=true;
+			},500);
+			
+		}, function error(response){
+			$scope.myWelcome = response;
+			swal.stopLoading();
+			swal('Error', $scope.myWelcome, "error");
+		});
+	};
 	$scope.getModuleOd = (files)=>{
 		moduloodService.getByModuloId($stateParams.id).then(success=>{
 			$scope.moduleod = success;
@@ -73,7 +110,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 	};
 	
-	$scope.putArchive = () => {
+	$scope.putArchive = (files) => {
 		
 		swal({
 			title: "Actualizando  archivo",
@@ -88,11 +125,13 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 		
 //		En caso que se haya cambiado el archivo se agrega el nombre
-		if($scope.archive.files[0].name){
-			$scope.updateFile();
-			$scope.archive.urlArchivo = $scope.archive.urlArchivo.name;
+		if($scope.archive.filesUploads.length){
+			for(let i=0; i<$scope.archive.files.length;i++){
+				$scope.archive.files[i].status = 0;
+			}
+			$scope.archive.files = $scope.archive.files.concat(files);
 		}
-		
+		console.log('Informacion enviada para actualizar: ',$scope.archive);
 		archiveService.put($scope.archive).then(data=>{
 			if(data){
 				swal.stopLoading();
@@ -100,7 +139,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 				$scope.getRecords();
 				$scope.archive = null;
 			}else {
-				swal('Error', 'Archivo no registrado');
+				swal('Error', 'Archivo no regsuccessistrado');
 			}
 		}, error=>{
 			$scope.myWelcome = error.statusText;
@@ -112,7 +151,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	$scope.addUpdate = () =>{
 		if($scope.archive != null){
 			if($scope.archive.id != null){
-				$scope.putArchive();
+				$scope.updateFiles();
 			} else {
 				$scope.saveFiles();
 			}
@@ -162,7 +201,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	$scope.deleteFile = (doc,index) => {
 		
 		doc.files[index].status = 0;
-		if($scope.showFiles){
+		
 			$scope.showFiles.files[index].status = 0;
 			let dataFile = {
 					urlServerFile: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.showFiles.files[index].folder,
@@ -186,7 +225,7 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 			}, errSuccess=>{
 				swal('Error','Archivo no eliminado', 'error');
 			});
-
+			if($scope.showFiles){
 		}else {
 			$scope.archive.files[index].status = 0;
 			console.log('Archivo a eliminar: ',$scope.archive);
@@ -202,13 +241,14 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 	
 	$scope.downloadFile = (file) => {
 		let data = {
-				path: 'gazzete/'+$scope.moduleod.nombre+'/'+file.folder,
+				path: 'gazzete/'+$scope.moduleod.id+'/'+file.folder,
 				filename: file.serverName
 		}; 
 		
 		console.log('Informacion enviada: ',file);
 		storageService.download(data).then(success=>{
 			console.log('Informacion descargada: ', success);
+			location.href = 'file://'+success.url;
 		}, error=>{
 			console.error('Error al descargar el archivo:', error);
 		});
@@ -231,16 +271,20 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		});
 	};
 	
-	$scope.updateFile = () => {
+	$scope.updateFiles = () => {
+		let fFiles = $filter('filter')($scope.archive.files, {"status": 1}) ;
+		console.log('Archivos', fFiles);
 		let file = {
-				file: $scope.archive.urlArchivo,
-				oldFileName: $scope.oldFileName.name,
-				folder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.archive.folder,
-				oldFolder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.oldFileName.folder
+				files: $scope.archive.filesUploads,
+				oldServerNames: fFiles.map(f => f.originalName),
+				oldOriginalNames:  fFiles.map(f => f.serverName),
+				folder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.archive.files[0].folder,
+				userId: 'israel'
 		};
 		
-		storageService.update(file).then(success=>{
+		storageService.updateFiles(file).then(success=>{
 			console.log('Informacion recibida: ', success);
+			$scope.putArchive(success);
 		}, error=>{
 			console.error('Error al enviar el archivo:', error);
 		});
@@ -284,15 +328,26 @@ app.controller('archiveCtrl', function($scope, archiveService,$timeout, storageS
 		window.history.back();
 	};
 	
+	$scope.cancelSearch = () => {
+		$scope.getRecords();
+		$scope.searchArchive = null;
+		$scope.isSearch=false;
+		$scope.searchDateStart = new Date();
+		$scope.searchDateEnd = new Date();
+		
+	};
+	
 	$scope.cancelAddUpdate = () => {
 		$scope.getRecords();
 		$scope.isAdd = false;
 		$scope.archive = null;
-
+		
 	};
 	
 	const initController = () => {
 		$scope.getModuleOd();
+		$scope.searchDateStart = new Date();
+		$scope.searchDateEnd = new Date();
 		
 	};
 	

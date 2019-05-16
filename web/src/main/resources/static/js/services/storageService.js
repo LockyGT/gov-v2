@@ -66,6 +66,24 @@ app.service('storageService', function($q, factory) {
 		});
 	};
 	
+	self.updateFiles = file => {
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			angular.forEach(file.files, function(file){
+				fd.append('files',file);
+			});
+			fd.append('oldServerNames',file.oldServerNames);
+			fd.append('oldOriginalNames', file.oldOriginalNames);
+			fd.append('folder', file.folder);
+			fd.append('userId', file.userId);
+			factory.postFile(path+'/update-files', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.delFile = (data)=>{
 		return $q(function(resolve, reject) {			
 			factory.delet(path+'/delete', data).then(function mySuccess(data) {						

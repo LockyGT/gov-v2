@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +81,23 @@ public class StorageController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
+//	/**
+//	 * 
+//	 * @param filename
+//	 * @param path
+//	 * @return ResponseEntity<Resource>
+//	 */
+//	@GetMapping("/download")
+//	@ResponseBody
+//	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path, 
+//			@RequestParam(value="filename") final  String filename) {
+//		logger.debug("buscando archivo: " + path +"/"+filename);		
+//		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+//				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//	}
+//	
+	
 	/**
 	 * 
 	 * @param filename
@@ -88,12 +106,17 @@ public class StorageController {
 	 */
 	@GetMapping("/download")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path, 
+	public Object serveFileFromSubDir(@RequestParam(value="path") final String path, 
 			@RequestParam(value="filename") final  String filename) {
 		logger.debug("buscando archivo: " + path +"/"+filename);		
 		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			map.put("url", file.getFile().toString());
+		} catch (IOException e) {
+			
+		}
+		return map;
 	}
 	
 	@PostMapping("/save")
@@ -129,7 +152,7 @@ public class StorageController {
 		return storageService.updateFile(gf,oldFolder, oldFileName);
 	}
 	
-	@PostMapping("/updateFiles")
+	@PostMapping("/update-files")
 	public ArrayList<File> updateFilesUploads(@RequestParam("files") ArrayList<MultipartFile> files,
 			@RequestParam("oldServerNames") ArrayList<String> oldServerNames,
 			@RequestParam("oldOriginalNames") ArrayList<String> oldOriginalNames,

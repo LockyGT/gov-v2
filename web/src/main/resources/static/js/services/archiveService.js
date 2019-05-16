@@ -17,6 +17,17 @@ app.service('archiveService', function ($q, factory){
 		});
 	};
 	
+	self.getRecordsBetweenDates = (data)  => {
+		console.log('informacion enviada: ', data);
+		return $q((resolve, reject)=>{
+			factory.get('documentFile/between-dates', data).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				reject(errorData);
+			});
+		});
+	};
+	
 	self.post = (archive)  => {
 		return $q((resolve, reject)=>{
 			factory.post('documentFile', archive).then(function success(data){

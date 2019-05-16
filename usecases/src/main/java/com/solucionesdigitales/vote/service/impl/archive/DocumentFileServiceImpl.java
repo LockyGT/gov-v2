@@ -27,9 +27,9 @@ public class DocumentFileServiceImpl implements DocumentFileService{
 	}
 	
 	@Override
-	public List<DocumentFile> fetchByDeleteDate(Date deleteDate) {
+	public List<DocumentFile> fetchByBetweenDates(int status, String moduloodId, int moduloodStatus, Date dateStart, Date dateEnd) {
 	
-		return repository.findByStatusAndDeleteDateLessThan(0, deleteDate);
+		return repository.findByStatusAndModuloodIdAndModuloodStatusAndFechaBetweenOrderByFechaDesc(status,moduloodId,moduloodStatus,dateStart,dateEnd);
 	}
 
 	@Override

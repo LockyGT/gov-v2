@@ -1,10 +1,14 @@
 package com.solucionesdigitales.vote.controller.archive;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +41,17 @@ public class DocumentFileController {
 			@RequestParam(value="moduloodstatus") final int moduloodStatus){
 		logger.info("Consulta de archivos");
 		return service.fetch(status,moduloodId,moduloodStatus);
+	}
+	
+	@GetMapping(value="/between-dates")
+	public List<DocumentFile> getBetweenDates(@RequestParam(value="status") final int status,
+			@RequestParam(value="moduloodid") final String moduloodId,
+			@RequestParam(value="moduloodstatus") final int moduloodStatus,
+			@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
+			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
+		logger.info("Consulta de archivos por fechas "+dateStart+" y "+dateEnd);
+		
+		return service.fetchByBetweenDates(status,moduloodId,moduloodStatus, dateStart,dateEnd);
 	}
 	
 	@PostMapping

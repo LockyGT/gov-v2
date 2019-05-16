@@ -158,7 +158,7 @@ public class StorageServiceImpl implements StorageService {
 	
 	@Override
 	public ArrayList<com.solucionesdigitales.vote.entity.archive.File>  
-			updateFiles(GenericFile files, ArrayList<String> oldServerName, ArrayList<String> oldOriginalName, String userId) {
+			updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames, String userId) {
 		
 		ArrayList<com.solucionesdigitales.vote.entity.archive.File> updatedFiles = 
 				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
@@ -169,6 +169,13 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			Path location = Paths.get(path);
 			int i = 0;
+			
+			for(String oldServerName : oldServerNames) {
+				
+				moveRecycleBin(files.getFolder(), oldServerName, oldOriginalNames.get(i));
+				i++;
+			}
+			
 			for(MultipartFile file : files.getFiles()) {
 				if(file.isEmpty()) {
 					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
@@ -177,7 +184,7 @@ public class StorageServiceImpl implements StorageService {
 				uuid = UUID.randomUUID();
 				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
 				String fileName = uuid+"."+fileExtention;
-				moveRecycleBin(files.getFolder()+File.separator+oldServerName.get(i), oldServerName.get(i), oldOriginalName.get(i));
+				
 				Files.copy(file.getInputStream(), location.resolve(fileName));
 				File f = new File(path+File.separator+fileName);
 				
@@ -192,7 +199,7 @@ public class StorageServiceImpl implements StorageService {
 				individualFile.setDate(new Date());
 				individualFile.setStatus(1);
 				updatedFiles.add(individualFile);
-				i++;
+				
 			}
 		}catch(IOException e) {
 			throw new StorageException("Failed to store files ", e);
@@ -246,9 +253,12 @@ public class StorageServiceImpl implements StorageService {
 			if (!new File(urlRecycleBin).exists() ){
 				new File(urlRecycleBin).mkdirs();
 			}
-			Files.move(source, target);
-			target.toFile().setLastModified(ms);
-			del.setFolder(urlServerFile);
+			if(source.toFile().exists()) {
+				Files.move(source, target);
+				target.toFile().setLastModified(ms);
+				del.setFolder(urlServerFile);
+			}
+			
 		} catch (IOException e) {
 			throw new StorageException("Failed delete file " + originalName, e);
 		}

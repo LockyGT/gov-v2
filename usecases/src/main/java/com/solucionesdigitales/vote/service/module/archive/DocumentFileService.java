@@ -9,7 +9,7 @@ public interface DocumentFileService {
 	
 	List<DocumentFile> fetch(int status, String moduloId, int moduloodStatus);
 	
-	List<DocumentFile> fetchByDeleteDate(Date deleteDate);
+	List<DocumentFile> fetchByBetweenDates(int status, String moduloodId, int moduloodStatus, Date dateStart, Date dateEnd);
 	
 	DocumentFile post(DocumentFile entity);
 	
