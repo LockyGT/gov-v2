@@ -6,11 +6,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
+
 @Document(collection = "paragraphod")
 public class ParagraphOD {
 
 	@Id
 	private String id;
+	
+	private ElementOd element;
 	private String contenidotxt;
 	private boolean isIniciativa;
 	private int nivel=1;
@@ -60,7 +64,14 @@ public class ParagraphOD {
 	}
 	@Override
 	public String toString() {
-		return "ParagraphOD [id=" + id + ", contenidotxt=" 
-	             + contenidotxt+  "]";
+		return "ParagraphOD [id=" + id + ", contenidotxt=" + contenidotxt + ", isIniciativa=" + isIniciativa
+				+ ", nivel=" + nivel + ", subParagraphs=" + subParagraphs + ", orderday=" + orderday + "]";
+	}
+	
+	public ElementOd getElement() {
+		return element;
+	}
+	public void setElement(ElementOd element) {
+		this.element = element;
 	}
 }

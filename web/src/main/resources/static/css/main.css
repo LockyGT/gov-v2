@@ -39,3 +39,23 @@
 	 margin-top: 1em;
 	 list-style: none;
 }
+.margin-top {
+	margin-top: 1em;
+}
+
+.marggin {
+	margin-left: 2em;
+	margin-top: 3em;
+}
+
+.new {
+	margin-top: 6em;
+}
+
+#check {
+	margin-left: 5em;
+	margin-top: 3em;
+}
+#btnAgregar{
+	margin-top: 2em;
+}

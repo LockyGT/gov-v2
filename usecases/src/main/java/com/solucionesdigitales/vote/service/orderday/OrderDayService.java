@@ -18,9 +18,14 @@ public interface OrderDayService {
 	OrderDay delete(OrderDay entity);
 
 	List<OrderDay> getActiveWithAndWithoutReference();
+	List<OrderDay> getByDateBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
-	List<OrderDay> getSustituidaWithAndWithoutReference();
+	List<OrderDay> getSustituidaWithReference();
 
-	//List<OrderDay> findOrderDayByFechaBetwen(LocalDateTime t1, LocalDateTime t2);
+	//List<OrderDay> getSustituidaReferenciaAndId();
+	
 
+	
+
+	
 }

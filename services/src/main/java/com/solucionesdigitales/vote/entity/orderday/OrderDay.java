@@ -1,13 +1,12 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 import com.solucionesdigitales.vote.entity.module.ModuloOd;
 
 @Document(collection = "orderday")
@@ -23,6 +22,10 @@ public class OrderDay {
 	private String odOriginal;
 	private String referencia;
 	private ArrayList<ParagraphOD> paragraphs;
+	
+	//private ElementOd elemento;
+	
+	
 	/*
 	 * Modulo de la gaceta 
 	 */
@@ -31,8 +34,6 @@ public class OrderDay {
 	/*
 	 * Contenido de OD
 	 */
-	
-	
 	
 	public String getId() {
 		return id;
@@ -72,13 +73,12 @@ public class OrderDay {
 		this.status = status;
 	}
 	
-	public ArrayList<ParagraphOD> getParagraphs() {
-		return paragraphs;
-	}
-
-	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
-		this.paragraphs = paragraphs;
-	}
+//	public ArrayList<ParagraphOD> getParagraphs() {
+//		return paragraphs;
+//	}
+//	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
+//		this.paragraphs = paragraphs;
+//	}
 	
 	public String getOdOriginal() {
 		return odOriginal;
@@ -101,12 +101,34 @@ public class OrderDay {
 		this.fecha = fecha;
 	}
 
+//	public ElementOd getElemento() {
+//		return elemento;
+//	}
+//
+//	public void setElemento(ElementOd elemento) {
+//		this.elemento = elemento;
+//	}
+
 	@Override
 	public String toString() {
 		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
-				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", paragraphs=" + paragraphs
-				+ ", moduloOd=" + moduloOd + "]";
+				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", moduloOd="
+				+ moduloOd + "]";
 	}
+
+	public ArrayList<ParagraphOD> getParagraphs() {
+		return paragraphs;
+	}
+
+	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
+		this.paragraphs = paragraphs;
+	}
+	
+	
+
+	
+
+	
 
 	
 	

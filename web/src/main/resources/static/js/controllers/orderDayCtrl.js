@@ -1,12 +1,15 @@
-app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, moduloodService,$location) {
+app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, elementOdService,$location) {
 	 	
 	$scope.titleTabView = '';
-	//$scope.orderDays = [];
 	$scope.orderday = null;
-	$scope.modulosod= [];
+	$scope.orderdayVerssion=null;
+	$scope.elementsOd= [];
 	$scope.paragraphs=[];
 	$scope.numeroIndice = 0;
 	$scope.paragraphOD=null;
+	$scope.filtrosFechas = {};
+	$scope.filtrosFechas.fecha= new Date();
+	$scope.filtrosFechas.fechaFin = new Date();
 	
 	
 	$scope.changeTitleTabView=(title)=>{
@@ -15,7 +18,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.change = function(){
 		console.log('Texto');
-		let module= $scope.orderday.moduloOd;
+		let elementOd= $scope.currentElement;
+		console.log(elementOd);
 	};
 	
 	$scope.buscar = function doSearch()
@@ -47,13 +51,11 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		}
 	}
 	
-	
-	
-	$scope.getModulosOd = function(){
-		moduloodService.get().then(function success(data) {
-			$scope.modulosod = data;
+	$scope.getElementsOd = function(){
+		elementOdService.get().then(function success(data) {
+			$scope.elementsOd = data;
 		},function error(error){
-			console.log('Error al obtener los mudulos', error);
+			console.log('Error al obtener los elementOdService', error);
 		});
 	};
 	
@@ -69,9 +71,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		//$scope.orderday.status = 1;
-		orderdayService.getSustituidaWithAndWithoutReference().then(function success(data){
-			console.log( 'informacion obtenida', $scope.orderdaysV )
+		orderdayService.getSustituidaWithReference().then(function success(data){
+			console.log( 'informacion obtenida', $scope.orderdaysV)
 			$scope.orderdaysV = data;
 			$timeout(()=>{
 				swal.stopLoading();
@@ -86,55 +87,32 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		
 		
 	};
-//	$scope.getVersionesFecha = () =>{
-//		swal({
-//			title: "Consultando ordenes de dia",
-//			text: "Por favor espere ...",
-//			icon: 'info',						
-//			button: {
-//				text: "Ok",
-//			    closeModal: false,
-//			},
-//			closeOnClickOutside: false,
-//			closeOnEsc: false
-//		});
-//		let dateNow = new Date();
-//		dateNow.setTime( dateNow.getTime() - dateNow.getTimezoneOffset()*60*1000 );
-//		let map = new Object(); 
-//		map['fecha'] = dateNow;
-//		orderdayService.getInDateBetween(map).then(function mySuccess(data) {
-//			$scope.orderdays = data;
-//			angular.forEach($scope.orderdays, function(val, key){
-//				if(val.fechaHora != null && val.fechaHora.length > 0){	
-//					val.fechaHora = new Date(val.fechaHora);
-//				}
-//			});
-//			$scope.iniciarFecha();			
-//			$timeout(()=>{
-//				swal.stopLoading();
-//				swal.close();
-//			}, 500);
-//		}, function myError(response) {
-//			$scope.myWelcome = response.statusText;
-//			swal("Error",$scope.myWelcome, "error");			
-//		});
-//	};
-//	
-//	$scope.iniciarFecha=()=>{
-//		console.log('Se inicia la fecha');
-//		let now = new Date();
-//		//now.setTime( now.getTime() - now.getTimezoneOffset()*60*1000 );
-//		if(VoteSessionHasInitiativesService.getDateSearch() != null){		
-//			$scope.voteSessionOn.fechaBusqueda= VoteSessionHasInitiativesService.getDateSearch();			
-//		}else{					
-//			$scope.voteSessionOn.fechaBusqueda = now;		
-//		}
-//		if(VoteSessionHasInitiativesService.getDateSearchEnd() != null){			
-//			$scope.voteSessionOn.fechaBusquedaFin = VoteSessionHasInitiativesService.getDateSearchEnd();
-//		}else{			
-//			$scope.voteSessionOn.fechaBusquedaFin = now;
-//		}
-//	};
+
+
+	
+	$scope.getBuscarFecha = () =>{
+		console.log("--------------------");
+		console.log($scope.filtrosFechas);
+		console.log("--------------------");
+		
+		let dateInit = new Date($scope.filtrosFechas.fecha);
+		let dateEnd = new Date($scope.filtrosFechas.fechaFin);		
+		let map = new Object(); 
+		map['fecha'] = dateInit;
+		map['fechaFin'] = dateEnd;
+		orderdayService.getByDateBetween(map).then(function mySuccess(data) {
+			$scope.orderdays = data;
+			angular.forEach($scope.orderdays, function(val, key){
+				if(val.fecha != null && val.fecha.length > 0){
+					val.fecha = new Date(val.fecha);
+				}
+			});
+			
+		}, function myError(response) {
+			swal("Error al consultar", "error");			
+		});
+	};
+	
 	
 	$scope.getOrderDays = function (){
 		swal({
@@ -149,6 +127,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			closeOnEsc: false
 		});
 		//$scope.orderday.status = 1;
+		//let fecha = new Date();
+		
 		orderdayService.getActiveWithAndWithoutReference().then(function success(data){
 			$scope.orderdays = data;
 			console.log('Texto', $scope.orderdays)
@@ -265,7 +245,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	};
 	
 	$scope.addNewOd = function (orderday){
-		$scope.orderday = orderday;
+		orderday.fecha= new Date(orderday.fecha+'T00:00:00.000-0500');
+		$scope.orderday =orderday;
 	};
 	
 	$scope.addMudulesOd = function (){
@@ -278,7 +259,9 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.addOrderday = () => {
 		$scope.orderday = {
-				moduloOd:null,
+				fecha:new Date(),
+				nombre:'',
+				elementOd:null,
 				paragraphs: [
 					{'contenidotxt': '',
 					'isIniciativa': false,
@@ -298,47 +281,44 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		}
 	};
 	
+	
+//	$scope.addContentE = function(){
+//		$scope.elementOd.paragraphs.push({
+//			'contenidotxt': '',
+//			'isIniciativa': false,
+//			'nivel':1,
+//				
+//		})
+//	}
+	
 	$scope.addParagraph = function() {
-		if($scope.orderday.paragraphs.length < 3 ){
+		console.log('Se agrego nuevo parrafo',$scope.orderday.paragraphs);
+		//if($scope.orderday.paragraphs.length < 3 ){
 			$scope.orderday.paragraphs.push({
+				modulo:null,
 				'contenidotxt': '',
 				'isIniciativa': false,
 				'nivel':1,
 				subParagraphs:[]
 			});
-		}else{
-			console.log('Es mayor, ',$scope.orderday.paragraphs.length )
-		}
 				
 	};
 	$scope.addSubParagraphs = function(i){ 
 		console.log('Sub Parrafo',$scope.orderday.paragraphs) 
-		if($scope.orderday.paragraphs[i].subParagraphs.length < 3 ){ 
+		//if($scope.orderday.paragraphs[i].subParagraphs.length < 3 ){ 
 		$scope.orderday.paragraphs[i].subParagraphs.push({ 
 			'contenidotxt': '', 
 			'isIniciativa': false, 
-			'nivel':1, 
-			subParagraphs:[]
+			'nivel':1 
+			
 		}) 
-		}else{ 
-			console.log('Es mayor, ',$scope.orderday.paragraphs[i].subParagraphs.length ) 
-		} 
+		
 	}; 
 	
-	$scope.addSubOfSubParagraphs= function(parent,index){
-		console.log('Subparrafos')
-		if($scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.length < 3 ){ 
-			$scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.push({ 
-				'contenidotxt': '', 
-				'isIniciativa': false, 
-				'nivel':1, 
-				 
-			}) 
-			}else{ 
-				console.log('Es mayor, ',$scope.orderday.paragraphs[parent].subParagraphs[index].subParagraphs.length ) 
-			} 
-		console.log($scope.orderday.paragraphs[parent].subParagraphs[index]);
-	};
+	 $scope.pagina = 1;
+	$scope.next = function() {
+	    $scope.pagina++;
+	  };
 	 
 	$scope.addOrderOfTheDay = (orderday)=>{ 
 		$scope.orderdayshow= orderday; 
@@ -351,7 +331,6 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	
 	$scope.verVersiones = (orderday)=>{ 
 		$scope.orderdayVerssion= orderday; 
-	$('#modalVerssion').modal(); 
 	$('#modalVerssion').modal({ 
 		keyboard: false 
 		}); 
@@ -367,7 +346,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		$scope.changeTitleTabView('ORDEN DEL DÍA');
 		$rootScope.title = "ORDENES DEL DÍA";
 		$scope.getOrderDays();
-		$scope.getModulosOd();
+		$scope.getElementsOd();
 		$scope.getVerssionOD();
 	};
 

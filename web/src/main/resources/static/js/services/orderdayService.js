@@ -12,7 +12,7 @@ app.service('orderdayService', function($q, factory) {
 	};
 	
 	
-	self.getInDateBetween = (date)=>{		
+	self.getByDateBetween = (date)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/date/between', date).then(function mySuccess(data) {						
 				resolve(data);
@@ -36,9 +36,9 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};	
 	
-	self.getSustituidaWithAndWithoutReference = ()=>{
+	self.getSustituidaWithReference = ()=>{
 		return $q(function(resolve, reject) {			
-			factory.get(path+"/sustituida/reference/with/without").then(function mySuccess(data) {
+			factory.get(path+"/status/reference/with/without").then(function mySuccess(data) {
 				if(data){					
 					resolve(data);
 				}else{

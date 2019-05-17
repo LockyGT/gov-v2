@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
@@ -33,36 +34,48 @@ public class OrderDayServiceImpl implements OrderDayService {
 	
 	@Override
 	public List<OrderDay> getActiveWithAndWithoutReference() {
-		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNull(ORDERDAY_STATUS._ACTIVA);
-		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
 		List<OrderDay> ordenes = new ArrayList<OrderDay>();
 		ordenes.addAll(l1);
 		ordenes.addAll(l2);
 		
 		return ordenes;
 	}
+	/***********************************/
+	
 	@Override
-	public List<OrderDay> getSustituidaWithAndWithoutReference() {
-		List<OrderDay> lista = orderDayRepository.findByStatus(ORDERDAY_STATUS._SUSTITUIDA);
+	public List<OrderDay> getSustituidaWithReference() {
+		List<OrderDay> V1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._SUSTITUIDA);
 		List<OrderDay> ordendia = new ArrayList<OrderDay>();
-		ordendia.addAll(lista);
+		ordendia.addAll(V1);
 		return ordendia;
 	}
-
+	
+	
 //	@Override
-//	public List<OrderDay> findOrderDayByFechaBetwen(LocalDateTime t1, LocalDateTime t2) {
-//		List<OrderDay> res = new ArrayList<OrderDay>();
-//		List<OrderDay> l1 = orderDayRepository.findOrderDayByFechaHora(t1);
-//		List<OrderDay> l2 = orderDayRepository.findOrderDayByFechaHora(t2);
-//		
-//		if(l1 != null) {
-//			res.addAll(l1);
-//		}
-//		if(l2 != null) {
-//			res.addAll(l2);
-//		}
-//		return res;	
+//	public List<OrderDay> getSustituidaReferenciaAndId() {
+//		List<OrderDay> V1= orderDayRepository.findByReferenciaSustituidaAndId();
+//		List<OrderDay> V2= orderDayRepository.findByReferenciaSustituidaAndIdOdOriginal(ORDERDAY_STATUS._SUSTITUIDA);
+//		List<OrderDay> od = new ArrayList<OrderDay>();
+//		od.addAll(V1);
+//		od.addAll(V2);
+//		return od;
 //	}
+	
+	
+
+
+	@Override
+	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
+		List<OrderDay> res = new ArrayList<OrderDay>();
+		List<OrderDay> l1 = orderDayRepository.findByFechaBetween(f1,f2);
+		//List<OrderDay> l2 = orderDayRepository.findByFechaBetwen(f2);
+		res.addAll(l1);
+		return res;	
+	}
+
+	
 	
 	
 	@Override
@@ -77,6 +90,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
 		nuevaVersion.setModuloOd(entity.getModuloOd());
+		//nuevaVersion.setElemento(entity.getElemento());
 		nuevaVersion.setNombre(entity.getNombre());
 		nuevaVersion.setParagraphs(entity.getParagraphs());
 		nuevaVersion.setId(entity.getId());
@@ -112,6 +126,11 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		return orderday;
 	}
+
+	
+
+
+	
 
 	
 
