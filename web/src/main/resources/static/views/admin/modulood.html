@@ -1,8 +1,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
-	.modal-lg {
-		max-width: 80% !important;
-	}
+.modal-lg {
+	max-width: 80% !important;
+}
 </style>
 <h1 class="my-4">
 	Modulos de orden del día <i class="fas fa-braille"></i>
@@ -10,10 +10,11 @@
 <section data-ng-if="modulood !== null">
 	<div class="row">
 		<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
-			<form name="formModuloOd" data-ng-submit="submitForm(formModuloOd.$valid)" novalidate>
+			<form name="formModuloOd"
+				data-ng-submit="submitForm(formModuloOd.$valid)" novalidate>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">{{!modulood.id ? 'Nuevo ': 'Actualizar '}}</h5>
+						<h5 class="card-title">{{!modulood.id ? 'Nuevo ': 'Actualizar'}}</h5>
 					</div>
 					<div class="card-body">
 						<div class="form-group row">
@@ -21,9 +22,12 @@
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg4">
-										<i class="fas fa-heading"></i></span>
+										<i class="fas fa-heading"></i>
+									</span>
 								</div>
-								<input type="text" class="form-control" name="txtNombre" id="txtNombre" data-ng-model="modulood.nombre" placeholder="nombre" required>
+								<input type="text" class="form-control" name="txtNombre"
+									id="txtNombre" data-ng-model="modulood.nombre"
+									placeholder="nombre" required>
 
 							</div>
 						</div>
@@ -31,9 +35,12 @@
 							<label for="txtIcono" class="col-sm-2 col-form-label">Icono</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-lg4"><i class="fas fa-drafting-compass"></i></span>
+									<span class="input-group-text" id="inputGroup-sizing-lg4"><i
+										class="fas fa-drafting-compass"></i></span>
 								</div>
-								<input data-ng-click="addIcon()" type="text" class="form-control" name="txtIcono" id="txtIcono" data-ng-model="modulood.icon" placeholder="icono" required>
+								<input data-ng-click="addIcon()" type="text"
+									class="form-control" name="txtIcono" id="txtIcono"
+									data-ng-model="modulood.icon" placeholder="icono" required>
 
 							</div>
 						</div>
@@ -41,21 +48,37 @@
 							<label for="txtColor" class="col-sm-2 col-form-label">Color</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-lg4"><i class="fas fa-fill-drip"></i></span>
+									<span class="input-group-text" id="inputGroup-sizing-lg4"><i
+										class="fas fa-fill-drip"></i></span>
 								</div>
-								<input type="color" class="form-control" name="txtColor" id="txtColor" data-ng-model="modulood.color" placeholder="color" required>
+								<input type="color" class="form-control" name="txtColor"
+									id="txtColor" data-ng-model="modulood.color"
+									placeholder="color" required>
 
 							</div>
 						</div>
-						
+						<div class="form-group row">
+							<label for="txtCampoTextoAyuda" class="col-sm-2 col-form-label">Campo texto de ayuda</label>
+							<div class="input-group input-group-lg col-sm-10">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-align-center"></i>
+									</span>
+								</div>
+								<textarea name="txtCampoTextoAyuda" id="txtCampoTextoAyuda"
+									class="form-control" data-ng-model="modulood.fieldHelp" required></textarea>
+
+							</div>
+						</div>
 					</div>
-					
+
 					<div class="card-footer">
 						<button type="submit" class="btn btn-success">
-							<i class="fas" data-ng-class="!modulood.id? 'fa-plus': 'fa-sync'" ></i>
+							<i class="fas" data-ng-class="!modulood.id? 'fa-plus': 'fa-sync'"></i>
 							{{!modulood.id? 'Guardar': 'Actualizar'}}
 						</button>
-						<button type="button" class="btn btn-danger" data-ng-click="cancelAddUpModule()">
+						<button type="button" class="btn btn-danger"
+							data-ng-click="cancelAddUpModule()">
 							<i class="fas fa-times"></i> Cancelar
 						</button>
 					</div>
@@ -78,7 +101,7 @@
 				<div class="btn-group">
 					<button type="button" class="btn btn-success"
 						data-ng-click="addModulood()">
-						<i class="fas fa-user-plus"></i> Nuevo
+						<i class="fas fa-plus"></i> Nuevo
 					</button>
 				</div>
 				<div class="input-group col-md-4">
@@ -89,12 +112,12 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="card-body">
 			<div class="row">
 				<div class="alert alert-primary" data-ng-if="!modulosod.length">
-			 		No se encontraron modulos de orden del día registrados en el sistema
-				</div>
+					No se encontraron modulos de orden del día registrados en el
+					sistema</div>
 				<div class="table-responsive">
 					<table class="table table-inversed table-hover table-striped">
 						<thead>
@@ -116,14 +139,15 @@
 							</tr>
 						</tfoot>
 						<tbody>
-							<tr data-ng-repeat="moduleod in modulosod | filter: searchModuleod track by moduleod.id">
+							<tr
+								data-ng-repeat="moduleod in modulosod | filter: searchModuleod track by moduleod.id">
 								<td>{{moduleod.nombre}}</td>
 								<td><i class="{{moduleod.icon}}"></i></td>
-								<td style="color: {{moduleod.color}}">{{moduleod.color}}</td>
+								<td style="color: {{moduleod.color">{{moduleod.color}}</td>
 								<td>
 									<button type="button" class="btn btn-warning"
 										data-ng-if="moduleod.id != null"
-									 	data-ng-click="updateModuleod(moduleod)">Actualizar</button>
+										data-ng-click="updateModuleod(moduleod)">Actualizar</button>
 								</td>
 								<td>
 									<button type="button" class="btn btn-danger"

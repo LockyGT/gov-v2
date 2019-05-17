@@ -98,7 +98,7 @@ public class StorageServiceImpl implements StorageService {
 			gFile.setSize(archive.getSize());
 			gFile.setLastModification(new Date(f.lastModified()));
 			gFile.setExtention(fileExtention);
-			gFile.setMimeTipe(archive.getContentType());
+			gFile.setMimeType(archive.getContentType());
 			gFile.setDate(new Date());
 			gFile.setStatus(1);
 		}catch (IOException e) {
@@ -144,7 +144,7 @@ public class StorageServiceImpl implements StorageService {
 				individualFile.setSize(file.getSize());
 				individualFile.setLastModification(new Date(f.lastModified()));
 				individualFile.setExtention(fileExtention);
-				individualFile.setMimeTipe(file.getContentType());
+				individualFile.setMimeType(file.getContentType());
 				individualFile.setDate(new Date());
 				individualFile.setStatus(1);
 				savedFiles.add(individualFile);
@@ -195,7 +195,7 @@ public class StorageServiceImpl implements StorageService {
 				individualFile.setSize(file.getSize());
 				individualFile.setLastModification(new Date(f.lastModified()));
 				individualFile.setExtention(fileExtention);
-				individualFile.setMimeTipe(file.getContentType());
+				individualFile.setMimeType(file.getContentType());
 				individualFile.setDate(new Date());
 				individualFile.setStatus(1);
 				updatedFiles.add(individualFile);

@@ -7,9 +7,17 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	$scope.searchDateStart = new Date();
 	$scope.searchDateEnd = new Date();
 	
+	// Reerstablece un tiempo para activar los tooltips
+	$timeout(()=>{
+		$(function () {
+			  $('[data-toggle="tooltip"]').tooltip();
+			})
+	},500);
+
+	// Obtiene los documentos que se encuentran registrados
 	$scope.getRecords = () => {
 		swal({
-			title: "Consultandos archivos",
+			title: "Consultandos documentos",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -35,6 +43,8 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
+	
+	// Obtiene los documentos mediante un rango de fechas
 	$scope.getRecordsBetweenDates = (searchDateStart, searchDateEnd) => {
 
 		swal({
@@ -79,6 +89,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 	}
 	
+	// Envia los datos para ser registrados
 	$scope.postArchive = (files) => {
 		swal({
 			title: "Guardando archivo",
@@ -110,6 +121,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 	};
 	
+	//Envia los datos para ser actualizados
 	$scope.putArchive = (files) => {
 		
 		swal({
@@ -124,7 +136,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			closeOnEsc: false
 		});
 		
-//		En caso que se haya cambiado el archivo se agrega el nombre
+        // En caso que se haya cambiado el archivo se agrega el nombre
 		if($scope.archive.filesUploads.length){
 			for(let i=0; i<$scope.archive.files.length;i++){
 				$scope.archive.files[i].status = 0;
@@ -147,7 +159,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			swal('Error',$scope.myWelcome,'error');
 		});
 	};
-	
+	// Envia o actualiza la informacion sabiendo si el archivo ya cuenta con id
 	$scope.addUpdate = () =>{
 		if($scope.archive != null){
 			if($scope.archive.id != null){
@@ -244,15 +256,43 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				path: 'gazzete/'+$scope.moduleod.id+'/'+file.folder,
 				filename: file.serverName
 		}; 
-		
-		console.log('Informacion enviada: ',file);
-		storageService.download(data).then(success=>{
-			console.log('Informacion descargada: ', success);
-			location.href = 'file://'+success.url;
+		storageService.download(data).then(arraybuffer=>{
+			let f = new Blob([arraybuffer],{type: file.mimeType});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			link.href = fileURL;
+			link.download=file.originalName;
+			link.click();
+			$timeout(()=>{
+				delete f;
+				delete fileURL;
+				delete link;
+				
+			},500);
 		}, error=>{
 			console.error('Error al descargar el archivo:', error);
 		});
 	};
+	
+	$scope.showDownloadFile = (file) => {
+		let data = {
+				path: 'gazzete/'+$scope.moduleod.id+'/'+file.folder,
+				filename: file.serverName
+		}; 
+		storageService.download(data).then(arraybuffer=>{
+			let f = new Blob([arraybuffer],{type: file.mimeType});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			
+			document.getElementById('object-data').type=file.mimeType;
+			document.getElementById('object-data').data=fileURL;
+			
+			$scope.fileName = file;
+		}, error=>{
+			console.error('Error al descargar el archivo:', error);
+		});
+	};
+	
 	
 	$scope.saveFiles = ()=>{
 		let file = {
@@ -283,7 +323,6 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		};
 		
 		storageService.updateFiles(file).then(success=>{
-			console.log('Informacion recibida: ', success);
 			$scope.putArchive(success);
 		}, error=>{
 			console.error('Error al enviar el archivo:', error);
@@ -310,16 +349,13 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				status:1
 		};
 		
-		console.log('archivo: ',$scope.archive);
 	};
 	
-	$scope.showDocument = (archive) => {
-		console.log('Archivos: ', archive);
+	$scope.showDocument = (archive) => {;
 		$scope.showFiles = archive;
 	};
 	
 	$scope.updateArchive = archive => {
-		console.log('Archivo para actualizar: ', archive);
 		archive.fecha = new Date(archive.fecha);
 		$scope.archive = archive;
 	};
@@ -343,6 +379,16 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.archive = null;
 		
 	};
+	
+	$('#modal-show-file').on('hidden.bs.modal', function (e) {
+		document.getElementById('object-data').type=null;
+		document.getElementById('object-data').data=null;
+		
+		$scope.fileName = null;
+		});
+	$('#modal-show-files').on('hidden.bs.modal', function (e) {
+		$scope.showFiles = null
+		});
 	
 	const initController = () => {
 		$scope.getModuleOd();

@@ -13,7 +13,8 @@ app.service('storageService', function($q, factory) {
 	
 	self.download = (file)=>{		
 		return $q(function(resolve, reject) {			
-			factory.get(path+'/download', file).then(function mySuccess(data) {						
+			factory.getFile(path+'/download', file).then(function mySuccess(data) {	
+				
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);

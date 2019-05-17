@@ -12,7 +12,7 @@ public class File {
 	private long size;
 	private Date lastModification;
 	private String extention;
-	private String mimeTipe;
+	private String mimeType;
 	private Date date;
 	private int status;
 	
@@ -116,14 +116,14 @@ public class File {
 	/**
 	 * @return the mimeTipe
 	 */
-	public String getMimeTipe() {
-		return mimeTipe;
+	public String getMimeType() {
+		return mimeType;
 	}
 	/**
 	 * @param mimeTipe the mimeTipe to set
 	 */
-	public void setMimeTipe(String mimeTipe) {
-		this.mimeTipe = mimeTipe;
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 	/**
 	 * @return the date
@@ -155,7 +155,7 @@ public class File {
 	@Override
 	public String toString() {
 		return "File [id=" + id + ", originalName=" + originalName + ", serverName=" + serverName + ", size=" + size
-				+ ", lastModification=" + lastModification + ", extention=" + extention + ", mimeTipe=" + mimeTipe
+				+ ", lastModification=" + lastModification + ", extention=" + extention + ", mimeTipe=" + mimeType
 				+ ", status=" + status + "]";
 	}
 }

@@ -81,23 +81,6 @@ public class StorageController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
-//	/**
-//	 * 
-//	 * @param filename
-//	 * @param path
-//	 * @return ResponseEntity<Resource>
-//	 */
-//	@GetMapping("/download")
-//	@ResponseBody
-//	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path, 
-//			@RequestParam(value="filename") final  String filename) {
-//		logger.debug("buscando archivo: " + path +"/"+filename);		
-//		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
-//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-//				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//	}
-//	
-	
 	/**
 	 * 
 	 * @param filename
@@ -106,19 +89,36 @@ public class StorageController {
 	 */
 	@GetMapping("/download")
 	@ResponseBody
-	public Object serveFileFromSubDir(@RequestParam(value="path") final String path, 
+	public ResponseEntity<Resource> serveFileFromSubDir(@RequestParam(value="path") final String path, 
 			@RequestParam(value="filename") final  String filename) {
 		logger.debug("buscando archivo: " + path +"/"+filename);		
 		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
-		Map<String, String> map = new HashMap<String, String>();
-		try {
-			map.put("url", file.getFile().toString());
-		} catch (IOException e) {
-			
-		}
-		return map;
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
+	
+	/**
+	 * 
+	 * @param filename
+	 * @param path
+	 * @return ResponseEntity<Resource>
+	 */
+//	@GetMapping("/download")
+//	@ResponseBody
+//	public Object serveFileFromSubDir(@RequestParam(value="path") final String path, 
+//			@RequestParam(value="filename") final  String filename) {
+//		logger.debug("buscando archivo: " + path +"/"+filename);		
+//		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
+//		Map<String, String> map = new HashMap<String, String>();
+//		try {
+//			map.put("url", file.getFile().toString());
+//		} catch (IOException e) {
+//			
+//		}
+//		return map;
+//	}
+//	
 	@PostMapping("/save")
 	public File handleFileUpload(@RequestParam("file") MultipartFile file,
 			@RequestParam("folder") String folder) {

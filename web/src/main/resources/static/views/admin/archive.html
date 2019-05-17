@@ -24,7 +24,10 @@
 <h1 class="my-4">
 	Archivos/{{moduleod.nombre}} <i class="far fa-folder-open"></i>
 </h1>
-<section data-ng-if="archive !== null">
+<section data-ng-show="archive !== null">
+	<!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right"> -->
+	<!--   Tooltip on right -->
+	<!-- </button> -->
 	<div class="row">
 		<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
 			<form name="formArchive"
@@ -44,8 +47,8 @@
 									</span>
 								</div>
 								<input type="date" class="form-control" name="txtFecha"
-									 id="txtFecha" data-ng-model="archive.fecha"
-									placeholder="fecha" required>
+									id="txtFecha" data-ng-model="archive.fecha" placeholder="fecha"
+									required>
 
 							</div>
 						</div>
@@ -60,6 +63,11 @@
 								<input type="text" class="form-control" name="txtNombre"
 									id="txtNombre" data-ng-model="archive.nombre"
 									placeholder="nombre" required>
+								<div data-toggle="tooltip" data-placement="left"
+									title="{{moduleod.fieldHelp}}">
+									<i class="ml-3 far fa-question-circle fa-3x text-secondary"></i>
+								</div>
+
 
 							</div>
 						</div>
@@ -80,12 +88,14 @@
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title">Buscar</span> <input
 										type="file" name="input-file-preview"
+										accept="application/pdf, 
+										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 										data-records-model="archive.filesUploads" multiple />
 									</label>
 								</div>
-								<input type="text"
-									class="form-control image-preview-filename" disabled="disabled"
-									data-ng-if="!isAdd" value="archivos subidos">
+								<input type="text" class="form-control image-preview-filename"
+									disabled="disabled" data-ng-if="!isAdd"
+									value="archivos subidos">
 								<button type="button" class="btn btn-light"
 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Cambiar</button>
 							</div>
@@ -108,7 +118,7 @@
 							</div>
 						</div>
 
-						<div class="form-group row">
+						<div class="form-group row justify-content-end">
 							<label for="txtDescripcion" class="col-sm-2 col-form-label">Descripción</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
@@ -118,8 +128,8 @@
 								</div>
 								<textarea name="txtDescripcion" id="txtDescripcion"
 									class="form-control" data-ng-model="archive.descripcion"></textarea>
-
 							</div>
+							<p class="mr-3">*Solo si es requerido</p>
 						</div>
 
 					</div>
@@ -151,7 +161,7 @@
 				<div class="btn-group">
 					<button type="button" class="btn btn-success"
 						data-ng-click="addArchive()">
-						<i class="fas fa-user-plus"></i> Nuevo
+						<i class="fas fa-plus"></i> Nuevo
 					</button>
 				</div>
 				<div class="input-group col-md-4">
@@ -171,13 +181,11 @@
 				<!-- Formulario fecha -->
 				<div class="input-group col-sm-3 pr-0">
 					<input class="form-control py-2" type="date"
-						id="example-search-input" 
-						data-ng-model="searchDateStart"> 
+						id="example-search-input" data-ng-model="searchDateStart">
 				</div>
 				<div class="input-group col-sm-3">
 					<input class="form-control py-2" type="date"
-						id="example-search-input"
-						data-ng-model="searchDateEnd">
+						id="example-search-input" data-ng-model="searchDateEnd">
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-dark"
@@ -239,7 +247,6 @@
 		</div>
 	</div>
 </section>
-
 <!-- Modal show Files-->
 <div class="modal fade" id="modal-show-files" tabindex="-1"
 	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -263,10 +270,12 @@
 							<th scope="col">Tamaño</th>
 							<th scope="col"></th>
 							<th scope="col"></th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -283,15 +292,46 @@
 							<td>{{file.date | date:'dd-MM-yyyy'}}</td>
 							<td>{{file.size/1000 | number : 1}}KB</td>
 							<td><button type="button" class="btn btn-info"
+									data-toggle="modal" data-target="#modal-show-file"
+									data-ng-click="showDownloadFile(file)">ver</button></td>
+							<td><button type="button" class="btn btn-primary"
 									data-ng-click="downloadFile(file)">Descargar</button></td>
 							<td><button type="button" class="btn btn-danger"
 									data-ng-click="comfirmDeleteFile(showFiles,$index)">Eliminar</button></td>
 						</tr>
 					</tbody>
 				</table>
+
+
 			</div>
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal show file-->
+<div class="modal fade" id="modal-show-file" tabindex="-1" role="dialog"
+	aria-labelledby="modalShowFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalShowFile">{{fileName.date | date:'dd-MM-yyyy'}} - {{fileName.originalName}}</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="embed-responsive embed-responsive-16by9 text-center">
+					<object width="400" height="400" id="object-data"></object>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

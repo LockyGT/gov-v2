@@ -70,7 +70,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-
+		console.log('Modulo recibido', $scope.modulood);
 		moduloodService.put($scope.modulood).then(function success(data){
 			if(data){
 				swal.stopLoading();
@@ -170,6 +170,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	};
 
 	$scope.updateModuleod = (modulood) =>{
+		
 		$scope.modulood = modulood;
 	};
 
