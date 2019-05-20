@@ -95,4 +95,13 @@ app.service('storageService', function($q, factory) {
 		});
 	};
 	
+	self.delFolder = (data)=>{
+		return $q(function(resolve, reject) {			
+			factory.delet(path+'/delete-folder', data).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 });

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.solucionesdigitales.vote.entity.documentfile.File;
+
 /**
  * 
  * @author israel
@@ -13,11 +15,13 @@ public class GenericFile {
 	
 	private MultipartFile file;
 	private ArrayList<MultipartFile> files;
+	private ArrayList<File> filesInfo;
 	private String folder;
 	private String urlServerFile;
 	private String originalName;
 	private String serverName;
 	private String userId;
+
 	/**
 	 * @return the file
 	 */
@@ -41,6 +45,18 @@ public class GenericFile {
 	 */
 	public void setFiles(ArrayList<MultipartFile> files) {
 		this.files = files;
+	}
+	/**
+	 * @return the filesInfo
+	 */
+	public ArrayList<File> getFilesInfo() {
+		return filesInfo;
+	}
+	/**
+	 * @param filesInfo the filesInfo to set
+	 */
+	public void setFilesInfo(ArrayList<File> filesInfo) {
+		this.filesInfo = filesInfo;
 	}
 	/**
 	 * @return the folder
@@ -102,6 +118,7 @@ public class GenericFile {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -110,5 +127,4 @@ public class GenericFile {
 		return "GenericFile [folder=" + folder + ", urlServerFile=" + urlServerFile + ", originalName=" + originalName
 				+ ", serverName=" + serverName + ", userId=" + userId + "]";
 	}
-	
 }

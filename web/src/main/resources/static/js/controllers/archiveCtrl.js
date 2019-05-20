@@ -6,7 +6,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	$scope.showFiles = null;
 	$scope.searchDateStart = new Date();
 	$scope.searchDateEnd = new Date();
-	
+
 	// Reerstablece un tiempo para activar los tooltips
 	$timeout(()=>{
 		$(function () {
@@ -121,7 +121,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 	};
 	
-	//Envia los datos para ser actualizados
+	// Envia los datos para ser actualizados
 	$scope.putArchive = (files) => {
 		
 		swal({
@@ -176,13 +176,43 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	$scope.comfirmDelete = (archive) => {
 		swal({
 			title: 'Esta seguro de eliminara a',
-			text: archive.titulo,
+			text: archive.nombre,
 			icon: "warning",
 			buttons: true,
 			dangerMode: true
 		}).then((willDelete)=>{
 			if(willDelete){
-				$scope.deleteArchive(archive);
+				
+				swal({
+					title: '¿También desea eliminar sus archivos?',
+					text: 'Solo podran ser recuperados manualmente',
+					icon: "warning",
+					dangerMode: true,
+//					buttons: true,
+					buttons:{
+						  cancel: {
+							    text: "No",
+							    value: null,
+							    visible: true,
+							    className: "btn-danger",
+							    closeModal: true,
+							  },
+							  confirm: {
+							    text: "Si",
+							    value: true,
+							    visible: true,
+							    className: "btn-success",
+							    closeModal: true
+							  }
+						}
+				}).then((willDelete)=>{
+					if(willDelete){
+						$scope.deleteFolder(archive);
+						
+					}else {
+						$scope.deleteArchive(archive);
+					}
+				});
 			}
 		});
 	};
@@ -195,6 +225,22 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			swal('Error','Archivo eliminado exitosamente', 'error');
 		});
 	};
+	
+	
+	$scope.deleteFolder = (archive) => {
+		let dataFolder = {
+				folder: 'gazzete/'+$scope.moduleod.id,
+				filesInfo: archive.files
+		}
+		
+		storageService.delFolder(dataFolder).then(data=>{
+			archive.files = data;
+			$scope.deleteArchive(archive); 
+		}, errorSuccess=>{
+			
+		});
+	};
+	
 	
 	$scope.comfirmDeleteFile = (doc,index) => {
 		swal({
@@ -209,20 +255,19 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			}
 		});
 	};
-	
+
 	$scope.deleteFile = (doc,index) => {
 		
 		doc.files[index].status = 0;
 		
 			$scope.showFiles.files[index].status = 0;
 			let dataFile = {
-					urlServerFile: 'gazzete/'+$scope.moduleod.nombre+'/'+$scope.showFiles.files[index].folder,
+					urlServerFile: 'gazzete/'+$scope.moduleod.id+'/'+$scope.showFiles.files[index].folder,
 					serverName: $scope.showFiles.files[index].serverName,
 					originalName: $scope.showFiles.files[index].originalName
 					
 			};
 			
-			console.log('Archivo a eliminar: ',dataFile);
 			storageService.delFile(dataFile).then(success=>{
 				
 				archiveService.put(doc).then(data=>{
@@ -245,7 +290,6 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	$scope.submitForm = isValid => {
-		console.log('Ingresando al submit');
 		if(isValid){
 			$scope.addUpdate();
 		}

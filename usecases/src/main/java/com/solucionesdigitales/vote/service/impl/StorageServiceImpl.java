@@ -71,8 +71,8 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public com.solucionesdigitales.vote.entity.archive.File store(GenericFile file) {
-		com.solucionesdigitales.vote.entity.archive.File gFile = new com.solucionesdigitales.vote.entity.archive.File();
+	public com.solucionesdigitales.vote.entity.documentfile.File store(GenericFile file) {
+		com.solucionesdigitales.vote.entity.documentfile.File gFile = new com.solucionesdigitales.vote.entity.documentfile.File();
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString()+File.separator+file.getFolder()+File.separator+uuidFolder.toString();
 		Path location = Paths.get(path);
@@ -109,11 +109,11 @@ public class StorageServiceImpl implements StorageService {
 	}
 	
 	@Override
-	public ArrayList<com.solucionesdigitales.vote.entity.archive.File> stores(GenericFile files,String userId) {
+	public ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> stores(GenericFile files,String userId) {
 		
-		ArrayList<com.solucionesdigitales.vote.entity.archive.File> savedFiles = 
-				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
-		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
+		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> savedFiles = 
+				new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
+		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString()+File.separator+files.getFolder()+File.separator+uuidFolder.toString();
 		Path location = Paths.get(path);
@@ -130,7 +130,7 @@ public class StorageServiceImpl implements StorageService {
 					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
 				}
 				
-				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
+				individualFile = new com.solucionesdigitales.vote.entity.documentfile.File();
 				uuid = UUID.randomUUID();
 				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
 				String fileName = uuid+"."+fileExtention;
@@ -157,12 +157,51 @@ public class StorageServiceImpl implements StorageService {
 	}
 	
 	@Override
-	public ArrayList<com.solucionesdigitales.vote.entity.archive.File>  
+	public com.solucionesdigitales.vote.entity.documentfile.File updateFile(GenericFile file) {
+		
+		com.solucionesdigitales.vote.entity.documentfile.File updatedFile = new com.solucionesdigitales.vote.entity.documentfile.File();
+		
+		String path = this.rootLocation.toString()+File.separator+file.getFolder();
+		UUID uuid = null;
+		String folder = path.substring(path.lastIndexOf("/")+1);
+		
+		try {
+			Path location = Paths.get(path);
+			moveRecycleBin(file.getFolder(), file.getServerName(), file.getOriginalName());
+			if(file.getFile().isEmpty()) {
+				 throw new StorageException("Failed to store empty file " + file.getFile().getOriginalFilename());
+			}
+			String fileExtention = file.getFile().getOriginalFilename().substring(file.getFile().getOriginalFilename().lastIndexOf(".")+1);
+			uuid = UUID.randomUUID();
+			String fileName = uuid+"."+fileExtention;
+			
+			Files.copy(file.getFile().getInputStream(), location.resolve(fileName));
+			File f = new File(path+File.separator+fileName);
+			
+			updatedFile.setUserId(file.getUserId());
+			updatedFile.setOriginalName(file.getFile().getOriginalFilename());
+			updatedFile.setServerName(fileName);
+			updatedFile.setFolder(folder);
+			updatedFile.setSize(file.getFile().getSize());
+			updatedFile.setLastModification(new Date(f.lastModified()));
+			updatedFile.setExtention(fileExtention);
+			updatedFile.setMimeType(file.getFile().getContentType());
+			updatedFile.setDate(new Date());
+			updatedFile.setStatus(1);
+		}catch(IOException e) {
+			throw new StorageException("Failed to update files ", e);
+		}
+		
+		return updatedFile;
+	}
+	
+	@Override
+	public ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>  
 			updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames, String userId) {
 		
-		ArrayList<com.solucionesdigitales.vote.entity.archive.File> updatedFiles = 
-				new ArrayList<com.solucionesdigitales.vote.entity.archive.File>();
-		com.solucionesdigitales.vote.entity.archive.File individualFile = null;
+		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> updatedFiles = 
+				new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
+		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
 		String path = this.rootLocation.toString()+File.separator+files.getFolder();
 		UUID uuid = null;
 		String folder = path.substring(path.lastIndexOf("/")+1);
@@ -180,7 +219,7 @@ public class StorageServiceImpl implements StorageService {
 				if(file.isEmpty()) {
 					 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
 				}
-				individualFile = new com.solucionesdigitales.vote.entity.archive.File();
+				individualFile = new com.solucionesdigitales.vote.entity.documentfile.File();
 				uuid = UUID.randomUUID();
 				String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
 				String fileName = uuid+"."+fileExtention;
@@ -206,36 +245,28 @@ public class StorageServiceImpl implements StorageService {
 		}
 		return updatedFiles;
 	}
+	
 	@Override
-	public GenericFile updateFile(GenericFile file, String oldFolder, String oldFileName) {
-		GenericFile gFile = new GenericFile();
-		String newPath = this.rootLocation.toString()+File.separator+file.getFolder();
-		String oldPath = this.rootLocation.toString()+File.separator+oldFolder;
+	public ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> moveFolderRecycleBin(GenericFile gf) {
 		
-		Path location = Paths.get(newPath);
-		try {
-
-			File archive = new File(oldPath+"/"+oldFileName);
-			File oldFile = new File(oldPath);
-			if(archive.exists()) {
-				archive.delete();
-				LOGGER.info("Viejo, archivo eliminado"); 
-			}
-			File p = new File(newPath);
-			if(oldFile.renameTo(p)){
-				LOGGER.info("Ruta actualizada");
-			}
-
-			Files.copy(file.getFile().getInputStream(), location.resolve(file.getFile().getOriginalFilename()));
-			file.setFile(null);
-
-			gFile = file;
-			
-		}catch (IOException e) {
-			throw new StorageException("Failed to store file " + file.getFile().getOriginalFilename(), e);
+		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> deletedFiles =
+		new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
+		String folderDocument = "";
+		for(com.solucionesdigitales.vote.entity.documentfile.File file : gf.getFilesInfo()) {
+			folderDocument = gf.getFolder()+File.separator+file.getFolder();
+			moveRecycleBin(folderDocument, file.getOriginalName(), file.getServerName());
+			file.setStatus(0);
+			deletedFiles.add(file);
 		}
 		
-		return gFile;
+		File dirFolder = new File(this.rootLocation.toString()+File.separator+folderDocument);
+		if(dirFolder.list().length==0) {
+			if(dirFolder.delete())
+				LOGGER.info("-----Carpeta eliminada: "+dirFolder.toString()+"----");
+		}
+		
+		dirFolder = null;
+		return deletedFiles;
 	}
 	
 	@Override

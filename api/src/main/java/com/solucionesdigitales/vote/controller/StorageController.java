@@ -1,6 +1,5 @@
 package com.solucionesdigitales.vote.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
-import com.solucionesdigitales.vote.entity.archive.File;
+import com.solucionesdigitales.vote.entity.documentfile.File;
 import com.solucionesdigitales.vote.service.StorageService;
 import com.solucionesdigitales.vote.service.utils.Utils;
 import com.solucionesdigitales.vote.service.utils.exceptions.StorageFileNotFoundException;
@@ -97,28 +96,6 @@ public class StorageController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
-	
-	/**
-	 * 
-	 * @param filename
-	 * @param path
-	 * @return ResponseEntity<Resource>
-	 */
-//	@GetMapping("/download")
-//	@ResponseBody
-//	public Object serveFileFromSubDir(@RequestParam(value="path") final String path, 
-//			@RequestParam(value="filename") final  String filename) {
-//		logger.debug("buscando archivo: " + path +"/"+filename);		
-//		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
-//		Map<String, String> map = new HashMap<String, String>();
-//		try {
-//			map.put("url", file.getFile().toString());
-//		} catch (IOException e) {
-//			
-//		}
-//		return map;
-//	}
-//	
 	@PostMapping("/save")
 	public File handleFileUpload(@RequestParam("file") MultipartFile file,
 			@RequestParam("folder") String folder) {
@@ -140,16 +117,20 @@ public class StorageController {
 	}
 	
 	@PostMapping("/update")
-	public GenericFile updateFileUpload(@RequestParam("file") MultipartFile file,
-			 @RequestParam("folder") String folder, @RequestParam("oldFileName") String oldFileName,
-			 @RequestParam("oldFolder") String oldFolder) {
+	public File updateFileUpload(@RequestParam("file") MultipartFile file,
+			 @RequestParam("folder") String folder, @RequestParam("oldServerName") String oldServerName,
+			 @RequestParam("oldOriginalName") String oldOriginalName,
+			 @RequestParam("userId") String userId) {
 		
 		GenericFile gf = new GenericFile();
 		gf.setFile(file);
 		gf.setFolder(folder);
+		gf.setOriginalName(oldOriginalName);
+		gf.setServerName(oldServerName);
+		gf.setUserId(userId);
 		
 		logger.info("Archivo resivido para actualizar");
-		return storageService.updateFile(gf,oldFolder, oldFileName);
+		return storageService.updateFile(gf);
 	}
 	
 	@PostMapping("/update-files")
@@ -157,7 +138,7 @@ public class StorageController {
 			@RequestParam("oldServerNames") ArrayList<String> oldServerNames,
 			@RequestParam("oldOriginalNames") ArrayList<String> oldOriginalNames,
 			@RequestParam("folder")  String folder,
-			 @RequestParam("userId") String userId) {
+			@RequestParam("userId") String userId) {
 		
 		GenericFile gf = new GenericFile();
 		gf.setFiles(files);
@@ -172,6 +153,13 @@ public class StorageController {
 		
 		logger.info("Archivo preparado para eliminar: "+file.toString());
 		return storageService.moveRecycleBin(file.getUrlServerFile(),file.getOriginalName(),file.getServerName());
+	}
+	
+	@DeleteMapping("/delete-folder")
+	public ArrayList<File> deleteFolder(@RequestBody GenericFile gf) {
+		
+		logger.info("Carpeta preparada para eliminar: "+gf);
+		return storageService.moveFolderRecycleBin(gf);
 	}
 	
 	
