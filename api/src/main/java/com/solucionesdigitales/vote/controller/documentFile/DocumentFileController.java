@@ -1,4 +1,4 @@
-package com.solucionesdigitales.vote.controller.archive;
+package com.solucionesdigitales.vote.controller.documentFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
-import com.solucionesdigitales.vote.service.module.archive.DocumentFileService;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
+import com.solucionesdigitales.vote.service.module.documentfile.DocumentFileService;
 
 /**
  * 

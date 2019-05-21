@@ -1,4 +1,4 @@
-package com.solucionesdigitales.vote.entity.archive;
+package com.solucionesdigitales.vote.entity.documentfile;
 
 import java.util.ArrayList;
 import java.util.Date;

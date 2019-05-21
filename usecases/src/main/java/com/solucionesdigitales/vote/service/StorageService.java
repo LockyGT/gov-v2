@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
 import com.solucionesdigitales.vote.entity.documentfile.File;
@@ -21,9 +22,13 @@ public interface StorageService {
 
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
 			String userId);
+	
+	ArrayList<File> copyToVersionedFolder(GenericFile files);
 
 	ArrayList<File> moveFolderRecycleBin(GenericFile gf);
 
 	GenericFile moveRecycleBin(String urlServerFile, String originalName, String serverName);
+	
+	File copyFile(MultipartFile multipartFile, String path, String folder, String userId);
 
 }

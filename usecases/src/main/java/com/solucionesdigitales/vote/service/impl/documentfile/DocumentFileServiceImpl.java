@@ -1,5 +1,6 @@
-package com.solucionesdigitales.vote.service.impl.archive;
+package com.solucionesdigitales.vote.service.impl.documentfile;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
-import com.solucionesdigitales.vote.repository.archive.DocumentFileRepository;
-import com.solucionesdigitales.vote.service.module.archive.DocumentFileService;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
+import com.solucionesdigitales.vote.repository.documentfile.DocumentFileRepository;
+import com.solucionesdigitales.vote.service.module.documentfile.DocumentFileService;
 
 @Service("documentFileService")
 public class DocumentFileServiceImpl implements DocumentFileService{
@@ -28,8 +29,11 @@ public class DocumentFileServiceImpl implements DocumentFileService{
 	
 	@Override
 	public List<DocumentFile> fetchByBetweenDates(int status, String moduloodId, int moduloodStatus, Date dateStart, Date dateEnd) {
-	
-		return repository.findByStatusAndModuloodIdAndModuloodStatusAndFechaBetweenOrderByFechaDesc(status,moduloodId,moduloodStatus,dateStart,dateEnd);
+		Calendar date = Calendar.getInstance();
+		date.setTime(dateEnd);
+		date.add(Calendar.DAY_OF_YEAR, 1);
+		
+		return repository.findByStatusAndModuloodIdAndModuloodStatusAndFechaBetweenOrderByFechaDesc(status,moduloodId,moduloodStatus,dateStart,date.getTime());
 	}
 
 	@Override

@@ -1,9 +1,9 @@
-package com.solucionesdigitales.vote.service.module.archive;
+package com.solucionesdigitales.vote.service.module.documentfile;
 
 import java.util.Date;
 import java.util.List;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 
 public interface DocumentFileService {
 	

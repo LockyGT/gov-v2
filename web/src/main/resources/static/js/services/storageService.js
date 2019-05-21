@@ -67,6 +67,41 @@ app.service('storageService', function($q, factory) {
 		});
 	};
 	
+	self.newVersion = file => {
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			angular.forEach(file.files, function(file){
+				fd.append('files',file);
+			});
+			fd.append('filesInfo', file.filesInfo);
+			fd.append('folder', file.folder);
+			fd.append('userId', file.userId);
+			factory.postFile(path+'/new-version', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.updateFiles = file => {
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			angular.forEach(file.files, function(file){
+				fd.append('files',file);
+			});
+			fd.append('oldServerNames',file.oldServerNames);
+			fd.append('oldOriginalNames', file.oldOriginalNames);
+			fd.append('folder', file.folder);
+			fd.append('userId', file.userId);
+			factory.postFile(path+'/update-files', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.updateFiles = file => {
 		return $q(function(resolve, reject) {	
 			let fd = new FormData();

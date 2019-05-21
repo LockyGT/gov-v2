@@ -147,6 +147,19 @@ public class StorageController {
 		logger.info("Archivo resivido para actualizar");
 		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId);
 	}
+	@PostMapping("/new-version")
+	public ArrayList<File> copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
+			@RequestParam("filesInfo") ArrayList<File> filesInfo,
+			@RequestParam("folder")  String folder,
+			@RequestParam("userId") String userId) {
+		GenericFile gf = new GenericFile();
+		gf.setFiles(files);
+		gf.setFilesInfo(filesInfo);
+		gf.setFolder(folder);
+		gf.setUserId(userId);
+		logger.info("Archivo preparado pser versionados: ");
+		return storageService.copyToVersionedFolder(gf);
+	}
 	
 	@DeleteMapping("/delete")
 	public GenericFile deleteFileUpload(@RequestBody final GenericFile file) {

@@ -1,11 +1,11 @@
-package com.solucionesdigitales.vote.repository.archive;
+package com.solucionesdigitales.vote.repository.documentfile;
 
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 
 public interface DocumentFileRepository extends MongoRepository<DocumentFile, String> {
 	
