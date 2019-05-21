@@ -21,19 +21,12 @@ public class OrderDay {
 	private LocalDate fecha;
 	private String odOriginal;
 	private String referencia;
-	private ArrayList<ParagraphOD> paragraphs;
+	//private ArrayList<ParagraphOD> paragraphs;
 	
-	//private ElementOd elemento;
+	private ArrayList<ElementOd> elementsOd;
 	
 	
-	/*
-	 * Modulo de la gaceta 
-	 */
-	@DBRef
-	private ModuloOd moduloOd;
-	/*
-	 * Contenido de OD
-	 */
+	
 	
 	public String getId() {
 		return id;
@@ -57,14 +50,7 @@ public class OrderDay {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-	public ModuloOd getModuloOd() {
-		return moduloOd;
-	}
 
-	public void setModuloOd(ModuloOd moduloOd) {
-		this.moduloOd = moduloOd;
-	}
-	
 	public int getStatus() {
 		return status;
 	}
@@ -100,53 +86,19 @@ public class OrderDay {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
+	public ArrayList<ElementOd> getElementsOd() {
+		return elementsOd;
+	}
 
-//	public ElementOd getElemento() {
-//		return elemento;
-//	}
-//
-//	public void setElemento(ElementOd elemento) {
-//		this.elemento = elemento;
-//	}
+	public void setElementsOd(ArrayList<ElementOd> elementsOd) {
+		this.elementsOd = elementsOd;
+	}
+
 
 	@Override
 	public String toString() {
 		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
-				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", moduloOd="
-				+ moduloOd + "]";
+				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + "]";
 	}
-
-	public ArrayList<ParagraphOD> getParagraphs() {
-		return paragraphs;
-	}
-
-	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
-		this.paragraphs = paragraphs;
-	}
-	
-	
-
-	
-
-	
-
-	
-	
-
-	
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-	
 }
  

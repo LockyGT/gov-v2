@@ -56,8 +56,8 @@
 												data-ng-model="orderday.nombre" required maxlength="250">
 										</div>
 									</div>
-									
-<!-- 									<button type="button" href="#profile" class="btn btn-light">Siguiente</button> -->
+
+									<!-- 									<button type="button" href="#profile" class="btn btn-light">Siguiente</button> -->
 								</div>
 							</div>
 							<div class="tab-pane fade" id="profile" role="tabpanel"
@@ -77,65 +77,69 @@
 										</select>
 									</div>
 									<div class="col-2 col-md-2" id="btnAgregar">
-										<button type="button" class="btn btn-dark" data-ng-click="addContentE(elemento)">Agregar</button>
+										<button type="button" class="btn btn-dark"
+											data-ng-click="addContentE(ele);">Agregar</button>
 
 									</div>
 									<br>
-									<div class="wrapper col-md-12">
+									<div class="container">
 										<div class="margin-top"
-											data-ng-repeat="p in orderday.paragraphs track by $index">
-
-											<div class="col">
-												<input class="form-check-input new"
-													data-ng-model="orderday.paragraphs[$index].isIniciativa"
-													type="checkbox" value="" id="defaultCheck1"> <label
-													class="form-check-label" for="defaultCheck1"></label>
-
+											data-ng-repeat="e in orderday.elementsOd track by $index">
+											<div class="col name-el">
+												<label>{{e.nombre}}</label>
+												<button class="btn btn-primary btn-sm"
+													data-ng-click="addParagraph(e)">
+													Parrafo <i class="fas fa-plus-square"></i>
+												</button>
 											</div>
-											<div class="col-2 col-md-11">
-													<label>{{orderday.moduloOd.nombre}}</label>
-														<div class="input-group">
-														<textarea class="form-control" rows="4" name="text"
-															placeholder="Agregar parrafo ..."
-															aria-label="Hi there, I would like to ..."
-															data-msg="Please enter a reason."
-															data-ng-model="orderday.paragraphs[$index].contenidotxt"></textarea>
-
-														<div class="col-2 col-md-2">
-															<button class="btn btn-primary btn-sm"
-																data-ng-click="addParagraph(p.nivel)">
-																<i class="fas fa-plus-square"></i>
-															</button>
-
-															<button type="button" class="btn btn-info btn-sm"
-																data-ng-click="addSubParagraphs($index)">
-																<i class="fa fa-plus-square"></i>SUB
-															</button>
-														</div>
-												</div>
-											</div>
-											<div class="row margin-top"
-												data-ng-repeat="sp in p.subParagraphs track by $index">
-												<div class="col">
-
-													<input data-ng-model="p.subParagraphs[$index].isIniciativa"
-														class="form-check-input marggin" type="checkbox" value=""
-														id="defaultCheck1"> <label
+											<div class="input-group"
+												data-ng-repeat="p in e.paragraphs track by $index">
+												<div class="col check-p">
+													<input class="form-check-input new"
+														data-ng-model="e.paragraphs[$index].isIniciativa"
+														type="checkbox" value="" id="defaultCheck1"> <label
 														class="form-check-label" for="defaultCheck1"></label>
 
-
 												</div>
-												<div class="col-4 col-md-8">
-													<div class="input-group">
-														<textarea class="form-control" rows="4" name="text"
-															placeholder="Agregar parrafo ..."
-															aria-label="Hi there, I would like to ..." required
-															data-msg="Please enter a reason."
-															data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
+												<div class="col-4 col-md-9 margin-top">
+													<textarea class="form-control" rows="4" name="text"
+														placeholder="Agregar parrafo ..."
+														aria-label="Hi there, I would like to ..."
+														data-msg="Please enter a reason." 
+														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
+												</div>
+												<div class="col-2 col-md-2">
+													<button type="button" class="btn btn-info btn-sm new"
+														data-ng-click="addSubParagraphs(p)">SubParrafo
+														<i class="fa fa-plus-square"></i>
+													</button>
+												</div>
+												<div class="container">
+													<div class="row margin-top"
+														data-ng-repeat="sp in p.subParagraphs track by $index">
+														<div class="col-2">
+
+															<input
+																data-ng-model="p.subParagraphs[$index].isIniciativa"
+																class="form-check-input marggin" type="checkbox"
+																value="" id="defaultCheck1"> <label
+																class="form-check-label" for="defaultCheck1"></label>
+
+														</div>
+														<div class="col-4 col-md-9">
+															<div class="input-group">
+																<textarea class="form-control" rows="4" name="text"
+																	placeholder="Agregar parrafo ..."
+																	aria-label="Hi there, I would like to ..." required
+																	data-msg="Please enter a reason."
+																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
+															</div>
+														</div>
+														<div class="col-2 col-md-3"></div>
 													</div>
 												</div>
-												<div class="col-2 col-md-3"></div>
 											</div>
+
 										</div>
 									</div>
 								</div>
@@ -248,22 +252,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="orderday in orderdays track by $index">
+								<tr data-ng-repeat="od in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
-									<td>{{orderday.nombre}}</td>
+									<td>{{od.nombre}}</td>
 									<!--{{orderday.odOriginal ? 'versionado' : 'original'}} -->
-									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
+									<td>{{od.fecha | date:'dd/MM/yyyy'}}</td>
 									<td><button class="btn btn-primary btn-sm"
-											data-ng-click="addOrderOfTheDay(orderday)">
+											data-ng-click="addOrderOfTheDay(od)">
 											<i class="far fa-eye"></i>
 										</button></td>
 									<!-- updateOrderday -->
 									<td><button type="button" class="btn btn-warning"
-											data-ng-click="addNewOd(orderday)">nueva version</button></td>
+											data-ng-click="addNewOd(od)">nueva version</button></td>
 									<td>
 
 										<button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(orderday);">eliminar</button>
+											data-ng-click="confirmDelete(od);">eliminar</button>
 									</td>
 									<td>
 										<button type="button" class="btn btn-dark"
@@ -304,19 +308,24 @@
 								<tr>
 									<th>#</th>
 									<th>Nombre</th>
+									<th>Ver</th>
 									<th>Version</th>
 									<th>Fecha</th>
 									<th>Eliminar</th>
-									<th></th>
+									
 								</tr>
 							</thead>
 							<tbody>
 								<tr data-ng-repeat="verssion in orderdaysV track by $index"">
 									<td scope="row">{{$index+1}}</td>
 									<td>{{verssion.nombre}}</td>
+									<td><button class="btn btn-primary btn-sm"
+											data-ng-click="viewVerssion(verssion)">
+											<i class="far fa-eye"></i>
+										</button></td>
 									<td>{{verssion.odOriginal ? 'versionado' : 'original'}}</td>
-									<td>{{verssion.fecha}}</td>
-									<td></td>
+									<td>{{verssion.fecha | date:'dd/MM/yyyy'}}</td>
+									
 									<td><button type="button" class="btn btn-danger"
 											data-ng-click="confirmDelete(orderday);">eliminar</button></td>
 
@@ -341,7 +350,45 @@
 		</div>
 	</div>
 
+<!-- MODAL muestra el contenido de versiones del OD -->
+	<div class="modal fade bd-example-modal-lg" id="modalView" tabindex="-1"
+		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Ordenes del día para la sesión</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div data-ng-repeat="a in orderdayView.elementsOd track by $index">
+							<p class="element-name">
+								<strong>{{a.nombre}}</strong>
+							</p>
+						<ol class="list-paragraphs" type="a" data-ng-repeat="p in a.paragraphs track by $index">
+							<li>{{p.contenidotxt}}</li>
+							<li class="list-subparagraphs">
+								<ol class="subparrafo" data-ng-repeat="sp in p.subParagraphs track by $index">
+									<li>{{sp.contenidotxt}}</li>
+									
+								</ol>
 
+							</li>
+
+						</ol>
+					</div>
+					<div class="modal-footer">
+						<!-- 						<button type="button" class="btn btn-primary">Save -->
+						<!-- 							changes</button> -->
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- MODAL MOPSTRAR ORDENES DEL DIA -->
@@ -357,24 +404,16 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div data-ng-repeat="ele in elementsOd track by $index">
-						<ol class="list-paragraphs" type="a"
-							data-ng-repeat="p in orderdayshow.paragraphs track by $index">
-							<p>
-								<strong>{{ele.nombre}}</strong>
+					<div data-ng-repeat="a in orderdayshow.elementsOd track by $index">
+							<p class="element-name">
+								<strong>{{a.nombre}}</strong>
 							</p>
+						<ol class="list-paragraphs" type="a" data-ng-repeat="p in a.paragraphs track by $index">
 							<li>{{p.contenidotxt}}</li>
 							<li class="list-subparagraphs">
-								<ol type="I"
-									data-ng-repeat="sp in p.subParagraphs track by $index">
+								<ol class="subparrafo" data-ng-repeat="sp in p.subParagraphs track by $index">
 									<li>{{sp.contenidotxt}}</li>
-									<li class="list-subOfSubParagraphs">
-										<ol data-ng-repeat="sbp in sp.subParagraphs track by $index"
-											class="margin-top">
-											<li>{{sp.contenidotxt}}</li>
-
-										</ol>
-									</li>
+									
 								</ol>
 
 							</li>

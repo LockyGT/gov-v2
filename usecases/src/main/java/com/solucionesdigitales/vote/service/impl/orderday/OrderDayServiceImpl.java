@@ -89,10 +89,9 @@ public class OrderDayServiceImpl implements OrderDayService {
 	public OrderDay put(OrderDay entity) {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
-		nuevaVersion.setModuloOd(entity.getModuloOd());
-		//nuevaVersion.setElemento(entity.getElemento());
+		nuevaVersion.setElementsOd(entity.getElementsOd());
 		nuevaVersion.setNombre(entity.getNombre());
-		nuevaVersion.setParagraphs(entity.getParagraphs());
+		//nuevaVersion.setParagraphs(entity.getParagraphs());
 		nuevaVersion.setId(entity.getId());
 		Optional<OrderDay> od = orderDayRepository.findById(entity.getId());
 		if(entity.getOdOriginal() != null && !entity.getOdOriginal().isEmpty()) {
