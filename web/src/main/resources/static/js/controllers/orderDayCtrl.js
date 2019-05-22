@@ -13,9 +13,6 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 	$scope.filtrosFechas.fecha= new Date();
 	$scope.filtrosFechas.fechaFin = new Date();
 	$scope.fecha=new Date();
-	
-
-
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
@@ -248,8 +245,8 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		$scope.orderday =orderday;
 	};
 
-	$scope.addMudulesOd = function (){
-		$location.path('modulood');
+	$scope.addElementsOd = function (){
+		$location.path('elementOd');
 	};
 
 	$scope.updateOrderday = (orderday) =>{
