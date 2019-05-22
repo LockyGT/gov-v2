@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.module.ModuloOd;
 
 @Document(collection = "orderday")

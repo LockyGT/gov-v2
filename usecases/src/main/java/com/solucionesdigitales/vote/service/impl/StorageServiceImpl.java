@@ -158,8 +158,9 @@ public class StorageServiceImpl implements StorageService {
 			int i = 0;
 
 			for (String oldServerName : oldServerNames) {
-
+				LOGGER.info("-----cargando recurso----");
 				moveRecycleBin(files.getFolder(), oldServerName, oldOriginalNames.get(i));
+				
 				i++;
 			}
 
@@ -208,17 +209,19 @@ public class StorageServiceImpl implements StorageService {
 		UUID uuid = UUID.randomUUID();
 		String newFolder = "v_" + dateFormat.format(date)+"_"+uuid.toString();
 		try {
-			for (com.solucionesdigitales.vote.entity.documentfile.File f : files.getFilesInfo()) {
-				source = Paths.get(path + File.separator + f.getFolder() + File.separator + f.getServerName());
-				target = Paths.get(path + File.separator + newFolder + File.separator + f.getServerName());
+			if(files.getFilesInfo() != null) {
+				for (com.solucionesdigitales.vote.entity.documentfile.File f : files.getFilesInfo()) {
+					source = Paths.get(path + File.separator + f.getFolder() + File.separator + f.getServerName());
+					target = Paths.get(path + File.separator + newFolder + File.separator + f.getServerName());
 
-				if (source.toFile().exists() && f.getStatus() == 1) {
-					Files.copy(source, target);
-					target.toFile().setLastModified(ms);
-					f.setDate(new Date());
-					f.setLastModification(new Date(target.toFile().lastModified()));
+					if (source.toFile().exists() && f.getStatus() == 1) {
+						Files.copy(source, target);
+						target.toFile().setLastModified(ms);
+						f.setDate(new Date());
+						f.setLastModification(new Date(target.toFile().lastModified()));
+					}
+					versionedFiles.add(f);
 				}
-				versionedFiles.add(f);
 			}
 
 			for (MultipartFile mf : files.getFiles()) {

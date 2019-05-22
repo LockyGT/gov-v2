@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;

@@ -365,7 +365,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				folder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.archive.files[0].folder,
 				userId: 'israel'
 		};
-		
+		console.log('informacion enviada: ',file);
 		storageService.updateFiles(file).then(success=>{
 			$scope.putArchive(success);
 		}, error=>{
