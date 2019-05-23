@@ -22,13 +22,14 @@ public interface StorageService {
 
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
 			String userId);
-	
-	ArrayList<File> copyToVersionedFolder(GenericFile files);
+
+	ArrayList<File> copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName,
+			String folder, String oldFolder, String userId);
 
 	ArrayList<File> moveFolderRecycleBin(GenericFile gf);
 
 	GenericFile moveRecycleBin(String urlServerFile, String originalName, String serverName);
-	
+
 	File copyFile(MultipartFile multipartFile, String path, String folder, String userId);
 
 }

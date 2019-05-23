@@ -198,6 +198,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/archive.html',
 		controller : 'archiveCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('demo', {
+		url : '/demo',
+		templateUrl : './views/admin/demoVersionFile.html',
+		controller : 'demoVersionFileCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	function authenticate($q, $state, $timeout, LoginService) {

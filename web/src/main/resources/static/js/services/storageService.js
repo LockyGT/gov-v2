@@ -73,9 +73,11 @@ app.service('storageService', function($q, factory) {
 			angular.forEach(file.files, function(file){
 				fd.append('files',file);
 			});
-			fd.append('filesInfo', file.filesInfo);
+			fd.append('filesServerName', file.filesServerName);
 			fd.append('folder', file.folder);
+			fd.append('oldFolder', file.oldFolder);
 			fd.append('userId', file.userId);
+
 			factory.postFile(path+'/new-version', fd).then(function mySuccess(data) {		
 				resolve(data);
 			}, function myError(errResponse) {

@@ -149,16 +149,12 @@ public class StorageController {
 	}
 	@PostMapping("/new-version")
 	public ArrayList<File> copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
-//			@RequestParam("filesInfo") ArrayList<File> filesInfo,
-			@RequestParam("folder")  String folder,
+			@RequestParam("filesServerName") ArrayList<String> filesServerName,
+			@RequestParam("folder") String folder,
+			@RequestParam("oldFolder")String oldFolder,
 			@RequestParam("userId") String userId) {
-		GenericFile gf = new GenericFile();
-		gf.setFiles(files);
-//		gf.setFilesInfo(filesInfo);
-		gf.setFolder(folder);
-		gf.setUserId(userId);
-		logger.info("Archivo preparado pser versionados: ");
-		return storageService.copyToVersionedFolder(gf);
+	
+		return storageService.copyToVersionedFolder(files, filesServerName, folder, oldFolder, userId);
 	}
 	
 	@DeleteMapping("/delete")
