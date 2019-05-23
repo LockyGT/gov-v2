@@ -23,7 +23,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Autowired
 	private OrderDayRepository orderDayRepository;
-	
+
 	private final OrderDayStatus ORDERDAY_STATUS = new OrderDayStatus() {};
 
 	@Override
@@ -31,19 +31,19 @@ public class OrderDayServiceImpl implements OrderDayService {
 		List<OrderDay> orderday= orderDayRepository.findAll();
 		return orderday;
 	}
-	
+
 	@Override
 	public List<OrderDay> getActiveWithAndWithoutReference() {
 		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
-		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA);
 		List<OrderDay> ordenes = new ArrayList<OrderDay>();
 		ordenes.addAll(l1);
 		ordenes.addAll(l2);
-		
+
 		return ordenes;
 	}
 	/***********************************/
-	
+
 	@Override
 	public List<OrderDay> getSustituidaWithReference() {
 		List<OrderDay> V1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._SUSTITUIDA);
@@ -51,19 +51,19 @@ public class OrderDayServiceImpl implements OrderDayService {
 		ordendia.addAll(V1);
 		return ordendia;
 	}
-	
-	
-//	@Override
-//	public List<OrderDay> getSustituidaReferenciaAndId() {
-//		List<OrderDay> V1= orderDayRepository.findByReferenciaSustituidaAndId();
-//		List<OrderDay> V2= orderDayRepository.findByReferenciaSustituidaAndIdOdOriginal(ORDERDAY_STATUS._SUSTITUIDA);
-//		List<OrderDay> od = new ArrayList<OrderDay>();
-//		od.addAll(V1);
-//		od.addAll(V2);
-//		return od;
-//	}
-	
-	
+
+
+	//	@Override
+	//	public List<OrderDay> getSustituidaReferenciaAndId() {
+	//		List<OrderDay> V1= orderDayRepository.findByReferenciaSustituidaAndId();
+	//		List<OrderDay> V2= orderDayRepository.findByReferenciaSustituidaAndIdOdOriginal(ORDERDAY_STATUS._SUSTITUIDA);
+	//		List<OrderDay> od = new ArrayList<OrderDay>();
+	//		od.addAll(V1);
+	//		od.addAll(V2);
+	//		return od;
+	//	}
+
+
 
 
 	@Override
@@ -75,23 +75,22 @@ public class OrderDayServiceImpl implements OrderDayService {
 		return res;	
 	}
 
-	
-	
-	
+
+
+
 	@Override
 	public OrderDay post(OrderDay entity) {		
 		entity = orderDayRepository.save(entity);	
 		return entity;
 	}
 
-	
+
 	@Override
 	public OrderDay put(OrderDay entity) {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
 		nuevaVersion.setElementsOd(entity.getElementsOd());
 		nuevaVersion.setNombre(entity.getNombre());
-		//nuevaVersion.setParagraphs(entity.getParagraphs());
 		nuevaVersion.setId(entity.getId());
 		Optional<OrderDay> od = orderDayRepository.findById(entity.getId());
 		if(entity.getOdOriginal() != null && !entity.getOdOriginal().isEmpty()) {
@@ -106,8 +105,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 		//nuevaVersion.getStatus();
 		nuevaVersion.setStatus(ORDERDAY_STATUS._ACTIVA);
 		nuevaVersion = orderDayRepository.save(nuevaVersion);
-		
-		
+
+
 		entity = od.get(); 
 		entity.setReferencia(nuevaVersion.getId()); 
 		entity.setId(null);
@@ -125,5 +124,5 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		return orderday;
 	}
-	
+
 }

@@ -13,6 +13,7 @@ public class ElementOd {
 	@Id
 	private String id;
 	private String nombre;
+	private int status;
 	private ArrayList<ParagraphOD> paragraphs;
 	
 	
@@ -35,10 +36,19 @@ public class ElementOd {
 	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
 		this.paragraphs = paragraphs;
 	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
-		return "ElementOd [id=" + id + ", nombre=" + nombre + ", paragraphs=" + paragraphs + "]";
+		return "ElementOd [id=" + id + ", nombre=" + nombre + ", status=" + status + ", paragraphs=" + paragraphs + "]";
 	}
+	
+	
+	
 	
 	
 	

@@ -14,4 +14,7 @@ public interface ElementsOdService {
 
 	ElementOd delete(ElementOd entity);
 
+	List<ElementOd> getNameOrder();
+
+
 }

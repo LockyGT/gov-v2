@@ -10,6 +10,20 @@ app.service('elementOdService', function ($q, factory){
 			});
 		});
 	};
+	
+	self.getNameOrder = ()=>{
+		return $q(function(resolve, reject) {			
+			factory.get(path+"/name/element").then(function mySuccess(data) {
+				if(data){					
+					resolve(data);
+				}else{
+					resolve(null);
+				}
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 
 	self.post = (elementOd)  => {
 		return $q((resolve, reject)=>{

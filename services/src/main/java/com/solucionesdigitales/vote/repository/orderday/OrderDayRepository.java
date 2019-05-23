@@ -15,8 +15,8 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay>findByStatusGreaterThan(int status);
 	List<OrderDay>findByStatus(int status);
 	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaAsc(int status);
-	List<OrderDay> findByStatusAndReferenciaIsNullOrderByFechaAsc(int status);
 	List<OrderDay> findByFechaBetween(LocalDateTime f1, LocalDateTime f2);
+	List<OrderDay> findByStatusAndReferenciaIsNull(int status);
 	
 	
 	

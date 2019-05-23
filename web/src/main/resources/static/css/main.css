@@ -28,9 +28,18 @@
 #button-sbp{
 	margin-top:3.5em;
 }
+.content-paragraph{
+	width: 742px;
+    margin: 10px auto;
+    padding: 5px;
+}
 .list-paragraphs{
-	text-align: justify;
+/* 	text-align: justify; */
 	list-style: none;
+	padding-left: 0px;
+}
+#modal-od{
+	overflow-x: scroll;
 }
 .list-subparagraphs{
 	list-style: none;
@@ -43,10 +52,7 @@
 .margin-top {
 	margin-top: 1em;
 }
-.element-name{
-	margin-top: 2em;
-    margin-left: 2.5em;
-}
+
 
 .marggin {
 	margin-top: 3em;
@@ -65,8 +71,8 @@
 	margin-left: 5em;
 	margin-top: 3em;
 }
-#btnAgregar{
-	margin-top: 2em;
+#select-elements{
+	margin-top: 0.5em;
 }
 .check-p{
 	margin-top: 0em;

@@ -15,7 +15,8 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		elementOdService.get($scope.elementOd).then(function mySuccess(data) {			
+		
+		elementOdService.getNameOrder($scope.elementOd).then(function mySuccess(data) {			
 			$scope.elements = data;
 			$timeout(()=>{
 				swal.stopLoading();
@@ -41,7 +42,7 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		//scope.orderday.status = 1;
+		$scope.elementOd.status = 1;
 		console.log('Elemento enviado ',$scope.elementOd);
 		elementOdService.post($scope.elementOd).then(function success(data){
 			if(data){
@@ -73,13 +74,14 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			closeOnEsc: false
 		});
 		
+		console.log('Actualizar elemenmto de la OD', $scope.elementOd)
 		elementOdService.put($scope.elementOd).then(function mySuccess(data) {			
 			if(data){
 				swal.stopLoading();
 				swal("Exito", "Elemento actualizado correctamente", "success");
-				
-				$scope.elementOd = data;
 				$scope.getElements();
+				$scope.elementOd = null;
+				
 			}else{
 				swal("Error", "Elemento no actualizado", "error");
 			}	
@@ -91,6 +93,32 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 		});		
 
 	};
+	$scope.confirmDelete = (elementOd) =>{
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: elementOd.nombre,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteElement(elementOd);
+			};
+		});
+	};
+	
+
+	$scope.deleteElement = elementOd=> {
+		elementOdService.deleteElement(elementOd).then(function success(data){
+			if(data){
+				swal("Exito","Elemento eliminado exitosamente", "success");
+				$scope.getElements();
+			}
+		}, function error(){
+			swal("Errpr","Elemento no eliminado","error");
+		});
+	};
+
 
 	$scope.addUpdate = () => {
 		if($scope.elementOd){
@@ -121,15 +149,20 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 	};
 	
 	$scope.editElement = function (elementOd){
+		console.log('Actualizar elementos', $scope.elementOd);
 		$scope.elementOd = elementOd;
 	};
 	$scope.cancelElement = () =>{
 		$scope.getElements();
 		$scope.elementOd = null;
 	};
+	
+	$scope.previous= function(){
+		window.history.back();
+	};
+	
 
-
-
+	
 	const initController = () =>{
 		$scope.getElements();
 

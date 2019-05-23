@@ -1,13 +1,8 @@
 app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayService, $scope,$http, $window,$log,factory, $state, elementOdService,$location) {
 
 	$scope.titleTabView = '';
-	$scope.orderday = null;
-
-	
-	
+	$scope.orderday = null
 	$scope.orderdayVerssion=null;
-	
-	//$scope.orderdaysV=null;
 	$scope.numeroIndice = 0;
 	$scope.filtrosFechas = {};
 	$scope.filtrosFechas.fecha= new Date();
@@ -17,10 +12,9 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		$scope.titleTabView = title;
 	};
 
-	$scope.change = function(){
-		console.log('Texto');
-		console.log('Resultado',$scope.orderday);
-	};
+//	$scope.change = function(){
+//		console.log('Resultado',$scope.orderday);
+//	};
 
 	$scope.buscar = function doSearch()
 	{
@@ -49,9 +43,9 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			}
 		}
 	}
-
+	
 	$scope.getElementsOd = function(){
-		elementOdService.get().then(function success(data) {
+		elementOdService.getNameOrder().then(function success(data) {
 			$scope.elementsOd = data;
 		},function error(error){
 			console.log('Error al obtener los elementOdService', error);
@@ -141,7 +135,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 
 
 	$scope.postOrderDay = function(){
-		console.log("Archivo enviada",$scope.orderday);
+		console.log("Orden del dia guardando",$scope.orderday);
 		swal({
 			title: "Guardando Orden del día",
 			text: "Por favor espere...",
@@ -285,7 +279,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 			'subParagraphs':[]
 			
 		});
-		console.log($scope.orderday)
+		console.log('Parrafo creado', $scope.orderday)
 		$scope.orderday.elementsOd.push($scope.currentElement);
 
 	};

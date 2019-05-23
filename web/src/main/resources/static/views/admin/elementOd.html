@@ -8,7 +8,7 @@
 </style>
 <!-- Page Heading -->
 <h1 class="my-4">
-	Elementos  <i class="fab fa-elementor"></i><small></small>
+	Elementos <i class="fab fa-elementor"></i><small></small>
 </h1>
 <section data-ng-show="elementOd !== null">
 	<div class="row">
@@ -25,32 +25,30 @@
 							<label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-lg4"><i class="fas fa-file-signature"></i></span>
+									<span class="input-group-text" id="inputGroup-sizing-lg4"><i
+										class="fas fa-file-signature"></i></span>
 								</div>
 								<input type="text" class="form-control" id="txtNombre"
 									placeholder="Nombre" data-ng-model="elementOd.nombre" required
 									data-ng-class="invalidClassName" maxlength="250">
 							</div>
 						</div>
-						
-						<!-- Foto de LEgislador -->
-						
 						<br>
-						
-					<!-- CardBody -->
-					<div class="card-footer">
-						<button type="submit" class="btn btn-success">
-							<i class="fas"
-								data-ng-class="!elementOd.id
+						<!-- CardBody -->
+						<div class="card-footer">
+							<button type="submit" class="btn btn-success">
+								<i class="fas"
+									data-ng-class="!elementOd.id
 							? 'fa-plus': 'fa-sync'"></i>
-							{{!elementOd.id ? 'Guardar': 'Actualizar'}}
-						</button>
-						<button type="button" class="btn btn-danger"
-							data-ng-click="cancelElement()">
-							<i class="fas fa-times"></i> Cancelar
-						</button>
+								{{!elementOd.id ? 'Guardar': 'Actualizar'}}
+							</button>
+							<button type="button" class="btn btn-danger"
+								data-ng-click="cancelElement()">
+								<i class="fas fa-times"></i> Cancelar
+							</button>
+						</div>
+						<!-- CardFooter -->
 					</div>
-					<!-- CardFooter -->
 				</div>
 				<!-- Card -->
 			</form>
@@ -61,6 +59,12 @@
 	<div class="card">
 		<div class="card-header">
 			<div class="row">
+				<div class="btn-group mr-3">
+					<button type="button" class="btn btn-link"
+						data-ng-click="previous()">
+						<i class="fas fa-arrow-left"></i> Regresar
+					</button>
+				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-success"
 						data-ng-click="addElement()">
@@ -77,15 +81,15 @@
 		</div>
 		<div class="card-body">
 			<div class="row">
-<!-- 				<div class="alert alert-primary" role="alert" -->
-<!-- 					data-ng-if="!elementOd.length"> -->
-<!-- 					No se han encontrado elementos registrados en el sistema <a -->
-<!-- 						data-ng-click="addElement()" style="cursor: pointer;" -->
-<!-- 						class="alert-link"><i class="fas fa-user-plus"></i> Agregue -->
-<!-- 						elementos para la Orden del dia</a>. -->
-<!-- 				</div> -->
+				<!-- 				<div class="alert alert-primary" role="alert" -->
+				<!-- 					data-ng-if="!elementOd.length"> -->
+				<!-- 					No se han encontrado elementos registrados en el sistema <a -->
+				<!-- 						data-ng-click="addElement()" style="cursor: pointer;" -->
+				<!-- 						class="alert-link"><i class="fas fa-user-plus"></i> Agregue -->
+				<!-- 						elementos para la Orden del dia</a>. -->
+				<!-- 				</div> -->
 				<!-- data-ng-if="elementOd.length > 0"s -->
-				<div class="table-responsive" >
+				<div class="table-responsive">
 					<table class="table table-inversed table-hover table-striped">
 						<thead>
 							<tr>
@@ -112,13 +116,11 @@
 								<td>
 									<!-- data-ng-if="legislator.id != null" -->
 									<button type="button" class="btn btn-warning"
-										data-ng-click="editElement(element)"
-										>Editar</button>
+										data-ng-click="editElement(element)">Actualizar</button>
 								</td>
 								<td>
 									<button type="button" class="btn btn-danger"
-										data-ng-click="confirmDelete('Esta Seguro de Eliminar a',legislator.name + ' ' + legislator.apPaterno + ' ' + legislator.apMaterno,legislator)"
-										data-ng-if="element.id != null">Eliminar</button>
+										data-ng-click="confirmDelete(element)">Eliminar</button>
 								</td>
 							</tr>
 						</tbody>
