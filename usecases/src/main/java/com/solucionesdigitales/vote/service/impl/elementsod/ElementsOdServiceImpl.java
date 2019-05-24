@@ -31,9 +31,11 @@ public class ElementsOdServiceImpl implements ElementsOdService {
 	
 	@Override
 	public List<ElementOd> getNameOrder() {
+
 		List<ElementOd> element = new ArrayList<ElementOd>();
 		List<ElementOd> ele= elementsOdRepository.findByStatusOrderByNombreAsc(ELEMENTOD_STATUS._ACTIVA);
 		
+
 		element.addAll(ele);
 		return element;
 	}

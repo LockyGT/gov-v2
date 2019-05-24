@@ -11,6 +11,7 @@ app.service('elementOdService', function ($q, factory){
 		});
 	};
 	
+
 	self.getNameOrder = ()=>{
 		return $q(function(resolve, reject) {			
 			factory.get(path+"/name/element").then(function mySuccess(data) {

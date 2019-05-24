@@ -15,7 +15,7 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
+
 		elementOdService.getNameOrder($scope.elementOd).then(function mySuccess(data) {			
 			$scope.elements = data;
 			$timeout(()=>{

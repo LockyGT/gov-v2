@@ -14,6 +14,6 @@ public interface  ElementsOdRepository extends MongoRepository<ElementOd, String
 
 	List<ElementOd>findByStatus(int status);
 	//List<ElementOd>findOrderByNombreAsc();
-
 	List<ElementOd> findByStatusOrderByNombreAsc(int status);
+
 }
