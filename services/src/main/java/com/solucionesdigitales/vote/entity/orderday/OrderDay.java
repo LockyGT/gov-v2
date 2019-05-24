@@ -3,12 +3,9 @@ package com.solucionesdigitales.vote.entity.orderday;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
+import com.solucionesdigitales.vote.entity.documentfile.Attached;
 import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
-import com.solucionesdigitales.vote.entity.module.ModuloOd;
 
 @Document(collection = "orderday")
 public class OrderDay {
@@ -25,6 +22,7 @@ public class OrderDay {
 	//private ArrayList<ParagraphOD> paragraphs;
 	
 	private ArrayList<ElementOd> elementsOd;
+	private Attached attached;
 	
 	
 	
@@ -93,7 +91,19 @@ public class OrderDay {
 	public void setElementsOd(ArrayList<ElementOd> elementsOd) {
 		this.elementsOd = elementsOd;
 	}
+	/**
+	 * @return the attached
+	 */
+	public Attached getAttached() {
+		return attached;
+	}
 
+	/**
+	 * @param attached the attached to set
+	 */
+	public void setAttached(Attached attached) {
+		this.attached = attached;
+	}
 
 	@Override
 	public String toString() {

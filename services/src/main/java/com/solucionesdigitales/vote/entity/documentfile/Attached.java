@@ -2,23 +2,42 @@ package com.solucionesdigitales.vote.entity.documentfile;
 
 import java.util.ArrayList;
 
+import javax.persistence.Id;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "attached")
 public class Attached {
 	
-	private String nombre;
+	@Id
+	private String id;
+	private String name;
 	private int status;
 	private ArrayList<File> files;
 	
 	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+	/**
 	 * @return the nombre
 	 */
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 	/**
 	 * @param nombre the nombre to set
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String nombre) {
+		this.name = nombre;
 	}
 	/**
 	 * @return the status
@@ -49,6 +68,6 @@ public class Attached {
 	 */
 	@Override
 	public String toString() {
-		return "Attached [nombre=" + nombre + ", files=" + files + "]";
+		return "Attached [nombre=" + name + ", files=" + files + "]";
 	}
 }
