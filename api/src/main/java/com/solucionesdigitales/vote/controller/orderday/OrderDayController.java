@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
 
-
-
 @RestController
 @RequestMapping("orderday")
 public class OrderDayController {
@@ -48,26 +46,21 @@ public class OrderDayController {
 		logger.info("consulta de Versiones de Orden del dia:");
 		return service.getSustituidaWithReference();
 	}
-	
-//	@GetMapping(value="/sustituida/reference/and/id")
-//	public List<OrderDay> getSustituidaReferenciaAdnId(){
-//		logger.info("consulta de Versiones de Orden del dia:");
-//		return service.getSustituidaReferenciaAndId();
-//	}
-	
-	
+
+	@GetMapping(value="/odOriginal")
+	public List<OrderDay> getOdOriginal(@RequestParam(value="odOriginal") final String odOriginal){
+		logger.info("Consulta de versiones");
+		return service.getOdOriginal(odOriginal);
+	}
 
 	@GetMapping(value="/date/between" )	
 	public List<OrderDay> getByDateBetween(@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
 			@RequestParam(value="fechaFin") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fechaFin){
 		logger.info("consulta ORDEN DEL DIA POR FECHA INICIO:" + fecha);	
 		logger.info("consulta ORDENDEL DIA POR FECHA FIN:" + fechaFin);
-		
-		//LocalDateTime fecha = LocalDateTime.now();
-        
-        
+
 		ZonedDateTime inicio = fecha.atZone(ZoneId.systemDefault());	
-		
+
 		logger.info("ZONEDDATE : " + inicio);
 		int year  = inicio.getYear();
 		int month = inicio.getMonthValue();

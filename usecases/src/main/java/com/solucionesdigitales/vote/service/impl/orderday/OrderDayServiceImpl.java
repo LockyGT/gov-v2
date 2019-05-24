@@ -51,20 +51,18 @@ public class OrderDayServiceImpl implements OrderDayService {
 		ordendia.addAll(V1);
 		return ordendia;
 	}
-
-
-	//	@Override
-	//	public List<OrderDay> getSustituidaReferenciaAndId() {
-	//		List<OrderDay> V1= orderDayRepository.findByReferenciaSustituidaAndId();
-	//		List<OrderDay> V2= orderDayRepository.findByReferenciaSustituidaAndIdOdOriginal(ORDERDAY_STATUS._SUSTITUIDA);
-	//		List<OrderDay> od = new ArrayList<OrderDay>();
-	//		od.addAll(V1);
-	//		od.addAll(V2);
-	//		return od;
-	//	}
-
-
-
+	
+	
+	@Override
+	public List<OrderDay> getOdOriginal(String odOriginal) {
+		List<OrderDay> odv = new ArrayList<OrderDay>();
+		//List<OrderDay> v1 = orderDayRepository.findByReferenciaStatusAndId(id);
+		List<OrderDay> v2 = orderDayRepository.findByOdOriginal(odOriginal);
+		//odv.addAll(v1);
+		odv.addAll(v2);
+		
+		return  odv;
+	}
 
 	@Override
 	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
@@ -124,5 +122,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		return orderday;
 	}
+
+	
 
 }

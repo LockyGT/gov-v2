@@ -10,19 +10,16 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 public interface OrderDayService {
 
 	List<OrderDay> fetch();
-
 	OrderDay post(OrderDay entity);
-
 	OrderDay put(OrderDay entity);
-
 	OrderDay delete(OrderDay entity);
 
 	List<OrderDay> getActiveWithAndWithoutReference();
 	List<OrderDay> getByDateBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
-	List<OrderDay> getSustituidaWithReference();
+List<OrderDay> getSustituidaWithReference();
+List<OrderDay> getOdOriginal(String odOriginal);
 
-	//List<OrderDay> getSustituidaReferenciaAndId();
 	
 
 	

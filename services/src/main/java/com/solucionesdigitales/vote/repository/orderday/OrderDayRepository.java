@@ -16,14 +16,10 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay>findByStatus(int status);
 	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaAsc(int status);
 	List<OrderDay> findByFechaBetween(LocalDateTime f1, LocalDateTime f2);
+	
+	
 	List<OrderDay> findByStatusAndReferenciaIsNull(int status);
 	
-	
-	
-//	OrderDay findByReferenciaSustituidaAndId(String id, String referencia);
-//	List <OrderDay> findByReferenciaSustituidaAndIdOdOriginal(String id, String referencia);
-//	
-//	
-//	List<OrderDay> findByStatusAndReferenciaOrderByFechaAsc(int status, String odOriginal);
-//	
+	//List <OrderDay> findByReferenciaStatusAndId(String id);
+	List <OrderDay> findByOdOriginal(String odOriginal);
 }

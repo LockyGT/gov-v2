@@ -187,22 +187,31 @@
 	<div class="card w-95">
 		<div class="card-body">
 			<form class="form-inline" name="formFiltros">
-				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
-						type="date" class="form-control" id="txtFechaBusqueda"
+				<div class="input-group mx-sm-3 mb-2">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
+					<input type="date" class="form-control" id="txtFechaBusqueda"
 						data-ng-max="filtrosFechas.fechaFin" name="fecha"
 						data-ng-model="filtrosFechas.fecha" required="required"
 						data-ng-class="formFiltros.fecha.$invalid ? 'is-invalid': ''">
-
 				</div>
-				<div class="form-group mx-sm-3 mb-2">
+				<div class="input-group mx-sm mb-2">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
 					<input type="date" class="form-control" id="txtFechaBusquedaFin"
 						data-ng-min="filtrosFechas.fecha" name="fechaFin"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
 						data-ng-model="filtrosFechas.fechaFin" required="required">
 				</div>
-				<div class="form-group mx-sm-3 mb-2">
+				<div class="form-group mx-sm-2 mb-2">
 					<button type="button" class="btn btn-dark"
 						data-ng-click="getBuscarFecha()">Buscar</button>
 					<span class="invalid-feedback d-block"
@@ -210,14 +219,11 @@
 						de fechas inválido!</span>
 				</div>
 
-				<div class="container">
-					<div class="row">
-						<div class="input-group input-group-lg col-sm-6 margin-top">
-							<input type="search" class="form-control" id="searchTerm"
-								placeholder="Buscar por nombre" data-ng-keyup="buscar();"
-								required="required">
-
-						</div>
+				<div class="form-group col-sm-5 mb-2">
+					<div class="input-group input-group-lg col-sm-12">
+						<input type="search" class="form-control" id="searchTerm"
+							placeholder="Buscar por nombre" data-ng-keyup="buscar();"
+							required="required">
 					</div>
 				</div>
 			</form>
@@ -238,16 +244,16 @@
 						</button>
 					</div>
 					<br>
-					<div class="table-responsive" data-ng-if="orderday.length == 0">
-						<div class="alert alert-primary" role="alert"
-							data-ng-if="!orderday.length">
-							No se han encontrado ordenes del dia para el rango de fechas
-							seleccionado <a data-ng-click="addOrderday()"
-								style="cursor: pointer;" class="alert-link">Agregue una
-								orden del dia para comenzar</a>. O seleccione otra rango de fechas
-							para realizar la busqueda.
-						</div>
-					</div>
+					<!-- 					<div class="table-responsive" data-ng-if="orderday.length == 0"> -->
+					<!-- 						<div class="alert alert-primary" role="alert" -->
+					<!-- 							data-ng-if="!orderday.length"> -->
+					<!-- 							No se han encontrado ordenes del dia para el rango de fechas -->
+					<!-- 							seleccionado <a data-ng-click="addOrderday()" -->
+					<!-- 								style="cursor: pointer;" class="alert-link">Agregue una -->
+					<!-- 								orden del dia para comenzar</a>. O seleccione otra rango de fechas -->
+					<!-- 							para realizar la busqueda. -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
 					<!-- data-ng-if="orderday.length > 0" -->
 					<div class="table-responsive">
 						<table id="datos"
@@ -283,7 +289,7 @@
 									</td>
 									<td>
 										<button type="button" class="btn btn-dark"
-											data-ng-click="verVersiones(orderday);">Versiones</button>
+											data-ng-click="verVersiones(od);">Versiones</button>
 									</td>
 
 								</tr>
@@ -318,7 +324,6 @@
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
-									<th>#</th>
 									<th>Nombre</th>
 									<th>Ver</th>
 									<th>Version</th>
@@ -328,18 +333,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="verssion in orderdaysV track by $index"">
-									<td scope="row">{{$index+1}}</td>
+								<tr data-ng-repeat="verssion in orderdaysV track by $index">
+<!-- 									<td scope="row">{{$index+1}}</td> -->
 									<td>{{verssion.nombre}}</td>
 									<td><button class="btn btn-primary btn-sm"
 											data-ng-click="viewVerssion(verssion)">
 											<i class="far fa-eye"></i>
 										</button></td>
-									<td>{{verssion.odOriginal ? 'versionado' : 'original'}}</td>
+									<td>{{$index+1}}</td>
 									<td>{{verssion.fecha | date:'dd/MM/yyyy'}}</td>
 
 									<td><button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(orderday);">eliminar</button></td>
+											data-ng-click="confirmDelete(verssion);">eliminar</button></td>
 
 								</tr>
 							</tbody>
