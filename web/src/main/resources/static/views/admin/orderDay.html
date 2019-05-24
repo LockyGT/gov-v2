@@ -1,26 +1,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <style>
-.margin-top {
-	margin-top: 1em;
-}
-
-.marggin {
-	margin-left: 2em;
-	margin-top: 3em;
-}
-
-.new {
-	margin-top: 6em;
-}
-
-#check {
-	margin-left: 5em;
-	margin-top: 3em;
+.modal-lg {
+	max-width: 70% !important;
 }
 </style>
 <h1 class="my-4">
-	{{titleTabView}} <small>{{titleSession}}</small>
+	Orden del día <i class="fas fa-file-signature"></i>
 </h1>
 <!-- data-ng-show="voteSession !== null" -->
 <section data-ng-show="orderday !== null">
@@ -33,156 +19,150 @@
 						<h5 class="card-title">{{!orderday.id ? 'NUEVA ': 'ACTUALIZAR
 							'}}</h5>
 
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item"><a class="nav-link active"
+								id="home-tab" data-toggle="tab" data-ui-sref="state"
+								href="#home" role="tab" aria-controls="home"
+								aria-selected="true">Orden del dia</a></li>
+							<li class="nav-item"><a class="nav-link" id="profile-tab"
+								data-toggle="tab" ui-sref="state" href="#profile" role="tab"
+								aria-controls="profile" aria-selected="false">Contenido</a></li>
+							<li class="nav-item"><a class="nav-link" id="anexos-tab"
+								data-toggle="tab" ui-sref="state" href="#anexos" role="tab"
+								aria-controls="anexos" aria-selected="false">Anexos</a></li>
+						</ul>
+
 					</div>
 					<div class="card-body">
-						<div class="form-row">
-							<div class="col-2 col-md-3">
-								<label>Nuevo</label> <br>
-								<button data-ng-click="addMudulesOd()" type="button"
-									class="btn btn-info">Nuevo Elemento</button>
-							</div>
-							<div class="col-2 col-md-3">
-								<label for="inputState">Seleccionar un elemento</label> <select
-									data-ng-options="modulo.nombre for modulo in modulosod track by modulo.id"
-									data-ng-change="change();" data-ng-model="orderday.moduloOd"
-									id="inputState" class="form-control" >
-									<option disabled value="">Seleccionar...</option>
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="home" role="tabpanel"
+								aria-labelledby="nav-home-tab">
 
-									<!-- 									<option data-ng-repeat="modulo in modulosod" -->
-									<!-- 										data-ng-value="modulo">{{modulo.nombre}}</option> -->
-								</select>
-							</div>
-							<div class="container margin-top">
-								<div class="form-group row">
-									<label for="txtFecha" class="col-sm-2 col-form-label">Fecha
-									</label>
-									<div class="input-group input-group-lg col-sm-10">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-lg5"><i
-												class="far fa-calendar-alt"></i></span>
+								<div class="container margin-top">
+									<div class="form-group row">
+										<label for="txtFecha" class="col-sm-2 col-form-label">Fecha
+										</label>
+										<div class="input-group input-group-lg col-sm-10">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="inputGroup-sizing-lg5"><i
+													class="far fa-calendar-alt"></i></span>
+											</div>
+											<input type="date" class="form-control" id="txtFecha"
+												required maxlength="250" data-ng-model="orderday.fecha">
 										</div>
-										<input type="date" class="form-control" id="txtFecha"
-											data-format-date required maxlength="250"
-											data-ng-model="orderday.fecha">
 									</div>
-								</div>
-								<div class="form-group row">
-									<label for="txtNombreOD" class="col-sm-2 col-form-label">Nombre
-										de la OD</label>
-									<div class="input-group input-group-lg col-sm-10">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-lg6"><i
-												class="far fa-file-alt"></i></span>
+									<div class="form-group row">
+										<label for="txtNombreOD" class="col-sm-2 col-form-label">Nombre
+											de la OD</label>
+										<div class="input-group input-group-lg col-sm-10">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="inputGroup-sizing-lg6"><i
+													class="far fa-file-alt"></i></span>
+											</div>
+											<input type="text" class="form-control" id="txtNombreOD"
+												placeholder="Nombre de la Orden del Dia"
+												data-ng-model="orderday.nombre" required maxlength="250"
+												required="required">
 										</div>
-										<input type="text" class="form-control" id="txtNombreOD"
-											placeholder="Nombre de la Orden del Dia"
-											data-ng-model="orderday.nombre" required maxlength="250">
 									</div>
 								</div>
 							</div>
-
-							<br>
-							<div class="wrapper col-md-12">
-								<div class="margin-top"
-									data-ng-repeat="p in orderday.paragraphs track by $index">
-
-									<div class="col">
-										<input class="form-check-input new"
-											data-ng-model="orderday.paragraphs[$index].isIniciativa"
-											type="checkbox" value="" id="defaultCheck1"> <label
-											class="form-check-label" for="defaultCheck1"></label>
-
+							<div class="tab-pane fade" id="profile" role="tabpanel"
+								aria-labelledby="nav-profile-tab">
+								<div class="form-row align-items-center">
+									<div class="col-auto">
+										<button data-ng-click="addElementsOd()" type="button"
+											class="btn btn-info">Nuevo Elemento</button>
 									</div>
-									<div class="col-2 col-md-11">
-										<div>
-											<label>{{orderday.moduloOd.nombre}}</label>
+									<div class="col-auto"></div>
+									<div class="col-auto">
+										<label class="sr-only" for="inlineFormInputGroup">Elemento</label>
+										<div class="input-group mb-2" id="select-elements">
+											<select
+												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
+												data-ng-model="currentElement" id="inputState"
+												class="form-control">
+												<option disabled value="">Seleccione un elemento...</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-auto"></div>
+									<div class="col-auto">
+										<button type="button" class="btn btn-dark"
+											data-ng-click="addContentE(ele);">Agregar</button>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="container">
+										<div class="margin-top"
+											data-ng-repeat="e in orderday.elementsOd track by $index">
 
-											<div class="input-group">
-												<textarea class="form-control" rows="4" name="text"
-													placeholder="Agregar parrafo ..."
-													aria-label="Hi there, I would like to ..." required
-													data-msg="Please enter a reason."
-													data-ng-model="orderday.paragraphs[$index].contenidotxt"></textarea>
-
-												<div class="col-2 col-md-2">
-													<button class="btn btn-primary btn-sm"
-														data-ng-click="addParagraph(p.nivel)">
-														<i class="fas fa-plus-square"></i>
-													</button>
-
-													<button type="button" class="btn btn-info btn-sm"
-														data-ng-click="addSubParagraphs($index)">
-														<i class="fa fa-plus-square"></i>SUB
+											<div class="form-row align-items-center name-el">
+												<div class="col-auto">
+													<label class="form-check-label" for="inlineFormCheck">
+														{{e.nombre}}</label>
+												</div>
+												<div class="col-auto"></div>
+												<div class="col-auto">
+													<button type="button" class="btn btn-primary mb-2"
+														data-ng-click="addParagraph(e)">
+														Parrafo <i class="far fa-window-restore"></i>
 													</button>
 												</div>
-
 											</div>
-										</div>
-									</div>
-									<div class="row margin-top"
-										data-ng-repeat="sp in p.subParagraphs track by $index">
-										<div class="col">
-
-											<input data-ng-model="p.subParagraphs[$index].isIniciativa"
-												class="form-check-input marggin" type="checkbox" value=""
-												id="defaultCheck1"> <label class="form-check-label"
-												for="defaultCheck1"></label>
 
 
-										</div>
-										<div class="col-4 col-md-8">
-											<div class="input-group">
-												<textarea class="form-control" rows="4" name="text"
-													placeholder="Agregar parrafo ..."
-													aria-label="Hi there, I would like to ..." required
-													data-msg="Please enter a reason."
-													data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
-											</div>
-										</div>
-										<div class="col-2 col-md-3">
-											<button class="btn btn-primary btn-sm"
-												data-ng-click="addSubParagraphs($index)">
-												<i class="fas fa-plus-square"></i>
-											</button>
+											<div class="input-group"
+												data-ng-repeat="p in e.paragraphs track by $index">
 
-											<button type="button" class="btn btn-info btn-sm"
-												data-ng-click="addSubOfSubParagraphs($parent.$index,$index)">
-												<i class="fa fa-plus-square"></i>SUB
-											</button>
-										</div>
-										<div class="container margin-top">
-											<div class="row"
-												data-ng-repeat="sbp in sp.subParagraphs track by $index">
-												<div class="col-2">
-													<input
-														data-ng-model="sp.subParagraphs[$index].isIniciativa"
-														class="form-check-input margin" type="checkbox" value=""
-														id="defaultCheck1"> <label
+												<div class="col check-p">
+													<input class="form-check-input new"
+														data-ng-model="e.paragraphs[$index].isIniciativa"
+														type="checkbox" value="" id="defaultCheck1"> <label
 														class="form-check-label" for="defaultCheck1"></label>
 
-
 												</div>
-												<div class="col-4 col-md-7 margin-top">
-													<div class="input-group">
-														<textarea class="form-control" rows="4" name="text"
-															placeholder="Agregar parrafo ..."
-															aria-label="Hi there, I would like to ..." required
-															data-msg="Please enter a reason."
-															data-ng-model="sp.subParagraphs[$index].contenidotxt"></textarea>
-													</div>
+												<div class="col-4 col-md-9 margin-top">
+													<textarea class="form-control" rows="5" name="text"
+														placeholder="Agregar parrafo ..."
+														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
 												</div>
 												<div class="col-2 col-md-2">
-													<button class="btn btn-primary btn-sm" id="button-sbp"
-														data-ng-click="addSubOfSubParagraphs($parent.$index,$index)">
-														<i class="fas fa-plus-square"></i>
+													<button type="button" class="btn btn-info btn-sm new"
+														data-ng-click="addSubParagraphs(p)">
+														SubParrafo <i class="fas fa-chevron-circle-down"></i>
 													</button>
 												</div>
+												<div class="container">
+													<div class="row margin-top"
+														data-ng-repeat="sp in p.subParagraphs track by $index">
+														<div class="col-2">
+
+															<input
+																data-ng-model="p.subParagraphs[$index].isIniciativa"
+																class="form-check-input marggin" type="checkbox"
+																value="" id="defaultCheck1"> <label
+																class="form-check-label" for="defaultCheck1"></label>
+
+														</div>
+														<div class="col-4 col-md-9">
+															<div class="input-group">
+																<textarea class="form-control" rows="5" name="text"
+																	placeholder="Agregar parrafo ..."
+																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
+															</div>
+														</div>
+														<div class="col-2 col-md-3"></div>
+													</div>
+												</div>
 											</div>
+
 										</div>
 									</div>
-
 								</div>
 							</div>
+							<div class="tab-pane fade" id="anexos" role="tabpanel"
+								aria-labelledby="nav-anexos-tab">..............................</div>
 						</div>
 					</div>
 					<!-- CardBody -->
@@ -207,35 +187,45 @@
 	<div class="card w-95">
 		<div class="card-body">
 			<form class="form-inline" name="formFiltros">
-				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
-						type="date" class="form-control" id="txtFechaBusqueda"
-						data-ng-max="voteSessionOn.fechaBusquedaFin" name="fechaInicio"
-						data-ng-model="voteSessionOn.fechaBusqueda" required="required"
-						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''">
-
+				<div class="input-group mx-sm-3 mb-2">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
+					<input type="date" class="form-control" id="txtFechaBusqueda"
+						data-ng-max="filtrosFechas.fechaFin" name="fecha"
+						data-ng-model="filtrosFechas.fecha" required="required"
+						data-ng-class="formFiltros.fecha.$invalid ? 'is-invalid': ''">
 				</div>
-				<div class="form-group mx-sm-3 mb-2">
+				<div class="input-group mx-sm mb-2">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
 					<input type="date" class="form-control" id="txtFechaBusquedaFin"
-						data-ng-min="voteSessionOn.fechaBusqueda" name="fechaFin"
+						data-ng-min="filtrosFechas.fecha" name="fechaFin"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
-						data-ng-model="voteSessionOn.fechaBusquedaFin" required="required">
+						data-ng-model="filtrosFechas.fechaFin" required="required">
 				</div>
-				<button type="button" class="btn btn-dark"
-					data-ng-click="getVoteSessionsDateOnly(voteSessionOn.fechaBusqueda, voteSessionOn.fechaBusquedaFin)">
-					Buscar</button>
-				<!-- 				<span class="invalid-feedback d-block" -->
-				<!-- 					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango -->
-				<!-- 					de fechas inválido!</span> -->
-
-				<div class="input-group input-group-lg col-sm-6 margin-top">
-					<input type="search" class="form-control" id="searchTerm"
-						placeholder="Buscar por nombre" data-ng-keyup="buscar();"
-						required="required">
-
+				<div class="form-group mx-sm-2 mb-2">
+					<button type="button" class="btn btn-dark"
+						data-ng-click="getBuscarFecha()">Buscar</button>
+					<span class="invalid-feedback d-block"
+						data-ng-show="formFiltros.fecha.$invalid || formFiltros.fechaFin.$invalid">Rango
+						de fechas inválido!</span>
 				</div>
 
+				<div class="form-group col-sm-5 mb-2">
+					<div class="input-group input-group-lg col-sm-12">
+						<input type="search" class="form-control" id="searchTerm"
+							placeholder="Buscar por nombre" data-ng-keyup="buscar();"
+							required="required">
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -254,16 +244,16 @@
 						</button>
 					</div>
 					<br>
-					<div class="table-responsive" data-ng-if="orderday.length == 0">
-						<div class="alert alert-primary" role="alert"
-							data-ng-if="!orderday.length">
-							No se han encontrado ordenes del dia para el rango de fechas
-							seleccionado <a data-ng-click="addOrderday()"
-								style="cursor: pointer;" class="alert-link">Agregue una
-								orden del dia para comenzar</a>. O seleccione otra rango de fechas
-							para realizar la busqueda.
-						</div>
-					</div>
+					<!-- 					<div class="table-responsive" data-ng-if="orderday.length == 0"> -->
+					<!-- 						<div class="alert alert-primary" role="alert" -->
+					<!-- 							data-ng-if="!orderday.length"> -->
+					<!-- 							No se han encontrado ordenes del dia para el rango de fechas -->
+					<!-- 							seleccionado <a data-ng-click="addOrderday()" -->
+					<!-- 								style="cursor: pointer;" class="alert-link">Agregue una -->
+					<!-- 								orden del dia para comenzar</a>. O seleccione otra rango de fechas -->
+					<!-- 							para realizar la busqueda. -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
 					<!-- data-ng-if="orderday.length > 0" -->
 					<div class="table-responsive">
 						<table id="datos"
@@ -280,26 +270,26 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="orderday in orderdays track by $index">
+								<tr data-ng-repeat="od in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
-									<td>{{orderday.nombre}} {{orderday.odOriginal ?
-										'versionado' : 'original'}}</td>
-									<td>{{orderday.fecha}}</td>
+									<td>{{od.nombre}}</td>
+									<!--{{orderday.odOriginal ? 'versionado' : 'original'}} -->
+									<td>{{od.fecha | date:'dd/MM/yyyy'}}</td>
 									<td><button class="btn btn-primary btn-sm"
-											data-ng-click="addOrderOfTheDay(orderday)">
+											data-ng-click="addOrderOfTheDay(od)">
 											<i class="far fa-eye"></i>
 										</button></td>
 									<!-- updateOrderday -->
 									<td><button type="button" class="btn btn-warning"
-											data-ng-click="addNewOd(orderday)">nueva version</button></td>
+											data-ng-click="addNewOd(od)">nueva version</button></td>
 									<td>
 
 										<button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(orderday);">eliminar</button>
+											data-ng-click="confirmDelete(od);">eliminar</button>
 									</td>
 									<td>
 										<button type="button" class="btn btn-dark"
-											data-ng-click="verVersiones();">Versiones</button>
+											data-ng-click="verVersiones(od);">Versiones</button>
 									</td>
 
 								</tr>
@@ -334,21 +324,27 @@
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
-									<th>#</th>
 									<th>Nombre</th>
+									<th>Ver</th>
 									<th>Version</th>
-									<th>Fecha publicacion</th>
-									<th>Status</th>
+									<th>Fecha</th>
 									<th>Eliminar</th>
-									<th></th>
+
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="orderday in orderdaysV track by $index">
-									<td scope="row">{{$index+1}}</td>
-									<td>{{orderday.nombre}}</td>
-									<td>{{orderday.odOriginal ? 'versionado' : 'original'}}</td>
-									<td>{{orderday.fecha}}</td>
+								<tr data-ng-repeat="verssion in orderdaysV track by $index">
+<!-- 									<td scope="row">{{$index+1}}</td> -->
+									<td>{{verssion.nombre}}</td>
+									<td><button class="btn btn-primary btn-sm"
+											data-ng-click="viewVerssion(verssion)">
+											<i class="far fa-eye"></i>
+										</button></td>
+									<td>{{$index+1}}</td>
+									<td>{{verssion.fecha | date:'dd/MM/yyyy'}}</td>
+
+									<td><button type="button" class="btn btn-danger"
+											data-ng-click="confirmDelete(verssion);">eliminar</button></td>
 
 								</tr>
 							</tbody>
@@ -371,7 +367,48 @@
 		</div>
 	</div>
 
+	<!-- MODAL muestra el contenido de versiones del OD -->
+	<div class="modal fade bd-example-modal-lg" id="modalView"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Ordenes del día para la sesión</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="modal-od">
+					<div data-ng-repeat="a in orderdayView.elementsOd track by $index">
+						<p class="element-name">
+							<strong>{{a.nombre}}</strong>
+						</p>
+						<ol class="list-paragraphs" type="a"
+							data-ng-repeat="p in a.paragraphs track by $index">
+							<li>{{p.contenidotxt}}</li>
+							<li class="list-subparagraphs">
+								<ol class="subparrafo"
+									data-ng-repeat="sp in p.subParagraphs track by $index">
+									<li>{{sp.contenidotxt}}</li>
 
+								</ol>
+
+							</li>
+
+						</ol>
+					</div>
+					<div class="modal-footer">
+						<!-- 						<button type="button" class="btn btn-primary">Save -->
+						<!-- 							changes</button> -->
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- MODAL MOPSTRAR ORDENES DEL DIA -->
@@ -386,34 +423,24 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<div data-ng-repeat="modulo in modulosod track by $index">
+				<div class="modal-body" id="modal-od">
+					<div class="content-paragraph"
+						data-ng-repeat="a in orderdayshow.elementsOd track by $index">
+						<p class="element-name">
+							<strong>{{a.nombre}}</strong>
+						</p>
 						<ol class="list-paragraphs" type="a"
-							data-ng-repeat="p in orderdayshow.paragraphs track by $index">
-							<p>
-								<strong>{{modulo.nombre}}</strong>
-							</p>
+							data-ng-repeat="p in a.paragraphs track by $index">
 							<li>{{p.contenidotxt}}</li>
 							<li class="list-subparagraphs">
-								<ol type="I"
+								<ol class="subparrafo"
 									data-ng-repeat="sp in p.subParagraphs track by $index">
 									<li>{{sp.contenidotxt}}</li>
-									<li class="list-subOfSubParagraphs">
-										<ol data-ng-repeat="sbp in sp.subParagraphs track by $index"
-											class="margin-top">
-											<li>{{sp.contenidotxt}}</li>
-
-										</ol>
-									</li>
 								</ol>
-
 							</li>
-
 						</ol>
 					</div>
 					<div class="modal-footer">
-						<!-- 						<button type="button" class="btn btn-primary">Save -->
-						<!-- 							changes</button> -->
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 					</div>

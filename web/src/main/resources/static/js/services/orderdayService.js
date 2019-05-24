@@ -12,9 +12,19 @@ app.service('orderdayService', function($q, factory) {
 	};
 	
 	
-	self.getInDateBetween = (date)=>{		
+	self.getByDateBetween = (date)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/date/between', date).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.getById = (date)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/fetch/id', date).then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
@@ -35,10 +45,25 @@ app.service('orderdayService', function($q, factory) {
 			});			
 		});
 	};	
-	
-	self.getSustituidaWithAndWithoutReference = ()=>{
+	/******************************************************************/
+	self.getSustituidaWithReference = ()=>{
 		return $q(function(resolve, reject) {			
-			factory.get(path+"/sustituida/reference/with/without").then(function mySuccess(data) {
+			factory.get(path+"/status/reference/with/without").then(function mySuccess(data) {
+				if(data){					
+					resolve(data);
+				}else{
+					resolve(null);
+				}
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};	
+	
+	self.getOdOriginal = (odOriginal)=>{
+		let params = {"odOriginal": odOriginal};
+		return $q(function(resolve, reject) {			
+			factory.get(path+"/odOriginal",params).then(function mySuccess(data) {
 				if(data){					
 					resolve(data);
 				}else{

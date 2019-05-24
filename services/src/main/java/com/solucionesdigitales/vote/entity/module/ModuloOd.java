@@ -12,6 +12,7 @@ public class ModuloOd {
 	private String nombre;
 	private String icon;
 	private String color;
+	private String fieldHelp;
 	private int status;
 	
 	/**
@@ -79,6 +80,20 @@ public class ModuloOd {
 	}
 
 	/**
+	 * @return the fieldHelp
+	 */
+	public String getFieldHelp() {
+		return fieldHelp;
+	}
+
+	/**
+	 * @param fieldHelp the fieldHelp to set
+	 */
+	public void setFieldHelp(String fieldHelp) {
+		this.fieldHelp = fieldHelp;
+	}
+
+	/**
 	 * 
 	 * @return the status
 	 */
@@ -94,9 +109,13 @@ public class ModuloOd {
 		this.status = status;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "ModuloOd [id=" + id + ", nombre=" + nombre + ", status=" + status + "]";
+		return "ModuloOd [id=" + id + ", nombre=" + nombre + ", icon=" + icon + ", color=" + color + ", fieldHelp="
+				+ fieldHelp + ", status=" + status + "]";
 	}
 	
 }

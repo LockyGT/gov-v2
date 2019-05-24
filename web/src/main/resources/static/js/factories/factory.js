@@ -26,6 +26,22 @@ app.factory('factory', function($http,$q) {
 				return $q.reject(response);
 			});
 		},
+		getFile:function(path, data){
+			return $http({
+				url : '/' + path,
+				method : "GET",
+				params : data,
+				responseType: 'arraybuffer',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).then(function(response) {				
+				return  response.data
+			}, function(response) {
+				console.error(response);
+				return $q.reject(response);
+			});
+		},	
 		post:function(url,_data){
 			return $http({
 				url : '/'+url,

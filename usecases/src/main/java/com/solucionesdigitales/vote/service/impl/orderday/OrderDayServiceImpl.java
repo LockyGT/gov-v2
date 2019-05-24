@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
@@ -22,7 +23,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Autowired
 	private OrderDayRepository orderDayRepository;
-	
+
 	private final OrderDayStatus ORDERDAY_STATUS = new OrderDayStatus() {};
 
 	@Override
@@ -30,55 +31,70 @@ public class OrderDayServiceImpl implements OrderDayService {
 		List<OrderDay> orderday= orderDayRepository.findAll();
 		return orderday;
 	}
-	
+
 	@Override
 	public List<OrderDay> getActiveWithAndWithoutReference() {
-		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNull(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
 		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA);
 		List<OrderDay> ordenes = new ArrayList<OrderDay>();
 		ordenes.addAll(l1);
 		ordenes.addAll(l2);
-		
+
 		return ordenes;
 	}
+	/***********************************/
+
 	@Override
-	public List<OrderDay> getSustituidaWithAndWithoutReference() {
-		List<OrderDay> lista = orderDayRepository.findByStatus(ORDERDAY_STATUS._SUSTITUIDA);
+	public List<OrderDay> getSustituidaWithReference() {
+		List<OrderDay> V1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._SUSTITUIDA);
 		List<OrderDay> ordendia = new ArrayList<OrderDay>();
-		ordendia.addAll(lista);
+		ordendia.addAll(V1);
 		return ordendia;
 	}
+	
+	
+	@Override
+	public List<OrderDay> getOdOriginal(String odOriginal) {
+		List<OrderDay> odv = new ArrayList<OrderDay>();
+		//List<OrderDay> v1 = orderDayRepository.findByReferenciaStatusAndId(id);
+		List<OrderDay> v2 = orderDayRepository.findByOdOriginal(odOriginal);
+		//odv.addAll(v1);
+		odv.addAll(v2);
+		
+		return  odv;
+	}
+	
+	@Override
+	public OrderDay fetchById(String id) {
+		
+		return orderDayRepository.findFirstById(id);
+	}
 
-//	@Override
-//	public List<OrderDay> findOrderDayByFechaBetwen(LocalDateTime t1, LocalDateTime t2) {
-//		List<OrderDay> res = new ArrayList<OrderDay>();
-//		List<OrderDay> l1 = orderDayRepository.findOrderDayByFechaHora(t1);
-//		List<OrderDay> l2 = orderDayRepository.findOrderDayByFechaHora(t2);
-//		
-//		if(l1 != null) {
-//			res.addAll(l1);
-//		}
-//		if(l2 != null) {
-//			res.addAll(l2);
-//		}
-//		return res;	
-//	}
-	
-	
+	@Override
+	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
+		List<OrderDay> res = new ArrayList<OrderDay>();
+		List<OrderDay> l1 = orderDayRepository.findByFechaBetween(f1,f2);
+		//List<OrderDay> l2 = orderDayRepository.findByFechaBetwen(f2);
+		res.addAll(l1);
+		return res;	
+	}
+
+
+
+
 	@Override
 	public OrderDay post(OrderDay entity) {		
 		entity = orderDayRepository.save(entity);	
 		return entity;
 	}
 
-	
+
 	@Override
 	public OrderDay put(OrderDay entity) {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
-		nuevaVersion.setModuloOd(entity.getModuloOd());
+		nuevaVersion.setElementsOd(entity.getElementsOd());
 		nuevaVersion.setNombre(entity.getNombre());
-		nuevaVersion.setParagraphs(entity.getParagraphs());
 		nuevaVersion.setId(entity.getId());
 		Optional<OrderDay> od = orderDayRepository.findById(entity.getId());
 		if(entity.getOdOriginal() != null && !entity.getOdOriginal().isEmpty()) {
@@ -92,8 +108,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		//nuevaVersion.getStatus();
 		nuevaVersion.setStatus(ORDERDAY_STATUS._ACTIVA);
+		nuevaVersion.setAttached(entity.getAttached());
 		nuevaVersion = orderDayRepository.save(nuevaVersion);
-		
 		
 		entity = od.get(); 
 		entity.setReferencia(nuevaVersion.getId()); 
@@ -115,8 +131,4 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	
 
-	
-	
-
-	
 }

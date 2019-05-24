@@ -188,10 +188,20 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/orderDay.html',
 		controller : 'orderDayCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('elementOd', {
+		url : '/elementOd',
+		templateUrl : './views/admin/elementOd.html',
+		controller : 'elementOdCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('archive', {
 		url : '/archive/:id',
 		templateUrl : './views/admin/archive.html',
 		controller : 'archiveCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('demo', {
+		url : '/demo',
+		templateUrl : './views/admin/demoVersionFile.html',
+		controller : 'demoVersionFileCtrl',
 		resolve: { authenticate: authenticate }
 	});
 	

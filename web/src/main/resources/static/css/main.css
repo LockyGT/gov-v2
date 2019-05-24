@@ -28,14 +28,53 @@
 #button-sbp{
 	margin-top:3.5em;
 }
+.content-paragraph{
+	width: 742px;
+    margin: 10px auto;
+    padding: 5px;
+}
 .list-paragraphs{
-	text-align: justify;
+/* 	text-align: justify; */
+	list-style: none;
+	padding-left: 0px;
+}
+#modal-od{
+	overflow-x: scroll;
 }
 .list-subparagraphs{
 	list-style: none;
     margin-top: 1em;
 }
-.list-subOfSubParagraphs{
-	 margin-top: 1em;
-	 list-style: none;
+.subparrafo{
+	list-style: none;
+}
+
+.margin-top {
+	margin-top: 1em;
+}
+
+
+.marggin {
+	margin-top: 3em;
+    margin-left: 8em;
+}
+
+.new {
+	margin-top: 4em;
+}
+.name-el{
+	margin-left: 6em;
+    margin-top: 3em;
+}
+
+#check {
+	margin-left: 5em;
+	margin-top: 3em;
+}
+#select-elements{
+	margin-top: 0.5em;
+}
+.check-p{
+	margin-top: 0em;
+    margin-left: 3em;
 }

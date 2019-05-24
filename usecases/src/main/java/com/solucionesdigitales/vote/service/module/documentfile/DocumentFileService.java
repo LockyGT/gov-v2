@@ -1,15 +1,15 @@
-package com.solucionesdigitales.vote.service.module.archive;
+package com.solucionesdigitales.vote.service.module.documentfile;
 
 import java.util.Date;
 import java.util.List;
 
-import com.solucionesdigitales.vote.entity.archive.DocumentFile;
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 
 public interface DocumentFileService {
 	
 	List<DocumentFile> fetch(int status, String moduloId, int moduloodStatus);
 	
-	List<DocumentFile> fetchByDeleteDate(Date deleteDate);
+	List<DocumentFile> fetchByBetweenDates(int status, String moduloodId, int moduloodStatus, Date dateStart, Date dateEnd);
 	
 	DocumentFile post(DocumentFile entity);
 	

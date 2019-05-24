@@ -1,0 +1,102 @@
+<style>
+.close--delete-file {
+	position:absolute;
+	top: 0;
+	right: 0;
+	opacity: 0;
+	transition: all .3s;
+}
+
+.list-inline-item:hover .close--delete-file {
+	opacity: 1;
+}
+</style>
+<h1>
+	Prueba versiones archivos <i class="far fa-folder-open"></i>
+</h1>
+
+<section>
+	<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
+		<form name="formFile" data-ng-submit="addNewVersion(formFile.$valid)"
+			novalidate>
+
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title">Nuevo</h5>
+				</div>
+				<div class="card-body">
+					<div class="form-group row">
+						<label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
+						<div class="input-group input-group-lg col-sm-10">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="inputGroup-sizing-lg4">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" name="txtNombre"
+								id="txtNombre" data-ng-model="orderDay.attached.name"
+								placeholder="nombre" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="fArchivo" class="col-sm-2 col-form-label">Archivo</label>
+						<div class="input-group input-group-lg col-sm-10">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="inputGroup-sizing-lg4">
+									<i class="fas fa-file-alt"></i>
+								</span>
+							</div>
+							<input type="text"
+								value="{{attached.filesUploads.length ? ' archivos seleccionados' : 'Seleccione un archivo...'}}"
+								class="form-control image-preview-filename" disabled="disabled"
+								data-ng-if="isAdd">
+							<div class="input-group-append" data-ng-if="isAdd">
+								<label class="btn btn-default image-preview-input"> <span
+									class="glyphicon glyphicon-folder-open"></span> <span
+									class="image-preview-input-title">Buscar</span> <input
+									type="file" name="input-file-preview"
+									data-records-model="attached.filesUploads" multiple />
+								</label>
+							</div>
+							<input type="text" class="form-control image-preview-filename"
+								disabled="disabled" data-ng-if="!isAdd" value="archivos subidos">
+							<button type="button" class="btn btn-light"
+								data-ng-click="changeToAdd()" data-ng-if="!isAdd">Agregar</button>
+						</div>
+						<p>{{menssage}}</p>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+						<div class="input-group input-group-lg col-sm-10 flex-column">
+							<ul class="list-inline" data-ng-if="attached.filesUploads.length">
+								<li data-ng-repeat="file in attached.filesUploads"
+									class="list-inline-item text-center"><i
+									class="far fa-file fa-3x text-secondary"></i><br>{{file.name}}
+								
+							</ul>
+							<ul class="list-inline"
+								data-ng-if="orderDay.attached.files.length">
+								<li
+									data-ng-repeat="file in orderDay.attached.files | filter: {status: 1} track by $index"
+									class="list-inline-item text-center position-relative"><i
+									class="far fa-file fa-3x text-secondary"></i><br>{{file.originalName}}
+									<button type="button" class="close close--delete-file"
+										data-ng-click="deleteFile($index)"
+										data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-plus"></i> Registrar
+					</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+</section>

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
@@ -12,13 +11,15 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 @Repository
 public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 
-	OrderDay findAllById(OrderDay entity);
+	OrderDay findFirstById(String id);
 	List<OrderDay>findByStatusGreaterThan(int status);
 	List<OrderDay>findByStatus(int status);
-	List<OrderDay>findByStatusAndReferenciaIsNotNull(int status);
+	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaAsc(int status);
+	List<OrderDay> findByFechaBetween(LocalDateTime f1, LocalDateTime f2);
+	
+	
 	List<OrderDay> findByStatusAndReferenciaIsNull(int status);
-	//List<OrderDay> findByStatusAndReferenciaIsSustituida(int status);
-	//List<OrderDay> findOrderDayByFechaHora(LocalDateTime fecha);
 	
-	
+	//List <OrderDay> findByReferenciaStatusAndId(String id);
+	List <OrderDay> findByOdOriginal(String odOriginal);
 }

@@ -15,8 +15,8 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
-		elementOdService.get($scope.elementOd).then(function mySuccess(data) {			
+
+		elementOdService.getNameOrder($scope.elementOd).then(function mySuccess(data) {			
 			$scope.elements = data;
 			$timeout(()=>{
 				swal.stopLoading();

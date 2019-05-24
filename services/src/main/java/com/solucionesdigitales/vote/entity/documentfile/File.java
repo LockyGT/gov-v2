@@ -1,18 +1,18 @@
-package com.solucionesdigitales.vote.entity.archive;
+package com.solucionesdigitales.vote.entity.documentfile;
 
 import java.util.Date;
 
 public class File {
 	
-	
 	private String id;
 	private String userId;
 	private String originalName;
 	private String serverName;
+	private String folder;
 	private long size;
 	private Date lastModification;
 	private String extention;
-	private String mimeTipe;
+	private String mimeType;
 	private Date date;
 	private int status;
 	
@@ -66,6 +66,18 @@ public class File {
 		this.serverName = serverName;
 	}
 	/**
+	 * @return the folder
+	 */
+	public String getFolder() {
+		return folder;
+	}
+	/**
+	 * @param folder the folder to set
+	 */
+	public void setFolder(String folder) {
+		this.folder = folder;
+	}
+	/**
 	 * @return the size
 	 */
 	public long getSize() {
@@ -104,14 +116,14 @@ public class File {
 	/**
 	 * @return the mimeTipe
 	 */
-	public String getMimeTipe() {
-		return mimeTipe;
+	public String getMimeType() {
+		return mimeType;
 	}
 	/**
 	 * @param mimeTipe the mimeTipe to set
 	 */
-	public void setMimeTipe(String mimeTipe) {
-		this.mimeTipe = mimeTipe;
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 	/**
 	 * @return the date
@@ -137,14 +149,13 @@ public class File {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "File [id=" + id + ", originalName=" + originalName + ", serverName=" + serverName + ", size=" + size
-				+ ", lastModification=" + lastModification + ", extention=" + extention + ", mimeTipe=" + mimeTipe
+				+ ", lastModification=" + lastModification + ", extention=" + extention + ", mimeTipe=" + mimeType
 				+ ", status=" + status + "]";
 	}
 }
