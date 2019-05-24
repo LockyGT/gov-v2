@@ -63,6 +63,12 @@ public class OrderDayServiceImpl implements OrderDayService {
 		
 		return  odv;
 	}
+	
+	@Override
+	public OrderDay fetchById(String id) {
+		
+		return orderDayRepository.findFirstById(id);
+	}
 
 	@Override
 	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
@@ -102,9 +108,9 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		//nuevaVersion.getStatus();
 		nuevaVersion.setStatus(ORDERDAY_STATUS._ACTIVA);
+		nuevaVersion.setAttached(entity.getAttached());
 		nuevaVersion = orderDayRepository.save(nuevaVersion);
-
-
+		
 		entity = od.get(); 
 		entity.setReferencia(nuevaVersion.getId()); 
 		entity.setId(null);

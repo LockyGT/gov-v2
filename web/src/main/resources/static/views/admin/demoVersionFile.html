@@ -79,7 +79,7 @@
 								<li
 									data-ng-repeat="file in orderDay.attached.files | filter: {status: 1} track by $index"
 									class="list-inline-item text-center position-relative"><i
-									class="far fa-file fa-3x"></i><br>{{file.originalName}}
+									class="far fa-file fa-3x text-secondary"></i><br>{{file.originalName}}
 									<button type="button" class="close close--delete-file"
 										data-ng-click="deleteFile($index)"
 										data-dismiss="modal" aria-label="Close">

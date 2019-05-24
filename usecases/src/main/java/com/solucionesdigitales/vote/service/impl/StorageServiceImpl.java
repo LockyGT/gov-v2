@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
+import com.solucionesdigitales.vote.entity.documentfile.Attached;
 import com.solucionesdigitales.vote.service.StorageService;
 import com.solucionesdigitales.vote.service.config.StorageConfig;
 import com.solucionesdigitales.vote.service.utils.exceptions.StorageException;
@@ -197,10 +198,10 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> copyToVersionedFolder(
+	public Attached copyToVersionedFolder(
 			ArrayList<MultipartFile> files, ArrayList<String> filesServerName, String folder, String oldFolder,
 			String userId) {
-
+		Attached attached = new Attached();
 		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> versionedFiles = 
 				new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
 
@@ -233,9 +234,11 @@ public class StorageServiceImpl implements StorageService {
 			}
 
 		} catch (IOException e) {
-
+			throw new StorageException("Failed to update files ", e);
 		}
-		return versionedFiles;
+		attached.setFiles(versionedFiles);
+		attached.setOriginFolder(newFolder);
+		return attached;
 	}
 
 	@Override

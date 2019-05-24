@@ -7,6 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
+import com.solucionesdigitales.vote.entity.documentfile.Attached;
 import com.solucionesdigitales.vote.entity.documentfile.File;
 
 public interface StorageService {
@@ -23,7 +24,7 @@ public interface StorageService {
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
 			String userId);
 
-	ArrayList<File> copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName,
+	Attached copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName,
 			String folder, String oldFolder, String userId);
 
 	ArrayList<File> moveFolderRecycleBin(GenericFile gf);

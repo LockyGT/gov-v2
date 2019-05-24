@@ -10,6 +10,9 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 public interface OrderDayService {
 
 	List<OrderDay> fetch();
+	
+	OrderDay fetchById(String id);
+
 	OrderDay post(OrderDay entity);
 	OrderDay put(OrderDay entity);
 	OrderDay delete(OrderDay entity);

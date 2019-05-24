@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.solucionesdigitales.vote.entity.GenericFile;
+import com.solucionesdigitales.vote.entity.documentfile.Attached;
 import com.solucionesdigitales.vote.entity.documentfile.File;
 import com.solucionesdigitales.vote.service.StorageService;
 import com.solucionesdigitales.vote.service.utils.Utils;
@@ -148,7 +149,7 @@ public class StorageController {
 		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId);
 	}
 	@PostMapping("/new-version")
-	public ArrayList<File> copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
+	public Attached copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
 			@RequestParam("filesServerName") ArrayList<String> filesServerName,
 			@RequestParam("folder") String folder,
 			@RequestParam("oldFolder")String oldFolder,

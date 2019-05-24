@@ -46,6 +46,19 @@ public class OrderDayController {
 		logger.info("consulta de Versiones de Orden del dia:");
 		return service.getSustituidaWithReference();
 	}
+	
+	@GetMapping(value="/fetch/id")
+	public OrderDay getOrderDayById(@RequestParam(value="id") final String id){
+		logger.info("consulta de Versiones de Orden del dia:");
+		return service.fetchById(id);
+	}
+//	@GetMapping(value="/sustituida/reference/and/id")
+//	public List<OrderDay> getSustituidaReferenciaAdnId(){
+//		logger.info("consulta de Versiones de Orden del dia:");
+//		return service.getSustituidaReferenciaAndId();
+//	}
+	
+	
 
 	@GetMapping(value="/odOriginal")
 	public List<OrderDay> getOdOriginal(@RequestParam(value="odOriginal") final String odOriginal){

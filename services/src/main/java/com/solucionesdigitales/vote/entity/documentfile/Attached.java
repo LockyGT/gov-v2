@@ -12,6 +12,7 @@ public class Attached {
 	@Id
 	private String id;
 	private String name;
+	private String originFolder;
 	private int status;
 	private ArrayList<File> files;
 	
@@ -38,6 +39,18 @@ public class Attached {
 	 */
 	public void setName(String nombre) {
 		this.name = nombre;
+	}
+	/**
+	 * @return the originFolder
+	 */
+	public String getOriginFolder() {
+		return originFolder;
+	}
+	/**
+	 * @param originFolder the originFolder to set
+	 */
+	public void setOriginFolder(String originFolder) {
+		this.originFolder = originFolder;
 	}
 	/**
 	 * @return the status

@@ -22,6 +22,16 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
+	self.getById = (date)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/fetch/id', date).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.getActiveWithAndWithoutReference = ()=>{
 		return $q(function(resolve, reject) {			
 			factory.get(path+"/active/reference/with/without").then(function mySuccess(data) {

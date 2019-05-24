@@ -33,14 +33,14 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	
 	$scope.addNewVersion = (isValid) => {
 		if(isValid){
-			let fFiles = $filter('filter')($scope.attached.files, {"status": 1});
+			let fFiles = $filter('filter')($scope.orderDay.attached.files, {"status": 1});
 			let dataFiles = {};
 			
 			if(fFiles){
 				dataFiles = {
 						"files": $scope.attached.filesUploads,
 						"filesServerName":fFiles.map(f => f.serverName),
-						"oldFolder": fFiles[0].folder,
+						"oldFolder": $scope.orderDay.attached.originFolder,
 						"folder":'attached',
 						"userId":'israel'
 				};
@@ -69,7 +69,8 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	$scope.updateOrderDay = newFiles => {
 		let dataOD = $scope.orderDay;
 		dataOD.attached.status = 1;
-		dataOD.attached.files = $scope.orderDay.attached.files.concat(newFiles);
+		dataOD.attached.originFolder = newFiles.originFolder;
+		dataOD.attached.files = $scope.orderDay.attached.files.concat(newFiles.files);
 		
 		console.log('Orden del dia enviadad: ', dataOD);
 		orderdayService.put(dataOD).then(success => {

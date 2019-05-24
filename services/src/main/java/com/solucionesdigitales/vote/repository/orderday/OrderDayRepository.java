@@ -11,7 +11,7 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 @Repository
 public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 
-	OrderDay findAllById(OrderDay entity);
+	OrderDay findFirstById(String id);
 	List<OrderDay>findByStatusGreaterThan(int status);
 	List<OrderDay>findByStatus(int status);
 	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaAsc(int status);
