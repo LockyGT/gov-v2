@@ -11,7 +11,7 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	
 	$scope.getOrderDay = () => {
 		let data = {
-				id: '5ce6e8737739125ae54ed495'
+				id: '5ce40239dc40ba2a707aa39d'
 		};
 		
 		orderdayService.getById(data).then(success => {			

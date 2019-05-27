@@ -253,7 +253,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 
 	$scope.addNewOd = function (orderday){
 		orderday.fecha= new Date(orderday.fecha+'T00:00:00.000-0500');
-		$scope.orderday =orderday;
+		$scope.orderday = orderday;
 	};
 
 	$scope.addElementsOd = function (){
@@ -321,11 +321,7 @@ app.controller('orderDayCtrl', function($log, $timeout,$rootScope,orderdayServic
 		});
 	}; 
 	$scope.addOrderOfTheDay = (orderday)=>{ 
-		$scope.orderdayshow= orderday; 
-		$('#myModal').modal({ 
-			keyboard: false 
-		}); 
-		$('#myModal').modal('show'); 
+		$scope.orderdayshow= orderday;
 	};
 
 

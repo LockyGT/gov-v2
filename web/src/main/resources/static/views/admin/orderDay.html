@@ -162,7 +162,20 @@
 								</div>
 							</div>
 							<div class="tab-pane fade" id="anexos" role="tabpanel"
-								aria-labelledby="nav-anexos-tab">..............................</div>
+								aria-labelledby="nav-anexos-tab">
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								</div>
 						</div>
 					</div>
 					<!-- CardBody -->
@@ -263,7 +276,6 @@
 									<th>#</th>
 									<th>Orden del día</th>
 									<th>Fecha</th>
-									<th>Ver</th>
 									<th>Actualizar</th>
 									<th>Eliminar</th>
 									<th>Versiones</th>
@@ -272,18 +284,16 @@
 							<tbody>
 								<tr data-ng-repeat="od in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
-									<td>{{od.nombre}}</td>
+									<td><a style="color: black;" href="" data-ng-click="addOrderOfTheDay(od)"
+										data-toggle="modal" data-target="#modal-show-od">{{od.nombre}}</a></td>
 									<!--{{orderday.odOriginal ? 'versionado' : 'original'}} -->
 									<td>{{od.fecha | date:'dd/MM/yyyy'}}</td>
-									<td><button class="btn btn-primary btn-sm"
-											data-ng-click="addOrderOfTheDay(od)">
-											<i class="far fa-eye"></i>
-										</button></td>
-									<!-- updateOrderday -->
-									<td><button type="button" class="btn btn-warning"
-											data-ng-click="addNewOd(od)">nueva version</button></td>
 									<td>
+										<button type="button" class="btn btn-warning"
+											data-ng-click="addNewOd(od);">Crear Version</button>
 
+									</td>
+									<td>
 										<button type="button" class="btn btn-danger"
 											data-ng-click="confirmDelete(od);">eliminar</button>
 									</td>
@@ -319,7 +329,11 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<div class="input-group">
+						<!-- 				<button type="button" class="btn btn-dark" -->
+						<!-- 						data-ng-click="addNewOd();">Crear Version</button> -->
 
+					</div>
 					<div class="table-responsive">
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
@@ -334,7 +348,7 @@
 							</thead>
 							<tbody>
 								<tr data-ng-repeat="verssion in orderdaysV track by $index">
-<!-- 									<td scope="row">{{$index+1}}</td> -->
+									<!-- 									<td scope="row">{{$index+1}}</td> -->
 									<td>{{verssion.nombre}}</td>
 									<td><button class="btn btn-primary btn-sm"
 											data-ng-click="viewVerssion(verssion)">
@@ -412,8 +426,9 @@
 
 
 	<!-- MODAL MOPSTRAR ORDENES DEL DIA -->
-	<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1"
-		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal fade bd-example-modal-lg" id="modal-show-od"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
