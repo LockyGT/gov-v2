@@ -5,7 +5,6 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	
 	$scope.attached = {};
 	$scope.orderDay = {};
-	$scope.isAdd = true;
 	$scope.changeToAdd =()=>{
 		$scope.isAdd = true;
 	};
@@ -26,8 +25,8 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 		});
 	};
 	
-	$scope.deleteFile = index => {
-		$scope.orderDay.attached.files[index].status = 0;
+	$scope.deleteFile = fl => {
+		fl.status = 0;
 	};
 	
 	
