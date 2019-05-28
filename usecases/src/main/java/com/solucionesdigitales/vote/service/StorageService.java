@@ -13,6 +13,8 @@ import com.solucionesdigitales.vote.entity.documentfile.File;
 public interface StorageService {
 	public Resource loadAsResourceSubDir(String filename, String subDir);
 
+	public byte[] loadAsResourceZip(ArrayList<String> serverNames, ArrayList<String> originalNames, String folder);
+
 	Path cargar(String filename);
 
 	File store(GenericFile file);
@@ -24,8 +26,8 @@ public interface StorageService {
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
 			String userId);
 
-	Attached copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName,
-			String folder, String oldFolder, String userId);
+	Attached copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName, String folder,
+			String oldFolder, String userId);
 
 	ArrayList<File> moveFolderRecycleBin(GenericFile gf);
 

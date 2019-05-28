@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -79,6 +81,24 @@ public class StorageController {
 		Resource file = storageService.loadAsResourceSubDir(filename, "/"+path+"/");
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 * @param path
+	 * @return ResponseEntity<byte[]>
+	 */
+	@GetMapping("/download/zip")
+	@ResponseBody
+	public ResponseEntity<byte[]> loadAsResourceZip(@RequestParam("serverNames") ArrayList<String> serverNames,
+			@RequestParam("originalNames") ArrayList<String> originalNames,
+			@RequestParam("folder")  String folder) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/zip"));
+		byte[] content = storageService.loadAsResourceZip(serverNames,originalNames, folder);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(content, headers,HttpStatus.OK);
+		return (response);
 	}
 	
 	/**

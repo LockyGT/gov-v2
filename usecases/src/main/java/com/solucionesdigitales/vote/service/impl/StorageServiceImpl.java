@@ -1,6 +1,8 @@
 package com.solucionesdigitales.vote.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +73,36 @@ public class StorageServiceImpl implements StorageService {
 		} catch (final MalformedURLException e) {
 			throw new StorageFileNotFoundException("No se pudo leer archivo: " + filename, e);
 		}
+	}
+	
+	@Override
+	public byte[] loadAsResourceZip(ArrayList<String> serverNames, ArrayList<String> originalNames, String folder) {
+		byte[] content = null;
+
+		try {
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+	        ZipOutputStream zipOut = new ZipOutputStream(buffer);
+	        int i = 0;
+	        for(String serverName : serverNames) {
+	        	File fileToZip = new File(rootLocation+File.separator+folder+File.separator+serverName);
+	        	FileInputStream fis = new FileInputStream(fileToZip);
+	        	ZipEntry zipEntry = new ZipEntry(originalNames.get(i));
+	        	zipOut.putNextEntry(zipEntry);
+	        	byte[] bytes = new byte[1024];
+	            int length;
+	            while((length=fis.read(bytes))>=0) {
+	                zipOut.write(bytes, 0, length);
+	            }
+	            fis.close();
+	            i++;
+	        }
+	        
+	        zipOut.close();
+			content = buffer.toByteArray();
+	        buffer.close();
+		} catch(Exception e) {e.printStackTrace();}
+		
+		return(content);
 	}
 
 	@Override

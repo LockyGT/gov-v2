@@ -11,7 +11,7 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	
 	$scope.getOrderDay = () => {
 		let data = {
-				id: '5ce40239dc40ba2a707aa39d'
+				id: '5ce6e8737739125ae54ed495'
 		};
 		
 		orderdayService.getById(data).then(success => {			
@@ -78,6 +78,33 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 			$scope.message = "Orden del día actualizada";
 		}, error => {
 			console.log('Error al actualizar el registro: ', error);
+		});
+	};
+	
+	$scope.downloadZip=()=>{
+		console.log('Intentando descargar archivos: prueba -1');
+		
+		let fFiles = $filter('filter')($scope.orderDay.attached.files, {"status":1});
+		let folder= {
+				serverNames: fFiles.map(f=> f.serverName),
+				originalNames:fFiles.map(f=> f.originalName),
+				folder: 'attached/'+$scope.orderDay.attached.originFolder
+		};
+		storageService.downloadZip(folder).then(arraybuffer=>{
+			let f = new Blob([arraybuffer], {type:"application/zip"});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			link.href = fileURL;
+			link.download = "source.zip";
+			link.click();
+			$timeout(()=>{
+				delete f;
+				delete fileURL;
+				delete link;
+				
+			},500);
+		}, error=>{
+			
 		});
 	};
 	
