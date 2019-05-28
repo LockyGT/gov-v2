@@ -52,12 +52,6 @@ public class OrderDayController {
 		logger.info("consulta de Versiones de Orden del dia:");
 		return service.fetchById(id);
 	}
-//	@GetMapping(value="/sustituida/reference/and/id")
-//	public List<OrderDay> getSustituidaReferenciaAdnId(){
-//		logger.info("consulta de Versiones de Orden del dia:");
-//		return service.getSustituidaReferenciaAndId();
-//	}
-	
 	
 
 	@GetMapping(value="/odOriginal")
@@ -91,25 +85,6 @@ public class OrderDayController {
 		logger.info("consulta OD POR FECHA2 ------> :" + l2);
 		return service.getByDateBetween(l1,l2);
 	}
-
-
-
-	//	public List<OrderDay> getByDateBetween(@RequestParam(value="fechainicio" ) final LocalDate fechaInicio,
-	//			@RequestParam(value="fechafin" ) final LocalDate fechaFin) {
-	//		//logger.info("consulta ORDEN DEL DIA POR FECHA");	
-	//		//LocalDate date = LocalDate.now();
-	//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/MM/uuuu");
-	//	    //String text = date.format(dtf);
-	//		
-	////		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US);
-	//		
-	//	    LocalDate l1 = LocalDate.of(fechaInicio, dtf);
-	//		LocalDate l2 = LocalDate.of(fechaFin, dtf);
-	//		
-	//		return service.getByDateBetween(l1,l2);
-	//	}
-
-
 
 	@PostMapping
 	public OrderDay post(@RequestBody final OrderDay entity) {				
