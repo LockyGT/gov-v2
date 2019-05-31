@@ -3,7 +3,6 @@ package com.solucionesdigitales.vote.repository.partner;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.solucionesdigitales.vote.entity.partner.Partner;
@@ -17,7 +16,7 @@ public interface PartnerRepository extends MongoRepository<Partner, String> {
 	
 //	List<Partner> findAllByStatusAndTipoPartnerOrderByNameAsc(int status, int tipo);
 	List<Partner> findAllByStatusAndTipoPartnerOrderByApPaternoAsc(int status, int tipo);
-	
+		
 	List<Partner> findAllByStatusAndTipoPartnerOrderByApPaternoAscApMaternoAscNameAsc(int status, int tipo);
 	
 	Partner findByUserId(String user);

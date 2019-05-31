@@ -134,6 +134,22 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
+			},
+			{
+				"id": 5,
+				"app": "reports",
+				"index": 5.5,
+				"title": "Legislador",
+				"url": "#!legislatorReport",
+				"icon": "far fa-clipboard",
+				"color": "#0290AD",
+				"image": "../img/periodico.png",
+				"alt": "Consulta por legislador",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
 			}
 		],
 		"status": 1

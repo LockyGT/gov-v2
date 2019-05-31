@@ -33,6 +33,21 @@ app.service('partnerService', function($q, factory) {
 		});
 	};	
 	
+	self.getByStatusAndTipoAndPartie = (data)=>{
+		return $q(function(resolve, reject) {
+			factory.get(path+"/byTipo/partie", data).then(function mySuccess(data) {
+				if(data){					
+					resolve(data);
+				}else{
+					resolve(null);
+				}
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};	
+	
+	
 	self.getByStatusInit = (status)=>{
 		return $q(function(resolve, reject) {
 			let data = {
