@@ -14,11 +14,12 @@ public class OrderDay {
 	private String id;
 	private String nombre;
 	//version
-	private String sku;
+	private int sku;
 	private int status;
 	private LocalDate fecha;
 	private String odOriginal;
 	private String referencia;
+	private boolean isPublished;
 	//private ArrayList<ParagraphOD> paragraphs;
 	
 	private ArrayList<ElementOd> elementsOd;
@@ -41,11 +42,11 @@ public class OrderDay {
 		this.nombre = nombre;
 	}
 
-	public String getSku() {
+	public int getSku() {
 		return sku;
 	}
 
-	public void setSku(String sku) {
+	public void setSku(int sku) {
 		this.sku = sku;
 	}
 
@@ -103,6 +104,14 @@ public class OrderDay {
 	 */
 	public void setAttached(Attached attached) {
 		this.attached = attached;
+	}
+
+	public boolean isPublished() {
+		return isPublished;
+	}
+
+	public void setPublished(boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 
 	@Override

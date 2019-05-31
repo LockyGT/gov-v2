@@ -1,162 +1,104 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <h1 class="my-4">
-	{{titleTabView}} <small>{{titleSession}}</small>
+	<small>Orden del día publicadas</small>
 </h1>
-<section data-ng-show="voteSession !== null">
-	<div class="row">
-		<div class="col-ld-12 col-md-12 col-sm-12">
-			<form name="voteSessionForm"
-				data-ng-submit="submitForm(voteSessionForm.$valid)" novalidate>
-				<div class="card">
-					<div class="card-header">
-						<h5 class="card-title">{{!voteSession.id ? 'NUEVA ':
-							'ACTUALIZAR '}}</h5>
-					</div>
-					<div class="card-body">
-						<div class="form-group row">
-							<label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="txtNombre"
-									data-ng-disabled="voteSession.status == _SESION._FINALIZED"
-									placeholder="Nombre" data-ng-model="voteSession.nombre"
-									autofocus="autofocus" required data-ng-class="invalidClassName">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="txtFecha" class="col-sm-2 col-form-label">Fecha</label>
-							<div class="col-sm-3">
-								<input type="date" min="{{minAge | date:'yyyy-MM-dd'}}"
-									class="form-control" id="txtFecha" required
-									data-ng-class="invalidClassDate"
-									data-ng-disabled="voteSession.status == _SESION._FINALIZED"
-									data-ng-model="voteSession.fechaHora">
-							</div>
-						</div>
-						<div class="col-sm-1"></div>
-						<div class="form-group row">
-							<label for="txtHora" class="col-sm-2 col-form-label">Hora</label>
-							<div class="col-sm-3">
-								<input type="time" class="form-control" id="txtHora"
-									name="txtHora" required data-ng-class="invalidClassTime"
-									data-ng-model="voteSession.fechaHora"
-									data-ng-disabled="voteSession.status == _SESION._FINALIZED">
-								<div class="invalid-feedback d-block"
-									data-ng-if="invalidClassTime.length > 0">Por favor,
-									introduce una hora mayor a la actual</div>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="cboTipoSession" class="col-sm-2 col-form-label">Tipo
-								de Sesión</label>
-							<div class="col-sm-10">
-								<select class="form-control" id="cboTipoSession" required
-									data-ng-disabled="voteSession.status == _SESION._FINALIZED"
-									data-ng-class="invalidClassType"
-									data-ng-options="voteSessionType.name for voteSessionType in voteSessionTypes track by voteSessionType.id"
-									data-ng-model="voteSession.type">
-									<option value="">Seleccione un Tipo...</option>
-								</select>
-							</div>
-						</div>
 
-					</div>
-					<!-- CardBody -->
-					<div class="card-footer">
-						<button type="submit" class="btn btn-success"
-							data-ng-disabled="voteSession.status == _SESION._FINALIZED">{{!voteSession.id
-							? 'Guardar': 'Actualizar'}}</button>
-						<button type="button" class="btn btn-danger"
-							data-ng-click="cancelAddUpdateVoteSession()">Cancelar</button>
-					</div>
-					<!-- CardFooter -->
-				</div>
-				<!-- Card -->
-			</form>
-		</div>
-	</div>
-</section>
-<section data-ng-if="voteSession === null">
+<section data-ng-if="odgazzete === null">
 	<div class="card w-95">
 		<div class="card-body">
 			<form class="form-inline" name="formFiltros">
-				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
-						type="date" class="form-control" id="txtFechaBusqueda"
-						data-ng-max="voteSessionOn.fechaBusquedaFin" name="fechaInicio"
-						data-ng-model="voteSessionOn.fechaBusqueda" required="required"
-						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''">
-
+				<div class="input-group mx-sm-3 mb-2">
+					<input type="date" class="form-control" id="txtFechaBusqueda"
+						data-ng-max="filtrosFechas.fechaFin" name="fecha"
+						data-ng-model="filtrosFechas.fechaInicio" required="required"
+						data-ng-class="formFiltros.fecha.$invalid ? 'is-invalid': ''">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
 				</div>
-				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+				<div class="input-group mx-sm mb-2">
 					<input type="date" class="form-control" id="txtFechaBusquedaFin"
-						data-ng-min="voteSessionOn.fechaBusqueda" name="fechaFin"
+						data-ng-min="filtrosFechas.fechaInicio" name="fechaFin"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
-						data-ng-model="voteSessionOn.fechaBusquedaFin" required="required">
+						data-ng-model="filtrosFechas.fechaFin" required="required">
+					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						</div>
+					</div>
 				</div>
-				<button type="button" class="btn btn-dark"
-					data-ng-click="getVoteSessionsDateOnly(voteSessionOn.fechaBusqueda, voteSessionOn.fechaBusquedaFin)">
-					Buscar</button>
-				<span class="invalid-feedback d-block"
-					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
-					de fechas inválido!</span>
+				<div class="form-group mx-sm-2 mb-2">
+					<button type="button" class="btn btn-dark"
+						data-ng-click="getBuscarFecha();">
+						<i class="fas fa-search"></i> Buscar
+					</button>
+					<span class="invalid-feedback d-block"
+						data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
+						de fechas inválido!</span>
 
+				</div>
 			</form>
 		</div>
 	</div>
 	<div class="card w-95">
 		<div class="card-header">
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<li class="nav-item"><a class="nav-link active" id="home-tab"
-					data-toggle="tab" data-ui-sref="state" href="#home" role="tab"
-					aria-controls="home" aria-selected="true"
-					data-ng-click="changeTitleTabView('SESIONES')">Sessiones</a></li>
-			</ul>
+			<div class="row align-items-start">
+				<button type="button" class="btn btn-light"
+					data-ng-click="previous();">
+					<i class="fas fa-arrow-left"></i> Regresar
+				</button>
+				<div class="col-6">
+					<div class="input-group input-group-lg col-sm-12">
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<i class="fas fa-search"></i>
+							</div>
+						</div>
+						<input type="search" class="form-control" value="search"
+							id="example-search-input" placeholder="Busqueda"
+							data-ng-model="searchElement" required="required">
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="card-body">
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel"
 					aria-labelledby="home-tab">
-					<div class="btn-group">
-						<button type="button" class="btn btn-success"
-							data-ng-click="addVoteSession()">
-							<i class="fa fa-plus"></i> Nueva
-						</button>
-					</div>
 					<br> <br>
-					<div class="table-responsive" data-ng-if="voteSessions.length == 0">
+					<div  class="alert alert-primary" role="alert" data-ng-if="orderdays.length == 0">
 						<div class="alert alert-primary" role="alert"
-							data-ng-if="!voteSessions.length">
-							No se han encontrado sesiones para el rango de fechas
-							seleccionado <a data-ng-click="addVoteSession()"
-								style="cursor: pointer;" class="alert-link">Agregue una
-								sesión para comenzar</a>. O seleccione otra rango de fechas para
-							realizar la busqueda.
-						</div>
+							data-ng-if="!orderdays.length">No se han encontrado Orden
+							del dia para el rango de fechas seleccionado - seleccione otro
+							rango de fechas para realizar la busqueda.</div>
 					</div>
-					<div class="table-responsive" data-ng-if="voteSessions.length > 0">
+					<div class="table-responsive" data-ng-if="orderdays.length > 0">
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
+									<th>Fecha</th>
 									<th>Nombre</th>
-									<th>Fecha/Hora</th>
-									<th>Tipo</th>
-									<th>Estado</th>
-									<th>Agregar</th>
+									<th>Ver</th>
+									<th>Descargar</th>
+									<th>Anexos</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr
-									data-ng-repeat="voteSession in voteSessions track by voteSession.id">
-									<td>{{voteSession.nombre}}</td>
-									<td>{{voteSession.fechaHora | date:'dd/MM/yyyy HH:mma'}}</td>
-									<td>{{voteSession.type.name}}</td>
-									<td>{{getStatusString(voteSession.status)}}</td>
-									<td><button class="btn btn-primary btn-sm"
-											data-ng-click="addOrderOfTheDay()">
-											<i class="fas fa-plus-square"></i>
-										</button></td>
+									data-ng-repeat="orderday in orderdays | filter : searchElement track by orderday.id">
+									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
+									<td>{{orderday.nombre}}</td>
+									<td><button type="button" class="btn btn-danger"><i class="fas fa-file-pdf"></i>ver</button></td>
+									<td><button type="button" class="btn btn-warning"><i class="fas fa-file-download"></i>Descargar</button>
+									</td>
+									<td><button type="button" class="btn btn-dark"
+											data-toggle="modal" data-target="#attachments-verssion" data-ng-click="viewAttachmentsV(orderday);"><i class="fas fa-folder-open"></i>Anexos</button>
+									</td>
 								</tr>
 							</tbody>
 							<tfoot>
@@ -170,213 +112,94 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	
+</section>
+<div class="modal fade bd-example-modal-lg" id="attachments-verssion"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Ordenes del día para la sesión dummy</h5>
+					<h5 class="modal-title">Anexos</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Modal body text goes here.</p>
+						<div class="alert alert-primary" role="alert"
+							data-ng-if="!orderday.attached.files.length">No se han encontrado anexos de esta orden
+							del dia</div>
+					<div class="table-responsive" data-ng-if="orderday.attached.files.length > 0">
+						<table id="datos"
+							class="table table-inversed table-hover table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Archivo</th>
+									<th></th>
+									<th><button type="button" data-ng-click="downloadZip()"
+											class="btn btn-info">
+											<i class="fas fa-download"></i>Descargar
+										</button></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									data-ng-repeat="file in orderday.attached.files | filter: {status: 1} track by $index">
+									<td scope="row">{{$index+1}}</td>
+									<td>{{file.originalName}}</td>
+									<td><button type="button" class="btn btn-danger"
+											data-toggle="modal" data-target="#show-file"
+											data-ng-click="showDownloadFile(file);">
+											<i class="fas fa-file-pdf"></i>
+										</button></td>
+									<td><button type="button" class="btn btn-secondary"
+											data-ng-click="downloadFile(file);">
+											<i class="fas fa-file-download"></i>
+										</button></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="9"></th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">Save changes</button>
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Cerrar</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		//../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png
-
-		//function printAsPDF(){
-		//changetxts(1);
-		/*
-			    var pdf = new jsPDF('p', 'pt', 'letter');
-			    // source can be HTML-formatted string, or a reference
-			    // to an actual DOM element from which the text will be scraped.
-			    source = $('#tableAsistencias')[0];
-
-			    // we support special element handlers. Register them with jQuery-style 
-			    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-			    // There is no support for any other type of selectors 
-			    // (class, of compound) at this time.
-			    specialElementHandlers = {
-			        // element with id of "bypass" - jQuery style selector
-			        '#bypassme': function (element, renderer) {
-			            // true = "handled elsewhere, bypass text extraction"
-			            return true
-			        }
-			    };
-			    margins = {
-			        top: 40,
-			        bottom: 40,
-			        left: 40,
-			        width: 532
-			    };
-			    // all coords and widths are in jsPDF instance's declared units
-			    // 'inches' in this case
-			    pdf.fromHTML(
-			    source, // HTML string or DOM elem ref.
-			    margins.left, // x coord
-			    margins.top, { // y coord
-			        'width': margins.width, // max width of content on PDF
-			        'elementHandlers': specialElementHandlers
-			    },
-
-			    function (dispose) {
-			        // dispose: object with X, Y of the last line add to the PDF 
-			        //          this allow the insertion of new lines after html
-			        pdf.save('asistencia.pdf');
-			    }, margins);
-			    
-		 */
-
-		/*
-		
-		var doc = new jsPDF();
-		doc.autoTable({
-			html: '#attendanceTable', 
-			startY: 20
-			});
-		doc.output("dataurlnewwindow");
-		
-		 */
-
-		// changetxts(0);
-		//}
-		function update(shouldDownload) {
-			var funcStr = window.location.hash.replace(/#/g, '') || 'basic';
-			changetxts(1);
-			var doc = printPdf();
-
-			doc.setProperties({
-				title : 'Example: ' + funcStr,
-				subject : 'A jspdf-autotable example pdf (' + funcStr + ')'
-			});
-
-			if (shouldDownload) {
-				doc.save('asistencias.pdf');
-			} else {
-				//document.getElementById("output").src = doc.output('datauristring');
-				// document.getElementById("output").data = doc.output('datauristring');
-				//doc.output("dataurlnewwindow");
-				doc.save('asistencias.pdf');
-			}
-			changetxts(0);
-		}
-
-		var base64Img, coinBase64Img;
-		imgToBase64(
-				'../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png',
-				function(base64) {
-					base64Img = base64;
-					/*imgToBase64('../img/LXII_Legislatura_del_Congreso_del_Estado_de_Guerrero.png', function(base64) {
-					    coinBase64Img = base64;
-					    update();
-					});*/
-				});
-
-		function imgToBase64(src, callback) {
-			var outputFormat = src.substr(-3) === 'png' ? 'image/png'
-					: 'image/jpeg';
-			var img = new Image();
-			img.crossOrigin = 'Anonymous';
-			img.onload = function() {
-				var canvas = document.createElement('CANVAS');
-				var ctx = canvas.getContext('2d');
-				var dataURL;
-				canvas.height = this.naturalHeight;
-				canvas.width = this.naturalWidth;
-				ctx.drawImage(this, 0, 0);
-				dataURL = canvas.toDataURL(outputFormat);
-				callback(dataURL);
-			};
-			img.src = src;
-			if (img.complete || img.complete === undefined) {
-				img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-				img.src = src;
-			}
-		}
-
-		function printPdf() {
-			var doc = new jsPDF();
-			var totalPagesExp = "{total_pages_count_string}";
-
-			doc
-					.autoTable({
-						// head: headRows(), 
-						//body: bodyRows(40),
-						html : '#attendanceTable',
-						didDrawPage : function(data) {
-							// Header
-							doc.setFontSize(20);
-							doc.setTextColor(40);
-							doc.setFontStyle('normal');
-							if (base64Img) {
-								doc.addImage(base64Img, 'JPEG',
-										data.settings.margin.left, 15, 10, 10);
-							}
-							doc.text("ASISTENCIAS",
-									data.settings.margin.left + 15, 22);
-
-							// Footer
-							var str = "Pag. " + doc.internal.getNumberOfPages()
-							// Total page number plugin only available in jspdf v1.0+
-							if (typeof doc.putTotalPages === 'function') {
-								str = str + " de " + totalPagesExp;
-							}
-							doc.setFontSize(10);
-
-							// jsPDF 1.4+ uses getWidth, <1.4 uses .width
-							var pageSize = doc.internal.pageSize;
-							var pageHeight = pageSize.height ? pageSize.height
-									: pageSize.getHeight();
-							doc.text(str, data.settings.margin.left,
-									pageHeight - 10);
-						},
-						margin : {
-							top : 30
-						}
-					});
-
-			// Total page number plugin only available in jspdf v1.0+
-			if (typeof doc.putTotalPages === 'function') {
-				doc.putTotalPages(totalPagesExp);
-			}
-
-			return doc;
-		}
-
-		/* var elementHandler = {
-		   '#ignoreElement': function (element, renderer) {
-		     return true;
-		   },
-		   '#anotherIdToBeIgnored': function (element, renderer) {
-		     return true;
-		   }
-		 };
-		 */
-
-		function changetxts(_tipo) {
-			if (_tipo == 1) {
-				document.getElementById('spnDates').innerHTML = 'del dia '
-						+ document.getElementById('txtFechaBusqueda').value
-						+ ' al '
-						+ document.getElementById('txtFechaBusquedaFin').value;
-			} else {
-				document.getElementById('spnDates').innerHTML = '';
-			}
-
-		}
-	</script>
-</section>
+	<!--MODAL MUESTRA EL CONTENIDO DE LOS DOCUMENTOS ANEXADOS EN LA OD-->
+<div class="modal fade bd-example-modal-lg" id="show-file" tabindex="-1" role="dialog"
+	aria-labelledby="showFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="showFile">{{fileName.originalName}}</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="embed-responsive embed-responsive-16by9 text-center">
+					<object width="400" height="400" id="object-data"></object>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	var tableToExcel = (function() {
 		var uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', base64 = function(

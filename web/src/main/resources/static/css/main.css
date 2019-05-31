@@ -20,7 +20,13 @@
 	border-radius: 1rem !important;
 	display: block !important;
 }
-
+.nav-link{
+	color:black;
+}
+.nav-tabs .nav-link.active {
+  
+    
+}
 .margin {
 	margin-top: 3em;
 	margin-left: 8em;

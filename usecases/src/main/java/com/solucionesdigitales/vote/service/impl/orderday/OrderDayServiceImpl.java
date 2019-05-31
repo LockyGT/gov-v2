@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 //import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
@@ -56,10 +57,18 @@ public class OrderDayServiceImpl implements OrderDayService {
 	@Override
 	public List<OrderDay> getOdOriginal(String odOriginal) {
 		List<OrderDay> odv = new ArrayList<OrderDay>();
-		List<OrderDay> v2 = orderDayRepository.findByOdOriginal(odOriginal);
+		List<OrderDay> v2 = orderDayRepository.findByReferenciaOrderBySkuDesc(odOriginal);
 		odv.addAll(v2);
 		
 		return  odv;
+	}
+	
+	@Override
+	public List<OrderDay> getByStatus(int status) {
+		List<OrderDay> odpost= new ArrayList<OrderDay>();
+		List<OrderDay> p1= orderDayRepository.findByStatus(ORDERDAY_STATUS._PUBLICADA);
+		odpost.addAll(p1);
+		return odpost;
 	}
 	
 	@Override
@@ -71,23 +80,18 @@ public class OrderDayServiceImpl implements OrderDayService {
 	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
 		List<OrderDay> res = new ArrayList<OrderDay>();
 		List<OrderDay> l1 = orderDayRepository.findByFechaBetween(f1,f2);
-		//List<OrderDay> l2 = orderDayRepository.findByFechaBetwen(f2);
 		res.addAll(l1);
 		return res;	
 	}
-
-
-
 
 	@Override
 	public OrderDay post(OrderDay entity) {		
 		entity = orderDayRepository.save(entity);	
 		return entity;
 	}
-
-
+	
 	@Override
-	public OrderDay put(OrderDay entity) {
+	public OrderDay postNewVerssion(OrderDay entity) {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
 		nuevaVersion.setElementsOd(entity.getElementsOd());
@@ -106,6 +110,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 		//nuevaVersion.getStatus();
 		nuevaVersion.setStatus(ORDERDAY_STATUS._ACTIVA);
 		nuevaVersion.setAttached(entity.getAttached());
+		nuevaVersion.setSku(entity.getSku()+1);
 		nuevaVersion = orderDayRepository.save(nuevaVersion);
 		
 		entity = od.get(); 
@@ -115,6 +120,15 @@ public class OrderDayServiceImpl implements OrderDayService {
 		orderDayRepository.save(entity);
 		return nuevaVersion;
 	}
+
+
+	@Override
+	public OrderDay put(OrderDay entity) {
+		OrderDay orderday= new OrderDay();
+		orderday = orderDayRepository.save(entity);
+		return orderday;
+	}
+	
 	@Override
 	public OrderDay delete(OrderDay entity) {
 		OrderDay orderday = new OrderDay();
@@ -125,6 +139,17 @@ public class OrderDayServiceImpl implements OrderDayService {
 		}
 		return orderday;
 	}
+
+	@Override
+	public List<OrderDay> getByStatusPublicada(boolean status) {
+		List<OrderDay> odpost= new ArrayList<OrderDay>();
+		 odpost= orderDayRepository.findByIsPublished(status);
+		return odpost;
+	}
+
+	
+
+	
 
 	
 

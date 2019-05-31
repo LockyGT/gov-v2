@@ -59,6 +59,17 @@ public class OrderDayController {
 		logger.info("Consulta de versiones");
 		return service.getOdOriginal(odOriginal);
 	}
+	
+	@GetMapping(value="/status")
+	public List<OrderDay> getByStatus(@RequestParam(value="status")final int status){
+		logger.info("Consulta de OD Publicadas");
+		return service.getByStatus(status);
+	}
+	@GetMapping(value="/published")
+	public List<OrderDay> getByStatusPublicada(@RequestParam(value="publicada")final boolean status){
+		logger.info("Consulta de OD Publicadas");
+		return service.getByStatusPublicada(status);
+	}
 
 	@GetMapping(value="/date/between" )	
 	public List<OrderDay> getByDateBetween(@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
@@ -91,7 +102,13 @@ public class OrderDayController {
 		logger.info("Order Day a guardar: ["+entity.toString()+"]");		
 		return service.post(entity);
 	}
-
+	
+	@PostMapping(value="/newVerssion") 
+	public OrderDay postNewVerssion(@RequestBody final OrderDay entity) {
+		logger.info("Version de la orden del dia guardado: [" +entity.toString()+"]");
+		return service.postNewVerssion(entity);
+	}
+	
 	@PutMapping
 	public OrderDay put(@RequestBody final OrderDay entity) {				
 		logger.info("Order Day a actualizar: ["+entity.toString()+"]");		

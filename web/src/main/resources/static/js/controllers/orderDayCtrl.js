@@ -1,4 +1,4 @@
-app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $scope,$http,$log,factory, $state, elementOdService,$location, storageService, $filter,) {
+app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $scope,$http,$log,factory, $state, elementOdService,$location, storageService, $filter) {
 
 	$scope.orderday = null
 	$scope.orderdayVerssion=null;
@@ -9,7 +9,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.filtrosFechas.fecha= new Date();
 	$scope.filtrosFechas.fechaFin = new Date();
 	$scope.fecha=new Date();
-	
+
 	$scope.changeToAdd =()=>{
 		$scope.isAdd = true;
 	};
@@ -62,6 +62,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			odOriginal = orderday.id;
 		}
 		$scope.getVerssionOD(odOriginal);
+		
 		$('#modalVerssion').modal({ 
 			keyboard: false 
 		}); 
@@ -82,6 +83,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 		//$scope.orderday
 		orderdayService.getOdOriginal(odOriginal).then(function success(data){
+			console.log('Mostrar versiones', data)
 			$scope.orderdaysV = data;
 			console.log( 'informacion obtenida', $scope.orderdaysV)
 			$timeout(()=>{
@@ -95,13 +97,10 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 	};
 
-
-
 	$scope.getBuscarFecha = () =>{
 		console.log("--------------------");
 		console.log($scope.filtrosFechas);
 		console.log("--------------------");
-
 		let dateInit = new Date($scope.filtrosFechas.fecha);
 		let dateEnd = new Date($scope.filtrosFechas.fechaFin);		
 		let map = new Object(); 
@@ -135,8 +134,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 		//console.log('Obtener OD con status activa', $scope.orderday);
 		orderdayService.getActiveWithAndWithoutReference().then(function success(data){
-			
-			$scope.orderdays =data;
+			$scope.orderdays=data;
 			console.log('Texto', $scope.orderdays)
 			$timeout(()=>{
 				swal.stopLoading();
@@ -148,9 +146,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-	
-	
-
 
 	$scope.postOrderDay = function(newFiles){
 		console.log("Orden del dia guardando",$scope.orderday);
@@ -183,8 +178,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 	};
 
-
-	$scope.putOrderDay = (newFiles) => {
+	$scope.NewVerssionOrderDay = (newFiles) => {
 		swal({
 			title: "versionando  Orden del día",
 			text: "Por favor espere...",
@@ -201,14 +195,13 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		dataOD.attached.originFolder = newFiles.originFolder;
 		dataOD.attached.files = $scope.orderday.attached.files.concat(newFiles.files);
 		console.log('Orden del dia enviadad: ', dataOD);
-		orderdayService.put(dataOD).then(function success(data){
+		orderdayService.postNewVerssion(dataOD).then(function success(data){
 			console.log('aqui', data)
 			if(data){
 				swal.stopLoading();
 				swal("Exito", "Orden del dia actualizado correctamente", "success");
 				$scope.attached = {};
 				data.fecha = new Date(data.fecha);
-				//$scope.orderday = data;
 				$scope.getOrderDays();
 				$scope.orderday = null;
 			} else {
@@ -249,7 +242,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.addUpdate = (newFiles) => {
 		if($scope.orderday){
 			if($scope.orderday.id){
-				$scope.putOrderDay(newFiles);
+				$scope.NewVerssionOrderDay(newFiles);
 			} else {
 				$scope.postOrderDay(newFiles);
 			}
@@ -257,37 +250,72 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			console.log("Falta informacion para completar el registro");
 		}
 	};
-	
-	
 	$scope.addNewOd = function (orderday){
-		
 		orderday.fecha= new Date(orderday.fecha+'T00:00:00.000-0500');
 		console.log('informacion order day: ', orderday);
 		$scope.orderday = orderday;
-//		$scope.orderday.attached={
-//			files:[]
-//			}
+	};
+	
+	$scope.toPostOdGazzete = (orderday)=>{
+		orderday.published = true;
+		orderdayService.put(orderday).then(function mySuccess(data) {
+			if(data){
+				swal("Exito","Orden del dia publicado exitosamente", "success");
+				$scope.getOrderDays();
+			}
+		}, function error(){
+			swal("Errpr","Orden del dia no publicado","error");
+		});
+	};
+	
+	
+	
+	
+//	$scope.getStatusString = (status)=>{
+//	let statusString = "--";
+//	switch (status) {
+//	case _ORDERDAY._APROBADA:
+//		statusString = "APROBADA";
+//		break;
+//	case _ORDERDAY._NOAPROBADA:
+//		statusString = "INICIADA";
+//		break;
+//	case _ORDERDAY._PUBLICADA:
+//		statusString = "PUBLICADA";
+//		break;
+//	case _ORDERDAY._ELIMININADA:
+//		statusString = "ELIMINADA";
+//		break;
+//	default:
+//		statusString = " "+status;
+//	break;
+//	}
+//	return statusString;
+//};
+
+	$scope.deleteFile = fl => {
+		fl.status = 0;
 	};
 
 	$scope.addElementsOd = function (){
 		$location.path('elementOd');
 	};
-
-//	$scope.updateOrderday = (orderday) =>{
-//		$scope.orderday= orderday;
-//	};
+	$scope.previous= function(){
+		window.history.back();
+	};
 
 	$scope.addOrderday = () => {
 		console.log('Agregar nueva OD', $scope.orderday);
 		$scope.orderday = {
 				fecha:new Date(),
 				nombre:'',
+				sku:1,
 				elementsOd:[],
 				attached:{
-						files:[]
+					files:[]
 				}
 		}
-		
+
 	};
 	$scope.submitForm = (isValid) => {
 		console.log('validForm');
@@ -295,7 +323,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		if(isValid){
 			let fFiles = $filter('filter')($scope.orderday.attached.files, {"status": 1});
 			let dataFiles = {};
-			
+
 			if(fFiles){
 				dataFiles = {
 						"files": $scope.attached.filesUploads,
@@ -313,11 +341,11 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 						"userId":'israel'
 				};
 			}
-			
+
 			console.log('Informacion enviada: ', dataFiles);
 			storageService.newVersion(dataFiles).then(success=>{
 				console.log('Informacion obtenida: ', success);
-				
+
 				$scope.addUpdate(success);
 				$scope.message = "Archivos subidos";
 			}, error=>{
@@ -326,26 +354,90 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		}
 	};
 
+	$scope.downloadZip=()=>{
+		console.log('Intentando descargar archivos: prueba -1');
+
+		let fFiles = $filter('filter')($scope.orderday.attached.files, {"status":1});
+		let folder= {
+				serverNames: fFiles.map(f=> f.serverName),
+				originalNames:fFiles.map(f=> f.originalName),
+				folder: 'attached/'+$scope.orderday.attached.originFolder
+		};
+		storageService.downloadZip(folder).then(arraybuffer=>{
+			let f = new Blob([arraybuffer], {type:"application/zip"});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			link.href = fileURL;
+			link.download = $scope.orderday.nombre +".zip";
+			link.click();
+			$timeout(()=>{
+				delete f;
+				delete fileURL;
+				delete link;
+
+			},500);
+		}, error=>{
+
+		});
+	};
+
+	$scope.downloadFile = (file) => {
+		let data = {
+				path: 'attached/'+$scope.orderday.attached.originFolder,
+				filename: file.serverName
+		}; 
+		storageService.download(data).then(arraybuffer=>{
+			let f = new Blob([arraybuffer],{type: file.mimeType});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			link.href = fileURL;
+			link.download=file.originalName;
+			link.click();
+			$timeout(()=>{
+				delete f;
+				delete fileURL;
+				delete link;
+
+			},500);
+		}, error=>{
+			console.error('Error al descargar el archivo:', error);
+		});
+	};
+
+	$scope.showDownloadFile = (file) => {
+		let data = {
+				path: 'attached/'+$scope.orderday.attached.originFolder,
+				filename: file.serverName
+		}; 
+		storageService.download(data).then(arraybuffer=>{
+			let f = new Blob([arraybuffer],{type: file.mimeType});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			console.log('elemento',document.getElementById('object-data'))
+			document.getElementById('object-data').type=file.mimeType;
+			document.getElementById('object-data').data=fileURL;
+
+			$scope.fileName = file;
+		}, error=>{
+			console.error('Error al descargar el archivo:', error);
+		});
+	};
 
 	$scope.addContentE = function(){
 		console.log('Agregar elementos con parrafos');
-
-		$scope.currentElement.paragraphs = [];
-		$scope.currentElement.paragraphs.push({
-			'nombre':'',
-			'contenidotxt': '',
-			'isIniciativa': false,
-			'nivel':1,
-			'subParagraphs':[]
-
-		});
-		console.log('Parrafo creado', $scope.orderday)
-		$scope.orderday.elementsOd.push($scope.currentElement);
-
+		$scope.currentElement
+        let isExistsElement= $filter('filter')($scope.orderday.elementsOd,{id: $scope.currentElement.id});
+		console.log(isExistsElement)
+		if(!isExistsElement.length){
+			$scope.orderday.elementsOd.push($scope.currentElement);
+		}
 	};
 
 	$scope.addParagraph = function(e) {
-//		console.log('Se agrego nuevo parrafo',$scope.currentElement.paragraphs);
+		if(!$scope.currentElement.paragraphs){
+			$scope.currentElement.paragraphs = [];
+		}
+		console.log('Parrafo creado', $scope.orderday)
 		e.paragraphs.push({
 			'contenidotxt': '',
 			'isIniciativa': false,
@@ -363,14 +455,29 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 		});
 	}; 
+
+	$('#show-file').on('hidden.bs.modal', function (e) {
+		document.getElementById('object-data').type=null;
+		document.getElementById('object-data').data=null;
+
+		$scope.fileName = null;
+	});
 	$scope.addOrderOfTheDay = (orderday)=>{ 
 		$scope.orderdayshow= orderday;
 	};
-
-
-
+	
+	$scope.viewAttachmentsV = (orderday)=>{ 
+		orderday.fecha = new Date(orderday.fecha);
+		$scope.orderday= orderday;
+		$('#attachments-verssion').modal({ 
+			keyboard: false 
+		}); 
+		$('#attachments-verssion').modal('show');
+	};
+	
 	$scope.viewVerssion =(orderday)=>{
 		$scope.orderdayView= orderday; 
+		//orderday.fecha = new Date(orderday.fecha);
 		$('#modalView').modal({ 
 			keyboard: false 
 		}); 
@@ -386,7 +493,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.getOrderDays();
 		$scope.getElementsOd();
 	};
-
 
 	angular.element(document).ready(function () {
 		initController();
