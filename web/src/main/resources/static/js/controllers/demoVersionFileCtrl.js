@@ -5,7 +5,6 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 	
 	$scope.attached = {};
 	$scope.orderDay = {};
-	$scope.isAdd = true;
 	$scope.changeToAdd =()=>{
 		$scope.isAdd = true;
 	};
@@ -26,8 +25,8 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 		});
 	};
 	
-	$scope.deleteFile = index => {
-		$scope.orderDay.attached.files[index].status = 0;
+	$scope.deleteFile = fl => {
+		fl.status = 0;
 	};
 	
 	
@@ -79,6 +78,33 @@ app.controller('demoVersionFileCtrl', function($scope, storageService, $filter, 
 			$scope.message = "Orden del día actualizada";
 		}, error => {
 			console.log('Error al actualizar el registro: ', error);
+		});
+	};
+	
+	$scope.downloadZip=()=>{
+		console.log('Intentando descargar archivos: prueba -1');
+		
+		let fFiles = $filter('filter')($scope.orderDay.attached.files, {"status":1});
+		let folder= {
+				serverNames: fFiles.map(f=> f.serverName),
+				originalNames:fFiles.map(f=> f.originalName),
+				folder: 'attached/'+$scope.orderDay.attached.originFolder
+		};
+		storageService.downloadZip(folder).then(arraybuffer=>{
+			let f = new Blob([arraybuffer], {type:"application/zip"});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			link.href = fileURL;
+			link.download = "source.zip";
+			link.click();
+			$timeout(()=>{
+				delete f;
+				delete fileURL;
+				delete link;
+				
+			},500);
+		}, error=>{
+			
 		});
 	};
 	

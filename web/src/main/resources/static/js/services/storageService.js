@@ -21,6 +21,16 @@ app.service('storageService', function($q, factory) {
 			});			
 		});
 	};
+	self.downloadZip = (file)=>{		
+		return $q(function(resolve, reject) {			
+			factory.getFile(path+'/download/zip', file).then(function mySuccess(data) {	
+				
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 	
 	self.save = (file)=>{		
 		return $q(function(resolve, reject) {	

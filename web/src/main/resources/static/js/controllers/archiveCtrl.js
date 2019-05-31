@@ -242,41 +242,40 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	
-	$scope.comfirmDeleteFile = (doc,index) => {
+	$scope.comfirmDeleteFile = (doc,file) => {
 		swal({
 			title: 'Esta seguro de eliminara a',
-			text: doc.files[index].originalName,
+			text: file.originalName,
 			icon: "warning",
 			buttons: true,
 			dangerMode: true
 		}).then((willDelete)=>{
 			if(willDelete){
-				$scope.deleteFile(doc, index);
+				$scope.deleteFile(doc, file);
 			}
 		});
 	};
 
-	$scope.deleteFile = (doc,index) => {
+	$scope.deleteFile = (doc,file) => {
 		
-		doc.files[index].status = 0;
+		file.status = 0;
 		
-			$scope.showFiles.files[index].status = 0;
-			let dataFile = {
-					urlServerFile: 'gazzete/'+$scope.moduleod.id+'/'+$scope.showFiles.files[index].folder,
-					serverName: $scope.showFiles.files[index].serverName,
-					originalName: $scope.showFiles.files[index].originalName
-					
-			};
-			
-			storageService.delFile(dataFile).then(success=>{
+		let dataFile = {
+				urlServerFile: 'gazzete/'+$scope.moduleod.id+'/'+file.folder,
+				serverName: file.serverName,
+				originalName: file.originalName
 				
-				archiveService.put(doc).then(data=>{
-					swal('Exito','Archivo eliminado exitosamente', 'success');
-					$scope.getRecords();
-					if(doc.files.length){
+		};
+			
+		storageService.delFile(dataFile).then(success=>{
+				
+			archiveService.put(doc).then(data=>{
+				swal('Exito','Archivo eliminado exitosamente', 'success');
+				$scope.getRecords();
+				if(doc.files.length){
 						$scope.isAdd = true;
-					}
-				}, error => {
+				}
+			}, error => {
 					swal('Error','Archivo no eliminado', 'error');
 				});
 			}, errSuccess=>{
@@ -415,6 +414,17 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.searchDateStart = new Date();
 		$scope.searchDateEnd = new Date();
 		
+	};
+
+	$scope.filterExtention = (extencion) => {
+		let ignores = ["doc","pptx","xls"];
+		let filter = $filter('filter')(ignores,extencion);
+		
+		if(filter.length){
+			return false;
+		}else {
+			return true;
+		}
 	};
 	
 	$scope.cancelAddUpdate = () => {

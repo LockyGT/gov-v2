@@ -19,7 +19,6 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	
 	
 	List<OrderDay> findByStatusAndReferenciaIsNull(int status);
-	
-	//List <OrderDay> findByReferenciaStatusAndId(String id);
-	List <OrderDay> findByOdOriginal(String odOriginal);
+	List <OrderDay> findByReferenciaOrderBySkuDesc(String referencia);
+	List<OrderDay> findByIsPublished(boolean status);
 }

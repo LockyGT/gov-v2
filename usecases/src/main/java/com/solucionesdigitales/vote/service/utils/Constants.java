@@ -1,6 +1,6 @@
 package com.solucionesdigitales.vote.service.utils;
 
-public interface Constants extends PartnerType, PartnerStatus{	
+public interface Constants extends PartnerType, PartnerStatus, OrderDayStatus{	
 	
 	/**
 	 * CONSTANTES DE STATUS DE INICIATIVAS

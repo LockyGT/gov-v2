@@ -1,6 +1,7 @@
 var app = angular.module('votesApp', ['ui.router', 'chart.js', 'angular-loading-bar', 'ngAnimate']);
 
 
+
 app.constant('_INICIATIVA', {
 	_CREATED: 0,
 	_INITIATED: 1,
@@ -42,6 +43,17 @@ app.constant('_ATTENDANCE', {
 	_ACTIVE: 1,
 	_SAVED: 2
 });
+
+app.constant('_ORDERDAY',{
+	_ELIMINADA:-1,
+	_INACTIVA: 0,
+	_ACTIVA:1,
+	_SUSTITUIDA:2,
+	_APROBADA: 3,
+	_NOAPROVADA:4,
+	_PUBLICADA:5
+});
+
 
 app.run(function($rootScope, $location, $state, LoginService) {
 
@@ -162,6 +174,16 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		url : '/reporteAsistenciasSesiones',
 		templateUrl : './views/admin/reporteAsistenciasSesiones.html',
 		controller : 'reporteAsistenciasSesionesCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('legislatorReport', {
+		url : '/legislatorReport',
+		templateUrl : './views/admin/legislatorReport.html',
+		controller : 'legislatorReportCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('reporteLegislatura', {
+		url : '/reporteLegislatura',
+		templateUrl : './views/admin/reporteLegislatura.html',
+		controller : 'reporteLegislaturaCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('listaAsistenciaSesionSinIniciativa', {
 		url : '/listaAsistenciaSesionSinIniciativa',

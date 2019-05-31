@@ -61,8 +61,8 @@
 		<div class="card-header">
 			<div class="row">
 				<div class="btn-group mr-3">
-					<button type="button" class="btn btn-link"
-						data-ng-click="previous()">
+					<button type="button" class="btn btn-light"
+						data-ng-click="previous();">
 						<i class="fas fa-arrow-left"></i> Regresar
 					</button>
 				</div>
@@ -73,6 +73,11 @@
 					</button>
 				</div>
 				<div class="input-group col-md-4">
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<i class="fas fa-search"></i>
+						</div>
+					</div>
 					<input class="form-control py-2" type="search" value="search"
 						id="example-search-input" placeholder="Buscar"
 						data-ng-model="searchElement"> <span
@@ -82,15 +87,14 @@
 		</div>
 		<div class="card-body">
 			<div class="row">
-				<!-- 				<div class="alert alert-primary" role="alert" -->
-				<!-- 					data-ng-if="!elementOd.length"> -->
-				<!-- 					No se han encontrado elementos registrados en el sistema <a -->
-				<!-- 						data-ng-click="addElement()" style="cursor: pointer;" -->
-				<!-- 						class="alert-link"><i class="fas fa-user-plus"></i> Agregue -->
-				<!-- 						elementos para la Orden del dia</a>. -->
-				<!-- 				</div> -->
-				<!-- data-ng-if="elementOd.length > 0"s -->
-				<div class="table-responsive">
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!elements.length">
+					No se han encontrado elementos registrados en el sistema <a
+						data-ng-click="addElement()" style="cursor: pointer;"
+						class="alert-link"><i class="fas fa-user-plus"></i> Agregue
+						elementos para la Orden del dia</a>.
+				</div>
+				<div class="table-responsive" data-ng-if="elements.length > 0">
 					<table class="table table-inversed table-hover table-striped">
 						<thead>
 							<tr>

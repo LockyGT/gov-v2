@@ -32,6 +32,25 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
+	self.getByStatus = (status)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/status', status).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+
+	self.getByStatusPublicada = (status)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/published', status).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 	self.getActiveWithAndWithoutReference = ()=>{
 		return $q(function(resolve, reject) {			
 			factory.get(path+"/active/reference/with/without").then(function mySuccess(data) {
@@ -78,6 +97,16 @@ app.service('orderdayService', function($q, factory) {
 	self.post = (orderday) => {
 		return $q((resolve, reject)=>{
 			factory.post(path, orderday).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				resolve(errorData);
+			});
+		});
+	};
+	
+	self.postNewVerssion = (orderday) => {
+		return $q((resolve, reject)=>{
+			factory.post(path+"/newVerssion", orderday).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				resolve(errorData);

@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.controller.partner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,11 @@ public class PartnerController {
 		return resp;
 	}
 	
+	@GetMapping(value="/byTipo/partie")
+	List<Partner> fetchByStatusAndTipoAndPartidoName(@RequestParam(value="status") int status,
+			@RequestParam(value="tipo") int tipo){
+		return service.fetchByStatusAndTipoAndPartidoName(status, tipo);
+	}
 	/**
 	 * 
 	 * @param entity

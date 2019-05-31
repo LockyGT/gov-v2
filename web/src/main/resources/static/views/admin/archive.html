@@ -89,7 +89,8 @@
 										class="image-preview-input-title">Buscar</span> <input
 										type="file" name="input-file-preview"
 										accept="application/pdf, 
-										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+										image/png,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
 										data-records-model="archive.filesUploads" multiple />
 									</label>
 								</div>
@@ -292,12 +293,13 @@
 							<td>{{file.date | date:'dd-MM-yyyy'}}</td>
 							<td>{{file.size/1000 | number : 1}}KB</td>
 							<td><button type="button" class="btn btn-info"
+									data-ng-if="filterExtention(file.extention)"
 									data-toggle="modal" data-target="#modal-show-file"
 									data-ng-click="showDownloadFile(file)">ver</button></td>
 							<td><button type="button" class="btn btn-primary"
 									data-ng-click="downloadFile(file)">Descargar</button></td>
 							<td><button type="button" class="btn btn-danger"
-									data-ng-click="comfirmDeleteFile(showFiles,$index)">Eliminar</button></td>
+									data-ng-click="comfirmDeleteFile(showFiles,file)">Eliminar</button></td>
 						</tr>
 					</tbody>
 				</table>

@@ -1,0 +1,337 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+li.active {
+	font-weight: bold !important;
+}
+
+li.active li {
+	font-weight: normal;
+}
+
+.affix {
+	top: 160px;
+}
+
+.affix, .affix-top {
+	min-width: 250px;
+}
+</style>
+
+<h1>Legislador</h1>
+<section>
+	<div class="card w-95">
+		<div class="card-header">
+			<form class="form-inline" name="formFiltros">
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
+						type="date" class="form-control" id="txtFechaBusqueda"
+						data-ng-max="fechaBusquedaFin" name="fechaInicio"
+						data-ng-model="selected.startDate" required="required"
+						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al</label> <input
+						type="date" class="form-control" id="txtFechaBusquedaFin"
+						data-ng-min="fechaBusqueda" name="fechaFin"
+						data-ng-model="selected.endDate" required="required"
+						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
+				</div>
+				<div class="w-100"></div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtNombre" class="sr-only">Partidos políticos</label>
+					<div class="input-group" data-toggle="modal" data-target="#model-select-parties">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-award"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtNombre"
+							id="txtNombre" data-ng-model="archive.nombre"
+							placeholder="Partidos políticos" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtNombre" class="sr-only">Legisladores</label>
+					<div class="input-group" data-toggle="modal" data-target="#model-select-legislators">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-user"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtNombre"
+							id="txtNombre" data-ng-model="archive.nombre"
+							placeholder="Legisladores" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtNombre" class="sr-only">Sesiones</label>
+					<div class="input-group" data-toggle="modal" data-target="#model-select-sessions">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-balance-scale"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtNombre"
+							id="txtNombre" data-ng-model="archive.nombre"
+							placeholder="Sesiones" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtNombre" class="sr-only">Iniciativas</label>
+					<div class="input-group" data-toggle="modal" data-target="#model-select-initiatives">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-book"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtNombre"
+							id="txtNombre" data-ng-model="archive.nombre"
+							placeholder="Iniciativas" required readonly>
+					</div>
+				</div>
+				<div class="w-100"></div>
+				<div class="form-group mx-sm-3 mb-2">
+					<button type="button" class="btn btn-dark"
+						data-ng-click="getSessionsBetweenDates(selected)">Buscar</button>
+				</div>
+
+			</form>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<div class="alert alert-primary" role="alert">No se han
+					encontrado asistencias para el rango de fechas seleccionados</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-inversed table-hover table-striped"
+					id="table">
+					<thead>
+						<tr>
+							<td>Partido político</td>
+							<td>Legislador</td>
+							<td>Distrito</td>
+							<td>Comisión</td>
+							<td>Fecha</td>
+							<td>Iniciativas</td>
+							<td>Resultado</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Body - 1</td>
+							<td>Body - 2</td>
+							<td>Body - 3</td>
+							<td>Body - 4</td>
+							<td>Body - 5</td>
+							<td>Body - 6</td>
+							<td>Body - 7</td>
+						</tr>
+						<tr>
+							<td>Body - 1</td>
+							<td>Body - 2</td>
+							<td>Body - 3</td>
+							<td>Body - 4</td>
+							<td>Body - 5</td>
+							<td>Body - 6</td>
+							<td>Body - 7</td>
+						</tr>
+						<tr>
+							<td>Body - 1</td>
+							<td>Body - 2</td>
+							<td>Body - 3</td>
+							<td>Body - 4</td>
+							<td>Body - 5</td>
+							<td>Body - 6</td>
+							<td>Body - 7</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn btn-dark" data-ng-click="getInfo()">Imprimir
+				PDF</button>
+		</div>
+	</div>
+</section>
+<!-- Modal selecccion partidos politicos -->
+<div class="modal fade" id="model-select-parties" tabindex="-1"
+	role="dialog" aria-labelledby="model-select-parties" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Partidos
+					políticos</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Acrónimo</th>
+								<th><input type="checkbox" id="checked-parties"
+									data-ng-click="checkAllOptions(politicalParties,$event)"
+									data-ng-model="checkAllOptionsFlag"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="pp in politicalParties">
+								<td>{{pp.name}}</td>
+								<td>{{pp.acronym}}</td>
+								<td><input type="checkbox" name="checked-parties"
+									data-ng-model="pp.checked"
+									data-ng-click="updateSelectedParties()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal select legisladores-->
+<div class="modal fade" id="model-select-legislators" tabindex="-1"
+	role="dialog" aria-labelledby="modal-select-legislators"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Legisladores</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Partido</th>
+								<th><input type="checkbox" id="checked-legislator"
+									data-ng-click="checkAllOptions(legislators,$event)"
+									data-ng-model="checkAllOptionsFlag"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="lr in legislators">
+								<td>{{lr.name}} {{lr.apPaterno}} {{lr.apMaterno}}</td>
+								<td>{{lr.partido.acronym}}</td>
+								<td><input type="checkbox" data-ng-model="lr.checked"
+									name="checked-legislator"
+									data-ng-click="updateSelectedLegislators()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal seleccion de sesiones -->
+<div class="modal fade" id="model-select-sessions" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Sesiones</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Fecha/Hora</th>
+								<td><input type="checkbox" id="checked-session"
+									data-ng-click="checkAllOptions(sessions,$event)"
+									data-ng-model="checkAllOptionsFlag"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="ss in sessions">
+								<td>{{ss.nombre}}</td>
+								<td>{{ss.fechaHora}}</td>
+								<td><input type="checkbox" data-ng-model="ss.checked"
+									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="model-select-initiatives" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Iniciativas</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<td>Nombre</td>
+								<td>Resultado</td>
+								<td><input type="checkbox" data-ng-model="pp.checked"
+									id="checked-initiative"
+									data-ng-click="updateGlobalOptionsChecked()"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="int in initiatives">
+								<td>{{int.name}}</td>
+								<td>{{int.result.resultName}}</td>
+								<td><input type="checkbox" data-ng-model="ss.checked"
+									name="checked-initiative"
+									data-ng-click="updateSelectedInitiatives()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+

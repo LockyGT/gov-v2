@@ -81,7 +81,7 @@
 									class="list-inline-item text-center position-relative"><i
 									class="far fa-file fa-3x text-secondary"></i><br>{{file.originalName}}
 									<button type="button" class="close close--delete-file"
-										data-ng-click="deleteFile($index)"
+										data-ng-click="deleteFile(file)"
 										data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">×</span>
 									</button></li>
@@ -92,6 +92,10 @@
 				<div class="card-footer">
 					<button type="submit" class="btn btn-success">
 						<i class="fas fa-plus"></i> Registrar
+					</button>
+					
+					<button type="button" data-ng-click="downloadZip()" class="btn btn-info">
+						<i class="fas fa-download"></i> Descargar archivos
 					</button>
 				</div>
 			</div>

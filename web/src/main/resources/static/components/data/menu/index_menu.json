@@ -134,6 +134,38 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
+			},
+			{
+				"id": 5,
+				"app": "reports",
+				"index": 5.5,
+				"title": "Legislador",
+				"url": "#!legislatorReport",
+				"icon": "far fa-clipboard",
+				"color": "#0290AD",
+				"image": "../img/periodico.png",
+				"alt": "Consulta por legislador",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			},
+			{
+				"app": "reports",
+				"index": 5.5,
+				"title": "Iniciativas en sesiones",
+				"url": "#!reporteLegislatura",
+				"icon": "fas fa-clipboard",
+				"color": "peru",
+				"image": "../img/periodico.png",
+				"alt": "Consulta de Sesiones e iniciativas",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+				"id": 5,
 			}
 		],
 		"status": 1
@@ -256,7 +288,24 @@
 					"levels": 1,
 					"childs": [],
 					"status": 1
+				},
+				{
+					"id": 2,
+					"app": "gazette",
+					"index": 1.1,
+					"title": "Orden del dia",
+					"url": "#!orderoftheday",
+					"icon": "far fa-folder-open",
+					"color": "#FF9A89",
+					"image": "../img/periodico.png",
+					"alt": "Ver orden del dia",
+					"text": "",
+					"roles": ["OPERADOR"],
+					"levels": 1,
+					"childs": [],
+					"status": 1
 				}
+				
 			
 		],
 		"status": 1
