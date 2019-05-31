@@ -415,6 +415,17 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.searchDateEnd = new Date();
 		
 	};
+
+	$scope.filterExtention = (extencion) => {
+		let ignores = ["doc","pptx","xls"];
+		let filter = $filter('filter')(ignores,extencion);
+		
+		if(filter.length){
+			return false;
+		}else {
+			return true;
+		}
+	};
 	
 	$scope.cancelAddUpdate = () => {
 		$scope.getRecords();
