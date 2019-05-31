@@ -1,4 +1,4 @@
-var app = angular.module('votesApp', ['ui.router', 'chart.js', 'angular-loading-bar', 'ngAnimate','btorfs.multiselect']);
+var app = angular.module('votesApp', ['ui.router', 'chart.js', 'angular-loading-bar', 'ngAnimate']);
 
 
 app.constant('_INICIATIVA', {
