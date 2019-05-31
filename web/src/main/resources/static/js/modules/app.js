@@ -1,4 +1,4 @@
-var app = angular.module('votesApp', ['ui.router', 'chart.js', 'angular-loading-bar', 'ngAnimate']);
+var app = angular.module('votesApp', ['ui.router', 'chart.js', 'angular-loading-bar', 'ngAnimate','btorfs.multiselect']);
 
 
 app.constant('_INICIATIVA', {
@@ -162,6 +162,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		url : '/reporteAsistenciasSesiones',
 		templateUrl : './views/admin/reporteAsistenciasSesiones.html',
 		controller : 'reporteAsistenciasSesionesCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('legislatorReport', {
+		url : '/legislatorReport',
+		templateUrl : './views/admin/legislatorReport.html',
+		controller : 'legislatorReportCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('listaAsistenciaSesionSinIniciativa', {
 		url : '/listaAsistenciaSesionSinIniciativa',

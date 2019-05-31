@@ -23,4 +23,6 @@ public interface PartnerService {
 	Partner fetchById(String id);
 
 	Partner findByUsernameAndPassword(String username, String password);
+	
+	List<Partner> fetchByStatusAndTipoAndPartidoName(int status, int tipo);
 }

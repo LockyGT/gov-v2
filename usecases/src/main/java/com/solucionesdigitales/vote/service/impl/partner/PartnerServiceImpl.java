@@ -111,7 +111,7 @@ public class PartnerServiceImpl implements PartnerService {
 		if(u != null)
 		{
 			return repo.findByUserId(u.getId());
-		}else {
+		 }else {
 			return null;
 		}
 		
@@ -138,6 +138,12 @@ public class PartnerServiceImpl implements PartnerService {
 		User u = repoUser.findByUsernameAndPassword(username, password);
 		p = repo.findByUserId(u.getId());
 		return p;
+	}
+
+	@Override
+	public List<Partner> fetchByStatusAndTipoAndPartidoName(int status, int tipo) {
+		
+		return  repo.findAllByStatusAndTipoPartnerOrderByApPaternoAsc(status, tipo);
 	}	
 
 }
