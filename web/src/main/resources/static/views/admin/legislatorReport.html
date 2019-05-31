@@ -39,54 +39,54 @@ li.active li {
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Partidos políticos</label>
-					<div class="input-group input-group-lg col-sm-10">
+					<div class="input-group" data-toggle="modal" data-target="#model-select-parties">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
-								<i class="fas fa-file-signature"></i>
+								<i class="fas fa-award"></i>
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtNombre"
 							id="txtNombre" data-ng-model="archive.nombre"
-							placeholder="Partidos políticos" required>
+							placeholder="Partidos políticos" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Legisladores</label>
-					<div class="input-group input-group-lg col-sm-10">
+					<div class="input-group" data-toggle="modal" data-target="#model-select-legislators">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
-								<i class="fas fa-file-signature"></i>
+								<i class="fas fa-user"></i>
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtNombre"
 							id="txtNombre" data-ng-model="archive.nombre"
-							placeholder="Legisladores" required>
+							placeholder="Legisladores" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Sesiones</label>
-					<div class="input-group input-group-lg col-sm-10">
+					<div class="input-group" data-toggle="modal" data-target="#model-select-sessions">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
-								<i class="fas fa-file-signature"></i>
+								<i class="fas fa-balance-scale"></i>
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtNombre"
 							id="txtNombre" data-ng-model="archive.nombre"
-							placeholder="Sesiones" required>
+							placeholder="Sesiones" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Iniciativas</label>
-					<div class="input-group input-group-lg col-sm-10">
+					<div class="input-group" data-toggle="modal" data-target="#model-select-initiatives">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
-								<i class="fas fa-file-signature"></i>
+								<i class="fas fa-book"></i>
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtNombre"
 							id="txtNombre" data-ng-model="archive.nombre"
-							placeholder="Iniciativas" required>
+							placeholder="Iniciativas" required readonly>
 					</div>
 				</div>
 				<div class="w-100"></div>
@@ -159,22 +159,6 @@ li.active li {
 		</div>
 	</div>
 </section>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal"
-	data-target="#model-select-parties">Partidos politicos</button>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal"
-	data-target="#model-select-legislators">Legisladores</button>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal"
-	data-target="#model-select-sessions">Sesiones</button>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal"
-	data-target="#model-select-initiatives">Iniciativas</button>
-
 <!-- Modal selecccion partidos politicos -->
 <div class="modal fade" id="model-select-parties" tabindex="-1"
 	role="dialog" aria-labelledby="model-select-parties" aria-hidden="true">
@@ -213,8 +197,7 @@ li.active li {
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary">Aceptar</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
 		</div>
 	</div>
@@ -258,8 +241,7 @@ li.active li {
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary">Aceptar</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
 		</div>
 	</div>
@@ -301,8 +283,7 @@ li.active li {
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary">Aceptar</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
 		</div>
 	</div>
@@ -345,8 +326,7 @@ li.active li {
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary">Aceptar</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
 		</div>
 	</div>
