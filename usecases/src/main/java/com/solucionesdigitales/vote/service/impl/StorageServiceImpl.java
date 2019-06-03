@@ -110,11 +110,14 @@ public class StorageServiceImpl implements StorageService {
 
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString() + File.separator + file.getFolder();
-
-		if (!new File(path + File.separator + uuidFolder.toString()).exists()) {
-			new File(path + File.separator + uuidFolder.toString()).mkdirs();
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		String f = year+File.separator+month+File.separator+uuidFolder.toString();
+		if (!new File(path + File.separator + f).exists()) {
+			new File(path + File.separator + f).mkdirs();
 		}
-		return copyFile(file.getFile(), path, uuidFolder.toString(), file.getUserId());
+		return copyFile(file.getFile(), path, f, file.getUserId());
 
 	}
 
@@ -125,14 +128,17 @@ public class StorageServiceImpl implements StorageService {
 
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString() + File.separator + files.getFolder();
-
-		if (!new File(path + File.separator + uuidFolder.toString()).exists()) {
-			new File(path + File.separator + uuidFolder.toString()).mkdirs();
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		String f = year+File.separator+month+File.separator+uuidFolder.toString();
+		if (!new File(path + File.separator +f).exists()) {
+			new File(path + File.separator + f).mkdirs();
 		}
 
 		for (MultipartFile file : files.getFiles()) {
 
-			savedFiles.add(copyFile(file, path, uuidFolder.toString(), files.getUserId()));
+			savedFiles.add(copyFile(file, path, f, files.getUserId()));
 
 		}
 
