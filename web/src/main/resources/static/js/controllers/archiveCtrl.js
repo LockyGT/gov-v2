@@ -137,13 +137,13 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 		
         // En caso que se haya cambiado el archivo se agrega el nombre
-		if($scope.archive.filesUploads.length){
+		if($scope.archive.filesUploads){
 			for(let i=0; i<$scope.archive.files.length;i++){
 				$scope.archive.files[i].status = 0;
 			}
 			$scope.archive.files = $scope.archive.files.concat(files);
 		}
-		console.log('Informacion enviada para actualizar: ',$scope.archive);
+
 		archiveService.put($scope.archive).then(data=>{
 			if(data){
 				swal.stopLoading();
@@ -417,7 +417,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 
 	$scope.filterExtention = (extencion) => {
-		let ignores = ["doc","pptx","xls"];
+		let ignores = ["doc","pptx","xls", "docx"];
 		let filter = $filter('filter')(ignores,extencion);
 		
 		if(filter.length){
