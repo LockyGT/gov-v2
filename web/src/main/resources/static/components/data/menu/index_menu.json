@@ -71,6 +71,7 @@
 		"text": "",
 		"roles": ["OPERADOR"],
 		"levels": 2,
+		"status": 1,
 		"childs": [
 			{
 				"id": 1,
@@ -152,8 +153,9 @@
 				"status": 1
 			},
 			{
+				"id": 6,
 				"app": "reports",
-				"index": 5.5,
+				"index": 5.6,
 				"title": "Iniciativas en sesiones",
 				"url": "#!reporteLegislatura",
 				"icon": "fas fa-clipboard",
@@ -165,10 +167,8 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
-				"id": 5,
 			}
-		],
-		"status": 1
+		]
 	},
 	{
 		"id": 6,
