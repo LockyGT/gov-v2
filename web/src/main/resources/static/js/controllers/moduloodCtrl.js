@@ -2,7 +2,14 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 
 	$scope.modulosod = [];
 	$scope.modulood = null;
-
+	$scope.icons = [
+		"fab fa-500px", "far fa-bell","far fa-bell-slash", "fas fa-braille", "fas fa-sign-language",
+		"fas fa-tty","fas fa-bus", "fas fa-gas-pump","fas fa-campground", "fas fa-industry", "fas fa-landmark",
+		"fas fa-book","fas fa-balance-scale","far fa-calendar-alt","fas fa-chart-line","fas fa-award",
+		"fas fa-chart-bar","far fa-folder-open","fas fa-thumbtack", "fas fa-wallet", "far fa-compass",
+		"fas fa-map-marked-alt", "far fa-handshake","far fa-heart", "fas fa-piggy-bank", "fas fa-donate",
+		"far fa-smile","fas fa-graduation-cap", "fas fa-user-tie", "far fa-window-restore", "far fa-paper-plane",
+		"fas fa-chalkboard","fas fa-inbox","fas fa-database","fas fa-atlas","fas fa-stamp"];
 	$scope.getModulosod = () =>{
 		swal({
 			title: "Consultandos modulos orden del día",
@@ -145,7 +152,14 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		window.history.back();
 	};
 	
-	$scope.addIcon = () =>{
+	$scope.selectThisIcon = icon =>{
+		
+		$scope.modulood.icon = icon;
+		$('#modal-select-icon').modal('hide');
+	}
+	
+	$scope.addMoreIcon = () =>{
+		$('#modal-select-icon').modal('hide');
 		let popup = parent.window.open('https://fontawesome.com/icons?d=gallery&m=free','Iconos','popup','width=600, height=700, t op=350,left=300,scrollbars=NO,menubar=NO,titlebar= NO,status=NO,toolbar=NO"');
 		var timer = $interval(() => {
 			if(popup.closed){

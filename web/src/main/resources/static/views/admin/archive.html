@@ -19,6 +19,7 @@
 .list-inline-item:hover .close--delete-file {
 	opacity: 1;
 }
+
 </style>
 
 <h1 class="my-4">
@@ -90,7 +91,7 @@
 										type="file" name="input-file-preview"
 										accept="application/pdf, 
 										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-										image/png,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+										image/png,application/vnd.ms-excel, application/vnd.ms-powerpoint, .xls, .xlsx,.xlsm, .ppt, pptx,.pptm"
 										data-records-model="archive.filesUploads" multiple />
 									</label>
 								</div>
@@ -313,7 +314,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Modal show file-->
 <div class="modal fade" id="modal-show-file" tabindex="-1" role="dialog"
 	aria-labelledby="modalShowFile" aria-hidden="true">
@@ -321,7 +321,8 @@
 		role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalShowFile">{{fileName.date | date:'dd-MM-yyyy'}} - {{fileName.originalName}}</h5>
+				<h5 class="modal-title" id="modalShowFile">{{fileName.date |
+					date:'dd-MM-yyyy'}} - {{fileName.originalName}}</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -338,3 +339,5 @@
 		</div>
 	</div>
 </div>
+
+

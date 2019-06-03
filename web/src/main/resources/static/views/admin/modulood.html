@@ -3,6 +3,29 @@
 .modal-lg {
 	max-width: 80% !important;
 }
+.row--container-select {
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.row--container-select > article svg{
+	transition: all .3s;
+	padding: 0;
+	border-radius: 2px;
+	margin:auto;
+	display:block;
+}
+.row--container-select > article:hover svg{
+	background-color: #6c757d!important;
+	color: #ffffff!important;
+	padding: .5rem;
+}
+.icon--selected > article svg{
+	background-color: #6c757d!important;
+	color: #ffffff!important;
+	padding: .5rem;
+	border-radius: 2px;
+}
 </style>
 <h1 class="my-4">
 	Modulos de orden del día <i class="fas fa-braille"></i>
@@ -38,7 +61,7 @@
 									<span class="input-group-text" id="inputGroup-sizing-lg4"><i
 										class="fas fa-drafting-compass"></i></span>
 								</div>
-								<input data-ng-click="addIcon()" type="text"
+								<input  type="text" data-toggle="modal" data-target="#modal-select-icon"
 									class="form-control" name="txtIcono" id="txtIcono"
 									data-ng-model="modulood.icon" placeholder="icono" required>
 
@@ -162,3 +185,33 @@
 		</div>
 	</div>
 </section>
+<!--  Modal select icon -->
+<div class="modal fade" id="modal-select-icon" tabindex="-1"
+	role="dialog" aria-labelledby="modalShowFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalShowFile">Paleta de iconos</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-secondary">
+				<section class="row row--container-select">
+					<article class="col-4 col-sm-2 mb-4" data-ng-repeat="icon in icons"
+					 data-ng-click="selectThisIcon(icon)">
+						<i class="fa-3x" data-ng-class="icon"></i>
+					</article>
+				</section>
+				<section class="row mt-4">
+					<button type="button"  data-ng-click="addMoreIcon()" class="btn btn-link">Buscar más</button>
+				</section>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
