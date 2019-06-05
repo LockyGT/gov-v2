@@ -9,7 +9,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 //import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.solucionesdigitales.vote.entity.vote.VoteSession;
@@ -25,5 +24,5 @@ public interface VoteSessionRepository extends MongoRepository<VoteSession, Stri
 	@Query("{'iniciativas' :{'$ref' : 'initiatives' , '$id' : ?0 }}")
 	List<VoteSession> findVoteSessionPorIniciativa(ObjectId iniciativaId);
 	List<VoteSession> findByIsAttendanceOpen(boolean status);
-	
+	VoteSession findFirsByIniciativasId(String iniciativasId);
 }

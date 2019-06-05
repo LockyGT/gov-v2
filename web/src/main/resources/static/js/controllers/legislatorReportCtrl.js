@@ -1,24 +1,36 @@
-app.controller('legislatorReportCtrl', function($scope, voteSessionService, voteService, partnerService, factory, $filter, $timeout){
+app.controller('legislatorReportCtrl', function($scope, voteSessionService, voteService, partnerService, factory, $filter, $timeout, reportService){
 	
-	$scope.selected ={
+	$scope.selected = {
 			startDate : new Date(),
 			endDate: new Date(),
 			parties: [],
 			legislators: [],
 			sessions: [],
 			initiatives:[]
-	}
+	};
 	
-	$scope.sessions = [];
-	$scope.initiatives = [];
+	$scope.legislatorsReport = [];
+	$scope.initiatives       = [];
+	$scope.sessions          = [];
+	$scope.filter            = {};
+	
+	$scope.getReportLegislator = () => {
+		reportService.getLegislatorReport().then(success=>{
+			$scope.legislatorsReport = JSON.parse(success.data);
+			console.log('Informacion del reporte: ',$scope.legislatorsReport);
+		}, error=>{
+			console.log('Error al obtener el nombre del legislador: ', error);
+		});
+	};
+	
 	$scope.getSessionsBetweenDates = (selected) => {
 		let sendData = {
 			"fecha":selected.startDate,
 			"fechaFin":selected.endDate
 		};
 		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
-			
 			$scope.sessions = data;
+			$scope.initiatives = [];
 		}, error => {
 			swal("Error", response, "error");
 		});
@@ -70,6 +82,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		});
 	};
 	
+	$scope.changue
 	
 	$scope.checkAllOptions = (array, e) => {
 		
@@ -83,9 +96,9 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	};
 	
 	$scope.updateSelectedParties = () => {
-		$timeout(()=>{
+		$timeout( () => {
 			$scope.selected.parties = $filter('filter')($scope.politicalParties,{checked: true});
-			console.log('Partidos seleccionados: ', $scope.selected.parties);
+			
 		},500);
 		
 	};
@@ -93,7 +106,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	$scope.updateSelectedLegislators = () => {
 		$timeout(()=>{
 			$scope.selected.legislators = $filter('filter')($scope.legislators,{checked: true});
-			console.log('Legisladores seleccionados: ', $scope.selected.legislators);
 		},500);
 	};
 	
@@ -109,15 +121,54 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 			$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true})
 		},500);
 	};
-	
-	$scope.getInfo = () =>{
-		console.log('selecciones: ',$scope.selected);
-//		console.log('sesiones: ', $scope.sessions);
+	$scope.printTable = () =>{
+		$scope.legislatorsReport.title ="Legisladores";
+		
+		$scope.legislatorsReport.headRows = [{politicalparty: "Partido", legislator: "Legislador",
+			district:"Distrito", commision: "Comisión", date: "Fecha", 
+			vote:"Voto", initiatives: "Iniciativas",time:"Tiempo", result: "Resultado"}];
+		
+		$scope.legislatorsReport.footRows = [{politicalparty: "", legislator: "", district:"", 
+			commision: "", date: "", vote:"", initiatives: "",time:"",
+			result: ""}]
+		
+		$scope.legislatorsReport.bodyRows = bodyRows($scope.legislatorsReport.data);
+		
+		reportService.printPdf($scope.legislatorsReport).then(doc=>{
+
+			doc.setProperties({
+				title: 'Reporte: Legislador',
+				subject: 'Reporte pdf de los legisladores'
+			});
+			doc.save('legisladores.pdf');
+		},errorDoc=>{
+			console.log("Error al obtener el reporte: ", errorDoc);
+		});
+
 	};
 	
-	const initController = () =>{
+	function bodyRows (arrayJson) {
+		let body = [], date, sTime, eTime;
+		
+		arrayJson.forEach(function(json) {
+			console.log(json);
+			date = new Date(json.date);
+			sTime = new Date(json.startTime);
+			eTime = new Date(json.endTime);
+			 
+			body.push({politicalparty: json.politicalPartie, legislator: json.namePartner, 
+				district:json.district, commision: json.commission, date:date.getDate() + '/' +(date.getMonth()+1)+'/'+ date.getFullYear(),
+				vote: json.vote,initiatives: json.initiative, 
+				time: sTime.getHours()+":"+sTime.getMinutes() +'-'+eTime.getHours()+":"+eTime.getMinutes(),
+				result: json.result});
+		});
+		return body;
+	}
+	
+	const initController = () => {
 		$scope.getPoliticalParties();
 		$scope.getLegislator();
+		$scope.getReportLegislator();
 	};
 	
 	angular.element(document).ready(function () {

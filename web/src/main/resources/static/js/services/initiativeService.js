@@ -31,6 +31,7 @@ app.service('initiativeService', function($q, factory) {
 			});			
 		});
 	};
+	
 	self.get = () => {		
 		return $q(function(resolve, reject) {			
 			factory.get('iniciativa').then(function mySuccess(data) {						

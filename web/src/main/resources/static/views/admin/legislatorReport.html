@@ -27,6 +27,7 @@ li.active li {
 						type="date" class="form-control" id="txtFechaBusqueda"
 						data-ng-max="fechaBusquedaFin" name="fechaInicio"
 						data-ng-model="selected.startDate" required="required"
+						data-ng-change ="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
@@ -34,6 +35,7 @@ li.active li {
 						type="date" class="form-control" id="txtFechaBusquedaFin"
 						data-ng-min="fechaBusqueda" name="fechaFin"
 						data-ng-model="selected.endDate" required="required"
+						data-ng-change ="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
 				</div>
 				<div class="w-100"></div>
@@ -92,15 +94,15 @@ li.active li {
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
 					<button type="button" class="btn btn-dark"
-						data-ng-click="getSessionsBetweenDates(selected)">Buscar</button>
+						data-ng-click="">Buscar</button>
 				</div>
 
 			</form>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<div class="alert alert-primary" role="alert">No se han
-					encontrado asistencias para el rango de fechas seleccionados</div>
+				<div class="alert alert-primary" role="alert" data-ng-if="legislatorsReport.length">No se han
+					encontrado información con los datos ingresados</div>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-inversed table-hover table-striped"
@@ -117,32 +119,14 @@ li.active li {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Body - 1</td>
-							<td>Body - 2</td>
-							<td>Body - 3</td>
-							<td>Body - 4</td>
-							<td>Body - 5</td>
-							<td>Body - 6</td>
-							<td>Body - 7</td>
-						</tr>
-						<tr>
-							<td>Body - 1</td>
-							<td>Body - 2</td>
-							<td>Body - 3</td>
-							<td>Body - 4</td>
-							<td>Body - 5</td>
-							<td>Body - 6</td>
-							<td>Body - 7</td>
-						</tr>
-						<tr>
-							<td>Body - 1</td>
-							<td>Body - 2</td>
-							<td>Body - 3</td>
-							<td>Body - 4</td>
-							<td>Body - 5</td>
-							<td>Body - 6</td>
-							<td>Body - 7</td>
+						<tr data-ng-repeat="lr in legislatorsReport.data">
+							<td>{{lr.politicalPartie}}</td>
+							<td>{{lr.namePartner}}</td>
+							<td>{{lr.district}}</td>
+							<td>{{lr.commission}}</td>
+							<td>{{lr.date | date:'dd-MM-yyyy'}}</td>
+							<td>{{lr.initiative}}</td>
+							<td>{{lr.result}}</td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -154,7 +138,7 @@ li.active li {
 			</div>
 		</div>
 		<div class="card-footer">
-			<button type="button" class="btn btn-dark" data-ng-click="getInfo()">Imprimir
+			<button type="button" class="btn btn-dark" data-ng-click="printTable()">Imprimir
 				PDF</button>
 		</div>
 	</div>
