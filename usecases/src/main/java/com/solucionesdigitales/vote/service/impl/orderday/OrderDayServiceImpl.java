@@ -147,6 +147,13 @@ public class OrderDayServiceImpl implements OrderDayService {
 		return odpost;
 	}
 
+	@Override
+	public List<OrderDay> getByStatusAprobada(boolean status) {
+		List<OrderDay> odapproved= new ArrayList<OrderDay>();
+		odapproved = orderDayRepository.findByIsApproved(status);
+		return odapproved;
+	}
+
 	
 
 	

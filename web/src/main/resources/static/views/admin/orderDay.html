@@ -26,9 +26,7 @@
 							<li class="nav-item"><a class="nav-link" id="profile-tab"
 								data-toggle="tab" ui-sref="state" href="#profile" role="tab"
 								aria-controls="profile" aria-selected="false">Contenido</a></li>
-							<li class="nav-item"><a class="nav-link" id="anexos-tab"
-								data-toggle="tab" ui-sref="state" href="#anexos" role="tab"
-								aria-controls="anexos" aria-selected="false">Anexos</a></li>
+							
 						</ul>
 
 					</div>
@@ -159,106 +157,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="anexos" role="tabpanel"
-								aria-labelledby="nav-anexos-tab">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-6">
-											<div class="input-group input-group-lg col-sm-12">
-												<div class="input-group-prepend">
-													<div class="input-group-text">
-														<i class="fas fa-search"></i>
-													</div>
-												</div>
-												<input type="search" class="form-control" id="searchTerm"
-													placeholder="Busqueda por nombre" data-ng-keyup="buscar();"
-													required="required">
-											</div>
-										</div>
-										<div class="col-6">
-											<div class="input-group input-group-lg col-sm-12">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="inputGroup-sizing-lg4">
-														<i class="fas fa-file-alt"></i>
-													</span>
-												</div>
-												<input type="text"
-													value="{{attached.filesUploads.length ? ' archivos seleccionados' : 'Seleccione un archivo...'}}"
-													class="form-control image-preview-filename"
-													disabled="disabled" data-ng-if="isAdd">
-												<div class="input-group-append" data-ng-if="isAdd">
-													<label class="btn btn-default image-preview-input">
-														<span class="glyphicon glyphicon-folder-open"></span> <span
-														class="image-preview-input-title">Buscar</span> <input
-														type="file" name="input-file-preview"
-														data-records-model="attached.filesUploads" multiple />
-													</label>
-												</div>
-												<input type="text"
-													class="form-control image-preview-filename"
-													disabled="disabled" data-ng-if="!isAdd"
-													value="archivos subidos">
-												<button type="button" class="btn btn-light"
-													data-ng-click="changeToAdd()" data-ng-if="!isAdd">Agregar</button>
-											</div>
-											<br>
-											<ul class="list-inline"
-												data-ng-if="attached.filesUploads.length">
-												<li data-ng-repeat="file in attached.filesUploads"
-													class="list-inline-item text-center"><i
-													class="far fa-file fa-3x text-secondary"></i><br>{{file.name}}
 
-												
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="table-responsive">
-									<table id="datos"
-										class="table table-inversed table-hover table-striped">
-										<thead>
-											<tr>
-												<th>#</th>
-												<th>Archivo</th>
-												<th></th>
-												<th></th>
-												<th><button type="button" data-ng-click="downloadZip()"
-														class="btn btn-info">
-														<i class="fas fa-download"></i>Descargar
-													</button></th>
-
-											</tr>
-										</thead>
-										<tbody>
-											<tr
-												data-ng-repeat="file in orderday.attached.files | filter: {status: 1} track by $index">
-												<td scope="row">{{$index+1}}</td>
-												<td>{{file.originalName}}</td>
-												<td><button type="button" class="btn btn-primary"
-														data-toggle="modal" data-target="#show-file"
-														data-ng-click="showDownloadFile(file);">
-														<i class="far fa-eye"></i>
-													</button></td>
-												<td><button type="button" class="btn btn-secondary"
-														data-ng-click="downloadFile(file);">
-														<i class="fas fa-file-download"></i>
-													</button></td>
-												<td><button type="button" class="btn btn-danger"
-														data-ng-click="deleteFile(file)" data-dismiss="modal"
-														aria-label="Close">
-														<i class="fas fa-trash-alt"></i>
-													</button></td>
-
-											</tr>
-										</tbody>
-										<tfoot>
-											<tr>
-												<th colspan="9"></th>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
 						</div>
 					</div>
 					<!-- CardBody -->
@@ -351,7 +250,7 @@
 					<br>
 					<div class="alert alert-primary" data-ng-if="!orderdays.length">
 						No se encontraron Ordenes del dia en el sistema</div>
-					<div class="table-responsive">
+					<div class="table-responsive" data-ng-if="orderdays.length > 0">
 						<table id="datos"
 							class="table table-inversed table-hover table-striped">
 							<thead>
@@ -359,37 +258,59 @@
 									<th>#</th>
 									<th>Orden del día</th>
 									<th>Fecha</th>
-									<th>Actualizar</th>
-									<th>Eliminar</th>
-									<th>Versiones</th>
+									<th>Estado</th>
+									<th>Nueva versión</th>
 									<th>Publicar</th>
+									<th>Mas opciones</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="od in orderdays track by $index">
+								<tr data-ng-repeat="orderday in orderdays track by $index">
 									<td scope="row">{{$index+1}}</td>
 									<td><a style="color: black;" href=""
-										data-ng-click="addOrderOfTheDay(od)" data-toggle="modal"
-										data-target="#modal-show-od">{{od.nombre}}</a></td>
-									<td>{{od.fecha | date:'dd/MM/yyyy'}}</td>
-									<td></td>
+										data-ng-click="addOrderOfTheDay(orderday)" data-toggle="modal"
+										data-target="#modal-show-od">{{orderday.nombre}}</a></td>
+									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
+									<td><button type="button"
+											data-ng-disabled="orderday.approved"
+											data-ng-class="orderday.approved ? 'btn btn-secondary':'btn btn-dark'"
+											data-ng-click="approvedOd(orderday);">{{orderday.approved
+											? 'Aprobada ' : ' Aprobar '}}</button></td>
 									<td>
-										<button type="button" class="btn btn-warning"
-											data-ng-click="addNewOd(od);">Crear Version</button>
+										<button type="button" class="btn btn-info"
+											data-ng-click="addNewOd(orderday);">Crear Version</button>
 
 									</td>
-									<td>
-										<button type="button" class="btn btn-danger"
-											data-ng-click="confirmDelete(od);">
-											<i class="fas fa-trash-alt"></i>
-										</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-dark"
-											data-ng-click="verVersiones(od);">Versiones</button>
-									</td>
-									<td><button type="button" class="btn btn-warning" 
-									data-ng-click="toPostOdGazzete(od);">Publicar</button></td>
+
+									<td><button type="button" class="btn btn-warning"
+											data-ng-disabled="orderday.published"
+											data-ng-click="toPostOdGazzete(orderday);">{{orderday.published
+											? ' Publicada ' : ' Publicar '}}</button></td>
+									<td><div class="btn-group dropright">
+											<button type="button" class="btn btn-primary">Opciones</button>
+											<button type="button"
+												class="btn btn-primary dropdown-toggle px-3"
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false">
+												<span class="sr-only">Mas opciones</span>
+											</button>
+											<div class="dropdown-menu">
+												<a class="dropdown-item" href=""
+													data-ng-click="verVersiones(orderday);"><i
+													style="color: peru" class="fas fa-grip-vertical"></i>
+													Versiones</a> 
+													<a class="dropdown-item" href=""
+													data-toggle="modal" data-target="#modal-anexoOd" data-ng-click="addAnnexes(orderday);"><i
+													class="fas fa-folder-open"></i> Anexos</a> 
+													<a
+													class="dropdown-item" href=""
+													data-ng-click="confirmDelete(orderday);"><i
+													style="color: red" class="fas fa-trash-alt"></i> Eliminar</a>
+												<div class="dropdown-divider"></div>
+												<!-- 												<a class="dropdown-item" href="#">Separated link</a> -->
+											</div>
+										</div></td>
 								</tr>
 							</tbody>
 							<tfoot>
@@ -425,19 +346,17 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Versiones de Ordenes del día</h5>
+				<h5 class="modal-title">Versiones de {{orderdaysV.nombre}}</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="input-group">
-					<!-- 				<button type="button" class="btn btn-dark" -->
-					<!-- 						data-ng-click="addNewOd();">Crear Version</button> -->
-
-				</div>
-				<div class="table-responsive">
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!orderdaysV.length">No se han encontrado
+					versiones de la orden del dia.</div>
+				<div class="table-responsive" data-ng-if="orderdaysV.length > 0">
 					<table class="table table-inversed table-hover table-striped">
 						<thead>
 							<tr>
@@ -457,10 +376,11 @@
 										<i class="far fa-eye"></i>
 									</button></td>
 								<td>V_{{verssion.sku}}</td>
-								<td><button type="button" data-dismiss="modal" class="btn btn-dark" data-toggle="modal"
-										data-target="#attachments-verssion" data-ng-click="viewAttachmentsV(verssion);">Anexos</button>
-								</td>
-								
+								<td><button type="button" 
+										class="btn btn-dark" data-toggle="modal"
+										data-target="#attachments-verssion"
+										data-ng-click="viewAttachmentsV(verssion);">Anexos</button></td>
+
 							</tr>
 						</tbody>
 						<tfoot>
@@ -480,7 +400,7 @@
 	</div>
 </div>
 
-<!-- MODAL muestra el contenido de versiones del OD -->
+<!-- MODAL MUESTRA EL CONTENIDO(TEXTO) DE LAS VERSIONES DE LA ORDEN DEL DIA -->
 <div class="modal fade bd-example-modal-lg" id="modalView" tabindex="-1"
 	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -493,27 +413,23 @@
 				</button>
 			</div>
 			<div class="modal-body" id="modal-od">
-				<div data-ng-repeat="a in orderdayView.elementsOd track by $index">
+				<div class="content-paragraph"
+					data-ng-repeat="a in orderdayView.elementsOd track by $index">
 					<p class="element-name">
-						<strong>{{a.nombre}}</strong>
+						<strong>{{$index+1}}. {{a.nombre}}</strong>
 					</p>
 					<ol class="list-paragraphs" type="a"
 						data-ng-repeat="p in a.paragraphs track by $index">
-						<li>{{p.contenidotxt}}</li>
-						<li class="list-subparagraphs">
-							<ol class="subparrafo"
-								data-ng-repeat="sp in p.subParagraphs track by $index">
-								<li>{{sp.contenidotxt}}</li>
-
+						<li class="margin-top"
+							data-ng-repeat="p in a.paragraphs track by $index">{{p.contenidotxt}}
+							<ol class="subparrafo">
+								<li class="margin-top"
+									data-ng-repeat="sp in p.subParagraphs track by $index">{{sp.contenidotxt}}</li>
 							</ol>
-
 						</li>
-
 					</ol>
 				</div>
 				<div class="modal-footer">
-					<!-- 						<button type="button" class="btn btn-primary">Save -->
-					<!-- 							changes</button> -->
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>
@@ -538,15 +454,14 @@
 				<div class="content-paragraph"
 					data-ng-repeat="a in orderdayshow.elementsOd track by $index">
 					<p class="element-name">
-						<strong>{{a.nombre}}</strong>
+						<strong>{{$index+1}}. {{a.nombre}}</strong>
 					</p>
-					<ol class="list-paragraphs" type="a"
-						data-ng-repeat="p in a.paragraphs track by $index">
-						<li>{{p.contenidotxt}}</li>
-						<li class="list-subparagraphs">
-							<ol class="subparrafo"
-								data-ng-repeat="sp in p.subParagraphs track by $index">
-								<li>{{sp.contenidotxt}}</li>
+					<ol class="list-paragraphs" type="a">
+						<li class="margin-top"
+							data-ng-repeat="p in a.paragraphs track by $index">{{p.contenidotxt}}
+							<ol class="list-subparagraphs" type="I">
+								<li class="margin-top"
+									data-ng-repeat="sp in p.subParagraphs track by $index">{{sp.contenidotxt}}</li>
 							</ol>
 						</li>
 					</ol>
@@ -559,9 +474,128 @@
 		</div>
 	</div>
 </div>
+
+<!--MODAL AGREGAR ANEXOS A LA ORDEN DEL DIA-->
+<div class="modal fade bd-example-modal-lg" id="modal-anexoOd"
+	tabindex="-1" role="dialog" aria-labelledby="showFile"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="showFile">Anexos de
+					{{orderdayAnnexes.nombre}}</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6">
+							<div class="input-group input-group-lg col-sm-12">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fas fa-search"></i>
+									</div>
+								</div>
+								<input type="search" class="form-control" id="searchTerm"
+									placeholder="Busqueda por nombre" data-ng-keyup="buscar();"
+									required="required">
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="input-group input-group-lg col-sm-12">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-lg4">
+										<i class="fas fa-file-alt"></i>
+									</span>
+								</div>
+								<input type="text"
+									value="{{attached.filesUploads.length ? ' Archivos seleccionados' : 'Seleccione un archivo...'}}"
+									class="form-control image-preview-filename" disabled="disabled"
+									data-ng-if="isAdd">
+								<div class="input-group-append" data-ng-if="isAdd">
+									<label class="btn btn-default image-preview-input"> <span
+										class="glyphicon glyphicon-folder-open"></span> <span
+										class="image-preview-input-title">Buscar</span> <input
+										type="file" name="input-file-preview"
+										data-file-model="attached.filesUploads"/>
+									</label>
+								</div>
+								<input type="text" class="form-control image-preview-filename"
+									disabled="disabled" data-ng-if="!isAdd"
+									value="archivos subidos">
+								<button type="button" class="btn btn-light"
+									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Agregar</button>
+							</div>
+							<br>
+<!-- 							<ul class="list-inline" > -->
+<!-- 								<li  -->
+<!-- 									class="list-inline-item text-center"><i -->
+<!-- 									class="far fa-file fa-3x text-secondary"></i><br>{{attached.filesUploads.name}} -->
+<!-- 							</ul> -->
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table id="datos"
+						class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Archivo</th>
+								<th></th>
+								<th></th>
+								<th><button type="button" data-ng-click="downloadZip()"
+										class="btn btn-info">
+										<i class="fas fa-download"></i>Descargar
+									</button></th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								data-ng-repeat="file in orderdayAnnexes.attached.files | filter: {status: 1} track by $index">
+								<td scope="row">{{$index+1}}</td>
+								<td>{{file.originalName}}</td>
+								<td><button type="button" class="btn btn-primary"
+										data-toggle="modal" data-target="#show-file"
+										data-ng-click="showDownloadFile(file);">
+										<i class="far fa-eye"></i>
+									</button></td>
+								<td><button type="button" class="btn btn-secondary"
+										data-ng-click="downloadFile(file);">
+										<i class="fas fa-file-download"></i>
+									</button></td>
+								<td><button type="button" class="btn btn-danger"
+										data-ng-click="deleteFile(file)" data-dismiss="modal"
+										aria-label="Close">
+										<i class="fas fa-trash-alt"></i>
+									</button></td>
+
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colspan="9"></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success"
+					data-ng-click="saveAttachedOd();">Guardar</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
 <!--MODAL MUESTRA EL CONTENIDO DE LOS DOCUMENTOS ANEXADOS EN LA OD-->
-<div class="modal fade bd-example-modal-lg" id="show-file" tabindex="-1" role="dialog"
-	aria-labelledby="showFile" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="show-file" tabindex="-1"
+	role="dialog" aria-labelledby="showFile" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered"
 		role="document">
 		<div class="modal-content">
@@ -584,64 +618,70 @@
 	</div>
 </div>
 <!-- [MODAL] MUESTRA LOS ANEXOS DE CADA ORDEN DEL DIA VERSIONADA -->
-<div class="modal fade bd-example-modal-lg" id="attachments-verssion" tabindex="-1" role="dialog"
-	aria-labelledby="attachmentsverssion" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="attachments-verssion"
+	tabindex="-1" role="dialog" aria-labelledby="attachmentsverssion"
+	aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered"
 		role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="attachmentsverssion">Anexos de {{orderday.nombre}}</h5>
+				<h5 class="modal-title" id="attachmentsverssion">Anexos de
+					{{orderday.nombre}}</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="table-responsive">
-						<table id="datos"
-							class="table table-inversed table-hover table-striped">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Archivo</th>
-									<th></th>
-									<th></th>
-									<th><button type="button" data-ng-click="downloadZip()"
-											class="btn btn-info">
-											<i class="fas fa-download"></i>Descargar
-										</button></th>
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!file.length">No se han encontrado anexos
+					registrados en esta version de la orden del dia</div>
+				<div class="table-responsive" data-ng-if="file.length > 0">
+					<table id="datos"
+						class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Archivo</th>
+								<th></th>
+								<th></th>
+								<th><button type="button" data-ng-click="downloadZip()"
+										class="btn btn-info">
+										<i class="fas fa-download"></i>Descargar
+									</button></th>
 
-								</tr>
-							</thead>
-							<tbody>
-								<tr
-									data-ng-repeat="file in orderday.attached.files | filter: {status: 1} track by $index">
-									<td scope="row">{{$index+1}}</td>
-									<td>{{file.originalName}}</td>
-									<td><button type="button" class="btn btn-primary"
-											data-toggle="modal" data-dismiss="modal" data-target="#show-file"
-											data-ng-click="showDownloadFile(file);">
-											<i class="far fa-eye"></i>
-										</button></td>
-									<td><button type="button" class="btn btn-secondary"
-											data-ng-click="downloadFile(file);">
-											<i class="fas fa-file-download"></i>
-										</button></td>
-									<td><button type="button" class="btn btn-danger"
-											data-ng-click="deleteFile(file)" data-dismiss="modal"
-											aria-label="Close">
-											<i class="fas fa-trash-alt"></i>
-										</button></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								data-ng-repeat="file in orderday.attached.files | filter: {status: 1} track by $index">
+								<td scope="row">{{$index+1}}</td>
+								<td>{{file.originalName}}</td>
+								<td><button type="button" class="btn btn-primary"
+										data-toggle="modal" data-dismiss="modal"
+										data-target="#show-file"
+										data-ng-click="showDownloadFile(file);">
+										<i class="far fa-eye"></i>
+									</button></td>
+								<td><button type="button" class="btn btn-secondary"
+										data-ng-click="downloadFile(file);">
+										<i class="fas fa-file-download"></i>
+									</button></td>
+								<td><button type="button" class="btn btn-danger"
+										data-ng-click="deleteFile(file)" data-dismiss="modal"
+										aria-label="Close">
+										<i class="fas fa-trash-alt"></i>
+									</button></td>
 
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<th colspan="9"></th>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colspan="9"></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

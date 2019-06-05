@@ -67,8 +67,14 @@ public class OrderDayController {
 	}
 	@GetMapping(value="/published")
 	public List<OrderDay> getByStatusPublicada(@RequestParam(value="publicada")final boolean status){
-		logger.info("Consulta de OD Publicadas");
+		logger.info("Publicar la orden dia en la gaceta");
 		return service.getByStatusPublicada(status);
+	}
+	
+	@GetMapping(value="/approved")
+	public List<OrderDay> getByStatusAprobada(@RequestParam(value="aprobada")final boolean status){
+		logger.info("Aprovar la orden del dia");
+		return service.getByStatusAprobada(status);
 	}
 
 	@GetMapping(value="/date/between" )	

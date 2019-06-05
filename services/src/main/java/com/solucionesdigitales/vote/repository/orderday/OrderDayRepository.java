@@ -21,4 +21,5 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay> findByStatusAndReferenciaIsNull(int status);
 	List <OrderDay> findByReferenciaOrderBySkuDesc(String referencia);
 	List<OrderDay> findByIsPublished(boolean status);
+	List<OrderDay> findByIsApproved(boolean status);
 }
