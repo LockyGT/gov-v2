@@ -51,6 +51,15 @@ app.service('orderdayService', function($q, factory) {
 			});			
 		});
 	};
+	self.getByStatusAprobada = (status)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/approved', status).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 	self.getActiveWithAndWithoutReference = ()=>{
 		return $q(function(resolve, reject) {			
 			factory.get(path+"/active/reference/with/without").then(function mySuccess(data) {

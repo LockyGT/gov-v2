@@ -31,7 +31,7 @@ app.service('storageService', function($q, factory) {
 			});			
 		});
 	};
-	
+	/**usar para los anexos**/
 	self.save = (file)=>{		
 		return $q(function(resolve, reject) {	
 			let fd = new FormData();

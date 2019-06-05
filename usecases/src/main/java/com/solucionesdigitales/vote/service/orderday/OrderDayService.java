@@ -22,12 +22,10 @@ public interface OrderDayService {
 
 	List<OrderDay> getSustituidaWithReference();
 	List<OrderDay> getOdOriginal(String odOriginal);
-
 	List<OrderDay> getByStatus(int status);
-
 	OrderDay postNewVerssion(OrderDay entity);
-
 	List<OrderDay> getByStatusPublicada(boolean status);
+	List<OrderDay> getByStatusAprobada(boolean status);
 
 
 

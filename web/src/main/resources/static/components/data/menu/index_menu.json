@@ -167,6 +167,7 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
+				
 			}
 		]
 	},
@@ -312,7 +313,6 @@
 	},
 	{
 				"id": 13,
-				"app": "gazette",
 				"index": 13.0,
 				"title": "Orden del dia",
 				"url": "#!orderday",
