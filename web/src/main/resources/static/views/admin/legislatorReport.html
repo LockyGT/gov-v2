@@ -94,7 +94,7 @@ li.active li {
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
 					<button type="button" class="btn btn-dark"
-						data-ng-click="">Buscar</button>
+						data-ng-click="getReportLegislator()">Buscar</button>
 				</div>
 
 			</form>
@@ -138,7 +138,7 @@ li.active li {
 			</div>
 		</div>
 		<div class="card-footer">
-			<button type="button" class="btn btn-dark" data-ng-click="printTable()">Imprimir
+			<button type="button" class="btn btn-dark" data-ng-if="legislatorsReport.data" data-ng-click="printTable()">Imprimir
 				PDF</button>
 		</div>
 	</div>
@@ -212,7 +212,7 @@ li.active li {
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="lr in legislators">
+							<tr data-ng-repeat="lr in legislators | filter: filterLegislator">
 								<td>{{lr.name}} {{lr.apPaterno}} {{lr.apMaterno}}</td>
 								<td>{{lr.partido.acronym}}</td>
 								<td><input type="checkbox" data-ng-model="lr.checked"
@@ -258,7 +258,7 @@ li.active li {
 						<tbody>
 							<tr data-ng-repeat="ss in sessions">
 								<td>{{ss.nombre}}</td>
-								<td>{{ss.fechaHora}}</td>
+								<td>{{ss.fechaHora | date:'dd-MM-yyyy h:mma'}}</td>
 								<td><input type="checkbox" data-ng-model="ss.checked"
 									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
 							</tr>
@@ -301,7 +301,7 @@ li.active li {
 							<tr data-ng-repeat="int in initiatives">
 								<td>{{int.name}}</td>
 								<td>{{int.result.resultName}}</td>
-								<td><input type="checkbox" data-ng-model="ss.checked"
+								<td><input type="checkbox" data-ng-model="int.checked"
 									name="checked-initiative"
 									data-ng-click="updateSelectedInitiatives()"></td>
 							</tr>

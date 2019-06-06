@@ -15,9 +15,13 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	$scope.filter            = {};
 	
 	$scope.getReportLegislator = () => {
-		reportService.getLegislatorReport().then(success=>{
+		dataReport = {
+				partnersId: $scope.selected.legislators.map(f=> f.id),
+				initiativesId: $scope.selected.initiatives.map(f=> f.id)
+		};
+
+		reportService.getLegislatorReport(dataReport).then(success=>{
 			$scope.legislatorsReport = JSON.parse(success.data);
-			console.log('Informacion del reporte: ',$scope.legislatorsReport);
 		}, error=>{
 			console.log('Error al obtener el nombre del legislador: ', error);
 		});
@@ -40,7 +44,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		if($scope.selected.sessions.length){
 			$scope.selected.sessions.forEach(function(session){
 				$scope.initiatives = $scope.initiatives.concat(session.iniciativas);
-				console.log('Iniciativas: ', $scope.initiatives);
 			});
 		}
 	};
@@ -48,7 +51,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	$scope.getPoliticalParties = () =>{	
 		factory.get('politicalparty').then(function mySuccess(data) {			
 			$scope.politicalParties = data;
-			console.log('Partidos: ', data);
 		}, function myError(response) {
 			$scope.myWelcome = response.statusText;
 			swal("Error",$scope.myWelcome, "error");			
@@ -62,7 +64,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		};
 		partnerService.getByStatusAndTipoAndPartie(sendData).then(data=>{
 			$scope.legislators = data;
-			console.log('Legisladores obtenidos: ',data);
 		}, error=>{
 			$console.log("error al obtener los legisladores: ",error);
 		});
@@ -74,7 +75,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 			session.iniciativas.forEach(function(initiative){
 				voteService.getByInitiativeId(initiative.id).then(votes => {
 					initiative.votes = votes;
-					console.log('votos encontrados: ', votes)
 				}, error=>{
 					console.log('Error al encontrar la iniciativa: ', error);
 				});
@@ -104,24 +104,26 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	};
 	
 	$scope.updateSelectedLegislators = () => {
-		$timeout(()=>{
+		$timeout( () => {
 			$scope.selected.legislators = $filter('filter')($scope.legislators,{checked: true});
 		},500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
-		$timeout(()=>{
+		$timeout( () => {
 			$scope.selected.sessions = $filter('filter')($scope.sessions,{checked: true});
 			$scope.getInitiatives();
 		},500);
 	};
 	
 	$scope.updateSelectedInitiatives = () => {
-		$timeout(()=>{
+		$timeout( () => {
 			$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true})
 		},500);
 	};
-	$scope.printTable = () =>{
+	
+//	Inicia la impresion del reporte
+	$scope.printTable = () => {
 		$scope.legislatorsReport.title ="Legisladores";
 		
 		$scope.legislatorsReport.headRows = [{politicalparty: "Partido", legislator: "Legislador",
@@ -146,12 +148,13 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		});
 
 	};
+
 	
+	// Reestructura las columnas en la base de datos
 	function bodyRows (arrayJson) {
 		let body = [], date, sTime, eTime;
 		
 		arrayJson.forEach(function(json) {
-			console.log(json);
 			date = new Date(json.date);
 			sTime = new Date(json.startTime);
 			eTime = new Date(json.endTime);
@@ -165,10 +168,20 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		return body;
 	}
 	
+	$scope.filterLegislator = e => {
+		let r = $scope.selected.parties.find(function(element){
+			return element.id == e.partido.id;
+		});
+		if(r){
+			return true;
+		}
+		return false;
+
+	};
+	
 	const initController = () => {
 		$scope.getPoliticalParties();
 		$scope.getLegislator();
-		$scope.getReportLegislator();
 	};
 	
 	angular.element(document).ready(function () {
