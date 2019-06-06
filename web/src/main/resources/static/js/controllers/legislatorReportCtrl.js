@@ -142,7 +142,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 				title: 'Reporte: Legislador',
 				subject: 'Reporte pdf de los legisladores'
 			});
-			doc.save('legisladores.pdf');
+			doc.save('Reporte_legisladores.pdf');
 		},errorDoc=>{
 			console.log("Error al obtener el reporte: ", errorDoc);
 		});

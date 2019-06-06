@@ -15,11 +15,32 @@
 	opacity: 0;
 	transition: all .3s;
 }
-
+.list-inline-item{
+	height: 4.3rem;
+    margin-right: 0 !important;
+}
 .list-inline-item:hover .close--delete-file {
 	opacity: 1;
 }
-
+.content-help-text {
+	position: relative;
+}
+.help-text {
+	position: absolute;
+	bottom:0;
+	left:0;
+	background: rgba(112, 106, 106,.8);
+	color:#fff;
+    padding: .5rem;
+    border-radius: 5px;
+    transition: all .3s;
+   	display: none;
+   	font-size: .8em;
+   	max-with: 15rem;
+}
+.content-help-text:hover .help-text {
+	display: block;
+}
 </style>
 
 <h1 class="my-4">
@@ -105,17 +126,21 @@
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label"></label>
 							<div class="input-group input-group-lg col-sm-10 flex-column">
-								<ul class="list-inline" data-ng-if="archive.filesUploads.length">
+								<ul class="row" style="padding-left: 0;" data-ng-if="archive.filesUploads.length">
 									<li data-ng-repeat="file in archive.filesUploads"
-										class="list-inline-item text-center"><i
-										class="far fa-file fa-3x text-secondary"></i><br>{{file.name}}</li>
+										class="list-inline-item text-center content-help-text col-6 col-md-4 col-lg-3"><i
+										class="far fa-file fa-3x text-secondary"></i><br>{{(file.name.length > 17)? file.name.substring(17,-1)+'...':file.name}}
+										<span class="help-text">{{file.name}}</span>
+										</li>
 								</ul>
 								<ul class="list-inline" data-ng-if="archive.files.length">
 									<li
 										data-ng-repeat="file in archive.files | filter: {status: 1} track by $index"
-										class="list-inline-item text-center position-relative"
+										class="list-inline-item text-center content-help-text col-6 col-md-4 col-lg-3"
 										data-ng-class="!archive.filesUploads.length? 'text-secondary': 'text-danger'"><i
-										class="far fa-file fa-3x"></i><br>{{file.originalName}}</li>
+										class="far fa-file fa-3x"></i><br>{{(file.originalName.length > 17)? ? file.originalName.substring(17,-1)+'...':file.originalName}}
+										<span class="help-text">{{file.originalName}}</span>
+										</li>
 								</ul>
 							</div>
 						</div>

@@ -175,7 +175,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	
 	$scope.comfirmDelete = (archive) => {
 		swal({
-			title: 'Esta seguro de eliminara a',
+			title: 'Esta seguro de eliminar a',
 			text: archive.nombre,
 			icon: "warning",
 			buttons: true,
@@ -185,7 +185,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				
 				swal({
 					title: '¿También desea eliminar sus archivos?',
-					text: 'Solo podran ser recuperados manualmente',
+					text: 'Solo podrán ser recuperados manualmente',
 					icon: "warning",
 					dangerMode: true,
 //					buttons: true,

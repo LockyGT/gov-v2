@@ -10,9 +10,10 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		"fas fa-map-marked-alt", "far fa-handshake","far fa-heart", "fas fa-piggy-bank", "fas fa-donate",
 		"far fa-smile","fas fa-graduation-cap", "fas fa-user-tie", "far fa-window-restore", "far fa-paper-plane",
 		"fas fa-chalkboard","fas fa-inbox","fas fa-database","fas fa-atlas","fas fa-stamp"];
-	$scope.getModulosod = () =>{
+	
+	$scope.showModulosod = () =>{
 		swal({
-			title: "Consultandos modulos orden del día",
+			title: "Consultandos módulos orden del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -23,22 +24,26 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 			closeOnEsc: false
 		});
 
+		$scope.getModulosod();
+		$timeout(()=>{
+			swal.stopLoading();
+			swal.close();
+		},600);
+	};
+	
+	$scope.getModulosod = () =>{
 		moduloodService.get().then(function success(data){
 			$scope.modulosod = data;
-			$timeout(()=>{
-				swal.stopLoading();
-				swal.close();
-			},500);
 		}, function error(response){
 			$scope.myWelcome = response;
 			swal.stopLoading();
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-
+	
 	$scope.postModulood = () => {
 		swal({
-			title: "Guardando modulo de orden del día",
+			title: "Guardando módulo de orden del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -51,7 +56,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 
 		moduloodService.post($scope.modulood).then(function success(data){
 			if(data){
-				swal("Exito", "Modulo de orden del día agregado correctamente", "success");
+				swal("Exito", "Módulo de orden del día agregado correctamente", "success");
 				swal.stopLoading();
 				$scope.getModulosod();
 				$scope.modulood = null;
@@ -81,11 +86,11 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		moduloodService.put($scope.modulood).then(function success(data){
 			if(data){
 				swal.stopLoading();
-				swal("Exito", "Modulo de orden del día actualizado correctamente", "success");
+				swal("Exito", "Módulo de orden del día actualizado correctamente", "success");
 				$scope.getModulosod();
 				$scope.modulood = null;
 			} else {
-				swal("Error", "Modulo de orden del día no actualizado", "error");
+				swal("Error", "Módulo de orden del día no actualizado", "error");
 			}
 		}, function error(error){
 			$scope.myWelcome = error.statusText;
@@ -99,7 +104,20 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 			if($scope.modulood.id != null){
 				$scope.putModulood();
 			} else {
-				$scope.postModulood();
+				let isRegister = $scope.modulosod.find(function(element){
+					return element.nombre.toLowerCase() == $scope.modulood.nombre.toLowerCase();
+				});
+				if(!isRegister){
+					$scope.postModulood();
+				}else {
+					swal({
+						  title: "Dato duplicado",
+						  text: "El nombre del módulo ya se encuentra registrado. Por favor intente con otro",
+						  icon: "warning",
+						  button: true
+					})
+				}
+				
 			}
 		} else {
 			console.log("Falta informacion para completar el registro");
@@ -108,7 +126,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 
 	$scope.confirmDelete = (modulood) =>{
 		swal({
-			title: 'Esta seguro de eliminara a',
+			title: 'Esta seguro de eliminar a',
 			text: modulood.nombre,
 			icon: "warning",
 			buttons: true,
@@ -123,11 +141,11 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	$scope.deleteModulood = modulood => {
 		moduloodService.deleteModulood(modulood).then(function success(data){
 			if(data){
-				swal("Exito","Modulo eliminado exitosamente", "success");
+				swal("Exito","Módulo eliminado exitosamente", "success");
 				$scope.getModulosod();
 			}
 		}, function error(error){
-			swal("Error","Modulo no eliminado","error");
+			swal("Error","Módulo no eliminado","error");
 		});
 	};
 
@@ -144,6 +162,8 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	$scope.addModulood = () => {
 		$scope.modulood = {
 				nombre: '',
+				color: '#000000',
+				fieldHelp: '',
 				status: 1
 		}
 	};
@@ -194,7 +214,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	};
 
 	const initController = () => {
-		$scope.getModulosod();
+		$scope.showModulosod();
 	};
 
 	angular.element(document).ready(function () {
