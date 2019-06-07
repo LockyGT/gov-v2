@@ -1,7 +1,10 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
-import java.time.LocalDate;
+
+
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.solucionesdigitales.vote.entity.documentfile.Attached;
@@ -16,7 +19,7 @@ public class OrderDay {
 	//version
 	private int sku;
 	private int status;
-	private LocalDate fecha;
+	private Date fecha;
 	private String odOriginal;
 	private String referencia;
 	private boolean isPublished;
@@ -79,11 +82,11 @@ public class OrderDay {
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
 	}
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	public ArrayList<ElementOd> getElementsOd() {

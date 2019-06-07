@@ -1,6 +1,7 @@
 package com.solucionesdigitales.vote.service.orderday;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
@@ -27,9 +28,5 @@ public interface OrderDayService {
 	List<OrderDay> getByStatusPublicada(boolean status);
 	List<OrderDay> getByStatusAprobada(boolean status);
 
-
-
-
-
-
+	List<OrderDay> fetchByBetweenDates(Date dateStart, Date dateEnd);
 }

@@ -3,6 +3,7 @@ package com.solucionesdigitales.vote.controller.orderday;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
 
@@ -101,6 +103,14 @@ public class OrderDayController {
 		logger.info("consulta OD POR FECHA1 ------> :" + l1);	
 		logger.info("consulta OD POR FECHA2 ------> :" + l2);
 		return service.getByDateBetween(l1,l2);
+	}
+	
+	@GetMapping(value="/datesbetween")
+	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
+			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
+		logger.info("Consulta Orden del dia publicadas por fechas "+dateStart+" y "+dateEnd);
+		
+		return service.fetchByBetweenDates(dateStart,dateEnd);
 	}
 
 	@PostMapping

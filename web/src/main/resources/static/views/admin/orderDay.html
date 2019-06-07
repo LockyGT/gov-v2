@@ -11,22 +11,22 @@
 <section data-ng-show="orderday !== null">
 	<div class="row">
 		<div class="col-ld-12 col-md-12 col-sm-12">
-			<form name="formOrderDay"
+			<form name="formOrderDay" id="formOrderDays"
 				data-ng-submit="submitForm(formOrderDay.$valid)" novalidate>
-				<div class="card">
+				<div class="card" id="tabs">
 					<div class="card-header">
 						<h5 class="card-title">{{!orderday.id ? 'NUEVA ': 'ACTUALIZAR
 							'}}</h5>
-
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
 								id="home-tab" data-toggle="tab" data-ui-sref="state"
 								href="#home" role="tab" aria-controls="home"
-								aria-selected="true">Orden del dia</a></li>
+								aria-selected="true">Orden del día</a></li>
+
 							<li class="nav-item"><a class="nav-link" id="profile-tab"
 								data-toggle="tab" ui-sref="state" href="#profile" role="tab"
 								aria-controls="profile" aria-selected="false">Contenido</a></li>
-							
+
 						</ul>
 
 					</div>
@@ -34,12 +34,11 @@
 						<div class="tab-content" id="nav-tabContent">
 							<div class="tab-pane fade show active" id="home" role="tabpanel"
 								aria-labelledby="nav-home-tab">
-
 								<div class="container margin-top">
 									<div class="form-group row">
 										<label for="txtFecha" class="col-sm-2 col-form-label">Fecha
 										</label>
-										<div class="input-group input-group-lg col-sm-10">
+										<div class="input-group input-group-lg col-sm-9">
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="inputGroup-sizing-lg5"><i
 													class="far fa-calendar-alt"></i></span>
@@ -49,17 +48,18 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="txtNombreOD" class="col-sm-2 col-form-label">Nombre
+										<label for="nombre" class="col-sm-2 col-form-label">Nombre
 											de la OD</label>
-										<div class="input-group input-group-lg col-sm-10">
+										<div class="input-group input-group-lg col-sm-9">
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="inputGroup-sizing-lg6"><i
 													class="far fa-file-alt"></i></span>
 											</div>
-											<input type="text" class="form-control" id="txtNombreOD"
-												placeholder="Nombre de la Orden del Dia"
-												data-ng-model="orderday.nombre" required maxlength="250"
-												required="required">
+
+											<input type="text" class="form-control" name="nombre"
+												id="nombre" placeholder="Nombre de la Orden del Dia"
+												data-ng-model="orderday.nombre" maxlength="250"
+												data-ng-class="invalidClassName" required>
 										</div>
 									</div>
 								</div>
@@ -103,7 +103,7 @@
 												<div class="col-auto">
 													<button type="button" class="btn btn-primary mb-2"
 														data-ng-click="addParagraph(e)">
-														Parrafo <i class="far fa-window-restore"></i>
+														Párrafo <i class="far fa-window-restore"></i>
 													</button>
 												</div>
 											</div>
@@ -126,8 +126,14 @@
 												<div class="col-2 col-md-2">
 													<button type="button" class="btn btn-info btn-sm new"
 														data-ng-click="addSubParagraphs(p)">
-														SubParrafo <i class="fas fa-chevron-circle-down"></i>
+														Subpárrafo <i class="fas fa-chevron-circle-down"></i>
 													</button>
+													<button type="button"
+														class="btn btn-danger btn-sm margin-top"
+														data-ng-click="removeParagraphs($index)">
+														Eliminar<i class="fas fa-chevron-circle-down"></i>
+													</button>
+
 												</div>
 												<div class="container">
 													<div class="row margin-top"
@@ -148,7 +154,11 @@
 																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
 															</div>
 														</div>
-														<div class="col-2 col-md-3"></div>
+														<div class="col-2 col-md-3">
+															<button type="button"
+																class="btn btn-danger btn-sm margin-top"
+																data-ng-click="">Eliminar</button>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -163,7 +173,7 @@
 					<!-- CardBody -->
 					<div class="card-footer">
 						<button type="submit" class="btn btn-success">{{!orderday.id
-							? 'Guardar': 'Guardar version'}}</button>
+							? 'Guardar': 'Guardar versión'}}</button>
 
 						<button type="button" class="btn btn-danger"
 							data-ng-click="cancelAddUpOrderday()">Cancelar</button>
@@ -229,9 +239,10 @@
 								<i class="fas fa-search"></i>
 							</div>
 						</div>
-						<input type="search" class="form-control" id="searchTerm"
-							placeholder="Busqueda por nombre" data-ng-keyup="buscar();"
-							required="required">
+						<input class="form-control py-2" type="search" value="search"
+							id="example-search-input" placeholder="Buscar"
+							data-ng-model="searchOrderDay"> <span
+							class="input-group-append"> </span>
 					</div>
 				</div>
 				<div class="col-3">
@@ -241,7 +252,6 @@
 					</button>
 				</div>
 			</div>
-
 		</div>
 		<div class="card-body">
 			<div class="tab-content" id="myTabContent">
@@ -249,9 +259,9 @@
 					aria-labelledby="home-tab">
 					<br>
 					<div class="alert alert-primary" data-ng-if="!orderdays.length">
-						No se encontraron Ordenes del dia en el sistema</div>
+						No se encontraron Ordenes del día en el sistema</div>
 					<div class="table-responsive" data-ng-if="orderdays.length > 0">
-						<table id="datos"
+						<table id="datosOd"
 							class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
@@ -259,17 +269,18 @@
 									<th>Orden del día</th>
 									<th>Fecha</th>
 									<th>Estado</th>
-									<th>Nueva versión</th>
+									<th>Editar</th>
 									<th>Publicar</th>
 									<th>Mas opciones</th>
 
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="orderday in orderdays track by $index">
+								<tr
+									data-ng-repeat="orderday in orderdays | filter : searchOrderDay track by orderday.id">
 									<td scope="row">{{$index+1}}</td>
 									<td><a style="color: black;" href=""
-										data-ng-click="addOrderOfTheDay(orderday)" data-toggle="modal"
+										data-ng-click="addOrderOfTheDay(orderday)"  data-toggle="modal"
 										data-target="#modal-show-od">{{orderday.nombre}}</a></td>
 									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
 									<td><button type="button"
@@ -279,12 +290,10 @@
 											? 'Aprobada ' : ' Aprobar '}}</button></td>
 									<td>
 										<button type="button" class="btn btn-info"
-											data-ng-click="addNewOd(orderday);">Crear Version</button>
+											data-ng-click="addNewOd(orderday);">Editar</button>
 
 									</td>
-
 									<td><button type="button" class="btn btn-warning"
-											data-ng-disabled="orderday.published"
 											data-ng-click="toPostOdGazzete(orderday);">{{orderday.published
 											? ' Publicada ' : ' Publicar '}}</button></td>
 									<td><div class="btn-group dropright">
@@ -296,17 +305,14 @@
 												<span class="sr-only">Mas opciones</span>
 											</button>
 											<div class="dropdown-menu">
-												<a class="dropdown-item" href=""
-													data-ng-click="verVersiones(orderday);"><i
-													style="color: peru" class="fas fa-grip-vertical"></i>
-													Versiones</a> 
-													<a class="dropdown-item" href=""
-													data-toggle="modal" data-target="#modal-anexoOd" data-ng-click="addAnnexes(orderday);"><i
-													class="fas fa-folder-open"></i> Anexos</a> 
-													<a
+												<a class="dropdown-item btn btn-default" href="" data-toggle="modal"
+													data-target="#modalVerssion"
+													data-ng-click="verVersiones(orderday);">Versiones</a> <a
+													class="dropdown-item" href="" data-toggle="modal"
+													data-target="#modal-anexoOd"
+													data-ng-click="addAnnexes(orderday);"> Anexos</a> <a
 													class="dropdown-item" href=""
-													data-ng-click="confirmDelete(orderday);"><i
-													style="color: red" class="fas fa-trash-alt"></i> Eliminar</a>
+													data-ng-click="confirmDelete(orderday);"> Eliminar</a>
 												<div class="dropdown-divider"></div>
 												<!-- 												<a class="dropdown-item" href="#">Separated link</a> -->
 											</div>
@@ -324,6 +330,9 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		
+	</script>
 	<script type="text/javascript">
 		function changetxts(_tipo) {
 			if (_tipo == 1) {
@@ -346,7 +355,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Versiones de {{orderdaysV.nombre}}</h5>
+				<h5 class="modal-title">Versiones </h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -355,7 +364,7 @@
 			<div class="modal-body">
 				<div class="alert alert-primary" role="alert"
 					data-ng-if="!orderdaysV.length">No se han encontrado
-					versiones de la orden del dia.</div>
+					versiones de la orden del día.</div>
 				<div class="table-responsive" data-ng-if="orderdaysV.length > 0">
 					<table class="table table-inversed table-hover table-striped">
 						<thead>
@@ -363,8 +372,8 @@
 								<th>Fecha</th>
 								<th>Nombre</th>
 								<th>Ver</th>
-								<th>Version</th>
-								<th>Anexos</th>
+								<th>Versión</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -376,12 +385,7 @@
 										<i class="far fa-eye"></i>
 									</button></td>
 								<td>V_{{verssion.sku}}</td>
-								<td><button type="button" 
-										class="btn btn-dark" data-toggle="modal"
-										data-target="#attachments-verssion"
-										data-ng-click="viewAttachmentsV(verssion);">Anexos</button></td>
-
-							</tr>
+								</tr>
 						</tbody>
 						<tfoot>
 							<tr>
@@ -501,7 +505,7 @@
 									</div>
 								</div>
 								<input type="search" class="form-control" id="searchTerm"
-									placeholder="Busqueda por nombre" data-ng-keyup="buscar();"
+									placeholder="Buscar" data-ng-keyup="buscar();"
 									required="required">
 							</div>
 						</div>
@@ -521,25 +525,27 @@
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title">Buscar</span> <input
 										type="file" name="input-file-preview"
-										data-file-model="attached.filesUploads"/>
+										data-records-model="attached.filesUploads" multiple />
 									</label>
 								</div>
 								<input type="text" class="form-control image-preview-filename"
-									disabled="disabled" data-ng-if="!isAdd"
-									value="archivos subidos">
+									disabled="disabled" data-ng-if="!isAdd" value="Cargar archivos">
 								<button type="button" class="btn btn-light"
 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Agregar</button>
 							</div>
 							<br>
-<!-- 							<ul class="list-inline" > -->
-<!-- 								<li  -->
-<!-- 									class="list-inline-item text-center"><i -->
-<!-- 									class="far fa-file fa-3x text-secondary"></i><br>{{attached.filesUploads.name}} -->
-<!-- 							</ul> -->
+							<!-- 							<ul class="list-inline" > -->
+							<!-- 								<li  -->
+							<!-- 									class="list-inline-item text-center"><i -->
+							<!-- 									class="far fa-file fa-3x text-secondary"></i><br>{{attached.filesUploads.name}} -->
+							<!-- 							</ul> -->
 						</div>
 					</div>
 				</div>
-				<div class="table-responsive">
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!orderdayAnnexes.attached.files.length">No se han encontrado anexos
+					guardados en esta orden del día</div> 
+				<div class="table-responsive" data-ng-if="orderdayAnnexes.attached.files.length > 0">
 					<table id="datos"
 						class="table table-inversed table-hover table-striped">
 						<thead>
@@ -559,20 +565,20 @@
 							<tr
 								data-ng-repeat="file in orderdayAnnexes.attached.files | filter: {status: 1} track by $index">
 								<td scope="row">{{$index+1}}</td>
-								<td>{{file.originalName}}</td>
+								<td id="table-content">{{file.originalName}}</td>
 								<td><button type="button" class="btn btn-primary"
 										data-toggle="modal" data-target="#show-file"
-										data-ng-click="showDownloadFile(file);">
-										<i class="far fa-eye"></i>
+										data-ng-click="showDownloadFile(file);"> Ver
+										
 									</button></td>
 								<td><button type="button" class="btn btn-secondary"
 										data-ng-click="downloadFile(file);">
-										<i class="fas fa-file-download"></i>
+										Descargar
 									</button></td>
 								<td><button type="button" class="btn btn-danger"
 										data-ng-click="deleteFile(file)" data-dismiss="modal"
 										aria-label="Close">
-										<i class="fas fa-trash-alt"></i>
+										Eliminar
 									</button></td>
 
 							</tr>
@@ -587,7 +593,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success"
-					data-ng-click="saveAttachedOd();">Guardar</button>
+					data-ng-click="UpAttachedOd();">Guardar</button>
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -618,74 +624,3 @@
 	</div>
 </div>
 <!-- [MODAL] MUESTRA LOS ANEXOS DE CADA ORDEN DEL DIA VERSIONADA -->
-<div class="modal fade bd-example-modal-lg" id="attachments-verssion"
-	tabindex="-1" role="dialog" aria-labelledby="attachmentsverssion"
-	aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered"
-		role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="attachmentsverssion">Anexos de
-					{{orderday.nombre}}</h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="alert alert-primary" role="alert"
-					data-ng-if="!file.length">No se han encontrado anexos
-					registrados en esta version de la orden del dia</div>
-				<div class="table-responsive" data-ng-if="file.length > 0">
-					<table id="datos"
-						class="table table-inversed table-hover table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Archivo</th>
-								<th></th>
-								<th></th>
-								<th><button type="button" data-ng-click="downloadZip()"
-										class="btn btn-info">
-										<i class="fas fa-download"></i>Descargar
-									</button></th>
-
-							</tr>
-						</thead>
-						<tbody>
-							<tr
-								data-ng-repeat="file in orderday.attached.files | filter: {status: 1} track by $index">
-								<td scope="row">{{$index+1}}</td>
-								<td>{{file.originalName}}</td>
-								<td><button type="button" class="btn btn-primary"
-										data-toggle="modal" data-dismiss="modal"
-										data-target="#show-file"
-										data-ng-click="showDownloadFile(file);">
-										<i class="far fa-eye"></i>
-									</button></td>
-								<td><button type="button" class="btn btn-secondary"
-										data-ng-click="downloadFile(file);">
-										<i class="fas fa-file-download"></i>
-									</button></td>
-								<td><button type="button" class="btn btn-danger"
-										data-ng-click="deleteFile(file)" data-dismiss="modal"
-										aria-label="Close">
-										<i class="fas fa-trash-alt"></i>
-									</button></td>
-
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th colspan="9"></th>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>

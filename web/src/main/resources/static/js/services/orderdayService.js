@@ -22,6 +22,17 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
+	self.getBetweenDatesPublished = (data)  => {
+		console.log('informacion enviada: ', data);
+		return $q((resolve, reject)=>{
+			factory.get(path+'/datesbetween', data).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				reject(errorData);
+			});
+		});
+	};
+	
 	self.getById = (date)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/fetch/id', date).then(function mySuccess(data) {						

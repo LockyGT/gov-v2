@@ -1,7 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <h1 class="my-4">
-	<small>Orden del día publicadas</small>
+	<small>Orden del día</small>
 </h1>
 
 <section data-ng-if="odgazzete === null">
@@ -10,9 +10,7 @@
 			<form class="form-inline" name="formFiltros">
 				<div class="input-group mx-sm-3 mb-2">
 					<input type="date" class="form-control" id="txtFechaBusqueda"
-						data-ng-max="filtrosFechas.fechaFin" name="fecha"
-						data-ng-model="filtrosFechas.fechaInicio" required="required"
-						data-ng-class="formFiltros.fecha.$invalid ? 'is-invalid': ''">
+						 name="fecha" data-ng-model="searchDateStart" required="required">
 					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
 					<div class="input-group-prepend">
 						<div class="input-group-text">
@@ -22,9 +20,7 @@
 				</div>
 				<div class="input-group mx-sm mb-2">
 					<input type="date" class="form-control" id="txtFechaBusquedaFin"
-						data-ng-min="filtrosFechas.fechaInicio" name="fechaFin"
-						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
-						data-ng-model="filtrosFechas.fechaFin" required="required">
+						name="fechaFin" data-ng-model="searchDateEnd" required="required">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
 					<div class="input-group-prepend">
 						<div class="input-group-text">
@@ -34,11 +30,11 @@
 				</div>
 				<div class="form-group mx-sm-2 mb-2">
 					<button type="button" class="btn btn-dark"
-						data-ng-click="getBuscarFecha();">
+						data-ng-click="getBetweenDatesPublished(searchDateStart,searchDateEnd);">
 						<i class="fas fa-search"></i> Buscar
 					</button>
 					<span class="invalid-feedback d-block"
-						data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
+						data-ng-show="formFiltros.searchDateStart.$invalid || formFiltros.searchDateEnd.$invalid">Rango
 						de fechas inválido!</span>
 
 				</div>
@@ -71,13 +67,13 @@
 				<div class="tab-pane fade show active" id="home" role="tabpanel"
 					aria-labelledby="home-tab">
 					<br> <br>
-					<div  class="alert alert-primary" role="alert" data-ng-if="orderdays.length == 0">
+					<div  class="alert alert-primary" role="alert" data-ng-if="publishedOds.length == 0">
 						<div class="alert alert-primary" role="alert"
-							data-ng-if="!orderdays.length">No se han encontrado Orden
+							data-ng-if="!publishedOds.length">No se han encontrado Orden
 							del dia para el rango de fechas seleccionado - seleccione otro
 							rango de fechas para realizar la busqueda.</div>
 					</div>
-					<div class="table-responsive" data-ng-if="orderdays.length > 0">
+					<div class="table-responsive" data-ng-if="publishedOds.length > 0">
 						<table class="table table-inversed table-hover table-striped">
 							<thead>
 								<tr>
@@ -90,14 +86,14 @@
 							</thead>
 							<tbody>
 								<tr
-									data-ng-repeat="orderday in orderdays | filter : searchElement track by orderday.id">
+									data-ng-repeat="orderday in publishedOds | filter : searchElement track by orderday.id">
 									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
 									<td>{{orderday.nombre}}</td>
-									<td><button type="button" class="btn btn-danger"><i class="fas fa-file-pdf"></i>ver</button></td>
-									<td><button type="button" class="btn btn-warning"><i class="fas fa-file-download"></i>Descargar</button>
+									<td><button type="button" class="btn btn-danger">ver</button></td>
+									<td><button type="button" class="btn btn-warning">Descargar</button>
 									</td>
 									<td><button type="button" class="btn btn-dark"
-											data-toggle="modal" data-target="#attachments-verssion" data-ng-click="viewAttachmentsV(orderday);"><i class="fas fa-folder-open"></i>Anexos</button>
+											data-toggle="modal" data-target="#attachments-verssion" data-ng-click="viewAttachmentsV(orderday);">Anexos</button>
 									</td>
 								</tr>
 							</tbody>
@@ -140,7 +136,7 @@
 									<th></th>
 									<th><button type="button" data-ng-click="downloadZip()"
 											class="btn btn-info">
-											<i class="fas fa-download"></i>Descargar
+											<i class="fas fa-download"></i> Descargar
 										</button></th>
 
 								</tr>
@@ -152,12 +148,12 @@
 									<td>{{file.originalName}}</td>
 									<td><button type="button" class="btn btn-danger"
 											data-toggle="modal" data-target="#show-file"
-											data-ng-click="showDownloadFile(file);">
-											<i class="fas fa-file-pdf"></i>
+											data-ng-click="showDownloadFile(file);"> Ver
+									<!--<i class="fas fa-file-pdf"></i> -->
 										</button></td>
 									<td><button type="button" class="btn btn-secondary"
-											data-ng-click="downloadFile(file);">
-											<i class="fas fa-file-download"></i>
+											data-ng-click="downloadFile(file);"> Descargar
+									<!--<i class="fas fa-file-download"></i> -->
 										</button></td>
 								</tr>
 							</tbody>

@@ -3,60 +3,46 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 	$scope.odgazzete=null;
 	$scope.orderday={};
 	$scope.attached = {};
+	$scope.searchDateStart = new Date();
+	$scope.searchDateEnd = new Date();
 	$scope._ORDERDAY = _ORDERDAY;
-	$scope.filtrosFechas = {};
-	$scope.filtrosFechas.fechaInicio = new Date();
-	$scope.filtrosFechas.fechaFin = new Date();
-	$scope.fecha= new Date();
 
 	
-//	$scope.getStatusString = (status)=>{
-//		let statusString = "--";
-//		switch (status) {
-//		case _ORDERDAY._APROBADA:
-//			statusString = "APROBADA";
-//			break;
-//		case _ORDERDAY._NOAPROBADA:
-//			statusString = "INICIADA";
-//			break;
-//		case _ORDERDAY._PUBLICADA:
-//			statusString = "PUBLICADA";
-//			break;
-//		case _ORDERDAY._ELIMININADA:
-//			statusString = "ELIMINADA";
-//			break;
-//		default:
-//			statusString = " "+status;
-//		break;
-//		}
-//		return statusString;
-//	};
-	
-	$scope.getBuscarFecha = () =>{
-		console.log("--------------------");
-		console.log($scope.filtrosFechas);
-		console.log("--------------------");
-		let dateInit = new Date($scope.filtrosFechas.fechaInicio);
-		let dateEnd = new Date($scope.filtrosFechas.fechaFin);		
-		let map = new Object(); 
-		map['fecha'] = dateInit;
-		map['fechaFin'] = dateEnd;
-		orderdayService.getByDateBetween(map).then(function mySuccess(data) {
-			$scope.orderdays = data;
-			angular.forEach($scope.orderdays, function(val, key){
-				if(val.fecha != null && val.fecha.length > 0){
-					val.fecha = new Date(val.fecha);
-				}
-			});
-
-		}, function myError(response) {
-			swal("Error al consultar", "error");			
+	$scope.getBetweenDatesPublished = (searchDateStart, searchDateEnd) => {
+		swal({
+			title: "Consultandos Ordenes del día",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+		let dataFilter = {
+				"datestart": $filter('date')(searchDateStart, "yyyy/MM/dd"),
+				"dateend":$filter('date')(searchDateEnd, "yyyy/MM/dd")
+				};
+		orderdayService.getBetweenDatesPublished(dataFilter).then(function success(data){
+			$scope.publishedOds = data;
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+				//$scope.getPostOrderDays();
+			},500);
+			
+		}, function error(response){
+			$scope.myWelcome = response;
+			swal.stopLoading();
+			swal('Error', $scope.myWelcome, "error");
 		});
 	};
 	
+	
 	$scope.getPostOrderDays = function (){
 		swal({
-			title: "Consultando Orden del día",
+			title: "Publicando Orden del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -69,8 +55,8 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		let data = new Object();
 		data['publicada'] = true;
 		orderdayService.getByStatusPublicada(data).then(function success(data){
-			$scope.orderdays=data;
-			console.log('Texto', $scope.orderdays)
+			$scope.publishedOds = data;
+			console.log('Texto', $scope.publishedOds)
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
