@@ -3,26 +3,29 @@
 .modal-lg {
 	max-width: 80% !important;
 }
+
 .row--container-select {
 	cursor: pointer;
 	box-sizing: border-box;
 }
 
-.row--container-select > article svg{
+.row--container-select>article svg {
 	transition: all .3s;
 	padding: 0;
 	border-radius: 2px;
-	margin:auto;
-	display:block;
+	margin: auto;
+	display: block;
 }
-.row--container-select > article:hover svg{
-	background-color: #6c757d!important;
-	color: #ffffff!important;
+
+.row--container-select>article:hover svg {
+	background-color: #6c757d !important;
+	color: #ffffff !important;
 	padding: .5rem;
 }
-.icon--selected > article svg{
-	background-color: #6c757d!important;
-	color: #ffffff!important;
+
+.icon--selected>article svg {
+	background-color: #6c757d !important;
+	color: #ffffff !important;
 	padding: .5rem;
 	border-radius: 2px;
 }
@@ -37,7 +40,8 @@
 				data-ng-submit="submitForm(formModuloOd.$valid)" novalidate>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">{{!modulood.id ? 'Nuevo ': 'Actualizar'}}</h5>
+						<h5 class="card-title">{{!modulood.id ? 'Nuevo ':
+							'Actualizar'}}</h5>
 					</div>
 					<div class="card-body">
 						<div class="form-group row">
@@ -50,7 +54,12 @@
 								</div>
 								<input type="text" class="form-control" name="txtNombre"
 									id="txtNombre" data-ng-model="modulood.nombre"
+									data-ng-class="validClass.name ? 'is-'+validClass.name:''"
 									placeholder="nombre" required>
+								<div class="d-block"
+									data-ng-class="validClass.name ? validClass.name+'-feedback':''"
+									data-ng-show="validClass.name">Por favor ingrese el
+									nombre del módulo</div>
 
 							</div>
 						</div>
@@ -61,10 +70,14 @@
 									<span class="input-group-text" id="inputGroup-sizing-lg4"><i
 										class="fas fa-drafting-compass"></i></span>
 								</div>
-								<input  type="text" data-toggle="modal" data-target="#modal-select-icon"
-									class="form-control" name="txtIcono" id="txtIcono"
-									data-ng-model="modulood.icon" placeholder="icono" required>
-
+								<input type="text" data-toggle="modal"
+									data-target="#modal-select-icon" class="form-control"
+									name="txtIcono" id="txtIcono" data-ng-model="modulood.icon"
+									data-ng-class="validClass.icon ? 'is-'+validClass.icon:''"
+									placeholder="icono" required>
+								<div class="d-block" data-ng-show="validClass.icon"
+									data-ng-class="validClass.icon ? validClass.icon+'-feedback':''">Por
+									favor ingrese un icono</div>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -76,12 +89,16 @@
 								</div>
 								<input type="color" class="form-control" name="txtColor"
 									id="txtColor" data-ng-model="modulood.color"
+									data-ng-class="validClass.color ? 'is-valid':''"
 									placeholder="color">
-
+								<div class="d-block" data-ng-show="validClass.color"
+									data-ng-class="validClass.color ? 'valid-feedback':''">Campo
+									no requerido</div>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="txtCampoTextoAyuda" class="col-sm-2 col-form-label">Campo texto de ayuda</label>
+							<label for="txtCampoTextoAyuda" class="col-sm-2 col-form-label">Campo
+								texto de ayuda</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg4">
@@ -89,8 +106,11 @@
 									</span>
 								</div>
 								<textarea name="txtCampoTextoAyuda" id="txtCampoTextoAyuda"
+									data-ng-class="validClass.fieldHelp ? 'is-valid':''"
 									class="form-control" data-ng-model="modulood.fieldHelp"></textarea>
-
+								<div class="d-block" data-ng-show="validClass.fieldHelp"
+									data-ng-class="validClass.fieldHelp ? 'valid-feedback':''">Campo
+									no requerido</div>
 							</div>
 						</div>
 					</div>
@@ -201,12 +221,13 @@
 			<div class="modal-body text-secondary">
 				<section class="row row--container-select">
 					<article class="col-4 col-sm-2 mb-4" data-ng-repeat="icon in icons"
-					 data-ng-click="selectThisIcon(icon)">
+						data-ng-click="selectThisIcon(icon)">
 						<i class="fa-3x" data-ng-class="icon"></i>
 					</article>
 				</section>
 				<section class="row mt-4">
-					<button type="button"  data-ng-click="addMoreIcon()" class="btn btn-link">Buscar más</button>
+					<button type="button" data-ng-click="addMoreIcon()"
+						class="btn btn-link">Buscar más</button>
 				</section>
 			</div>
 			<div class="modal-footer">

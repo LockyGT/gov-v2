@@ -104,7 +104,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 		$scope.archive.files = files; 
 		$scope.archive.modulood = $scope.moduleod;
-		console.log('Documento enviado: ',$scope.archive );
+		console.log('Documento enviado: ',$scope.archive);
 		archiveService.post($scope.archive).then(success=>{
 			if(success){
 				swal('Exito','Archivo agregado exitosamente', 'success');
@@ -164,10 +164,14 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		if($scope.archive != null){
 			if($scope.archive.id != null){
 				$scope.updateFiles();
+				$scope.isAdd = false;
 			} else {
-				$scope.saveFiles();
+				if($scope.archive.filesUploads){
+					$scope.saveFiles();
+				}else {
+					$scope.validForm();
+				}
 			}
-			$scope.isAdd = false;
 		} else {
 			console.log("Falta información para completar el registro");
 		}
@@ -188,7 +192,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 					text: 'Solo podrán ser recuperados manualmente',
 					icon: "warning",
 					dangerMode: true,
-//					buttons: true,
+// buttons: true,
 					buttons:{
 						  cancel: {
 							    text: "No",
@@ -289,8 +293,27 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	$scope.submitForm = isValid => {
+		$scope.validClass = {};
 		if(isValid){
 			$scope.addUpdate();
+		} else {
+			$scope.validForm();
+		}
+	};
+	
+	$scope.validForm = () => {
+		
+		$scope.validClass.date        = 'valid';
+		$scope.validClass.name        = 'valid';
+		$scope.validClass.file        = 'valid';
+		$scope.validClass.description = 'valid';
+		
+		if($scope.archive.nombre.replace(/ /g, "").length === 0) {
+			$scope.validClass.name = 'invalid';
+		}
+
+		if($scope.archive.filesUploads === undefined){
+			$scope.validClass.file = 'invalid';
 		}
 	};
 	
@@ -343,7 +366,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				folder: 'gazzete/'+$scope.moduleod.id,
 				userId: 'israel'
 		};
-		console.log('Archivor enviados: ', file);
+		console.log('Archivo enviados: ', file);
 		storageService.saveFiles(file).then(success=>{
 			if(success.length){
 				$scope.postArchive(success);
@@ -362,7 +385,8 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				oldServerNames: fFiles.map(f => f.originalName),
 				oldOriginalNames:  fFiles.map(f => f.serverName),
 				folder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.archive.files[0].folder,
-				userId: 'israel'
+				userId: 'israel',
+				status: 1
 		};
 		console.log('informacion enviada: ',file);
 		storageService.updateFiles(file).then(success=>{

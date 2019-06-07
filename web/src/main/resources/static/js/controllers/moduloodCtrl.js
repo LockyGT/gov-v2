@@ -150,11 +150,23 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	};
 
 	$scope.submitForm = (isValid) => {
-		console.log('validForm');
-		console.log(isValid);
 
 		if(isValid) {
 			$scope.addUpdate();
+			$scope.validClass= {};
+		} else {
+			$scope.validClass= {};
+			$scope.validClass.name = 'valid';
+			$scope.validClass.icon = 'valid';
+			$scope.validClass.color = 'valid';
+			$scope.validClass.fieldHelp = 'valid';
+			
+			if($scope.modulood.nombre.replace(/ /g, "").length === 0){
+				$scope.validClass.name = 'invalid';
+			}
+			if($scope.modulood.icon.replace(/ /g, "").length === 0){
+				$scope.validClass.icon = 'invalid';
+			}
 		}
 	};
 
@@ -162,6 +174,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	$scope.addModulood = () => {
 		$scope.modulood = {
 				nombre: '',
+				icon:'',
 				color: '#000000',
 				fieldHelp: '',
 				status: 1

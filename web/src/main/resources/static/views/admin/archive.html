@@ -15,29 +15,34 @@
 	opacity: 0;
 	transition: all .3s;
 }
-.list-inline-item{
+
+.list-inline-item {
 	height: 4.3rem;
-    margin-right: 0 !important;
+	margin-right: 0 !important;
 }
+
 .list-inline-item:hover .close--delete-file {
 	opacity: 1;
 }
+
 .content-help-text {
 	position: relative;
 }
+
 .help-text {
 	position: absolute;
-	bottom:0;
-	left:0;
-	background: rgba(112, 106, 106,.8);
-	color:#fff;
-    padding: .5rem;
-    border-radius: 5px;
-    transition: all .3s;
-   	display: none;
-   	font-size: .8em;
-   	max-with: 15rem;
+	bottom: 0;
+	left: 0;
+	background: rgba(112, 106, 106, .8);
+	color: #fff;
+	padding: .5rem;
+	border-radius: 5px;
+	transition: all .3s;
+	display: none;
+	font-size: .8em;
+	max-with: 15rem;
 }
+
 .content-help-text:hover .help-text {
 	display: block;
 }
@@ -69,8 +74,13 @@
 									</span>
 								</div>
 								<input type="date" class="form-control" name="txtFecha"
+									data-ng-class="validClass.date ? 'is-'+validClass.date:''"
 									id="txtFecha" data-ng-model="archive.fecha" placeholder="fecha"
 									required>
+								<div class="d-block"
+									data-ng-class="validClass.date ? validClass.date+'-feedback':'invalid-feedback'"
+									data-ng-show="!formArchive.txtFecha.$valid || validClass.date">Por favor
+									introduce una fecha valida</div>
 
 							</div>
 						</div>
@@ -84,12 +94,16 @@
 								</div>
 								<input type="text" class="form-control" name="txtNombre"
 									id="txtNombre" data-ng-model="archive.nombre"
+									data-ng-class="validClass.name ? 'is-'+validClass.name:''"
 									placeholder="nombre" required>
 								<div data-toggle="tooltip" data-placement="left"
 									title="{{moduleod.fieldHelp}}">
 									<i class="ml-3 far fa-question-circle fa-3x text-secondary"></i>
 								</div>
-
+								<div class="d-block"
+									data-ng-class="validClass.name ? validClass.name+'-feedback':''"
+									data-ng-show="validClass.name">Por favor ingrese el
+									nombre del documento</div>
 
 							</div>
 						</div>
@@ -102,8 +116,9 @@
 									</span>
 								</div>
 								<input type="text"
-									value="{{archive.filesUploads.length ? ' archivos seleccionados' : 'Seleccione un archivo...'}}"
+									value="{{archive.filesUploads.length ? 'archivos seleccionados' : 'Seleccione un archivo...'}}"
 									class="form-control image-preview-filename" disabled="disabled"
+									data-ng-class="validClass.file ? 'is-'+validClass.file:''"
 									data-ng-if="isAdd">
 								<div class="input-group-append" data-ng-if="isAdd">
 									<label class="btn btn-default image-preview-input"> <span
@@ -121,26 +136,33 @@
 									value="archivos subidos">
 								<button type="button" class="btn btn-light"
 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Cambiar</button>
+								<div class="d-block"
+									data-ng-class="validClass.file ? validClass.file+'-feedback':''"
+									data-ng-show="validClass.name">Por favor ingrese un
+									archivo</div>
 							</div>
+
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label"></label>
 							<div class="input-group input-group-lg col-sm-10 flex-column">
-								<ul class="row" style="padding-left: 0;" data-ng-if="archive.filesUploads.length">
+								<ul class="row" style="padding-left: 0;"
+									data-ng-if="archive.filesUploads.length">
 									<li data-ng-repeat="file in archive.filesUploads"
 										class="list-inline-item text-center content-help-text col-6 col-md-4 col-lg-3"><i
-										class="far fa-file fa-3x text-secondary"></i><br>{{(file.name.length > 17)? file.name.substring(17,-1)+'...':file.name}}
-										<span class="help-text">{{file.name}}</span>
-										</li>
+										class="far fa-file fa-3x text-secondary"></i><br>{{(file.name.length
+										> 17)? file.name.substring(17,-1)+'...':file.name}} <span
+										class="help-text">{{file.name}}</span></li>
 								</ul>
-								<ul class="list-inline" data-ng-if="archive.files.length">
+								<ul class="row" style="padding-left: 0;" data-ng-if="archive.files.length">
 									<li
 										data-ng-repeat="file in archive.files | filter: {status: 1} track by $index"
 										class="list-inline-item text-center content-help-text col-6 col-md-4 col-lg-3"
 										data-ng-class="!archive.filesUploads.length? 'text-secondary': 'text-danger'"><i
-										class="far fa-file fa-3x"></i><br>{{(file.originalName.length > 17)? ? file.originalName.substring(17,-1)+'...':file.originalName}}
-										<span class="help-text">{{file.originalName}}</span>
-										</li>
+										class="far fa-file fa-3x"></i><br>{{(file.originalName.length
+										> 17)?
+										file.originalName.substring(17,-1)+'...':file.originalName}} <span
+										class="help-text">{{file.originalName}}</span></li>
 								</ul>
 							</div>
 						</div>
@@ -154,7 +176,11 @@
 									</span>
 								</div>
 								<textarea name="txtDescripcion" id="txtDescripcion"
+									data-ng-class="validClass.description ? 'is-'+validClass.description:''"
 									class="form-control" data-ng-model="archive.descripcion"></textarea>
+								<div class="d-block"
+									data-ng-class="validClass.description ? validClass.description+'-feedback':''"
+									data-ng-show="validClass.description">Campo no requerido</div>
 							</div>
 							<p class="mr-3">*Solo si es requerido</p>
 						</div>
