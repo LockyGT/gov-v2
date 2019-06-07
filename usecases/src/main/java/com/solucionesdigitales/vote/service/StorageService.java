@@ -24,7 +24,7 @@ public interface StorageService {
 	File updateFile(GenericFile file);
 
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
-			String userId);
+			String userId, int status);
 
 	Attached copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName, String folder,
 			String oldFolder, String userId);

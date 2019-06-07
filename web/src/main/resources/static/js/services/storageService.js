@@ -106,6 +106,7 @@ app.service('storageService', function($q, factory) {
 			fd.append('oldOriginalNames', file.oldOriginalNames);
 			fd.append('folder', file.folder);
 			fd.append('userId', file.userId);
+			fd.append('status', file.status);
 			factory.postFile(path+'/update-files', fd).then(function mySuccess(data) {		
 				resolve(data);
 			}, function myError(errResponse) {

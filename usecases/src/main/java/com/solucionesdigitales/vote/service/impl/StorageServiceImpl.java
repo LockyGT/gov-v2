@@ -187,7 +187,7 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> updateFiles(GenericFile files,
-			ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames, String userId) {
+			ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames, String userId, int status) {
 
 		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> updatedFiles = new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
 		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
@@ -197,13 +197,18 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			Path location = Paths.get(path);
 			int i = 0;
+			if(status == 1) {
+				for (String oldServerName : oldServerNames) {
+					moveRecycleBin(files.getFolder(), oldServerName, oldOriginalNames.get(i));
 
-			for (String oldServerName : oldServerNames) {
-				LOGGER.info("-----cargando recurso----");
-				moveRecycleBin(files.getFolder(), oldServerName, oldOriginalNames.get(i));
-
-				i++;
+					i++;
+				}
+			} else if( status == 2) {
+				if (!new File(path + File.separator + files.getFolder()).exists()) {
+					new File(path + File.separator + files.getFolder()).mkdirs();
+				}
 			}
+
 
 			for (MultipartFile file : files.getFiles()) {
 				if (file.isEmpty()) {
