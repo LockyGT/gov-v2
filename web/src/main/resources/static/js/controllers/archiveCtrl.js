@@ -10,9 +10,9 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	// Reerstablece un tiempo para activar los tooltips
 	$timeout(()=>{
 		$(function () {
-			  $('[data-toggle="tooltip"]').tooltip();
+			  $('[data-toggle="tooltip"]').tooltip({animation:true, container: 'body'});
 			})
-	},500);
+	},1000);
 
 	// Obtiene los documentos que se encuentran registrados
 	$scope.getRecords = () => {

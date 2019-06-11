@@ -22,6 +22,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 
 		reportService.getLegislatorReport(dataReport).then(success=>{
 			$scope.legislatorsReport = JSON.parse(success.data);
+			console.log('Informacion del reporte: ', $scope.legislatorsReport);
 		}, error=>{
 			console.log('Error al obtener el nombre del legislador: ', error);
 		});
@@ -82,8 +83,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		});
 	};
 	
-	$scope.changue
-	
 	$scope.checkAllOptions = (array, e) => {
 		
 		angular.forEach(array, function(el){
@@ -122,6 +121,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		},500);
 	};
 	
+
 //	Inicia la impresion del reporte
 	$scope.printTable = () => {
 		$scope.legislatorsReport.title ="Legisladores";

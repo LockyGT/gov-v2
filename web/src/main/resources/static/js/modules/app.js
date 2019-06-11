@@ -165,6 +165,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/reportePresentes.html',
 		controller : 'reportePresentesCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('initiativePeriodReport', {
+		url : '/initiativePeriodReport',
+		templateUrl : './views/admin/initiativePeriodReport.html',
+		controller : 'initiativePeriodReportCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('reporteQuorum', {
 		url : '/reporteQuorum',
 		templateUrl : './views/admin/reporteQuorum.html',
@@ -184,6 +189,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		url : '/reporteLegislatura',
 		templateUrl : './views/admin/reporteLegislatura.html',
 		controller : 'reporteLegislaturaCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('resultsInitiativesReport', {
+		url : '/resultsInitiativesReport',
+		templateUrl : './views/admin/resultsInitiativesReport.html',
+		controller : 'resultsInitiativesReportCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('listaAsistenciaSesionSinIniciativa', {
 		url : '/listaAsistenciaSesionSinIniciativa',

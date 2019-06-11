@@ -12,6 +12,15 @@ app.service('reportService', function($q, factory, $filter){
 			});
 		});
 	};
+	self.getResultInitiative = (data) => {
+		return $q(function (resolve, reject){
+			factory.get(path+'/results-initiatives', data).then(data=>{
+				resolve(data);
+			}, error=>{
+				reject(error);
+			});
+		});
+	};
 	
 	self.printPdf = (dataTable) => {
 		const doc = new jsPDF();
@@ -38,7 +47,7 @@ app.service('reportService', function($q, factory, $filter){
 				doc.setFontSize(20);
 				doc.setTextColor(40),
 				doc.setFontStyle('normal');
-				doc.text("Legisladores", data.settings.margin.left, 22);
+				doc.text(dataTable.title, data.settings.margin.left, 22);
 				
 				let str ="Pag. "+ doc.internal.getNumberOfPages();
 				

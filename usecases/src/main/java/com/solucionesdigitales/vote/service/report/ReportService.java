@@ -4,4 +4,5 @@ import com.google.gson.JsonObject;
 
 public interface ReportService {
 	JsonObject generatedReporLegislator(String[] partnersId, String[] initiativesId);
+	JsonObject generatedReportResults(String[] sessionsId, String[] initiativesId);
 }
