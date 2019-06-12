@@ -204,8 +204,9 @@ public class StorageServiceImpl implements StorageService {
 					i++;
 				}
 			} else if( status == 2) {
-				if (!new File(path + File.separator + files.getFolder()).exists()) {
-					new File(path + File.separator + files.getFolder()).mkdirs();
+				folder = files.getFolder();
+				if (!new File(path).exists()) {
+					new File(path).mkdirs();
 				}
 			}
 
