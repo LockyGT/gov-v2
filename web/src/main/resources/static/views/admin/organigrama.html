@@ -1,0 +1,60 @@
+ <style>
+table{
+border-collapse: separate !important;
+}
+</style>
+
+<br>
+	
+
+
+<div class="row toHide">
+    <div class="col-sm">
+    
+    </div>
+    <div class="col-sm">
+	<div class="form-group row">
+		<label for="cboRol" class="col-sm-2 col-form-label">Usuario</label>
+		<div class="input-group input-group-lg col-sm-10">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroup-sizing-lg">@</span>
+			</div>
+			<select class="form-control" ng-model="legislador" ng-options="legislador as  
+	            legislador.name +' '+legislador.apPaterno+ ' ' + legislador.apMaterno for legislador in legislators">
+				<option value="">Seleccione un usuario..</option>
+			</select>
+		</div>
+	</div>
+	<button class="btn btn-danger btn-sm float-right" type="button" ng-click="deleteFromChart();" >Eliminar</button>	
+	<button class="btn btn-success btn-sm float-right	" type="button" ng-click="addToChart();">Agregar Usuario</button>
+	
+   
+    </div>
+    <div class="col-sm">
+     
+    </div>
+  </div>
+  <br>
+  <br>
+  
+ <div class="card toHide">
+  <h5 class="card-header">Organigrama 
+  		
+  		<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('large');">Grande</button>
+  		<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('medium');">Mediano</button>
+  		<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('small');">Chico</button>
+  		<button type="button" class="btn btn-outline-danger btn-sm float-right" ng-click="toPdf();">PDF <i class="fas fa-file-pdf"></i></button>
+  	</h5>
+  <div class="card-body">
+    <h5 class="card-title">01/01/2019</h5>
+     <div id="chart_div"></div>
+  </div>
+   <div class="card-footer text-muted">
+  	<button class="btn btn-success" type="button" >Guardar</button>
+	<button class="btn btn-danger" type="button"  >Cancelar</button>	
+  </div>
+</div>
+
+ <div id="chart_div2" class="toShow"></div>
+            
+

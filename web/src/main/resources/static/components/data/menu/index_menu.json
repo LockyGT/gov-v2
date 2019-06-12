@@ -325,5 +325,19 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
-			}
+	},{
+				"id": 14,
+				"index": 14.0,
+				"title": "Organigrama",
+				"url": "#!organigrama",
+				"icon": "fas fa-sitemap",
+				"color": "#4286f4",
+				"image": "../img/periodico.png",
+				"alt": "Orden del día",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+	}
 ]

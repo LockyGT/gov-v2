@@ -218,14 +218,21 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 	}).state('archive', {
 		url : '/archive/:id',
 		templateUrl : './views/admin/archive.html',
-		controller : 'archiveCtrl',
+		controller : 'archiveCtrl',  
 		resolve: { authenticate: authenticate }
 	}).state('demo', {
 		url : '/demo',
 		templateUrl : './views/admin/demoVersionFile.html',
 		controller : 'demoVersionFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('organigrama', {
+		url : '/organigrama',
+		templateUrl : './views/admin/organigrama.html',
+		controller : 'organigramaCtrl',
+		resolve: { authenticate: authenticate }
 	});
+	
+	
 	
 	function authenticate($q, $state, $timeout, LoginService) {
 		if (LoginService.isAuthenticated()) {
