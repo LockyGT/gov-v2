@@ -340,16 +340,17 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnEsc: false
 		});
 		console.log('Mostrar anexo de la orden del dia ----+',$scope.orderdayAnnexes)
-		let folderOrigin = $scope.orderdayAnnexes.attached.originFolder ? '/' + $scope.orderdayAnnexes.attached.originFolder : ''
+		let fecha = new Date();
+		let folderOrigin = $scope.orderdayAnnexes.attached.originFolder ? $scope.orderdayAnnexes.attached.originFolder : 'attached/' + fecha.getFullYear() + '/' + (fecha.getMonth()+1)
 			let file = {
 				files: $scope.attached.filesUploads,
-				folder: 'attached'+folderOrigin,
+				folder: folderOrigin,
 				userId: 'guadalupe',
 				status: 2
 		}; 
 
 		console.log('guardando el anexo',file)
-		storageService.saveFiles(file).then(function success(data){
+		storageService.updateFiles(file).then(function success(data){
 			console.log('informacion',data)
 			if(data){
 				swal("Exito", "Anexo guardado correctamente", "success");
@@ -453,14 +454,14 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		let folder= {
 				serverNames: fFiles.map(f=> f.serverName),
 				originalNames:fFiles.map(f=> f.originalName),
-				folder: 'attached/'+$scope.orderday.attached.originFolder
+				folder: $scope.orderdayAnnexes.attached.originFolder
 		};
 		storageService.downloadZip(folder).then(arraybuffer=>{
 			let f = new Blob([arraybuffer], {type:"application/zip"});
 			let fileURL = URL.createObjectURL(f);
 			let link = document.createElement('a');
 			link.href = fileURL;
-			link.download = $scope.orderday.nombre +".zip";
+			link.download = $scope.orderdayAnnexes.nombre +".zip";
 			link.click();
 			$timeout(()=>{
 				delete f;
@@ -475,7 +476,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.downloadFile = (file) => {
 		let data = {
-				path: 'attached/'+$scope.orderdayAnnexes.attached.originFolder,
+				path: $scope.orderdayAnnexes.attached.originFolder,
 				filename: file.serverName
 		}; 
 		storageService.download(data).then(arraybuffer=>{
@@ -498,7 +499,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.showDownloadFile = (file) => {
 		let data = {
-				path: 'attached/'+$scope.orderdayAnnexes.attached.originFolder,
+				path: $scope.orderdayAnnexes.attached.originFolder,
 				filename: file.serverName
 		}; 
 		storageService.download(data).then(arraybuffer=>{
