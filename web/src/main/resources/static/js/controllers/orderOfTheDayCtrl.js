@@ -146,6 +146,9 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		$('#attachments-verssion').modal('show');
 	};
 	
+	
+	
+	
 	$scope.previous= function(){
 		window.history.back();
 	};

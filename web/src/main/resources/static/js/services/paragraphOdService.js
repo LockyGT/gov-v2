@@ -1,6 +1,6 @@
-app.service('elementOdService', function ($q, factory){
+app.service('paragraphOdService', function ($q, factory){
 	let self = this;
-	let path= 'elementOd';
+	let path= 'paragraph';
 	self.get = ()  => {		
 		return $q((resolve, reject)=>{
 			factory.get(path).then(function success(data){
@@ -10,47 +10,38 @@ app.service('elementOdService', function ($q, factory){
 			});
 		});
 	};
-	
-
-	self.getNameOrder = ()=>{
+	self.getByStatus = (status)=>{		
 		return $q(function(resolve, reject) {			
-			factory.get(path+"/name/element").then(function mySuccess(data) {
-				if(data){					
-					resolve(data);
-				}else{
-					resolve(null);
-				}
+			factory.get(path+'/status', status).then(function mySuccess(data) {						
+				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
 			});			
 		});
 	};
-
-	self.post = (elementOd)  => {
+	self.post = (paragraphod) => {
 		return $q((resolve, reject)=>{
-			factory.post(path,elementOd).then(function success(data){
-				resolve(data);
-			}, function error(errorData){
-				reject(errorData);
-			});
-		});
-	};
-	
-	self.put = (elementOd) => {
-		return $q((resolve, reject)=>{
-			factory.put(path,elementOd).then(function success(data){
+			factory.post(path+'/paragraph', paragraphod).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				resolve(errorData);
 			});
 		});
 	};
-	
-	
-	
-	self.deleteElement = (elementOd)=>{
+
+	self.put = (paragraphod) => {
 		return $q((resolve, reject)=>{
-			factory.put(path+'/delete',elementOd).then(function success(data){
+			factory.put(path+'/paragraph',paragraphod).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				resolve(errorData);
+			});
+		});
+	};
+
+	self.deleteParagraph = (paragraph)=>{
+		return $q((resolve, reject)=>{
+			factory.put(path+'/delete/',paragraph).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				resolve(errorData);
