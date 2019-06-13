@@ -71,6 +71,7 @@ public class ReportServiceImpl implements ReportService {
 			jsonLegislator.addProperty("session", lr.getVoteSession().getNombre());
 			jsonLegislator.addProperty("initiative", lr.getVote().getInitiative().getName());
 			jsonLegislator.addProperty("vote", lr.getVote().getOption().getName());
+			jsonLegislator.addProperty("voteColor", lr.getVote().getOption().getVoteColor());
 			jsonLegislator.addProperty("startTime",lr.getVote().getInitiative().getFechaHoraInicio().toString());
 			jsonLegislator.addProperty("endTime", lr.getVote().getInitiative().getFechaHoraFin().toString());
 			jsonLegislator.addProperty("result", lr.getVote().getInitiative().getResult().getResultName());

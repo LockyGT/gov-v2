@@ -472,7 +472,6 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.getModuleOd();
 		$scope.searchDateStart = new Date();
 		$scope.searchDateEnd = new Date();
-		
 	};
 	
 	angular.element(document).ready(function (){
