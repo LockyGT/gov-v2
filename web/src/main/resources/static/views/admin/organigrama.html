@@ -8,6 +8,34 @@ border-collapse: separate !important;
 	
 
 
+<div ng-if="isAction(0)">
+<button ng-click="addNew();">Agregar</button>
+<table class="table">
+
+	<thead>
+		<tr>
+			<th>Fecha</th>	
+			<th>Ver</th>	
+				
+		</tr>
+	</thead>
+	
+	<tbody>
+		<tr ng-repeat="organigrama in organigramas">
+			<td>{{organigrama.creado}}</td>
+			<td><button class="btn" ng-click="ver(organigrama);"> Ver</button></td>
+		</tr>
+	</tbody>
+
+
+</table>
+
+</div>	
+
+<div ng-if="isAction(2) || isAction(1)">
+
+
+
 <div class="row toHide">
     <div class="col-sm">
     
@@ -26,7 +54,7 @@ border-collapse: separate !important;
 		</div>
 	</div>
 	<button class="btn btn-danger btn-sm float-right" type="button" ng-click="deleteFromChart();" >Eliminar</button>	
-	<button class="btn btn-success btn-sm float-right	" type="button" ng-click="addToChart();">Agregar Usuario</button>
+	<button class="btn btn-success btn-sm float-right	" type="button" ng-click="addToChart(legislador);">Agregar Usuario</button>
 	
    
     </div>
@@ -50,11 +78,13 @@ border-collapse: separate !important;
      <div id="chart_div"></div>
   </div>
    <div class="card-footer text-muted">
-  	<button class="btn btn-success" type="button" >Guardar</button>
-	<button class="btn btn-danger" type="button"  >Cancelar</button>	
+  	<button class="btn btn-success" ng-click="save();" type="button" >Guardar</button>
+	<button class="btn btn-danger" type="button" ng-click="doAction(0);"  >Cancelar</button>	
   </div>
 </div>
 
  <div id="chart_div2" class="toShow"></div>
+ 
+ </div>
             
 
