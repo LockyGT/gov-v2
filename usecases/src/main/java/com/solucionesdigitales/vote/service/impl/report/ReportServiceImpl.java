@@ -110,6 +110,7 @@ public class ReportServiceImpl implements ReportService {
 			jsonResults.addProperty("initiative",result.getInitiative().getName());
 			jsonResults.addProperty("present",result.getInitiative().getResult().getPresentes());
 			jsonResults.addProperty("formula", result.getInitiative().getResult().getFormula().getFormulaName());
+			jsonResults.addProperty("formulaId", result.getInitiative().getResult().getFormula().getId());
 			jsonResults.addProperty("method", result.getInitiative().getResult().getRoundMethod().getName());
 			jsonResults.addProperty("result", result.getInitiative().getResult().getResultName());
 			arr.add(jsonResults);

@@ -144,14 +144,13 @@
 		</div>
 		<div class="card-body">
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="home" role="tabpanel"
-					aria-labelleby="home-tab">
+				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelleby="home-tab">
 					<div id="cardbodyBar">
 						<div class="row">
 							<div class="col-sm-2"
-								data-ng-repeat="result in results track by $index">
+								data-ng-repeat="formula in formulas track by $index">
 								<button type="button" id="btn{{$index}}"
-									class="btn btn-{{result.color}}">{{result.name}}</button>
+									class="btn" >{{formula.formulaName}}</button>
 							</div>
 						</div>
 						<br>
@@ -163,7 +162,9 @@
 									data-ng-series="reporteBar.series"
 									data-chart-options="reporteBar.options"
 									data-chart-colors="reporteBar.colors"></canvas>
-								<div style="display: none !important"></div>
+								<div style="display: none !important">
+									<img id="bar" src="" >
+								</div>
 							</div>
 							<div class="col-md-5">
 								<div>
@@ -171,7 +172,7 @@
 										<thead>
 											<tr>
 												<th>INICIATIVAS</th>
-												<th class="text-center">TOTAL INICIATIVAS <span
+												<th class="text-center">FORMULA <span
 													class="badge badge-pill badge-pill badge-dark badge-panel-dark">
 														{{resultsReport.data.length}} </span>
 												</th>
@@ -180,7 +181,7 @@
 										<tbody>
 											<tr data-ng-repeat="rr in resultsReport.data track by $index">
 												<td>{{rr.initiative}}</td>
-												<td class="text-center">{{rr.result}}</td>
+												<td class="text-center">{{rr.formula}}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -191,12 +192,12 @@
 				</div>
 				<div class="tab-pane fade" id="tabpastel"
 					aria-labelledby="pastel-tab">
-					<div id="cardbodyPie">
+											<div id="cardbodyPie">
 						<div class="row">
 							<div class="col-sm-2"
-								data-ng-repeat="result in optionPercent track by $index">
+								data-ng-repeat="result in formula track by $index">
 								<button type="button" id="btn{{$index}}"
-									class="btn btn-{{result.color}}">
+									class="btn btn-{{formula.formulaName}}">
 									{{result.name}}<br> <span
 										class="badge badge-{{result.color}} badge-pill">
 										{{result.percentage}}% </span>
@@ -230,19 +231,15 @@
 									<tbody>
 										<tr data-ng-repeat="rr in resultsReport.data track by $index">
 											<td>{{rr.initiative}}</td>
-											<td class="text-center">{{rr.result}}</td>
+											<td class="text-center">{{rr.formula}}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-				</div>
+					</div>
 			</div>
-		</div>
-		<div id="cardFooter" class="card-footer">
-			<button type="button" class="btn btn-info" data-ng-click="toReturn()">Regresar</button>
-			<button type="button" class="btn btn-dark" data-ng-click="printImg()">Imprimir</button>
 		</div>
 	</div>
 </section>
