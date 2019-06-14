@@ -15,6 +15,8 @@ public class Organigrama {
 	@JsonProperty
 	private String jsonObjeto;
 	private LocalDate creado;
+	private String descripcion;
+	
 	public String getId() {
 		return id;
 	}
@@ -33,10 +35,17 @@ public class Organigrama {
 	public void setCreado(LocalDate creado) {
 		this.creado = creado;
 	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	@Override
 	public String toString() {
 		return "Organigrama [id=" + id + ", jsonObjeto=" + jsonObjeto + ", creado=" + creado + "]";
 	}
+
 	
 	
 

@@ -1,6 +1,4 @@
-/**
- * Demo para hacer pruebas con las versiones de los archivos
- */
+
 app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$window,organigramaService){
 
     $scope._PARTNER = _PARTNER;
@@ -9,9 +7,8 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
     $scope.data;
     $scope.dataToDisplay = [];
  	$scope.legislators = [];
-
  	$scope.organigramas = [];
- 	 $scope.organigrama = {};
+ 	$scope.organigrama = {jsonObjeto:''};
  	$scope.action = 0;//0-view,1=add,2=update
  	
  	$scope.doAction = function(action){
@@ -29,11 +26,7 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
 		}, function myError(response) {
 			console.log(response);
 		});
-		organigramaService.get().then(function mySuccess(data) {			
-			$scope.organigramas = data ;	
-		}, function myError(response) {
-			console.log(response);
-		});
+		  $scope.verOrganigramas();
 	};
      
 
@@ -85,19 +78,9 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
 		    	});
 			});
 
-//			$scope.hasDeletedOne =true;
-//			while ($scope.hasDeletedOne) {
-//				$scope.hasDeletedOne = false;
-//				angular.forEach($scope.dataToDisplay, function(value, key) {
-//					if( value[0].v === $scope.selectedId || value[1] === $scope.selectedId){
-//						$scope.dataToDisplay.splice(key,1);
-//						$scope.hasDeletedOne = true;
-//					}
-//		    	});
-//			}
 		$scope.popullateChart();
 		}else{
-			alert('seleccione que usuario eliminar');
+	    	 swal("Seleccione...", "seleccione que usuario eliminar", "warning");
 		}
 	}
 	
@@ -107,7 +90,6 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
 	
     $scope.addToChart = function (legislador){ 
     	angular.element('.toShow').hide();
-    	console.log(legislador);
 	     if($scope.dataToDisplay.length === 0){
 	    	 $scope.nodeToAdd =[
 	    		 [{v: legislador.id, f:legislador.name +' '+legislador.apPaterno+ ' ' + legislador.apMaterno}, '' , '']
@@ -120,10 +102,10 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
 		    	 $scope.dataToDisplay.push([{v: legislador.id, f:legislador.name +' '+legislador.apPaterno+ ' ' + legislador.apMaterno}, $scope.parent , '']);
 		    	 $scope.popullateChart();
 	    	 }else{
-	    		 alert('El usuario ya existe en el organigrama');
+	    		 swal("Usuario existente", "El usuario ya existe en el organigrama", "warning");
 	    	 }
 	     }else{
-	    	 alert('Seleccione a quien se le agregará');
+	    	 swal("Seleccione...", "Seleccione usuario en el organigrama", "warning");
 	     }
      }
      
@@ -149,10 +131,12 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
        $scope.chart.draw($scope.data, {allowHtml:true,allowCollapse:true, size:	$scope.chartSize});
        $scope.chart2.draw($scope.data, {allowHtml:true,allowCollapse:true, size:	$scope.chartSize});
      }
+     
      $scope.changeSize = function (size) {
     		$scope.chartSize = size;
     		$scope.popullateChart();
      }
+     
      $scope.toPdf = function () {
     	 angular.element('.toHide').hide();
     	 angular.element('.toShow').show();
@@ -163,29 +147,41 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
      
      $scope.ver = function(organigrama){
     	 $scope.dataToDisplay = angular.fromJson(organigrama.jsonObjeto);
-    	 $scope.organigrama = organigrama;
+    	 angular.copy(organigrama ,  $scope.organigrama );
     	 $scope.doAction(2);
-    	 setTimeout(function(){ $scope.popullateChart(); angular.element('.toShow').hide(); }, 1000); 
+    	 setTimeout(function(){ $scope.popullateChart(); angular.element('.toShow').hide(); }, 250); 
      }
      
      $scope.addNew = function(){
-    	 $scope.organigrama = {};
+    	 $scope.organigrama = {creado: new Date(),jsonObjeto:''};
     	 $scope.dataToDisplay = [];
     	 $scope.doAction(1);
      }
      $scope.save = function(){
-    	 $scope.organigrama = {jsonObjeto:angular.toJson($scope.dataToDisplay)}
-    	
+    	 $scope.organigrama.creado = null;
+    	 $scope.organigrama.jsonObjeto = angular.toJson($scope.dataToDisplay);
     	 organigramaService.post($scope.organigrama).then(function mySuccess(data) {	
-    			organigramaService.get().then(function mySuccess(data) {			
-    				$scope.organigramas = data ;	
-    	        	 $scope.doAction(0);
-    	        	 $scope.organigrama = {};
-    	        	 $scope.dataToDisplay = [];
-    			}, function myError(response) {
-    				console.log(response);
-    			});
-    		
+    		  $scope.verOrganigramas();
+ 		}, function myError(response) {
+ 			console.log(response);
+ 		});
+     }
+     
+     $scope.verOrganigramas =  function (){
+			organigramaService.get().then(function mySuccess(data) {			
+				 $scope.organigramas = data ;	
+	        	 $scope.doAction(0);
+	        	 $scope.organigrama = {creado: new Date(),jsonObjeto:''};
+	        	 $scope.dataToDisplay = [];
+			}, function myError(response) {
+				console.log(response);
+			});
+     }
+     
+     $scope.edit = function(){
+    	 $scope.organigrama.jsonObjeto = angular.toJson($scope.dataToDisplay);
+    	 organigramaService.put($scope.organigrama).then(function mySuccess(data) {	
+    		  $scope.verOrganigramas();
  		}, function myError(response) {
  			console.log(response);
  		});

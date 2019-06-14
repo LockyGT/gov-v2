@@ -30,5 +30,18 @@ app.service('organigramaService', function($q, factory) {
 			});			
 		});
 	};
+	self.put = (orangriama)=>{
+		return $q(function(resolve, reject) {
+			factory.put(pathOrganigrama, orangriama).then(function mySuccess(data) {
+				if(data){						
+					resolve(data);
+				}else{
+					resolve(null);
+				}
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 	
 });
