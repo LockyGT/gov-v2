@@ -41,4 +41,13 @@ public class ReportController {
 		map.put("data", reportService.generatedReportResults(sessionsId, initiativesId).toString());
 		return map;
 	}
+	
+	@GetMapping("/initiatives")
+	public Object getInitiatives(@RequestParam(value="sessionsId") final String[] sessionsId, 
+			@RequestParam(value="initiativesId") final String[] initiativesId) {
+			LOGGER.info("---- OBTENIENDO EL REPORTE por INICIATIVAS ----");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data", reportService.generatedReportInitiatives(sessionsId, initiativesId).toString());
+		return map;
+	}
 }
