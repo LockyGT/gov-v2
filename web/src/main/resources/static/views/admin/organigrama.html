@@ -1,0 +1,100 @@
+
+<!-- Page Heading -->
+<h1 class="my-4 toHide">
+	Organigramas <i class="fas fa-sitemap"></i><small></small>
+</h1>
+
+<div ng-if="isAction(0)">
+<div class="col-sm"></div>
+<div class="col-sm">
+
+	<div class="card">
+	  <h5 class="card-header"> 
+	  		<button type="button" class="btn btn-success btn-sm" ng-click="addNew();">Agregar</button>
+	  	</h5>
+	  <div class="card-body">
+	  <div class="table-responsive" data-ng-if="organigramas.length > 0">
+	     <table class="table table-inversed table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Descripcion</th>	
+					<th>Creado</th>	
+					<th>Ver</th>	
+						
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="organigrama in organigramas">
+					<td>{{organigrama.descripcion}}</td>
+					<td>{{organigrama.creado}}</td>
+					<td><button class="btn btn-info" data-ng-click="ver(organigrama);"> Ver Organigrama</button></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	  </div>
+	</div>
+</div>
+<div class="col-sm"></div>
+
+
+</div>	
+
+<div data-ng-if="isAction(2) || isAction(1)">
+<div class="card toHide">
+  	<style>
+		table{
+		border-collapse: separate !important;
+		}
+	</style>
+  <h5 class="card-header"> 
+ 	<form>
+	  <div class="row">
+	    <div class="col">
+			<select class="form-control" data-ng-model="legislador" data-ng-options="legislador as  
+	            legislador.name +' '+legislador.apPaterno+ ' ' + legislador.apMaterno for legislador in legislators">
+				<option value="">Seleccione un usuario..</option>
+			</select>
+	    </div>
+	    <div class="col" >
+	    
+			<button class="btn btn-success btn-sm" type="button" ng-click="addToChart(legislador);">Agregar Usuario</button>
+	    	<button class="btn btn-danger btn-sm " type="button" ng-click="deleteFromChart();" >Eliminar</button>	
+			<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('large');">Grande</button>
+			
+  			<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('medium');">Mediano</button>
+  			<button type="button" class="btn btn-default btn-sm float-right" ng-click="changeSize('small');">Chico</button>
+  			<button type="button" class="btn btn-outline-danger btn-sm float-right" ng-click="toPdf();">PDF <i class="fas fa-file-pdf"></i></button>
+	    </div>
+	   </div>
+    </form> 		
+  	</h5>
+  <div class="card-body">
+    <h5 class="card-title" ng-if=" organigrama.creado !== ''"> Creado: {{organigrama.creado | date : 'MM/dd/yyyy'}}</h5>
+     <div id="chart_div"></div>
+  </div>
+   <div class="card-footer text-muted">
+   	<form>
+	  <div class="row">
+	    <div class="col">
+	      Descripcia&oacute;n<input type="text" class="form-control" data-ng-model="organigrama.descripcion" placeholder="Descripci&oacute;n">
+	    </div>
+	  </div>
+	</form>
+	<br>
+  	<button class="btn btn-success" data-ng-if="isAction(1)" data-ng-click="save();" data-ng-disabled="dataToDisplay.length === 0 || organigrama.descripcion ==='' " type="button" >Guardar</button>
+  	<button class="btn btn-success" data-ng-if="isAction(2)" data-ng-click="edit();" data-ng-disabled="dataToDisplay.length === 0 || organigrama.descripcion ==='' " type="button" >Editar</button>
+	<button class="btn btn-danger" type="button" data-ng-click="doAction(0);"  >Cancelar</button>	
+
+  </div>
+</div>
+
+ </div>
+ 
+ <div class="toShow">
+	<h2>Organigrama creado el: {{organigrama.creado | date : 'MM/dd/yyyy'}} </h2>
+	<p>{{organigrama.descripcion}}</p>
+ 	<div id="chart_div2" ></div>
+ </div>
+            
+

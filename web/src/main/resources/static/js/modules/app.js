@@ -165,6 +165,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/reportePresentes.html',
 		controller : 'reportePresentesCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('initiativePeriodReport', {
+		url : '/initiativePeriodReport',
+		templateUrl : './views/admin/initiativePeriodReport.html',
+		controller : 'initiativePeriodReportCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('reporteQuorum', {
 		url : '/reporteQuorum',
 		templateUrl : './views/admin/reporteQuorum.html',
@@ -184,6 +189,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		url : '/reporteLegislatura',
 		templateUrl : './views/admin/reporteLegislatura.html',
 		controller : 'reporteLegislaturaCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('resultsInitiativesReport', {
+		url : '/resultsInitiativesReport',
+		templateUrl : './views/admin/resultsInitiativesReport.html',
+		controller : 'resultsInitiativesReportCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('listaAsistenciaSesionSinIniciativa', {
 		url : '/listaAsistenciaSesionSinIniciativa',
@@ -218,14 +228,21 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 	}).state('archive', {
 		url : '/archive/:id',
 		templateUrl : './views/admin/archive.html',
-		controller : 'archiveCtrl',
+		controller : 'archiveCtrl',  
 		resolve: { authenticate: authenticate }
 	}).state('demo', {
 		url : '/demo',
 		templateUrl : './views/admin/demoVersionFile.html',
 		controller : 'demoVersionFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('organigrama', {
+		url : '/organigrama',
+		templateUrl : './views/admin/organigrama.html',
+		controller : 'organigramaCtrl',
+		resolve: { authenticate: authenticate }
 	});
+	
+	
 	
 	function authenticate($q, $state, $timeout, LoginService) {
 		if (LoginService.isAuthenticated()) {

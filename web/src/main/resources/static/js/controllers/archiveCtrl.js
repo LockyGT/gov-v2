@@ -10,9 +10,9 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	// Reerstablece un tiempo para activar los tooltips
 	$timeout(()=>{
 		$(function () {
-			  $('[data-toggle="tooltip"]').tooltip();
+			  $('[data-toggle="tooltip"]').tooltip({animation:true, container: 'body'});
 			})
-	},500);
+	},1000);
 
 	// Obtiene los documentos que se encuentran registrados
 	$scope.getRecords = () => {
@@ -104,7 +104,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 		$scope.archive.files = files; 
 		$scope.archive.modulood = $scope.moduleod;
-		console.log('Documento enviado: ',$scope.archive );
+		console.log('Documento enviado: ',$scope.archive);
 		archiveService.post($scope.archive).then(success=>{
 			if(success){
 				swal('Exito','Archivo agregado exitosamente', 'success');
@@ -137,13 +137,13 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		});
 		
         // En caso que se haya cambiado el archivo se agrega el nombre
-		if($scope.archive.filesUploads.length){
+		if($scope.archive.filesUploads){
 			for(let i=0; i<$scope.archive.files.length;i++){
 				$scope.archive.files[i].status = 0;
 			}
 			$scope.archive.files = $scope.archive.files.concat(files);
 		}
-		console.log('Informacion enviada para actualizar: ',$scope.archive);
+
 		archiveService.put($scope.archive).then(data=>{
 			if(data){
 				swal.stopLoading();
@@ -164,10 +164,14 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		if($scope.archive != null){
 			if($scope.archive.id != null){
 				$scope.updateFiles();
+				$scope.isAdd = false;
 			} else {
-				$scope.saveFiles();
+				if($scope.archive.filesUploads){
+					$scope.saveFiles();
+				}else {
+					$scope.validForm();
+				}
 			}
-			$scope.isAdd = false;
 		} else {
 			console.log("Falta información para completar el registro");
 		}
@@ -175,7 +179,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	
 	$scope.comfirmDelete = (archive) => {
 		swal({
-			title: 'Esta seguro de eliminara a',
+			title: 'Esta seguro de eliminar a',
 			text: archive.nombre,
 			icon: "warning",
 			buttons: true,
@@ -185,10 +189,10 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				
 				swal({
 					title: '¿También desea eliminar sus archivos?',
-					text: 'Solo podran ser recuperados manualmente',
+					text: 'Solo podrán ser recuperados manualmente',
 					icon: "warning",
 					dangerMode: true,
-//					buttons: true,
+// buttons: true,
 					buttons:{
 						  cancel: {
 							    text: "No",
@@ -289,8 +293,27 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	$scope.submitForm = isValid => {
+		$scope.validClass = {};
 		if(isValid){
 			$scope.addUpdate();
+		} else {
+			$scope.validForm();
+		}
+	};
+	
+	$scope.validForm = () => {
+		
+		$scope.validClass.date        = 'valid';
+		$scope.validClass.name        = 'valid';
+		$scope.validClass.file        = 'valid';
+		$scope.validClass.description = 'valid';
+		
+		if($scope.archive.nombre.replace(/ /g, "").length === 0) {
+			$scope.validClass.name = 'invalid';
+		}
+
+		if($scope.archive.filesUploads === undefined){
+			$scope.validClass.file = 'invalid';
 		}
 	};
 	
@@ -343,7 +366,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				folder: 'gazzete/'+$scope.moduleod.id,
 				userId: 'israel'
 		};
-		console.log('Archivor enviados: ', file);
+		console.log('Archivo enviados: ', file);
 		storageService.saveFiles(file).then(success=>{
 			if(success.length){
 				$scope.postArchive(success);
@@ -362,7 +385,8 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				oldServerNames: fFiles.map(f => f.originalName),
 				oldOriginalNames:  fFiles.map(f => f.serverName),
 				folder: 'gazzete/'+$scope.moduleod.id+'/'+$scope.archive.files[0].folder,
-				userId: 'israel'
+				userId: 'israel',
+				status: 1
 		};
 		console.log('informacion enviada: ',file);
 		storageService.updateFiles(file).then(success=>{
@@ -417,7 +441,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 
 	$scope.filterExtention = (extencion) => {
-		let ignores = ["doc","pptx","xls"];
+		let ignores = ["doc","pptx","xls", "docx"];
 		let filter = $filter('filter')(ignores,extencion);
 		
 		if(filter.length){
@@ -448,7 +472,6 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.getModuleOd();
 		$scope.searchDateStart = new Date();
 		$scope.searchDateEnd = new Date();
-		
 	};
 	
 	angular.element(document).ready(function (){

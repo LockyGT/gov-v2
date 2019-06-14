@@ -168,6 +168,20 @@ public class StorageController {
 		logger.info("Archivo resivido para actualizar");
 		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId);
 	}
+	
+	@PostMapping("/saveAttached")
+	public Attached saveAttached(@RequestParam("files") ArrayList<MultipartFile> files,
+			@RequestParam("folder")  String folder,
+			@RequestParam("userId") String userId) {
+		
+		GenericFile gf = new GenericFile();
+		gf.setFiles(files);
+		gf.setFolder(folder);
+		
+		logger.info("Archivo adjunto para actualizar");
+		return storageService.storeAttached(gf, userId);
+	}
+	
 	@PostMapping("/new-version")
 	public Attached copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
 			@RequestParam("filesServerName") ArrayList<String> filesServerName,

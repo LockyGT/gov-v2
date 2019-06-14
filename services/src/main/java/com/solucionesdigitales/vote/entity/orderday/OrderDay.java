@@ -1,7 +1,10 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
-import java.time.LocalDate;
+
+
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.solucionesdigitales.vote.entity.documentfile.Attached;
@@ -16,10 +19,11 @@ public class OrderDay {
 	//version
 	private int sku;
 	private int status;
-	private LocalDate fecha;
+	private Date fecha;
 	private String odOriginal;
 	private String referencia;
 	private boolean isPublished;
+	private boolean isApproved;
 	//private ArrayList<ParagraphOD> paragraphs;
 	
 	private ArrayList<ElementOd> elementsOd;
@@ -78,11 +82,11 @@ public class OrderDay {
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
 	}
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	public ArrayList<ElementOd> getElementsOd() {
@@ -113,11 +117,22 @@ public class OrderDay {
 	public void setPublished(boolean isPublished) {
 		this.isPublished = isPublished;
 	}
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
 
 	@Override
 	public String toString() {
 		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
-				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + "]";
+				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", isPublished=" + isPublished
+				+ ", isApproved=" + isApproved + ", elementsOd=" + elementsOd + ", attached=" + attached + "]";
 	}
+
+	
+	
 }
  

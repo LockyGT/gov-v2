@@ -110,11 +110,14 @@ public class StorageServiceImpl implements StorageService {
 
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString() + File.separator + file.getFolder();
-
-		if (!new File(path + File.separator + uuidFolder.toString()).exists()) {
-			new File(path + File.separator + uuidFolder.toString()).mkdirs();
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH)+1;
+		String f = year+File.separator+month+File.separator+uuidFolder.toString();
+		if (!new File(path + File.separator + f).exists()) {
+			new File(path + File.separator + f).mkdirs();
 		}
-		return copyFile(file.getFile(), path, uuidFolder.toString(), file.getUserId());
+		return copyFile(file.getFile(), path, f, file.getUserId());
 
 	}
 
@@ -125,14 +128,17 @@ public class StorageServiceImpl implements StorageService {
 
 		UUID uuidFolder = UUID.randomUUID();
 		String path = this.rootLocation.toString() + File.separator + files.getFolder();
-
-		if (!new File(path + File.separator + uuidFolder.toString()).exists()) {
-			new File(path + File.separator + uuidFolder.toString()).mkdirs();
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH)+1;
+		String f = year+File.separator+month+File.separator+uuidFolder.toString();
+		if (!new File(path + File.separator +f).exists()) {
+			new File(path + File.separator + f).mkdirs();
 		}
 
 		for (MultipartFile file : files.getFiles()) {
 
-			savedFiles.add(copyFile(file, path, uuidFolder.toString(), files.getUserId()));
+			savedFiles.add(copyFile(file, path, f, files.getUserId()));
 
 		}
 
@@ -187,17 +193,17 @@ public class StorageServiceImpl implements StorageService {
 		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
 		String path = this.rootLocation.toString() + File.separator + files.getFolder();
 		UUID uuid = null;
-		String folder = path.substring(path.lastIndexOf("/") + 1);
+		String folder = "";
 		try {
 			Path location = Paths.get(path);
 			int i = 0;
-
+			folder = path.substring(path.lastIndexOf("/") - 6);
 			for (String oldServerName : oldServerNames) {
-				LOGGER.info("-----cargando recurso----");
 				moveRecycleBin(files.getFolder(), oldServerName, oldOriginalNames.get(i));
 
 				i++;
 			}
+
 
 			for (MultipartFile file : files.getFiles()) {
 				if (file.isEmpty()) {
@@ -239,31 +245,31 @@ public class StorageServiceImpl implements StorageService {
 		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> versionedFiles = 
 				new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
 
-		String path = this.rootLocation.toString() + File.separator + folder;
+		String path = this.rootLocation.toString();
 
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
+		int month = c.get(Calendar.MONTH)+1;
 		Path target = null;
 		Path source = null;
 		UUID uuid = UUID.randomUUID();
 		String newFolder = year + File.separator + month + File.separator + uuid.toString();
 		try {
-			if (!new File(path + File.separator + newFolder).exists()) {
-				new File(path + File.separator + newFolder).mkdirs();
+			if (!new File(path  + File.separator + folder+ File.separator + newFolder).exists()) {
+				new File(path  + File.separator + folder+ File.separator + newFolder).mkdirs();
 			}
 
 			for (String serverName : filesServerName) {
 				source = Paths.get(path + File.separator + oldFolder + File.separator + serverName);
-				target = Paths.get(path + File.separator + newFolder + File.separator + serverName);
+				target = Paths.get(path + File.separator +folder+File.separator + newFolder + File.separator + serverName);
 				Files.copy(source, target);
 				LOGGER.info("Archivo copiado: " + serverName);
 			}
 
 			if (files != null) {
 				for (MultipartFile mf : files) {
-					versionedFiles.add(copyFile(mf, path, newFolder, userId));
-					LOGGER.info("----- archivo subido " + path+"/"+newFolder+"/"+mf.getOriginalFilename() + "----");
+					versionedFiles.add(copyFile(mf, path, folder+File.separator + newFolder, userId));
+					LOGGER.info("----- archivo subido " + path+"/"+folder+File.separator +newFolder+"/"+mf.getOriginalFilename() + "----");
 				}
 			}
 
@@ -271,7 +277,7 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException("Failed to update files ", e);
 		}
 		attached.setFiles(versionedFiles);
-		attached.setOriginFolder(newFolder);
+		attached.setOriginFolder(folder+File.separator + newFolder);
 		return attached;
 	}
 
@@ -359,5 +365,54 @@ public class StorageServiceImpl implements StorageService {
 
 		}
 		return file;
+	}
+
+	@Override
+	public Attached storeAttached(GenericFile files,
+			String userId) {
+		Attached att = new Attached();
+		ArrayList<com.solucionesdigitales.vote.entity.documentfile.File> updatedFiles = new ArrayList<com.solucionesdigitales.vote.entity.documentfile.File>();
+		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
+		String path = this.rootLocation.toString() + File.separator + files.getFolder();
+		UUID uuid = null;
+		
+		try {
+			Path location = Paths.get(path);
+			if (!new File(path).exists()) {
+				new File(path).mkdirs();
+			}
+			for (MultipartFile file : files.getFiles()) {
+				if (file.isEmpty()) {
+					throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
+				}
+				individualFile = new com.solucionesdigitales.vote.entity.documentfile.File();
+				uuid = UUID.randomUUID();
+				String fileExtention = file.getOriginalFilename()
+						.substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+				String fileName = uuid + "." + fileExtention;
+
+				Files.copy(file.getInputStream(), location.resolve(fileName));
+				File f = new File(path + File.separator + fileName);
+
+				individualFile.setUserId(userId);
+				individualFile.setOriginalName(file.getOriginalFilename());
+				individualFile.setServerName(fileName);
+				individualFile.setFolder(files.getFolder());
+				individualFile.setSize(file.getSize());
+				individualFile.setLastModification(new Date(f.lastModified()));
+				individualFile.setExtention(fileExtention);
+				individualFile.setMimeType(file.getContentType());
+				individualFile.setDate(new Date());
+				individualFile.setStatus(1);
+				updatedFiles.add(individualFile);
+
+			}
+			att.setFiles(updatedFiles);
+			att.setOriginFolder(files.getFolder());
+		} catch (IOException e) {
+			throw new StorageException("Failed to store files ", e);
+		}
+		return att;
+		
 	}
 }

@@ -46,6 +46,8 @@ app.service('elementOdService', function ($q, factory){
 		});
 	};
 	
+	
+	
 	self.deleteElement = (elementOd)=>{
 		return $q((resolve, reject)=>{
 			factory.put(path+'/delete',elementOd).then(function success(data){

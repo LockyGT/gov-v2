@@ -1,3 +1,13 @@
+.input.error {
+    border-color: #f00 !important;
+}
+
+.small.required {
+    color:#f00;
+}
+
+
+
 .animate-if.ng-enter, .animate-if.ng-leave {
 	transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 }
@@ -23,10 +33,6 @@
 .nav-link{
 	color:black;
 }
-.nav-tabs .nav-link.active {
-  
-    
-}
 .margin {
 	margin-top: 3em;
 	margin-left: 8em;
@@ -40,20 +46,18 @@
     padding: 5px;
 }
 .list-paragraphs{
-/* 	text-align: justify; */
-	list-style: none;
+/* 	text-align: justify;
+	list-style: none; */
 	padding-left: 0px;
 }
 #modal-od{
 	overflow-x: scroll;
 }
 .list-subparagraphs{
-	list-style: none;
+/* 	list-style: none; */
     margin-top: 1em;
 }
-.subparrafo{
-	list-style: none;
-}
+
 
 .margin-top {
 	margin-top: 1em;
@@ -84,3 +88,7 @@
 	margin-top: 0em;
     margin-left: 3em;
 }
+.has-error{
+	color-border:red;
+}
+

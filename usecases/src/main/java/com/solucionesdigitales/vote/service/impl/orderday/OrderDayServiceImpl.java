@@ -2,6 +2,8 @@ package com.solucionesdigitales.vote.service.impl.orderday;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 //import com.solucionesdigitales.vote.entity.archive.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
@@ -35,8 +38,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public List<OrderDay> getActiveWithAndWithoutReference() {
-		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._ACTIVA);
-		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNullOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
 		List<OrderDay> ordenes = new ArrayList<OrderDay>();
 		ordenes.addAll(l1);
 		ordenes.addAll(l2);
@@ -47,7 +50,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public List<OrderDay> getSustituidaWithReference() {
-		List<OrderDay> V1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaAsc(ORDERDAY_STATUS._SUSTITUIDA);
+		List<OrderDay> V1= orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaDesc(ORDERDAY_STATUS._SUSTITUIDA);
 		List<OrderDay> ordendia = new ArrayList<OrderDay>();
 		ordendia.addAll(V1);
 		return ordendia;
@@ -79,8 +82,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 	@Override
 	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
 		List<OrderDay> res = new ArrayList<OrderDay>();
-		List<OrderDay> l1 = orderDayRepository.findByFechaBetween(f1,f2);
-		res.addAll(l1);
+		res = orderDayRepository.findByFechaBetween(f1,f2);
 		return res;	
 	}
 
@@ -142,9 +144,25 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public List<OrderDay> getByStatusPublicada(boolean status) {
-		List<OrderDay> odpost= new ArrayList<OrderDay>();
-		 odpost= orderDayRepository.findByIsPublished(status);
-		return odpost;
+		List<OrderDay> orderday= new ArrayList<OrderDay>();
+		orderday= orderDayRepository.findByIsPublished(status);
+		return orderday;
+	}
+
+	@Override
+	public List<OrderDay> getByStatusAprobada(boolean status) {
+		List<OrderDay> odapproved= new ArrayList<OrderDay>();
+		odapproved = orderDayRepository.findByIsApproved(status);
+		return odapproved;
+	}
+
+	@Override
+	public List<OrderDay> fetchByBetweenDates(Date dateStart, Date dateEnd) {
+		// TODO Auto-generated method stub
+		Calendar date = Calendar.getInstance();
+		date.setTime(dateEnd);
+		date.add(Calendar.DAY_OF_YEAR, 1);
+		return orderDayRepository.findByFechaBetweenOrderByFechaDesc(dateStart,date.getTime());
 	}
 
 	

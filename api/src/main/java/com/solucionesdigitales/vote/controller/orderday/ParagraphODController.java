@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.service.orderday.ParagraphODService;
 
@@ -30,6 +31,11 @@ private static final Logger logger = LoggerFactory.getLogger(ParagraphODControll
 		logger.info("consulta Paragraph:");
 		return service.fetch();
 	}
+	@GetMapping(value="/status")
+	public List<ParagraphOD> getByStatus(){
+		logger.info("consulta Elementos de la Ordden del Dia:");
+		return service.getByStatus();
+	}
 	
 	@PostMapping
 	public ParagraphOD postData(@RequestBody final ParagraphOD entity) {				
@@ -41,5 +47,11 @@ private static final Logger logger = LoggerFactory.getLogger(ParagraphODControll
 	public ParagraphOD putData(@RequestBody final ParagraphOD entity) {				
 		logger.info("Paragraph a actualizar: ["+entity.toString()+"]");		
 		return service.put(entity);
+	}
+	
+	@PutMapping(value="/delete/")
+	public ParagraphOD deleteParagraphtOd(@RequestBody final ParagraphOD entity) {
+		logger.info("Los parrafos de la Ordden del Dia a Eliminar: ["+entity.toString()+"]");
+		return service.delete(entity);
 	}
 }

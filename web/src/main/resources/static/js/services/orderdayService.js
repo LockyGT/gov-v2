@@ -22,6 +22,17 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
+	self.getBetweenDatesPublished = (data)  => {
+		console.log('informacion enviada: ', data);
+		return $q((resolve, reject)=>{
+			factory.get(path+'/datesbetween', data).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				reject(errorData);
+			});
+		});
+	};
+	
 	self.getById = (date)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/fetch/id', date).then(function mySuccess(data) {						
@@ -45,6 +56,15 @@ app.service('orderdayService', function($q, factory) {
 	self.getByStatusPublicada = (status)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/published', status).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	self.getByStatusAprobada = (status)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/approved', status).then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
@@ -123,6 +143,8 @@ app.service('orderdayService', function($q, factory) {
 			});
 		});
 	};
+	
+	
 	
 	self.deleteOrderDay = (orderday)=>{
 		return $q((resolve, reject)=>{

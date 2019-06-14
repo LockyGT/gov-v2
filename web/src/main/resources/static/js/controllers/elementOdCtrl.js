@@ -1,8 +1,8 @@
-app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,elementOdService,factory, $state,$location) {
+app.controller('elementOdCtrl', function($log, $timeout,$filter, $scope,$http, $window,elementOdService,factory, $state,$location) {
 
 	$scope.elementOd=null;
-	
-	
+	$scope.elements=[];
+
 	$scope.getElements = () =>{
 		swal({
 			title: "Consultando elementos",
@@ -10,12 +10,11 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			icon: 'info',						
 			button: {
 				text: "Ok",
-			    closeModal: false,
+				closeModal: false,
 			},
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-
 		elementOdService.getNameOrder($scope.elementOd).then(function mySuccess(data) {			
 			$scope.elements = data;
 			$timeout(()=>{
@@ -48,7 +47,6 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			if(data){
 				swal("Exito", "Elemento agregado correctamente", "success");
 				swal.stopLoading();
-				//$scope.getVerssionOD();
 				$scope.getElements();
 				$scope.elementOd = null;
 			} else {
@@ -60,7 +58,7 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			swal.stopLoading();
 		});
 	};
-	
+
 	$scope.putElement = ()=>{
 		swal({
 			title: "Actualizando Elemento",
@@ -68,12 +66,12 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			icon: 'info',						
 			button: {
 				text: "Ok",
-			    closeModal: false,
+				closeModal: false,
 			},
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
+
 		console.log('Actualizar elemenmto de la OD', $scope.elementOd)
 		elementOdService.put($scope.elementOd).then(function mySuccess(data) {			
 			if(data){
@@ -81,7 +79,7 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 				swal("Exito", "Elemento actualizado correctamente", "success");
 				$scope.getElements();
 				$scope.elementOd = null;
-				
+
 			}else{
 				swal("Error", "Elemento no actualizado", "error");
 			}	
@@ -106,7 +104,7 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			};
 		});
 	};
-	
+
 
 	$scope.deleteElement = elementOd=> {
 		elementOdService.deleteElement(elementOd).then(function success(data){
@@ -118,20 +116,31 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 			swal("Errpr","Elemento no eliminado","error");
 		});
 	};
-
-
+	
 	$scope.addUpdate = () => {
-		if($scope.elementOd){
-			if($scope.elementOd.id){
+		if($scope.elementOd != null){
+			if($scope.elementOd.id != null){
 				$scope.putElement();
 			} else {
-				$scope.postElement();
+				let isRegister = $scope.elements.find(function(element){
+					return element.nombre.toLowerCase() == $scope.elementOd.nombre.toLowerCase();
+				});
+				if(!isRegister){
+					$scope.postElement();
+				}else {
+					swal({
+						  title: "Elemento Existente",
+						  text: "El nombre del elemento ya existe. Por favor intente con otro",
+						  icon: "warning",
+						  button: true
+					})
+				}
+				
 			}
 		} else {
 			console.log("Falta informacion para completar el registro");
 		}
 	};
-
 	$scope.submitForm = (isValid) => {
 		//console.log('validForm');
 		console.log(isValid);
@@ -145,9 +154,9 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 		$scope.elementOd = {
 				nombre:''
 		}
-		
+
 	};
-	
+
 	$scope.editElement = function (elementOd){
 		console.log('Actualizar elementos', $scope.elementOd);
 		$scope.elementOd = elementOd;
@@ -156,13 +165,10 @@ app.controller('elementOdCtrl', function($log, $timeout, $scope,$http, $window,e
 		$scope.getElements();
 		$scope.elementOd = null;
 	};
-	
+
 	$scope.previous= function(){
 		window.history.back();
 	};
-	
-
-	
 	const initController = () =>{
 		$scope.getElements();
 

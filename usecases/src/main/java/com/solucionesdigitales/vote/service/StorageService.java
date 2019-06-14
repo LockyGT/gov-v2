@@ -20,6 +20,8 @@ public interface StorageService {
 	File store(GenericFile file);
 
 	ArrayList<File> stores(GenericFile files, String userId);
+	
+	Attached storeAttached(GenericFile files, String userId);
 
 	File updateFile(GenericFile file);
 
