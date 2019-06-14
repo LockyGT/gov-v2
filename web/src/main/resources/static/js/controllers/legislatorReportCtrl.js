@@ -328,7 +328,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 			windowContent += '</html>';
 			
 			win1.document.write(windowContent);
-			let is_chrome = Boolean(window.chorme);
+			let is_chrome = Boolean(window.chrome);
 			
 			if(is_chrome) {
 				win1.onload = function () {

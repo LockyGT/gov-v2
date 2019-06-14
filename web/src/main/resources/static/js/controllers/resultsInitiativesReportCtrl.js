@@ -13,6 +13,8 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	$scope.initiatives   = [];
 	$scope.sessions      = [];
 	$scope.filter        = {};
+	$scope.reporteBar    = null;
+	$scope.reportePie    = null;
 	
 	$scope.getResultsReport = () => {
 		console.log('Obtener selcciones: ', $scope.selected);
@@ -61,7 +63,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	
 	$scope.getResultsInitiatives = () => {
 		console.log('Informacion de resultados: ')
-		$scope.results = [{name:'Aprobado'}, {name:'No aprobado'}];
+		$scope.results = [{name:'Aprobado', color:'success'}, {name:'No aprobado', color:'danger'}];
 
 	};
 	
@@ -154,6 +156,162 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		});
 		return body;
 	}
+	
+	$scope.startReportBar = () => {
+		$scope.reporteBar = {
+				totalVotos    : 0,
+				labels        : [],
+				series        : [],
+				data          : [],
+				colors        : [],
+				partnersVotes : [],
+				opions        : {
+					scales: {
+						yAxes : [{
+							ticks : {
+								beginAtZero  : true,
+								userCallback : function(label, index, labels){
+									if(Math.floor(label) === label){
+										return label;
+									}
+								}
+							}
+						}]
+					}
+				}
+		};
+	};
+	
+	$scope.startReportPie = () => {
+		$scope.reportePie = {
+			totalVotos    : 0,
+			labels        : [],
+			series        : [],
+			data          : [],
+			colors        : [],
+			partnersVotes : [],
+			options       :{
+				scales : {
+					yAxes : [{
+						ticks : {
+							min      : 0,
+							max      : 100,
+							callback : function(value){ return value+'%'}
+						},
+						scaleLabel : {
+							display     : true,
+							labelString : 'Porcentage %'
+						}
+					}]
+				}
+			}
+		};
+	};
+	
+	$scope.createGraph = () => {
+		$scope.startReportBar();
+		$scope.startReportPie();
+		
+		let max         = 0;
+		let voteTypeWin = {};
+		
+		$scope.optionPercent = [];
+		
+		angular.forEach($scope.results, function(val, key){
+			$scope.reporteBar.labels.push(val.name);
+			$scope.reportePie.labels.push(val.name);
+			
+			$scope.reporteBar.series.push('Resultado votación');
+			$scope.reportePie.series.push('Resultado votación');
+			
+			let percentTmp = val;
+			let find = $scope.resultsReport.data.filter(rr => rr.result === val.name);
+			
+			$scope.reporteBar.data.push(find.length);
+			
+			if(find.length > 0) {
+				let percentage = ($scope.resultsReport.data.length / find.length) * 100;
+				$scope.reportePie.data.push(percentage);
+				percentTmp.percentage = percentage;
+				$scope.optionPercent.push(percentTmp);
+			} else {
+				$scope.reportePie.data.push(0);
+				percentTmp.percentage = 0;
+				$scope.optionPercent.push(percentTmp);
+			}
+			
+			$scope.reportePie.colors.push(
+					hexToRgbA((val.color == 'success') ? '#00b300':
+						(val.votecolor == 'danger')? '#cc0000':'#000000')
+				);
+				
+				$scope.reporteBar.colors.push(
+					hexToRgbA((val.color == 'success') ? '#00b300':
+						(val.color == 'danger')? '#cc0000': '#000000')
+				);
+				
+			if(val.totalOption > max) {
+				max = val.totalOption;
+				voteTypeWin = val;
+			}
+			
+		});
+	};
+	
+	$scope.changeTabView = tabIndex => {
+		$scope.tabView = tabIndex;
+	};
+	
+	$scope.toReturn = () => {
+		$scope.reporteBar =  null;
+		$scope.reportePie = null;
+	};
+	
+	$scope.printImg = () => {
+		let divCardOrg = document.getElementById($scope.tabView);
+		
+		html2canvas(divCardOrg).then(function(canvas){
+			let win1 = window.open("","Print", "width=800, height=800");
+			
+			let windowContent = '<!DOCTYPE html>';
+			windowContent += '<html>';
+			windowContent += '<head>';
+			windowContent += '</head>';
+			windowContent += '<body>';
+			windowContent += '<h1 class="my-4">Reporte legisladores</h1>';
+			windowContent += '<img src="'
+					+ canvas.toDataURL() + '"/>';
+			windowContent += '</body>';
+			windowContent += '</html>';
+			
+			win1.document.write(windowContent);
+			
+			let is_chrome = Boolean(Window.chrome)
+			if(is_chrome){
+				win1.onload = function() {
+					console.log('print');
+					win1.print();
+					$timeout( () => {
+						win1.close();
+					},1000);
+				}
+			}
+		});
+	};
+	
+	function hexToRgbA(hex){	
+	    var c;
+	    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+	        c= hex.substring(1).split('');
+	        if(c.length== 3){
+	            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+	        }
+	        c= '0x'+c.join('');
+	        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1)';
+	    }
+	    throw new Error('Bad Hex');
+	}
+	
 	
 	const initController = () => {
 		$scope.getTypeSession();
