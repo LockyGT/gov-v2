@@ -144,13 +144,16 @@
 		</div>
 		<div class="card-body">
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelleby="home-tab">
+				<div class="tab-pane fade show active" id="home" role="tabpanel"
+					aria-labelleby="home-tab">
 					<div id="cardbodyBar">
 						<div class="row">
 							<div class="col-sm-2"
 								data-ng-repeat="formula in formulas track by $index">
-								<button type="button" id="btn{{$index}}"
-									class="btn" >{{formula.formulaName}}</button>
+								<button type="button"
+									style="color: #ffffff;"
+									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}"
+									class="btn text-white">{{formula.formulaName}}</button>
 							</div>
 						</div>
 						<br>
@@ -163,7 +166,7 @@
 									data-chart-options="reporteBar.options"
 									data-chart-colors="reporteBar.colors"></canvas>
 								<div style="display: none !important">
-									<img id="bar" src="" >
+									<img id="bar" src="">
 								</div>
 							</div>
 							<div class="col-md-5">
@@ -192,14 +195,16 @@
 				</div>
 				<div class="tab-pane fade" id="tabpastel"
 					aria-labelledby="pastel-tab">
-											<div id="cardbodyPie">
+					<div id="cardbodyPie">
 						<div class="row">
 							<div class="col-sm-2"
-								data-ng-repeat="result in formula track by $index">
-								<button type="button" id="btn{{$index}}"
-									class="btn btn-{{formula.formulaName}}">
-									{{result.name}}<br> <span
-										class="badge badge-{{result.color}} badge-pill">
+								data-ng-repeat="result in optionPercent track by $index">
+								<button type="button"
+									style="color: #ffffff;"
+									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}"
+									class="btn text-white">
+									{{result.formulaName}}<br> <span
+										class="badge badge-pill">
 										{{result.percentage}}% </span>
 								</button>
 							</div>
@@ -238,8 +243,12 @@
 							</div>
 						</div>
 					</div>
-					</div>
+				</div>
 			</div>
+		</div>
+		<div id="cardFooter" class="card-footer">
+			<button type="button" class="btn btn-info" data-ng-click="toReturn()">Regresar</button>
+			<button type="button" class="btn btn-dark" data-ng-click="printImg()">Imprimir</button>
 		</div>
 	</div>
 </section>

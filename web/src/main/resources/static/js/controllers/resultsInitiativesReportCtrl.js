@@ -260,11 +260,8 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 				$scope.optionPercent.push(percentTmp);
 			}
 			
-			$scope.reportePie.colors.push(
-					hexToRgbA($scope.colorsGraph[ic])
-				);
-				
-				$scope.reporteBar.colors.push($scope.colorsGraph[ic]);
+			$scope.reportePie.colors.push(hexToRgbA($scope.colorsGraph[ic]));
+			$scope.reporteBar.colors.push($scope.colorsGraph[ic]);
 				
 			if(val.totalOption > max) {
 				max = val.totalOption;
