@@ -11,6 +11,7 @@
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../css/summernote.css">
 <link href="css/main.css" rel="stylesheet" type="text/css">
 <!-- Custom styles for this template -->
 <link href="css/4-col-portfolio.css" rel="stylesheet" type="text/css">
@@ -130,16 +131,18 @@
 	<!-- Page Heading -->
 
 	<!-- Footer -->
+	
 	<footer id="footerMain" class="py-5 bg-dark footerAlwaysBottom"
 		data-ng-hide="$state.includes('panel')"> </footer>
-	<script type="text/javascript" src="js/plugins/popper.min.js"></script>
-	<!-- Bootstrap core JavaScript -->
+		<!-- Bootstrap core JavaScript -->
+	
 	<script type="text/javascript"
 		src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-
+	<script type="text/javascript" src="js/plugins/popper.min.js"></script>
 	<!-- BOOTSTRAP -->
 	<script type="text/javascript"
 		src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/css/summernote.js"></script>
 	<!-- ANGULAR -->
 	<script type="text/javascript"
 		src="/webjars/angularjs/1.7.7/angular.min.js"></script>
@@ -237,9 +240,9 @@
 	<script type="text/javascript" src="js/controllers/archiveCtrl.js"></script>
 	<script type="text/javascript" src="js/controllers/demoVersionFileCtrl.js"></script>
 	<script type="text/javascript" src="js/controllers/legislatorReportCtrl.js"></script>
-	
 	<script type="text/javascript" src="js/controllers/organigramaCtrl.js"></script>
-	
+	<script type="text/javascript" src="js/controllers/resultsInitiativesReportCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/initiativePeriodReportCtrl.js"></script>
 	
 	<!-- Services Angular -->
 	<script type="text/javascript" src="js/services/LoginService.js"></script>
@@ -272,8 +275,10 @@
     <script type="text/javascript" src="js/services/orderdayService.js"></script>
     <script type="text/javascript" src="js/services/archiveService.js"></script>
     <script type="text/javascript" src="js/services/elementOdService.js"></script>
-    <script type="text/javascript" src="js/services/reportService.js"></script>
+    <script type="text/javascript" src="js/services/paragraphOdService.js"></script>
+    <<script type="text/javascript" src="js/services/reportService.js"></script>
     <script type="text/javascript" src="js/services/organigramaService.js"></script>
+    <script type="text/javascript" src="js/services/reportOdService.js"></script>
 
 	<!-- Factories AngularJS -->
 	<script type="text/javascript" src="js/factories/factory.js"></script>

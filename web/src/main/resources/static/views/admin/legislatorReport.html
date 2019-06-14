@@ -17,8 +17,8 @@ li.active li {
 }
 </style>
 
-<h1>Legislador</h1>
-<section>
+<h1>Reporte legislador</h1>
+<section data-ng-if="reporteBar === null && reportePie === null">
 	<div class="card w-95">
 		<div class="card-header">
 			<form class="form-inline" name="formFiltros">
@@ -27,7 +27,7 @@ li.active li {
 						type="date" class="form-control" id="txtFechaBusqueda"
 						data-ng-max="fechaBusquedaFin" name="fechaInicio"
 						data-ng-model="selected.startDate" required="required"
-						data-ng-change ="getSessionsBetweenDates(selected)"
+						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
@@ -35,13 +35,14 @@ li.active li {
 						type="date" class="form-control" id="txtFechaBusquedaFin"
 						data-ng-min="fechaBusqueda" name="fechaFin"
 						data-ng-model="selected.endDate" required="required"
-						data-ng-change ="getSessionsBetweenDates(selected)"
+						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
 				</div>
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Partidos políticos</label>
-					<div class="input-group" data-toggle="modal" data-target="#model-select-parties">
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-parties">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
 								<i class="fas fa-award"></i>
@@ -54,7 +55,8 @@ li.active li {
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Legisladores</label>
-					<div class="input-group" data-toggle="modal" data-target="#model-select-legislators">
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-legislators">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
 								<i class="fas fa-user"></i>
@@ -67,7 +69,8 @@ li.active li {
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Sesiones</label>
-					<div class="input-group" data-toggle="modal" data-target="#model-select-sessions">
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-sessions">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
 								<i class="fas fa-balance-scale"></i>
@@ -80,7 +83,8 @@ li.active li {
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtNombre" class="sr-only">Iniciativas</label>
-					<div class="input-group" data-toggle="modal" data-target="#model-select-initiatives">
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-initiatives">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-lg4">
 								<i class="fas fa-book"></i>
@@ -101,21 +105,22 @@ li.active li {
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<div class="alert alert-primary" role="alert" data-ng-if="legislatorsReport.length">No se han
-					encontrado información con los datos ingresados</div>
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!legislatorsReport.data">No se han encontrado
+					información con los datos ingresados</div>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-inversed table-hover table-striped"
 					id="table">
 					<thead>
 						<tr>
-							<td>Partido político</td>
-							<td>Legislador</td>
-							<td>Distrito</td>
-							<td>Comisión</td>
-							<td>Fecha</td>
-							<td>Iniciativas</td>
-							<td>Resultado</td>
+							<th>Partido político</th>
+							<th>Legislador</th>
+							<th>Distrito</th>
+							<th>Comisión</th>
+							<th>Fecha</th>
+							<th>Iniciativas</th>
+							<th>Resultado</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -138,8 +143,145 @@ li.active li {
 			</div>
 		</div>
 		<div class="card-footer">
-			<button type="button" class="btn btn-dark" data-ng-if="legislatorsReport.data" data-ng-click="printTable()">Imprimir
+			<button type="button" class="btn btn-dark"
+				data-ng-if="legislatorsReport.data" data-ng-click="printTable()">Imprimir
 				PDF</button>
+			<button type="button" class="btn btn-info"
+				data-ng-if="legislatorsReport.data" data-ng-click="createGraph()">Gráficas</button>
+		</div>
+	</div>
+</section>
+
+<section data-ng-if="!reporteBar !== null && reportePie !== null">
+	<div class="card w-95">
+		<div class="card-hader">
+			<ul class="nav nav-tabs" id="myTab">
+				<li class="nav-item"><a class="nav-link active" id="home-tab"
+					data-toggle="tab" data-ui-sref="state" href="#home" role="tab"
+					aria-controls="home" aria-selected="true"
+					data-ng-click="changeTabView('cardbodyBar')">Barra</a></li>
+				<li class="nav-item"><a class="nav-link" id="pastel-tab"
+					data-toggle="tab" data-ui-sref="state" href="#tabpastel" role="tab"
+					aria-controls="tabpastel" aria-selected="false"
+					data-ng-click="changeTabView('cardbodyPie')">Pastel</a></li>
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="home" role="tabpanel"
+					aria-labelleby="home-tab">
+					<div id="cardbodyBar">
+						<div class="row">
+							<div class="col-sm-2"
+								data-ng-repeat="voteOption in voteOptions track by $index">
+								<button type="button" id="btn{{$index}}"
+									class="btn btn-{{voteOption.voteColor}}">
+									{{voteOption.name}}</button>
+							</div>
+						</div>
+						<br>
+						<div class="row col-md-12">
+							<div class="col-md-7">
+								<canvas id="bar" class="chart chart-bar"
+									data-chart-data="reporteBar.data"
+									data-chart-labels="reporteBar.labels"
+									data-chart-series="reporteBar.series"
+									data-chart-options="reporteBar.options"
+									data-chart-colors="reporteBar.colors"></canvas>
+								<div style="display: none !important">
+									<img id="canvasImgBar" src="" width="300px" height="300px">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div>
+									<table class="table table-striped table-sm">
+										<thead>
+											<tr>
+												<th>PARTICIPANTES</th>
+												<th>INICIATIVAS</th>
+												<th class="text-right">TOTAL VOTOS 
+													<span class="badge badge-pill badge-dark badge-panel-dark">{{legislatorsReport.data.length}}</span>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+											data-ng-repeat="l in legislatorsReport.data | orderBy: l.namePartner">
+												<td>{{l.namePartner}}</td>
+												<td>{{l.initiative}}</td>
+												<td class="text-center">
+													<span class="badge badge-pill badge-{{l.voteColor}} badge-panel-partner.option.voteColor">&nbsp;&nbsp;</span>
+												</td>
+											</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="tabpastel" role="tabpanel" aria-labelledby="pastel-tab">
+					<div id="cardbodyPie">
+						<div class="row">
+							<div class="col-sm-2"
+								data-ng-repeat="voteOption in optionPercent track by $index">
+								<button type="button" id="btn{{$index}}"
+									class="btn btn-{{voteOption.voteColor}}">
+									{{voteOption.name}} <br>
+									<span class="badge badge-{{voteOption.voteColor}} badge-pill">
+										{{voteOption.percentage}}%
+									</span>		
+								</button>
+							</div>
+						</div>
+						<br>
+						<div class="row col-md-12">
+							<div class="col-md-7">
+								<canvas id="pie" class="chart chart-pie"
+									data-chart-data="reportePie.data" data-chart-labels="reportePie.labels"
+									data-chart-series="reportePie.series" data-chart-options="reportePie.options"
+									data-chart-colors="reportePie.colors"
+								></canvas>
+								<div style="display: none !important">
+									<img id="canvasImgPie" src="" width="300px" height="300px">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<table class="table table-striped table-sm">
+									<thead>
+										<tr>
+											<th>PARTICIPANTES</th>
+											<th>INICIATIVAS</th>
+											<th class="text-right"> TOTAL VOTOS
+												<span class="badge badge-pill badge-dark badge-panel-dark">{{legislatorsReport.data.length}}</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											data-ng-repeat="l in legislatorsReport.data | orderBy: l.namePartner">
+												<td>{{l.namePartner}}</td>
+												<td>{{l.initiative}}</td>
+												<td class="text-center">
+													<span class="badge badge-pill badge-{{l.voteColor}} badge-panel-partner.option.voteColor">&nbsp;&nbsp;</span>
+												</td>
+											</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td></td>
+											<td></td>
+										</tr>
+									<tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="cardFooter" class="card-footer">
+			<button type="button" class="btn btn-info" data-ng-click="toReturn()">Regresar</button>
+			<button type="button" class="btn btn-dark" data-ng-click="printImg()">Imprimir</button>
 		</div>
 	</div>
 </section>

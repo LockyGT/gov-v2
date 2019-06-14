@@ -13,4 +13,10 @@ public interface ParagraphODService {
 
 	ParagraphOD put(ParagraphOD entity);
 
+	ParagraphOD delete(ParagraphOD entity);
+
+	List<ParagraphOD> getByStatus();
+
+	
+
 }

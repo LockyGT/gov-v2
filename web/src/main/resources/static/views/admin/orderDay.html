@@ -8,10 +8,10 @@
 <h1 class="my-4">
 	Orden del día <i class="fas fa-file-signature"></i>
 </h1>
-<section data-ng-show="orderday !== null">
+<section data-ng-show="orderday !== null" id="contentOd">
 	<div class="row">
 		<div class="col-ld-12 col-md-12 col-sm-12">
-			<form name="formOrderDay" id="formOrderDays"
+			<form name="formOrderDay" id="validate"
 				data-ng-submit="submitForm(formOrderDay.$valid)" novalidate>
 				<div class="card" id="tabs">
 					<div class="card-header">
@@ -30,8 +30,8 @@
 						</ul>
 
 					</div>
-					<div class="card-body">
-						<div class="tab-content" id="nav-tabContent">
+					<div class="card-body" id="content-cart">
+						<div class="tab-content tab-validate" id="nav-tabContent">
 							<div class="tab-pane fade show active" id="home" role="tabpanel"
 								aria-labelledby="nav-home-tab">
 								<div class="container margin-top">
@@ -43,8 +43,9 @@
 												<span class="input-group-text" id="inputGroup-sizing-lg5"><i
 													class="far fa-calendar-alt"></i></span>
 											</div>
-											<input type="date" class="form-control" id="txtFecha"
-												required maxlength="250" data-ng-model="orderday.fecha">
+											<input type="date" name="fecha" class="form-control"
+												id="fecha" required maxlength="250"
+												data-ng-model="orderday.fecha">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -78,7 +79,7 @@
 											<select
 												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
 												data-ng-model="currentElement" id="inputState"
-												class="form-control">
+												name="elementsOd" class="form-control">
 												<option disabled value="">Seleccione un elemento...</option>
 											</select>
 										</div>
@@ -109,7 +110,7 @@
 											</div>
 
 											<div class="input-group"
-												data-ng-repeat="p in e.paragraphs track by $index">
+												data-ng-repeat="p in e.paragraphs | filter: {status: 2} track by $index">
 
 												<div class="col check-p">
 													<input class="form-check-input new"
@@ -119,7 +120,7 @@
 
 												</div>
 												<div class="col-4 col-md-9 margin-top">
-													<textarea class="form-control" rows="5" name="text"
+													<textarea class="form-control" rows="5" name="contenidoOd"
 														placeholder="Agregar parrafo ..."
 														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
 												</div>
@@ -130,14 +131,15 @@
 													</button>
 													<button type="button"
 														class="btn btn-danger btn-sm margin-top"
-														data-ng-click="removeParagraphs($index)">
+														data-dismiss="modal" aria-label="Close"
+														data-ng-click="removeParagraphs(p)">
 														Eliminar<i class="fas fa-chevron-circle-down"></i>
 													</button>
 
 												</div>
 												<div class="container">
 													<div class="row margin-top"
-														data-ng-repeat="sp in p.subParagraphs track by $index">
+														data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">
 														<div class="col-2">
 
 															<input
@@ -147,16 +149,18 @@
 																class="form-check-label" for="defaultCheck1"></label>
 
 														</div>
-														<div class="col-4 col-md-9">
+														<div class="col-4 col-md-8">
 															<div class="input-group">
-																<textarea class="form-control" rows="5" name="text"
-																	placeholder="Agregar parrafo ..."
+																<textarea class="form-control" rows="5"
+																	name="contenidoOdSp" placeholder="Agregar parrafo ..."
 																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
 															</div>
 														</div>
-														<div class="col-2 col-md-3">
+														<div class="col col-md-2">
 															<button type="button"
 																class="btn btn-danger btn-sm margin-top"
+																data-dismiss="modal" aria-label="Close"
+																data-ng-click="removeParagraphs(sp)"
 																data-ng-click="">Eliminar</button>
 														</div>
 													</div>
@@ -171,7 +175,7 @@
 						</div>
 					</div>
 					<!-- CardBody -->
-					<div class="card-footer">
+					<div class="card-footer" id="footer">
 						<button type="submit" class="btn btn-success">{{!orderday.id
 							? 'Guardar': 'Guardar versión'}}</button>
 
@@ -280,7 +284,7 @@
 									data-ng-repeat="orderday in orderdays | filter : searchOrderDay track by orderday.id">
 									<td scope="row">{{$index+1}}</td>
 									<td><a style="color: black;" href=""
-										data-ng-click="addOrderOfTheDay(orderday)"  data-toggle="modal"
+										data-ng-click="addOrderOfTheDay(orderday)" data-toggle="modal"
 										data-target="#modal-show-od">{{orderday.nombre}}</a></td>
 									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
 									<td><button type="button"
@@ -294,6 +298,8 @@
 
 									</td>
 									<td><button type="button" class="btn btn-warning"
+											id="print" data-ng-click="generatePdf(orderday);">Descargar</button></td>
+									<td><button type="button" class="btn btn-warning"
 											data-ng-click="toPostOdGazzete(orderday);">{{orderday.published
 											? ' Publicada ' : ' Publicar '}}</button></td>
 									<td><div class="btn-group dropright">
@@ -305,8 +311,8 @@
 												<span class="sr-only">Mas opciones</span>
 											</button>
 											<div class="dropdown-menu">
-												<a class="dropdown-item btn btn-default" href="" data-toggle="modal"
-													data-target="#modalVerssion"
+												<a class="dropdown-item btn btn-default" href=""
+													data-toggle="modal" data-target="#modalVerssion"
 													data-ng-click="verVersiones(orderday);">Versiones</a> <a
 													class="dropdown-item" href="" data-toggle="modal"
 													data-target="#modal-anexoOd"
@@ -330,9 +336,9 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		
+	<script type="text/javascript">
 	</script>
+
 	<script type="text/javascript">
 		function changetxts(_tipo) {
 			if (_tipo == 1) {
@@ -355,7 +361,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Versiones </h5>
+				<h5 class="modal-title">Versiones</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -373,7 +379,7 @@
 								<th>Nombre</th>
 								<th>Ver</th>
 								<th>Versión</th>
-								
+
 							</tr>
 						</thead>
 						<tbody>
@@ -385,7 +391,7 @@
 										<i class="far fa-eye"></i>
 									</button></td>
 								<td>V_{{verssion.sku}}</td>
-								</tr>
+							</tr>
 						</tbody>
 						<tfoot>
 							<tr>
@@ -543,10 +549,11 @@
 					</div>
 				</div>
 				<div class="alert alert-primary" role="alert"
-					data-ng-if="!orderdayAnnexes.attached.files.length">No se han encontrado anexos
-					guardados en esta orden del día</div> 
-				<div class="table-responsive" data-ng-if="orderdayAnnexes.attached.files.length > 0">
-					<table id="datos"
+					data-ng-if="!orderdayAnnexes.attached.files.length">No se han
+					encontrado anexos guardados en esta orden del día</div>
+				<div class="table-responsive"
+					data-ng-if="orderdayAnnexes.attached.files.length > 0">
+					<table id="datosA"
 						class="table table-inversed table-hover table-striped">
 						<thead>
 							<tr>
@@ -565,21 +572,18 @@
 							<tr
 								data-ng-repeat="file in orderdayAnnexes.attached.files | filter: {status: 1} track by $index">
 								<td scope="row">{{$index+1}}</td>
-								<td id="table-content">{{file.originalName}}</td>
+								<td class="d-inline-block" tabindex="0" data-toggle="tooltip"
+									title="{{file.originalName}}">{{(file.originalName.length
+									> 17)?
+									file.originalName.substring(17,-1)+'...':file.originalName}}</td>
 								<td><button type="button" class="btn btn-primary"
 										data-toggle="modal" data-target="#show-file"
-										data-ng-click="showDownloadFile(file);"> Ver
-										
-									</button></td>
+										data-ng-click="showDownloadFile(file);">Ver</button></td>
 								<td><button type="button" class="btn btn-secondary"
-										data-ng-click="downloadFile(file);">
-										Descargar
-									</button></td>
+										data-ng-click="downloadFile(file);">Descargar</button></td>
 								<td><button type="button" class="btn btn-danger"
 										data-ng-click="deleteFile(file)" data-dismiss="modal"
-										aria-label="Close">
-										Eliminar
-									</button></td>
+										aria-label="Close">Eliminar</button></td>
 
 							</tr>
 						</tbody>
@@ -623,4 +627,4 @@
 		</div>
 	</div>
 </div>
-<!-- [MODAL] MUESTRA LOS ANEXOS DE CADA ORDEN DEL DIA VERSIONADA -->
+<!-- IMPRIMIR PDF -->

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.solucionesdigitales.vote.entity.initiative.Initiative;
 import com.solucionesdigitales.vote.entity.partner.Partner;
 import com.solucionesdigitales.vote.entity.report.LegislatorReport;
+import com.solucionesdigitales.vote.entity.report.ResultReport;
 import com.solucionesdigitales.vote.entity.vote.Vote;
 import com.solucionesdigitales.vote.entity.vote.VoteSession;
 import com.solucionesdigitales.vote.repository.InitiativeRepository;
@@ -43,6 +44,7 @@ public class ReportServiceImpl implements ReportService {
 		Initiative initiative;
 		Partner partner;
 		VoteSession voteSession;
+		JsonObject jsonLegislator;
 		
 		LegislatorReport legislator = new LegislatorReport();
 		for(String partnerId : partnersId) {
@@ -59,7 +61,7 @@ public class ReportServiceImpl implements ReportService {
 			}
 		}
 		for (LegislatorReport lr : listLegislator) {
-			JsonObject jsonLegislator = new JsonObject();
+			jsonLegislator = new JsonObject();
 			jsonLegislator.addProperty("politicalPartie", lr.getPartner().getPartido().getAcronym());
 			jsonLegislator.addProperty("namePartner", lr.getPartner().getName() + " " + lr.getPartner().getApPaterno()
 					+ " " + lr.getPartner().getApMaterno());
@@ -69,11 +71,50 @@ public class ReportServiceImpl implements ReportService {
 			jsonLegislator.addProperty("session", lr.getVoteSession().getNombre());
 			jsonLegislator.addProperty("initiative", lr.getVote().getInitiative().getName());
 			jsonLegislator.addProperty("vote", lr.getVote().getOption().getName());
+			jsonLegislator.addProperty("voteColor", lr.getVote().getOption().getVoteColor());
 			jsonLegislator.addProperty("startTime",lr.getVote().getInitiative().getFechaHoraInicio().toString());
 			jsonLegislator.addProperty("endTime", lr.getVote().getInitiative().getFechaHoraFin().toString());
 			jsonLegislator.addProperty("result", lr.getVote().getInitiative().getResult().getResultName());
 			arr.add(jsonLegislator);
 		}
+		JsonObject json = new JsonObject();
+		json.add("data",arr);
+		return json;
+	}
+	
+	
+	@Override
+	public JsonObject generatedReportResults(String[] sessionsId, String[] initiativesId) {
+		JsonArray arr = new JsonArray();
+		ArrayList<ResultReport> listResults = new ArrayList<ResultReport>();
+		JsonObject jsonResults;
+		ResultReport resultReport;
+		VoteSession session;
+		
+		for(String sessionId : sessionsId) {
+
+			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
+			for(String initiativeId : initiativesId) {
+				resultReport = new ResultReport();
+				resultReport.setSession(session);
+				resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+				listResults.add(resultReport);
+			}
+		}
+		
+		for(ResultReport result : listResults) {
+			jsonResults = new JsonObject();
+			jsonResults.addProperty("date", result.getSession().getFechaHora().toString());
+			jsonResults.addProperty("typeSession",result.getSession().getType().getName());
+			jsonResults.addProperty("session", result.getSession().getNombre());
+			jsonResults.addProperty("initiative",result.getInitiative().getName());
+			jsonResults.addProperty("present",result.getInitiative().getResult().getPresentes());
+			jsonResults.addProperty("formula", result.getInitiative().getResult().getFormula().getFormulaName());
+			jsonResults.addProperty("method", result.getInitiative().getResult().getRoundMethod().getName());
+			jsonResults.addProperty("result", result.getInitiative().getResult().getResultName());
+			arr.add(jsonResults);
+		}
+		
 		JsonObject json = new JsonObject();
 		json.add("data",arr);
 		return json;

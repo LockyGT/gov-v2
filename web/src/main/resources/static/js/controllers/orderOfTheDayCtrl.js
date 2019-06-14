@@ -75,7 +75,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		let folder= {
 				serverNames: fFiles.map(f=> f.serverName),
 				originalNames:fFiles.map(f=> f.originalName),
-				folder: 'attached/'+$scope.orderday.attached.originFolder
+				folder: $scope.orderday.attached.originFolder
 		};
 		storageService.downloadZip(folder).then(arraybuffer=>{
 			let f = new Blob([arraybuffer], {type:"application/zip"});
@@ -97,7 +97,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 
 	$scope.downloadFile = (file) => {
 		let data = {
-				path: 'attached/'+$scope.orderday.attached.originFolder,
+				path: $scope.orderday.attached.originFolder,
 				filename: file.serverName
 		}; 
 		storageService.download(data).then(arraybuffer=>{
@@ -120,7 +120,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 
 	$scope.showDownloadFile = (file) => {
 		let data = {
-				path: 'attached/'+$scope.orderday.attached.originFolder,
+				path: $scope.orderday.attached.originFolder,
 				filename: file.serverName
 		}; 
 		storageService.download(data).then(arraybuffer=>{
@@ -145,6 +145,9 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		}); 
 		$('#attachments-verssion').modal('show');
 	};
+	
+	
+	
 	
 	$scope.previous= function(){
 		window.history.back();

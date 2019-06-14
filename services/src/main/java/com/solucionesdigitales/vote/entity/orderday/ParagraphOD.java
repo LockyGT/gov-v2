@@ -17,6 +17,7 @@ public class ParagraphOD {
 	private String contenidotxt;
 	private boolean isIniciativa;
 	private int nivel=1;
+	private int status;
 	public ArrayList<ParagraphOD> subParagraphs;
 	
 	@DBRef
@@ -61,16 +62,19 @@ public class ParagraphOD {
 	public void setSubParagraphs(ArrayList<ParagraphOD> subParagraphs) {
 		this.subParagraphs = subParagraphs;
 	}
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "ParagraphOD [id=" + id + ", contenidotxt=" + contenidotxt + ", isIniciativa=" + isIniciativa
-				+ ", nivel=" + nivel + ", subParagraphs=" + subParagraphs + ", orderday=" + orderday + "]";
+				+ ", nivel=" + nivel + ", status=" + status + ", subParagraphs=" + subParagraphs + ", orderday="
+				+ orderday + "]";
 	}
 	
-//	public ElementOd getElemento() {
-//		return elemento;
-//	}
-//	public void setElemento(ElementOd elemento) {
-//		this.elemento = elemento;
-//	}
+	
 }

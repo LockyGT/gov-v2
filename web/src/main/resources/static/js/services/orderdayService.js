@@ -144,6 +144,8 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
+	
+	
 	self.deleteOrderDay = (orderday)=>{
 		return $q((resolve, reject)=>{
 			factory.put(path+'/delete',orderday).then(function success(data){

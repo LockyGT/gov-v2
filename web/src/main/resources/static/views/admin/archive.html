@@ -96,8 +96,9 @@
 									id="txtNombre" data-ng-model="archive.nombre"
 									data-ng-class="validClass.name ? 'is-'+validClass.name:''"
 									placeholder="nombre" required>
-								<div data-toggle="tooltip" data-placement="left"
-									title="{{moduleod.fieldHelp}}">
+									
+								<div data-toggle="tooltip" data-placement="left" data-ng-show="moduleod.fieldHelp"
+									data-original-title="{{moduleod.fieldHelp}}">
 									<i class="ml-3 far fa-question-circle fa-3x text-secondary"></i>
 								</div>
 								<div class="d-block"

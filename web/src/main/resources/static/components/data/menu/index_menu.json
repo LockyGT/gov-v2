@@ -168,6 +168,40 @@
 				"childs": [],
 				"status": 1
 				
+			},
+			{
+				"id": 7,
+				"app": "reports",
+				"index": 5.7,
+				"title": "Resultados iniciativas",
+				"url": "#!resultsInitiativesReport",
+				"icon": "fas fa-file",
+				"color": "#BD000D",
+				"image": "../img/periodico.png",
+				"alt": "Consulta de Sesiones e iniciativas por resultados",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+				
+			},
+			{
+				"id": 7,
+				"app": "reports",
+				"index": 5.7,
+				"title": "Resultados - periodos",
+				"url": "#!initiativePeriodReport",
+				"icon": "fas fa-file",
+				"color": "#BD000D",
+				"image": "../img/periodico.png",
+				"alt": "Consulta de Sesiones e iniciativas por resultados",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+				
 			}
 		]
 	},
@@ -333,7 +367,7 @@
 				"icon": "fas fa-sitemap",
 				"color": "#4286f4",
 				"image": "../img/periodico.png",
-				"alt": "Orden del día",
+				"alt": "Organigrama",
 				"text": "",
 				"roles": ["OPERADOR"],
 				"levels": 1,

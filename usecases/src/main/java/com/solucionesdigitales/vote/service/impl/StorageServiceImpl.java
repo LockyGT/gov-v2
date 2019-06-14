@@ -112,7 +112,7 @@ public class StorageServiceImpl implements StorageService {
 		String path = this.rootLocation.toString() + File.separator + file.getFolder();
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
+		int month = c.get(Calendar.MONTH)+1;
 		String f = year+File.separator+month+File.separator+uuidFolder.toString();
 		if (!new File(path + File.separator + f).exists()) {
 			new File(path + File.separator + f).mkdirs();
@@ -130,7 +130,7 @@ public class StorageServiceImpl implements StorageService {
 		String path = this.rootLocation.toString() + File.separator + files.getFolder();
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
+		int month = c.get(Calendar.MONTH)+1;
 		String f = year+File.separator+month+File.separator+uuidFolder.toString();
 		if (!new File(path + File.separator +f).exists()) {
 			new File(path + File.separator + f).mkdirs();
@@ -193,7 +193,7 @@ public class StorageServiceImpl implements StorageService {
 		com.solucionesdigitales.vote.entity.documentfile.File individualFile = null;
 		String path = this.rootLocation.toString() + File.separator + files.getFolder();
 		UUID uuid = null;
-		String folder = path.substring(path.lastIndexOf("/") + 1);
+		String folder = path.substring(path.lastIndexOf("/") - 6);
 		try {
 			Path location = Paths.get(path);
 			int i = 0;
@@ -203,10 +203,17 @@ public class StorageServiceImpl implements StorageService {
 
 					i++;
 				}
-			} else if( status == 2) {
-				if (!new File(path + File.separator + files.getFolder()).exists()) {
-					new File(path + File.separator + files.getFolder()).mkdirs();
+			} else if(status == 2) {
+				LOGGER.info("----- Creando la carpeta:  " + path + "----");
+				folder = files.getFolder();
+				if (!new File(path).exists()) {
+					
+					uuid = UUID.randomUUID();
+					path += uuid.toString(); 
+					new File(path).mkdirs();
+					folder = files.getFolder()+ File.separator +uuid.toString();
 				}
+				
 			}
 
 

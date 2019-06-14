@@ -1,6 +1,11 @@
-#table-content{
-	
+.input.error {
+    border-color: #f00 !important;
 }
+
+.small.required {
+    color:#f00;
+}
+
 
 
 .animate-if.ng-enter, .animate-if.ng-leave {

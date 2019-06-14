@@ -1,4 +1,4 @@
-app.controller('legislatorReportCtrl', function($scope, voteSessionService, voteService, partnerService, factory, $filter, $timeout, reportService){
+app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http, voteService, partnerService, factory, $filter, $timeout, reportService){
 	
 	$scope.selected = {
 			startDate : new Date(),
@@ -13,6 +13,10 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 	$scope.initiatives       = [];
 	$scope.sessions          = [];
 	$scope.filter            = {};
+	$scope.reporteBar        = null;
+	$scope.reportePie        = null;
+	$scope.voteOptions       = [];
+	$scope.tabView = 'cardbodyBar';
 	
 	$scope.getReportLegislator = () => {
 		dataReport = {
@@ -22,6 +26,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 
 		reportService.getLegislatorReport(dataReport).then(success=>{
 			$scope.legislatorsReport = JSON.parse(success.data);
+			console.log('Informacion del reporte: ', $scope.legislatorsReport);
 		}, error=>{
 			console.log('Error al obtener el nombre del legislador: ', error);
 		});
@@ -82,7 +87,17 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		});
 	};
 	
-	$scope.changue
+	$scope.getVoteOptions = () => {
+		$http({
+			method: "GET",
+			url:"/voteoption"
+		}).then(response => {
+			$scope.voteOptions = response.data;
+			
+		}, error => {
+			console.error('Error al obtener opciones de votaciones: ', error.statusText);
+		});
+	};
 	
 	$scope.checkAllOptions = (array, e) => {
 		
@@ -122,6 +137,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 		},500);
 	};
 	
+
 //	Inicia la impresion del reporte
 	$scope.printTable = () => {
 		$scope.legislatorsReport.title ="Legisladores";
@@ -179,9 +195,172 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService, vote
 
 	};
 	
+	$scope.addTotalVoteOptions = () => {
+		angular.forEach($scope.voteOptions, function(valvo, keyvo){
+			valvo.voteOption = 0;
+		});
+	};
+	
+	$scope.startReportBar = () => {
+		$scope.reporteBar = {
+				totalVotos    : 0,
+				labels        : [],
+				series        : [],
+				data          : [],
+				colors        : [],
+				partnersVotes : [],
+				options       : {
+					scales : {
+						yAxes : [{
+							ticks : {
+								beginAtZero  : true,
+								userCallback : function(label, index, labels){
+									if(Math.floor(label) === label){
+										return label;
+									}
+								}
+							}
+						}]
+					}
+				}
+		};
+	};
+	
+	$scope.startReportPie = () => {
+		$scope.reportePie = {
+				totalVotos    : 0,
+				labels        : [],
+				series        : [],
+				data          : [],
+				colors        : [],
+				partnersVotes : [],
+				options       : {
+					scales : {
+						yAxes : [{
+							ticks : {
+								min      : 0,
+								max      : 100,
+								callback : function(value){return value+'%'}
+							},
+							scaleLabel : {
+								display     : true,
+								labelString : "Porcentaje %"
+							}
+						}]
+					}
+				}
+		};
+	};
+	
+	$scope.createGraph = () => {
+		$scope.startReportBar();
+		$scope.startReportPie();
+		
+		$scope.addTotalVoteOptions();
+		let max = 0 ;
+		let voteTypeWin = {}; 
+		$scope.optionPercent = [];
+		angular.forEach($scope.voteOptions, function(val, key){
+			$scope.reporteBar.labels.push(val.name);
+			$scope.reportePie.labels.push(val.name);
+			$scope.reporteBar.series.push('Resultado Votación');
+			$scope.reportePie.series.push('Resultado Votación');
+			let percentTmp = val;
+			let find = $scope.legislatorsReport.data.filter(le => le.vote === val.name);
+			
+			$scope.reporteBar.data.push(find.length);
+			
+			if(find.length>0){
+				
+				let percentage = ($scope.legislatorsReport.data.length / find.length)  * 100;
+				$scope.reportePie.data.push(percentage);
+				percentTmp.percentage = percentage;
+				$scope.optionPercent.push(percentTmp);
+			} else {
+				$scope.reportePie.data.push(0);
+				percentTmp.percentage = 0;
+				$scope.optionPercent.push(percentTmp);
+			}
+			
+			$scope.reportePie.colors.push(
+				hexToRgbA((val.voteColor == 'success') ? '#00b300':
+					(val.voteColor == 'danger')? '#cc0000': 
+						(val.voteColor=='warning')?'#ffbf00':'#000000')
+			);
+			
+			$scope.reporteBar.colors.push(
+				hexToRgbA((val.voteColor == 'success') ? '#00b300':
+					(val.voteColor == 'danger')? '#cc0000': 
+						(val.voteColor=='warning')?'#ffbf00':'#000000')
+			);
+			
+			if(val.totalOption > max) {
+				max = val.totalOption;
+				voteTypeWin = val;
+			}
+		});
+		
+	};
+	
+	$scope.changeTabView = tabIndex => {
+		$scope.tabView = tabIndex;
+	};
+	
+	$scope.toReturn = () => {
+		$scope.reporteBar = null;
+		$scope.reportePie = null;
+	};
+	
+	$scope.printImg = () => {
+		let divCardOrg = document.getElementById($scope.tabView);
+		console.log('Elemento seleccionado: ', divCardOrg);
+		html2canvas(divCardOrg).then(function(canvas){
+			let win1 = window.open("","Print", "width=800, height=800");
+			let windowContent = '<!DOCTYPE html>';
+			windowContent += '<html>';
+			windowContent += '<head>';
+			windowContent += '</head>';
+			windowContent += '<body>';
+			windowContent += '<h1 class="my-4">Reporte legisladores</h1>';
+			windowContent += '<img src="'
+					+ canvas.toDataURL() + '"/>';
+			windowContent += '</body>';
+			windowContent += '</html>';
+			
+			win1.document.write(windowContent);
+			let is_chrome = Boolean(window.chorme);
+			
+			if(is_chrome) {
+				win1.onload = function () {
+					console.log('print');
+					win1.print();
+					$timeout( () => {
+						win1.close();
+					},1000)
+				}
+			}
+			
+		});
+		
+	};
+	
+	function hexToRgbA(hex){	
+	    var c;
+	    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+	        c= hex.substring(1).split('');
+	        if(c.length== 3){
+	            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+	        }
+	        c= '0x'+c.join('');
+	        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1)';
+	    }
+	    throw new Error('Bad Hex');
+	}
+	
 	const initController = () => {
 		$scope.getPoliticalParties();
 		$scope.getLegislator();
+		$scope.getVoteOptions();
 	};
 	
 	angular.element(document).ready(function () {

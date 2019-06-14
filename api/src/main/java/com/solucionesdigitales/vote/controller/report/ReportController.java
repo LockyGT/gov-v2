@@ -25,11 +25,20 @@ public class ReportController {
 	
 	@GetMapping("/legislator")
 	
-	public Object getReporService(@RequestParam(value="partnersId") final String[] partnersId, 
+	public Object getReportLegislator(@RequestParam(value="partnersId") final String[] partnersId, 
 			@RequestParam(value="initiativesId") final String[] initiativesId){
-		LOGGER.info("---- OPTENIENDO EL REPORTE DEL LEGISLADOR ----");
+		LOGGER.info("---- OBTENIENDO EL REPORTE DEL LEGISLADOR ----");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", reportService.generatedReporLegislator(partnersId, initiativesId).toString());
+		return map;
+	}
+	
+	@GetMapping("/results-initiatives")
+	public Object getReportResults(@RequestParam(value="sessionsId") final String[] sessionsId, 
+			@RequestParam(value="initiativesId") final String[] initiativesId) {
+			LOGGER.info("---- OBTENIENDO EL REPORTE POR RESULTADOS DE INICIATIVAS ----");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data", reportService.generatedReportResults(sessionsId, initiativesId).toString());
 		return map;
 	}
 }

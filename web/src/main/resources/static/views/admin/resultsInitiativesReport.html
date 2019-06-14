@@ -1,0 +1,296 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<h1>Resultado de iniciativas</h1>
+<section>
+	<div class="card w-95">
+		<div class="card-header">
+			<form class="form-inline" name="formFiltros">
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
+						type="date" class="form-control" id="txtFechaBusqueda"
+						data-ng-max="fechaBusquedaFin" name="fechaInicio"
+						data-ng-model="selected.startDate" required="required"
+						data-ng-change="getSessionsBetweenDates(selected)"
+						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al</label> <input
+						type="date" class="form-control" id="txtFechaBusquedaFin"
+						data-ng-min="fechaBusqueda" name="fechaFin"
+						data-ng-model="selected.endDate" required="required"
+						data-ng-change="getSessionsBetweenDates(selected)"
+						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
+				</div>
+				<div class="w-100"></div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtTypeSession" class="sr-only">Tipo de sesión</label>
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-type-session">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-award"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtTypeSession"
+							id="txtTypeSession" placeholder="Tipo de sesión" required
+							readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtSession" class="sr-only">Sesiones</label>
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-sessions">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-balance-scale"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtSession"
+							id="txtSession" placeholder="Sesiones" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtResult" class="sr-only">Resultado</label>
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-results">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-external-link-alt"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtResult"
+							id="txtResult" placeholder="Resultado" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="txtInitiatives" class="sr-only">Iniciativas</label>
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-initiatives">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-book"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtInitiatives"
+							id="txtInitiatives" placeholder="Iniciativas" required readonly>
+					</div>
+				</div>
+				<div class="w-100"></div>
+				<div class="form-group mx-sm-3 mb-2">
+					<button type="button" class="btn btn-dark"
+						data-ng-click="getResultsReport()">Buscar</button>
+				</div>
+			</form>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<div class="alert alert-primary" role="alert"
+					data-ng-if="!resultsReport.data">No se ha encontrado
+					información con los datos ingresados</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-inversed table-hover table-stripted"
+					id="table">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Tipo de sesión</th>
+							<th>Sesión</th>
+							<th>Iniciativa</th>
+							<th>Presentes</th>
+							<th>Formula de cálculo</th>
+							<th>Método de redondeo</th>
+							<th>Resultado</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="rr in resultsReport.data">
+							<td>{{rr.date | date: 'dd-MM-yyyy'}}</td>
+							<td>{{rr.typeSession}}</td>
+							<td>{{rr.session}}</td>
+							<td>{{rr.initiative}}</td>
+							<td>{{rr.present}}</td>
+							<td>{{rr.formula}}</td>
+							<td>{{rr.method}}</td>
+							<td>{{rr.result}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn btn-dark"
+				data-ng-if="resultsReport.data" data-ng-click="printTable()">Imprimir
+				PDF</button>
+		</div>
+	</div>
+</section>
+<!-- Modal Tipo de sesiones-->
+<div class="modal fade" id="model-select-type-session" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Tipos de
+					sesión</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<td>Nombre</td>
+								<td><input type="checkbox" id="checked-type-session"
+									data-ng-click="checkAllOptions(typeSessions,$event)"
+									data-ng-model="checkAllOptionsFlag"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="ts in typeSessions">
+								<td>{{ts.name}}</td>
+								<td><input type="checkbox" data-ng-model="ts.checked"
+									name="checked-type-session"
+									data-ng-click="updateSelectedTypeSession()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal seleccion de sesiones -->
+<div class="modal fade" id="model-select-sessions" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Sesiones</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Fecha/Hora</th>
+								<td><input type="checkbox" id="checked-session"
+									data-ng-click="checkAllOptions(sessions,$event)"
+									data-ng-model="checkAllOptionsFlag"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="ss in sessions | filter: filterTypeSession">
+								<td>{{ss.nombre}}</td>
+								<td>{{ss.fechaHora | date:'dd-MM-yyyy h:mma'}}</td>
+								<td><input type="checkbox" data-ng-model="ss.checked"
+									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal iniciativas-->
+<div class="modal fade" id="model-select-initiatives" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Iniciativas</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<td>Nombre</td>
+								<td>Resultado</td>
+								<td><input type="checkbox" data-ng-model="pp.checked"
+									id="checked-initiative"
+									data-ng-click="checkAllOptions(initiatives,$event)"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="int in initiatives | filter: filterResult">
+								<td>{{int.name}}</td>
+								<td>{{int.result.resultName}}</td>
+								<td><input type="checkbox" data-ng-model="int.checked"
+									name="checked-initiative"
+									data-ng-click="updateSelectedInitiatives()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal resultado sesiones-->
+<div class="modal fade" id="model-select-results" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Resultado de
+					sesiones</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<td>Nombre</td>
+								<td><input type="checkbox" data-ng-model="pp.checked"
+									id="checked-initiative"
+									data-ng-click="checkAllOptions(results,$event)"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="r in results">
+								<td>{{r.name}}</td>
+								<td><input type="checkbox" data-ng-model="r.checked"
+									name="checked-initiative"
+									data-ng-click="updateSelectedResults()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>

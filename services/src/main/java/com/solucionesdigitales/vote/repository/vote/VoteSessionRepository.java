@@ -25,4 +25,5 @@ public interface VoteSessionRepository extends MongoRepository<VoteSession, Stri
 	List<VoteSession> findVoteSessionPorIniciativa(ObjectId iniciativaId);
 	List<VoteSession> findByIsAttendanceOpen(boolean status);
 	VoteSession findFirsByIniciativasId(String iniciativasId);
+	VoteSession findFirsByIdOrderByNombreAsc(String id);
 }
