@@ -159,16 +159,29 @@ public class StorageController {
 			@RequestParam("oldServerNames") ArrayList<String> oldServerNames,
 			@RequestParam("oldOriginalNames") ArrayList<String> oldOriginalNames,
 			@RequestParam("folder")  String folder,
-			@RequestParam("userId") String userId,
-			@RequestParam("status") int status) {
+			@RequestParam("userId") String userId) {
 		
 		GenericFile gf = new GenericFile();
 		gf.setFiles(files);
 		gf.setFolder(folder);
 		
 		logger.info("Archivo resivido para actualizar");
-		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId, status);
+		return storageService.updateFiles(gf, oldServerNames, oldOriginalNames, userId);
 	}
+	
+	@PostMapping("/saveAttached")
+	public Attached saveAttached(@RequestParam("files") ArrayList<MultipartFile> files,
+			@RequestParam("folder")  String folder,
+			@RequestParam("userId") String userId) {
+		
+		GenericFile gf = new GenericFile();
+		gf.setFiles(files);
+		gf.setFolder(folder);
+		
+		logger.info("Archivo adjunto para actualizar");
+		return storageService.storeAttached(gf, userId);
+	}
+	
 	@PostMapping("/new-version")
 	public Attached copyToVersionedFolder(@RequestParam("files") ArrayList<MultipartFile> files,
 			@RequestParam("filesServerName") ArrayList<String> filesServerName,

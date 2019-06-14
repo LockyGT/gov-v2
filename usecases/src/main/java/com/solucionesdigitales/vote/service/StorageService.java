@@ -20,11 +20,13 @@ public interface StorageService {
 	File store(GenericFile file);
 
 	ArrayList<File> stores(GenericFile files, String userId);
+	
+	Attached storeAttached(GenericFile files, String userId);
 
 	File updateFile(GenericFile file);
 
 	ArrayList<File> updateFiles(GenericFile files, ArrayList<String> oldServerNames, ArrayList<String> oldOriginalNames,
-			String userId, int status);
+			String userId);
 
 	Attached copyToVersionedFolder(ArrayList<MultipartFile> files, ArrayList<String> filesServerName, String folder,
 			String oldFolder, String userId);

@@ -120,8 +120,8 @@
 
 												</div>
 												<div class="col-4 col-md-9 margin-top">
-													<textarea class="form-control" rows="5" name="contenidoOd"
-														placeholder="Agregar parrafo ..."
+													<textarea class="form-control" rows="5" id="contenidotxt"
+														name="editordata" placeholder="Agregar parrafo ..."
 														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
 												</div>
 												<div class="col-2 col-md-2">
@@ -141,7 +141,6 @@
 													<div class="row margin-top"
 														data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">
 														<div class="col-2">
-
 															<input
 																data-ng-model="p.subParagraphs[$index].isIniciativa"
 																class="form-check-input marggin" type="checkbox"
@@ -160,8 +159,7 @@
 															<button type="button"
 																class="btn btn-danger btn-sm margin-top"
 																data-dismiss="modal" aria-label="Close"
-																data-ng-click="removeParagraphs(sp)"
-																data-ng-click="">Eliminar</button>
+																data-ng-click="removeParagraphs(sp)" data-ng-click="">Eliminar</button>
 														</div>
 													</div>
 												</div>
@@ -188,7 +186,60 @@
 			</form>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	
+// 	function() {
+// 		var editor = $('#summernote');
+// 		editor.summernote({
+// 			height: ($(window).height() - 250),
+// 			focus: false,
+// 			toolbar: [
+// 				['style', ['bold', 'italic', 'underline', 'clear']],
+// 				['font', ['strikethrough']],
+// 				['fontsize', ['fontsize']],
+// 				['para', ['ul', 'ol', 'paragraph']],
+// 				['height', ['height']],
+// 				['view', ['fullscreen', 'codeview']],
+// 				],
+// 				oninit: function() {
+// 					// Add "open" - "save" buttons
+// 					var noteBtn = '<button id="makeSnote" type="button" class="btn btn-default btn-sm btn-small" title="Identify a music note" data-event="something" tabindex="-1"><i class="fa fa-music"></i></button>';            
+// 					var fileGroup = '<div class="note-file btn-group">' + noteBtn + '</div>';
+// 					$(fileGroup).appendTo($('.note-toolbar'));
+// 					// Button tooltips
+// 					$('#makeSnote').tooltip({container: 'body', placement: 'bottom'});
+// 					// Button events
+// 					$('#makeSnote').click(function(event) {
+// 						var highlight = window.getSelection(),  
+// 						spn = document.createElement('span'),
+// 						range = highlight.getRangeAt(0)
+
+// 						spn.innerHTML = highlight;
+// 						spn.className = 'snote';  
+// 						spn.style.color = 'blue';
+
+// 						range.deleteContents();
+// 						range.insertNode(spn);
+// 					});
+// 				},
+
+// 		});
+
+// 		var para = "<p>I am trying to make it</p><p>such that when a user</p><p>highlights any character or</p><p>word within this textbox (using their cursor)</p><p>and then clicks the music note button</p><p>in the toolbar, that a function</p>will:</p><p><ol><li>Wrap that highlighted text in a 'span' tag with a class of 'snote'</li><li>All of the formatting in this textbox will remain the same</li><li>The text will be the color 'blue'</li></ol></p><p>Right now the function does #1 and #3 but cannot do #2 and it deletes some text too</p>";
+
+// 		$('.note-editable').html(para);
+
+// 		$('#resetBtn').click(function() {
+// 			$('.note-editable').html('').html(para);
+// 		});
+
+// 	}
+	
+	</script>
+
 </section>
+
 <section data-ng-if="orderday === null">
 	<div class="card w-95">
 		<div class="card-body">
@@ -298,8 +349,6 @@
 
 									</td>
 									<td><button type="button" class="btn btn-warning"
-											id="print" data-ng-click="generatePdf(orderday);">Descargar</button></td>
-									<td><button type="button" class="btn btn-warning"
 											data-ng-click="toPostOdGazzete(orderday);">{{orderday.published
 											? ' Publicada ' : ' Publicar '}}</button></td>
 									<td><div class="btn-group dropright">
@@ -336,7 +385,9 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
+	<script>
+	
+	
 	</script>
 
 	<script type="text/javascript">
@@ -452,15 +503,15 @@
 	tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content" id="ps">
+			<div class="modal-header" id="bypassme">
 				<h5 class="modal-title">{{orderdayshow.nombre}}</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body" id="modal-od">
+			<div class="modal-body" id="modal-od-1" >
 				<div class="content-paragraph"
 					data-ng-repeat="a in orderdayshow.elementsOd track by $index">
 					<p class="element-name">
@@ -468,15 +519,17 @@
 					</p>
 					<ol class="list-paragraphs" type="a">
 						<li class="margin-top"
-							data-ng-repeat="p in a.paragraphs track by $index">{{p.contenidotxt}}
-							<ol class="list-subparagraphs" type="I">
-								<li class="margin-top"
+							data-ng-repeat="p in a.paragraphs track by $index" id="contenidoP">{{p.contenidotxt}}
+							<ol class="list-subparagraphs " type="I">
+								<li class="margin-top subp" id="subp"
 									data-ng-repeat="sp in p.subParagraphs track by $index">{{sp.contenidotxt}}</li>
 							</ol>
 						</li>
 					</ol>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" id="bypassme" >
+					<button type="button" class="btn btn-warning" id="print"
+						data-ng-click="printPdf();">Descargar</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>
