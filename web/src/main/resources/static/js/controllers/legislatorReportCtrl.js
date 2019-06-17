@@ -8,7 +8,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 			sessions: [],
 			initiatives:[]
 	};
-	
+	$scope.maxSearchDate     = new Date();
 	$scope.legislatorsReport = [];
 	$scope.initiatives       = [];
 	$scope.sessions          = [];
@@ -23,13 +23,15 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 				partnersId: $scope.selected.legislators.map(f=> f.id),
 				initiativesId: $scope.selected.initiatives.map(f=> f.id)
 		};
-
-		reportService.getLegislatorReport(dataReport).then(success=>{
-			$scope.legislatorsReport = JSON.parse(success.data);
-			console.log('Informacion del reporte: ', $scope.legislatorsReport);
-		}, error=>{
-			console.log('Error al obtener el nombre del legislador: ', error);
-		});
+		
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			reportService.getLegislatorReport(dataReport).then(success=>{
+				$scope.legislatorsReport = JSON.parse(success.data);
+				console.log('Informacion del reporte: ', $scope.legislatorsReport);
+			}, error=>{
+				console.log('Error al obtener el nombre del legislador: ', error);
+			});
+		}
 	};
 	
 	$scope.getSessionsBetweenDates = (selected) => {

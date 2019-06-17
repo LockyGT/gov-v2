@@ -9,6 +9,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 			results: []
 	};
 	
+	$scope.maxSearchDate = new Date();
 	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9"];
 	
 	$scope.resultsReport = [];
@@ -26,13 +27,15 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 				sessionsId: $scope.selected.sessions.map(f=> f.id),
 				initiativesId: $scope.selected.initiatives.map(f=> f.id)
 		};
-
-		reportService.getResultInitiative(dataReport).then(success=>{
-			$scope.resultsReport = JSON.parse(success.data);
-			console.log('Informacion del reporte: ', $scope.resultsReport);
-		}, error=>{
-			console.log('Error al obtener la informacion: ', error);
-		});
+		
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			reportService.getResultInitiative(dataReport).then(success=>{
+				$scope.resultsReport = JSON.parse(success.data);
+				console.log('Informacion del reporte: ', $scope.resultsReport);
+			}, error=>{
+				console.log('Error al obtener la informacion: ', error);
+			});
+		}
 	};
 	
 	$scope.getTypeSession = () => {

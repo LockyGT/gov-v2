@@ -8,6 +8,7 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			results: []
 	};
 	
+	$scope.maxSearchDate    = new Date();
 	$scope.initiativeReport = [];
 	$scope.initiatives      = [];
 	$scope.sessions         = [];
@@ -45,14 +46,20 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			"fechaFin": selected.endDate
 		};
 		console.log('fechas: ', sendData);
-		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
-			$scope.sessions = data;
-			$scope.initiatives = [];
-			console.log('Error en los datos: ', data);
-			
-		}, error=>{
-			console.log('Error al obtener las sesiones: ', error);
-		});
+		
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
+				$scope.sessions = data;
+				$scope.initiatives = [];
+				console.log('Error en los datos: ', data);
+				
+			}, error=>{
+				console.log('Error al obtener las sesiones: ', error);
+			});
+		} else {
+			console.log('Fechas no validadas');
+		}
+		
 	};
 	
 	$scope.getInitiatives = () => {

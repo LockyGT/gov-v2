@@ -1,26 +1,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
-<h1 class="my-4">Reporte legisladura<small></small>
+<h1 class="my-4">
+	Reporte legisladura<small></small>
 </h1>
 <section data-ng-if="reporteBar === null && reportePie === null">
 	<div class="card w-95">
 		<div class="card-header">
-			<form class="form-inline" name="formFiltros">
+			<form class="form-row" name="formFiltros">
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
 						type="date" class="form-control" id="txtFechaBusqueda"
-						data-ng-max="fechaBusquedaFin" name="fechaInicio"
+						data-ng-max="selected.endDate" name="fechaInicio"
 						data-ng-model="selected.startDate" required="required"
 						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
+					<div class="invalid-feedback d-block"
+						data-ng-if="!formFiltros.fechaInicio.$valid">Por favor,
+						introduce una fecha válida</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al</label> <input
 						type="date" class="form-control" id="txtFechaBusquedaFin"
-						data-ng-min="fechaBusqueda" name="fechaFin"
+						data-ng-min="selected.startDate" name="fechaFin"
+						data-ng-max="maxSearchDate" name="fechaFin"
 						data-ng-model="selected.endDate" required="required"
 						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
+					<div class="invalid-feedback d-block"
+						data-ng-show="!formFiltros.fechaFin.$valid">Por favor,
+						introduce una fecha válida</div>
 				</div>
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
@@ -84,7 +92,8 @@
 			</form>
 		</div>
 		<div class="card-body">
-			<div class="table-responsive" data-ng-if="legislaturaReport.data.length == 0">
+			<div class="table-responsive"
+				data-ng-if="legislaturaReport.data.length == 0">
 				<div class="alert alert-primary" role="alert"
 					data-ng-if="!attendances.length">No se han encontrado
 					asistencias para el rango de fechas seleccionado</div>
@@ -120,9 +129,11 @@
 		</div>
 		<!-- CardBody -->
 		<div id="cardFooter" class="card-footer">
-			<button type="button" class="btn btn-dark" data-ng-click="printTable()"
-				data-ng-if="legislaturaReport.data">Imprimir PDF</button>
-			<button type="button" data-ng-if="legislaturaReport.data"  class="btn btn-info" data-ng-click="createGraph()">Gráfica</button>
+			<button type="button" class="btn btn-dark"
+				data-ng-click="printTable()" data-ng-if="legislaturaReport.data">Imprimir
+				PDF</button>
+			<button type="button" data-ng-if="legislaturaReport.data"
+				class="btn btn-info" data-ng-click="createGraph()">Gráfica</button>
 		</div>
 		<!-- CardFooter -->
 	</div>
@@ -130,7 +141,7 @@
 
 <section data-ng-if="reporteBar !== null && reportePie !== null">
 	<div class="card w-95">
-				<div class="card-header">
+		<div class="card-header">
 			<ul class="nav nav-tabs" id="myTab">
 				<li class="nav-item"><a class="nav-link active" id="home-tab"
 					data-toggle="tab" data-ui-sref="state" href="#home" role="tab"
@@ -143,19 +154,19 @@
 			</ul>
 		</div>
 		<div class="card-body">
-						<div class="tab-content" id="myTabContent">
+			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel"
 					aria-labelleby="home-tab">
 					<div id="cardbodyBar">
-<!-- 						<div class="row"> -->
-<!-- 							<div class="col-sm-2" -->
-<!-- 								data-ng-repeat="ss in selected.sessions track by $index"> -->
-<!-- 								<button type="button" -->
-<!-- 									style="color: #ffffff;" -->
-<!-- 									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}" -->
-<!-- 									class="btn text-white">{{ss.nombre}}</button> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<!-- 						<div class="row"> -->
+						<!-- 							<div class="col-sm-2" -->
+						<!-- 								data-ng-repeat="ss in selected.sessions track by $index"> -->
+						<!-- 								<button type="button" -->
+						<!-- 									style="color: #ffffff;" -->
+						<!-- 									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}" -->
+						<!-- 									class="btn text-white">{{ss.nombre}}</button> -->
+						<!-- 							</div> -->
+						<!-- 						</div> -->
 						<br>
 						<div class="row col-md-12">
 							<div class="col-md-7">
@@ -182,7 +193,8 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr data-ng-repeat="lr in legislaturaReport.data track by $index">
+											<tr
+												data-ng-repeat="lr in legislaturaReport.data track by $index">
 												<td>{{lr.initiative}}</td>
 												<td class="text-center">{{lr.result}}</td>
 											</tr>
@@ -196,19 +208,19 @@
 				<div class="tab-pane fade" id="tabpastel"
 					aria-labelledby="pastel-tab">
 					<div id="cardbodyPie">
-<!-- 						<div class="row"> -->
-<!-- 							<div class="col-sm-2" -->
-<!-- 								data-ng-repeat="result in optionPercent track by $index"> -->
-<!-- 								<button type="button" -->
-<!-- 									style="color: #ffffff;" -->
-<!-- 									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}" -->
-<!-- 									class="btn text-white"> -->
-<!-- 									{{result.nombre}}<br> <span -->
-<!-- 										class="badge badge-pill"> -->
-<!-- 										{{result.percentage}}% </span> -->
-<!-- 								</button> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<!-- 						<div class="row"> -->
+						<!-- 							<div class="col-sm-2" -->
+						<!-- 								data-ng-repeat="result in optionPercent track by $index"> -->
+						<!-- 								<button type="button" -->
+						<!-- 									style="color: #ffffff;" -->
+						<!-- 									data-ng-style="{'background':colorsGraph[$index], 'border': '1px solid '+colorsGraph[$index]}" -->
+						<!-- 									class="btn text-white"> -->
+						<!-- 									{{result.nombre}}<br> <span -->
+						<!-- 										class="badge badge-pill"> -->
+						<!-- 										{{result.percentage}}% </span> -->
+						<!-- 								</button> -->
+						<!-- 							</div> -->
+						<!-- 						</div> -->
 						<br>
 						<div class="row col-md-12">
 							<div class="col-md-7">
@@ -234,7 +246,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr data-ng-repeat="rr in legislaturaReport.data track by $index">
+										<tr
+											data-ng-repeat="rr in legislaturaReport.data track by $index">
 											<td>{{rr.initiative}}</td>
 											<td class="text-center">{{rr.result}}</td>
 										</tr>

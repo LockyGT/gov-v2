@@ -156,7 +156,7 @@
 				"id": 6,
 				"app": "reports",
 				"index": 5.6,
-				"title": "Iniciativas en sesiones",
+				"title": "Legislatura",
 				"url": "#!reporteLegislatura",
 				"icon": "fas fa-clipboard",
 				"color": "peru",

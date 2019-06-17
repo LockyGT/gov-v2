@@ -20,22 +20,29 @@ li.active li {
 <section data-ng-if="reporteBar === null && reportePie === null">
 	<div class="card w-95">
 		<div class="card-header">
-			<form class="form-inline" name="formFiltros">
+			<form class="form-row" name="formFiltros">
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> <input
 						type="date" class="form-control" id="txtFechaBusqueda"
-						data-ng-max="fechaBusquedaFin" name="fechaInicio"
+						data-ng-max="selected.endDate" name="fechaInicio"
 						data-ng-model="selected.startDate" required="required"
 						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid':''">
+					<div class="invalid-feedback d-block"
+						data-ng-if="!formFiltros.fechaInicio.$valid">Por favor,
+						introduce una fecha válida</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al</label> <input
 						type="date" class="form-control" id="txtFechaBusquedaFin"
-						data-ng-min="fechaBusqueda" name="fechaFin"
+						data-ng-min="selected.startDate" 
+						data-ng-max="maxSearchDate" name="fechaFin"
 						data-ng-model="selected.endDate" required="required"
 						data-ng-change="getSessionsBetweenDates(selected)"
 						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid':''">
+					<div class="invalid-feedback d-block"
+					data-ng-show="!formFiltros.fechaFin.$valid">Por favor,
+					introduce una fecha válida</div>
 				</div>
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">

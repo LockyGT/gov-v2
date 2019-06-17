@@ -8,6 +8,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			initiatives: [],
 			results: []
 	};
+	$scope.maxSearchDate = new Date();
 	
 	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9", 
 		"#752F09","#FF8442","#007571", "#1FC2BC","#C2581F"];
@@ -28,12 +29,13 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 				sessionsId: $scope.selected.sessions.map(f => f.id),
 				initiativesId: $scope.selected.initiatives.map(f => f.id)
 		}
-		
-		reportService.getLegislaturas(dataReport).then(success => {
-			$scope.legislaturaReport = JSON.parse(success.data);
-		}, error => {
-			console.log('Error al obtener la información del reporte: ', error)
-		});
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			reportService.getLegislaturas(dataReport).then(success => {
+				$scope.legislaturaReport = JSON.parse(success.data);
+			}, error => {
+				console.log('Error al obtener la información del reporte: ', error)
+			});
+		}
 	};
 	
 	$scope.getTypeSession = () => {
