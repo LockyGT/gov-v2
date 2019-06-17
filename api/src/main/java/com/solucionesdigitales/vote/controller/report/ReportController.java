@@ -50,4 +50,13 @@ public class ReportController {
 		map.put("data", reportService.generatedReportInitiatives(sessionsId, initiativesId).toString());
 		return map;
 	}
+	
+	@GetMapping("/legislaturas")
+	public Object getLegislaturas(@RequestParam(value="sessionsId") final String[] sessionsId, 
+			@RequestParam(value="initiativesId") final String[] initiativesId) {
+			LOGGER.info("---- OBTENIENDO EL REPORTE por LEGISLATURA ----");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data", reportService.generatedReportLegislatura(sessionsId, initiativesId).toString());
+		return map;
+	}
 }

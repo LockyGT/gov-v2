@@ -33,6 +33,16 @@ app.service('reportService', function($q, factory, $filter){
 		});
 	};
 	
+	self.getLegislaturas = (data) => {
+		return $q(function (resolve, reject){
+			factory.get(path+'/legislaturas', data).then(data=>{
+				resolve(data);
+			}, error=>{
+				reject(error);
+			});
+		});
+	};
+	
 	self.printPdf = (dataTable) => {
 		const doc = new jsPDF();
 		

@@ -163,4 +163,40 @@ public class ReportServiceImpl implements ReportService {
 		return json;
 	}
 
+
+	@Override
+	public JsonObject generatedReportLegislatura(String[] sessionsId, String[] initiativesId) {
+		JsonArray arr = new JsonArray();
+		ArrayList<ResultReport> listResults = new ArrayList<ResultReport>();
+		JsonObject jsonResults;
+		ResultReport resultReport;
+		VoteSession session;
+		
+		for(String sessionId : sessionsId) {
+
+			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
+			for(String initiativeId : initiativesId) {
+				resultReport = new ResultReport();
+				resultReport.setSession(session);
+				resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+				listResults.add(resultReport);
+			}
+		}
+		
+		for(ResultReport result : listResults) {
+			jsonResults = new JsonObject();
+			jsonResults.addProperty("date", result.getSession().getFechaHora().toString());
+			jsonResults.addProperty("typeSession",result.getSession().getType().getName());
+			jsonResults.addProperty("session", result.getSession().getNombre());
+			jsonResults.addProperty("sessionId", result.getSession().getId());
+			jsonResults.addProperty("initiative",result.getInitiative().getName());
+			jsonResults.addProperty("result", result.getInitiative().getResult().getResultName());
+			arr.add(jsonResults);
+		}
+		
+		JsonObject json = new JsonObject();
+		json.add("data",arr);
+		return json;
+	}
+
 }
