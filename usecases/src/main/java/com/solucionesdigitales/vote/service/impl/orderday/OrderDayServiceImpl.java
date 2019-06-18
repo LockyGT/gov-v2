@@ -145,7 +145,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 	@Override
 	public List<OrderDay> getByStatusPublicada(boolean status) {
 		List<OrderDay> orderday= new ArrayList<OrderDay>();
-		orderday= orderDayRepository.findByIsPublished(status);
+		orderday= orderDayRepository.findByIsPublishedOrderByFechaDesc(status);
 		return orderday;
 	}
 
@@ -157,13 +157,15 @@ public class OrderDayServiceImpl implements OrderDayService {
 	}
 
 	@Override
-	public List<OrderDay> fetchByBetweenDates(Date dateStart, Date dateEnd) {
+	public List<OrderDay> fetchByBetweenDates(boolean status, Date dateStart, Date dateEnd) {
 		// TODO Auto-generated method stub
 		Calendar date = Calendar.getInstance();
 		date.setTime(dateEnd);
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		return orderDayRepository.findByFechaBetweenOrderByFechaDesc(dateStart,date.getTime());
+		return orderDayRepository.findByIsPublishedAndFechaBetween(status,dateStart,date.getTime());
 	}
+
+	
 
 	
 

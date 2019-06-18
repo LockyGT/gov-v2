@@ -79,8 +79,12 @@
 											<select
 												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
 												data-ng-model="currentElement" id="inputState"
-												name="elementsOd" class="form-control">
-												<option disabled value="">Seleccione un elemento...</option>
+												name="elementsOd" class="form-control" title="{{ele.nombre}}">
+												
+												<option disabled value="" >Seleccione un elemento...
+												{{(ele.nombre.length > 10)? ele.nombre.substring(10,-1)+'...':ele.nombre}}
+												
+												</option>
 											</select>
 										</div>
 									</div>
@@ -103,9 +107,7 @@
 												<div class="col-auto"></div>
 												<div class="col-auto">
 													<button type="button" class="btn btn-primary mb-2"
-														data-ng-click="addParagraph(e)">
-														Párrafo <i class="far fa-window-restore"></i>
-													</button>
+														data-ng-click="addParagraph(e)">Párrafo</button>
 												</div>
 											</div>
 
@@ -121,20 +123,16 @@
 												</div>
 												<div class="col-4 col-md-9 margin-top">
 													<textarea class="form-control" rows="5" id="contenidotxt"
-														name="editordata" placeholder="Agregar parrafo ..."
+														name="editordata" placeholder="Agregar párrafo ..."
 														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
 												</div>
 												<div class="col-2 col-md-2">
 													<button type="button" class="btn btn-info btn-sm new"
-														data-ng-click="addSubParagraphs(p)">
-														Subpárrafo <i class="fas fa-chevron-circle-down"></i>
-													</button>
+														data-ng-click="addSubParagraphs(p)">SubPárrafo</button>
 													<button type="button"
 														class="btn btn-danger btn-sm margin-top"
-														data-dismiss="modal" aria-label="Close"
-														data-ng-click="removeParagraphs(p)">
-														Eliminar<i class="fas fa-chevron-circle-down"></i>
-													</button>
+														 aria-label="Close"
+														data-ng-click="removeParagraphs(p)">Eliminar</button>
 
 												</div>
 												<div class="container">
@@ -151,14 +149,15 @@
 														<div class="col-4 col-md-8">
 															<div class="input-group">
 																<textarea class="form-control" rows="5"
-																	name="contenidoOdSp" placeholder="Agregar parrafo ..."
+																	name="contenidoOdSp"
+																	placeholder="Agregar SubPárrafo ..."
 																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
 															</div>
 														</div>
 														<div class="col col-md-2">
 															<button type="button"
 																class="btn btn-danger btn-sm margin-top"
-																data-dismiss="modal" aria-label="Close"
+																 aria-label="Close"
 																data-ng-click="removeParagraphs(sp)" data-ng-click="">Eliminar</button>
 														</div>
 													</div>
@@ -273,6 +272,7 @@
 						data-ng-click="getBuscarFecha()">
 						<i class="fas fa-search"></i>Buscar
 					</button>
+					<br>
 					<span class="invalid-feedback d-block"
 						data-ng-show="formFiltros.fecha.$invalid || formFiltros.fechaFin.$invalid">Rango
 						de fechas inválido!</span>
@@ -323,10 +323,10 @@
 									<th>#</th>
 									<th>Orden del día</th>
 									<th>Fecha</th>
-									<th>Estado</th>
-									<th>Editar</th>
-									<th>Publicar</th>
-									<th>Mas opciones</th>
+									<th>Estatus</th>
+									<th></th>
+									<th></th>
+									<th></th>
 
 								</tr>
 							</thead>
@@ -479,13 +479,13 @@
 					<p class="element-name">
 						<strong>{{$index+1}}. {{a.nombre}}</strong>
 					</p>
-					<ol class="list-paragraphs" type="a"
-						data-ng-repeat="p in a.paragraphs track by $index">
+					<ol class="list-paragraphs" type="a">
 						<li class="margin-top"
-							data-ng-repeat="p in a.paragraphs track by $index">{{p.contenidotxt}}
-							<ol class="subparrafo">
-								<li class="margin-top"
-									data-ng-repeat="sp in p.subParagraphs track by $index">{{sp.contenidotxt}}</li>
+							data-ng-repeat="p in a.paragraphs | filter: {status: 2} track by $index"
+							id="contenidoP">{{p.contenidotxt}}
+							<ol class="list-subparagraphs " type="I">
+								<li class="margin-top subp" id="subp"
+									data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">{{sp.contenidotxt}}</li>
 							</ol>
 						</li>
 					</ol>
@@ -511,7 +511,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body" id="modal-od-1" >
+			<div class="modal-body" id="modal-od-1">
 				<div class="content-paragraph"
 					data-ng-repeat="a in orderdayshow.elementsOd track by $index">
 					<p class="element-name">
@@ -519,15 +519,16 @@
 					</p>
 					<ol class="list-paragraphs" type="a">
 						<li class="margin-top"
-							data-ng-repeat="p in a.paragraphs track by $index" id="contenidoP">{{p.contenidotxt}}
+							data-ng-repeat="p in a.paragraphs | filter: {status: 2} track by $index"
+							id="contenidoP">{{p.contenidotxt}}
 							<ol class="list-subparagraphs " type="I">
 								<li class="margin-top subp" id="subp"
-									data-ng-repeat="sp in p.subParagraphs track by $index">{{sp.contenidotxt}}</li>
+									data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">{{sp.contenidotxt}}</li>
 							</ol>
 						</li>
 					</ol>
 				</div>
-				<div class="modal-footer" id="bypassme" >
+				<div class="modal-footer" id="bypassme">
 					<button type="button" class="btn btn-warning" id="print"
 						data-ng-click="printPdf();">Descargar</button>
 					<button type="button" class="btn btn-secondary"
@@ -630,12 +631,13 @@
 									> 17)?
 									file.originalName.substring(17,-1)+'...':file.originalName}}</td>
 								<td><button type="button" class="btn btn-primary"
+										data-ng-if="filterExtention(file.extention)"
 										data-toggle="modal" data-target="#show-file"
 										data-ng-click="showDownloadFile(file);">Ver</button></td>
 								<td><button type="button" class="btn btn-secondary"
 										data-ng-click="downloadFile(file);">Descargar</button></td>
 								<td><button type="button" class="btn btn-danger"
-										data-ng-click="deleteFile(file)" data-dismiss="modal"
+										data-ng-click="deleteFile(file)" 
 										aria-label="Close">Eliminar</button></td>
 
 							</tr>

@@ -13,6 +13,7 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 
 	OrderDay findFirstById(String id);
+	//List<OrderDay>findByOrderDayIdOd(String idOrderDay);
 	List<OrderDay>findByStatusGreaterThan(int status);
 	List<OrderDay>findByStatus(int status);
 	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaDesc(int status);
@@ -21,7 +22,7 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	
 	List<OrderDay> findByStatusAndReferenciaIsNullOrderByFechaDesc(int status);
 	List <OrderDay> findByReferenciaOrderBySkuDesc(String referencia);
-	List<OrderDay> findByIsPublished(boolean status);
+	List<OrderDay> findByIsPublishedOrderByFechaDesc(boolean status);
 	List<OrderDay> findByIsApproved(boolean status);
-	List<OrderDay> findByFechaBetweenOrderByFechaDesc(Date dateStart, Date dateEnd);
+	List<OrderDay> findByIsPublishedAndFechaBetween(boolean status,Date dateStart, Date dateEnd);
 }

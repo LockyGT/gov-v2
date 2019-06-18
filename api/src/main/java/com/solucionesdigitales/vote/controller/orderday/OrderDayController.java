@@ -106,11 +106,11 @@ public class OrderDayController {
 	}
 	
 	@GetMapping(value="/datesbetween")
-	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
+	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="publicada") final boolean status,@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
 			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
 		logger.info("Consulta Orden del dia publicadas por fechas "+dateStart+" y "+dateEnd);
 		
-		return service.fetchByBetweenDates(dateStart,dateEnd);
+		return service.fetchByBetweenDates(status, dateStart,dateEnd);
 	}
 
 	@PostMapping

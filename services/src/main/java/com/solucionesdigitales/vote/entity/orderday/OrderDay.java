@@ -1,7 +1,5 @@
 package com.solucionesdigitales.vote.entity.orderday;
 
-
-
 import java.util.ArrayList;
 import java.util.Date;
 

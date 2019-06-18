@@ -28,5 +28,5 @@ public interface OrderDayService {
 	List<OrderDay> getByStatusPublicada(boolean status);
 	List<OrderDay> getByStatusAprobada(boolean status);
 
-	List<OrderDay> fetchByBetweenDates(Date dateStart, Date dateEnd);
+	List<OrderDay> fetchByBetweenDates(boolean status, Date dateStart, Date dateEnd);
 }
