@@ -17,12 +17,12 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay>findByStatusGreaterThan(int status);
 	List<OrderDay>findByStatus(int status);
 	List<OrderDay>findByStatusAndReferenciaIsNotNullOrderByFechaDesc(int status);
-	List<OrderDay> findByFechaBetween(LocalDateTime f1, LocalDateTime f2);
-	
+	//List<OrderDay> findByFechaBetween(LocalDateTime f1, LocalDateTime f2);
 	
 	List<OrderDay> findByStatusAndReferenciaIsNullOrderByFechaDesc(int status);
 	List <OrderDay> findByReferenciaOrderBySkuDesc(String referencia);
 	List<OrderDay> findByIsPublishedOrderByFechaDesc(boolean status);
 	List<OrderDay> findByIsApproved(boolean status);
 	List<OrderDay> findByIsPublishedAndFechaBetween(boolean status,Date dateStart, Date dateEnd);
+	List<OrderDay> findByStatusAndFechaBetween(int status, LocalDateTime f1, LocalDateTime f2);
 }

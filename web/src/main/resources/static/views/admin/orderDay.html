@@ -79,12 +79,10 @@
 											<select
 												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
 												data-ng-model="currentElement" id="inputState"
-												name="elementsOd" class="form-control" title="{{ele.nombre}}">
-												
-												<option disabled value="" >Seleccione un elemento...
-												{{(ele.nombre.length > 10)? ele.nombre.substring(10,-1)+'...':ele.nombre}}
-												
-												</option>
+												name="elementsOd" class="form-control"
+												title="{{ele.nombre}}">
+												<option disabled value="">Seleccione un
+													elemento...</option>
 											</select>
 										</div>
 									</div>
@@ -97,7 +95,7 @@
 								<div class="form-row">
 									<div class="container">
 										<div class="margin-top"
-											data-ng-repeat="e in orderday.elementsOd track by $index">
+											data-ng-repeat="e in orderday.elementsOd | filter: {status: 1} track by $index">
 
 											<div class="form-row align-items-center name-el">
 												<div class="col-auto">
@@ -108,6 +106,12 @@
 												<div class="col-auto">
 													<button type="button" class="btn btn-primary mb-2"
 														data-ng-click="addParagraph(e)">Párrafo</button>
+												</div>
+												<div class="col-auto">
+													<button type="button"
+														class="btn btn-danger btn-sm margin-top"
+														aria-label="Close" data-ng-click="removeElements(e)"
+														data-ng-click="">Eliminar</button>
 												</div>
 											</div>
 
@@ -131,8 +135,7 @@
 														data-ng-click="addSubParagraphs(p)">SubPárrafo</button>
 													<button type="button"
 														class="btn btn-danger btn-sm margin-top"
-														 aria-label="Close"
-														data-ng-click="removeParagraphs(p)">Eliminar</button>
+														aria-label="Close" data-ng-click="removeParagraphs(p)">Eliminar</button>
 
 												</div>
 												<div class="container">
@@ -157,8 +160,8 @@
 														<div class="col col-md-2">
 															<button type="button"
 																class="btn btn-danger btn-sm margin-top"
-																 aria-label="Close"
-																data-ng-click="removeParagraphs(sp)" data-ng-click="">Eliminar</button>
+																aria-label="Close" data-ng-click="removeParagraphs(sp)"
+																data-ng-click="">Eliminar</button>
 														</div>
 													</div>
 												</div>
@@ -272,12 +275,13 @@
 						data-ng-click="getBuscarFecha()">
 						<i class="fas fa-search"></i>Buscar
 					</button>
-					<br>
-					<span class="invalid-feedback d-block"
-						data-ng-show="formFiltros.fecha.$invalid || formFiltros.fechaFin.$invalid">Rango
-						de fechas inválido!</span>
 				</div>
 			</form>
+			<div class="form-group mx-sm-2 mb-2">
+				<span class="invalid-feedback d-block"
+					data-ng-show="formFiltros.fecha.$invalid || formFiltros.fechaFin.$invalid">Rango
+					de fechas inválido!</span>
+			</div>
 		</div>
 	</div>
 	<div class="card w-95">
@@ -637,8 +641,7 @@
 								<td><button type="button" class="btn btn-secondary"
 										data-ng-click="downloadFile(file);">Descargar</button></td>
 								<td><button type="button" class="btn btn-danger"
-										data-ng-click="deleteFile(file)" 
-										aria-label="Close">Eliminar</button></td>
+										data-ng-click="deleteFile(file)" aria-label="Close">Eliminar</button></td>
 
 							</tr>
 						</tbody>

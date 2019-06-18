@@ -112,8 +112,9 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		console.log($scope.filtrosFechas);
 		console.log("--------------------");
 		let dateInit = new Date($scope.filtrosFechas.fecha);
-		let dateEnd = new Date($scope.filtrosFechas.fechaFin);		
+		let dateEnd = new Date($scope.filtrosFechas.fechaFin);
 		let map = new Object(); 
+		map['status']= 1;
 		map['fecha'] = dateInit;
 		map['fechaFin'] = dateEnd;
 		orderdayService.getByDateBetween(map).then(function mySuccess(data) {
@@ -143,7 +144,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 		//console.log('Obtener OD con status activa', $scope.orderday);
 		orderdayService.getActiveWithAndWithoutReference().then(function success(data){
-			$scope.orderdays=data;
+			$scope.orderdays =data;
 			console.log('Texto', $scope.orderdays)
 			$timeout(()=>{
 				swal.stopLoading();
@@ -377,12 +378,14 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.removeParagraphs = e => {
 		e.status = -1;
 	}
+	$scope.removeElements = e => {
+		e.status = 0;
+		
+	}
 	
 	$scope.deleteFile = fl => {
 		fl.status = 0;
 	};
-
-
 
 	$scope.addElementsOd = function (){
 		$location.path('elementOd');
@@ -419,6 +422,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			}
 			swal("Error","Por favor complete todos los campos", "error");
 		}
+		
 		if(isValid){
 			let fFiles = $filter('filter')($scope.orderday.attached.files, {"status": 1});
 			let dataFiles = {};

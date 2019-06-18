@@ -19,7 +19,7 @@ public interface OrderDayService {
 	OrderDay delete(OrderDay entity);
 
 	List<OrderDay> getActiveWithAndWithoutReference();
-	List<OrderDay> getByDateBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	//List<OrderDay> getByDateBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
 	List<OrderDay> getSustituidaWithReference();
 	List<OrderDay> getOdOriginal(String odOriginal);
@@ -29,4 +29,6 @@ public interface OrderDayService {
 	List<OrderDay> getByStatusAprobada(boolean status);
 
 	List<OrderDay> fetchByBetweenDates(boolean status, Date dateStart, Date dateEnd);
+
+	List<OrderDay> getByDateBetween(int status, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 }

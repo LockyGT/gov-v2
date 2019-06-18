@@ -10,20 +10,25 @@
 			<form class="form-inline" name="formFiltros">
 				<div class="input-group mx-sm-3 mb-2">
 					<input type="date" class="form-control" id="txtFechaBusqueda"
-						name="fechaInicio" data-ng-model="searchDateStart" data-ng-max="searchDateStart.fechaFin"
-						data-ng-class="formFiltros.searchDateStart.$invalid ? 'is-invalid': ''" required="required">
-					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
+						data-ng-max="filtrosFechas.searchDateEnd" name="fechaInicio"
+						data-ng-model="filtrosFechas.searchDateStart"
+						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''"
+						required="required"> 
+						<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
 					<div class="input-group-prepend">
 						<div class="input-group-text">
 							<i class="far fa-calendar-alt"></i>
 						</div>
 					</div>
 				</div>
+
 				<div class="input-group mx-sm mb-2">
 					<input type="date" class="form-control" id="txtFechaBusquedaFin"
-						name="fechaFin" data-ng-model="searchDateEnd" 
-						data-ng-class="formFiltros.searchDateEnd.$invalid ? 'is-invalid': ''" required="required">
-					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
+						data-ng-min="filtrosFechas.searchDateStart" name="fechaFin"
+						data-ng-model="filtrosFechas.searchDateEnd"
+						data-ng-class="formFiltros.fechaFin.$invalid ? 'is-invalid': ''"
+						required="required"> <label for="txtFechaBusquedaFin"
+						class="sr-only">Fecha al </label>
 					<div class="input-group-prepend">
 						<div class="input-group-text">
 							<i class="far fa-calendar-alt"></i>
@@ -32,15 +37,16 @@
 				</div>
 				<div class="form-group mx-sm-2 mb-2">
 					<button type="button" class="btn btn-dark"
-						data-ng-click="getBetweenDatesPublished(searchDateStart,searchDateEnd);">
+						data-ng-click="getBetweenDatesPublished(filtrosFechas);">
 						<i class="fas fa-search"></i> Buscar
 					</button>
-					<span class="invalid-feedback d-block"
-						data-ng-show="formFiltros.searchDateStart.$invalid || formFiltros.searchDateEnd.$invalid">Rango
-						de fechas inválido!</span>
-
 				</div>
 			</form>
+			<div class="form-group mx-sm-2 mb-2">
+				<span class="invalid-feedback d-block"
+					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
+					de fechas inválido!</span>
+				</div>
 		</div>
 	</div>
 	<div class="card w-95">
@@ -133,9 +139,9 @@
 								<i class="fas fa-search"></i>
 							</div>
 						</div>
-						<input type="search" class="form-control"
-							id="searchTerm" placeholder="Buscar"
-							data-ng-keyup="buscar();" required="required">
+						<input type="search" class="form-control" id="searchTerm"
+							placeholder="Buscar" data-ng-keyup="buscar();"
+							required="required">
 					</div>
 				</div>
 				<br>

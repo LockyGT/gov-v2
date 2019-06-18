@@ -80,9 +80,9 @@ public class OrderDayServiceImpl implements OrderDayService {
 	}
 
 	@Override
-	public List<OrderDay> getByDateBetween(LocalDateTime f1, LocalDateTime f2) {
+	public List<OrderDay> getByDateBetween(int status, LocalDateTime f1, LocalDateTime f2) {
 		List<OrderDay> res = new ArrayList<OrderDay>();
-		res = orderDayRepository.findByFechaBetween(f1,f2);
+		res = orderDayRepository.findByStatusAndFechaBetween(status,f1,f2);
 		return res;	
 	}
 

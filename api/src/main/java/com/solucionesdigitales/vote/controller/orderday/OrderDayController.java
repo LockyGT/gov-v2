@@ -80,8 +80,9 @@ public class OrderDayController {
 	}
 
 	@GetMapping(value="/date/between" )	
-	public List<OrderDay> getByDateBetween(@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
+	public List<OrderDay> getByDateBetween(@RequestParam(value="status")final int status,@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
 			@RequestParam(value="fechaFin") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fechaFin){
+		logger.info("consulta ORDENDEL DIA POR STATUS:" + status);
 		logger.info("consulta ORDEN DEL DIA POR FECHA INICIO:" + fecha);	
 		logger.info("consulta ORDENDEL DIA POR FECHA FIN:" + fechaFin);
 
@@ -102,7 +103,7 @@ public class OrderDayController {
 		LocalDateTime l2 = LocalDateTime.of(yearEnd, monthEnd, dayEnd, 23, 59, 59);
 		logger.info("consulta OD POR FECHA1 ------> :" + l1);	
 		logger.info("consulta OD POR FECHA2 ------> :" + l2);
-		return service.getByDateBetween(l1,l2);
+		return service.getByDateBetween(status,l1,l2);
 	}
 	
 	@GetMapping(value="/datesbetween")

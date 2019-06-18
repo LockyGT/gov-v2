@@ -3,8 +3,11 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 	$scope.odgazzete=null;
 	$scope.orderday={};
 	$scope.attached = {};
-	$scope.searchDateStart = new Date();
-	$scope.searchDateEnd = new Date();
+	$scope.filtrosFechas = {};
+	$scope.filtrosFechas.searchDateStart = new Date();
+	$scope.filtrosFechas.searchDateEnd = new Date();
+
+	
 	$scope._ORDERDAY = _ORDERDAY;
 
 
@@ -35,7 +38,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		}
 	};
 	
-	$scope.getBetweenDatesPublished = (searchDateStart, searchDateEnd) => {
+	$scope.getBetweenDatesPublished = (filtrosFechas) => {
 		swal({
 			title: "Consultandos Ordenes del día",
 			text: "Por favor espere...",
@@ -47,10 +50,11 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
+		
 		let dataFilter = {
 				"publicada": true,
-				"datestart": $filter('date')(searchDateStart, "yyyy/MM/dd"),
-				"dateend":$filter('date')(searchDateEnd, "yyyy/MM/dd")
+				"datestart": $filter('date')(filtrosFechas.searchDateStart, "yyyy/MM/dd"),
+				"dateend":$filter('date')(filtrosFechas.searchDateEnd, "yyyy/MM/dd")
 		};
 		orderdayService.getBetweenDatesPublished(dataFilter).then(function success(data){
 			$scope.publishedOds = data;
