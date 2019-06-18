@@ -235,6 +235,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/demoVersionFile.html',
 		controller : 'demoVersionFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('rrhh', {
+		url : '/rrhh',
+		templateUrl : './views/admin/rrhh.html',
+		controller : 'rrhhCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('organigrama', {
 		url : '/organigrama',
 		templateUrl : './views/admin/organigrama.html',

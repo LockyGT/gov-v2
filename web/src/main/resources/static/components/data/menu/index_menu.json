@@ -7,9 +7,13 @@
 		"icon": "fas fa-solar-panel",
 		"color": "#0f0f0f",
 		"image": "../img/video-wall.png",
-		"alt": "Tablero de votacion",		
+		"alt": "Tablero de votacion",
 		"text": "",
-		"roles": ["OPERADOR", "OPERADOR_PANEL", "LEGISLADOR"],
+		"roles": [
+			"OPERADOR",
+			"OPERADOR_PANEL",
+			"LEGISLADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -24,7 +28,9 @@
 		"image": "../img/usuario.png",
 		"alt": "Consulta de usuarios",
 		"text": "",
-		"roles": ["OPERADOR"],
+		"roles": [
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -39,7 +45,9 @@
 		"image": "../img/calendario.png",
 		"alt": "Consulta de sesiones",
 		"text": "",
-		"roles": ["OPERADOR"],
+		"roles": [
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -54,7 +62,9 @@
 		"image": "../img/cuestionario.png",
 		"alt": "Consulta de iniciativas",
 		"text": "",
-		"roles": ["OPERADOR"],
+		"roles": [
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 0
@@ -69,7 +79,9 @@
 		"image": "../img/analitica.png",
 		"alt": "Consulta de reportes",
 		"text": "",
-		"roles": ["OPERADOR"],
+		"roles": [
+			"OPERADOR"
+		],
 		"levels": 2,
 		"status": 1,
 		"childs": [
@@ -84,12 +96,15 @@
 				"image": "../img/comparar.png",
 				"alt": "Consulta de reportes",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
 			},
-			{	"id": 2,
+			{
+				"id": 2,
 				"app": "reports",
 				"index": 5.2,
 				"title": "Lista de Asistencia",
@@ -99,7 +114,9 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta de Asistencias",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
@@ -115,7 +132,9 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta de Presentes",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
@@ -131,7 +150,9 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta de Asistencias en Sesiones",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
@@ -147,7 +168,9 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta por legislador",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
@@ -163,11 +186,12 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta de Sesiones e iniciativas",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
-				
 			},
 			{
 				"id": 7,
@@ -180,11 +204,12 @@
 				"image": "../img/periodico.png",
 				"alt": "Consulta de Sesiones e iniciativas por resultados",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
-				
 			},
 			{
 				"id": 7,
@@ -197,11 +222,12 @@
 				"image": "../img/periodico.png",
 				"alt": "Iniciativa",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
-				
 			}
 		]
 	},
@@ -215,7 +241,9 @@
 		"image": "../img/manos.png",
 		"alt": "Consulta de Votaciones",
 		"text": "",
-		"roles": ["LEGISLADOR"],
+		"roles": [
+			"LEGISLADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -230,12 +258,14 @@
 		"image": "../img/multitud-de-usuarios.png",
 		"alt": "Consulta de partidos Políticos",
 		"text": "",
-		"roles": ["OPERADOR"],
+		"roles": [
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
 	},
-		{
+	{
 		"id": 8,
 		"index": 8.0,
 		"title": "Mis Votos",
@@ -245,7 +275,9 @@
 		"image": "../img/documento.png",
 		"alt": "Consulta de mis Votos",
 		"text": "",
-		"roles": ["LEGISLADOR"],
+		"roles": [
+			"LEGISLADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -260,7 +292,10 @@
 		"image": "../img/presentacion.png",
 		"alt": "Consulta de Asistencia",
 		"text": "",
-		"roles": ["LEGISLADOR","OPERADOR"],
+		"roles": [
+			"LEGISLADOR",
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -275,7 +310,10 @@
 		"image": "../img/presentacion.png",
 		"alt": "Consulta de Asistencia de Sesion sin Iniciativa",
 		"text": "",
-		"roles": ["LEGISLADOR","OPERADOR"],
+		"roles": [
+			"LEGISLADOR",
+			"OPERADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 0
@@ -290,7 +328,9 @@
 		"image": "../img/empleado.svg",
 		"alt": "Registro de Asistencias a sesiones",
 		"text": "",
-		"roles": ["LEGISLADOR"],
+		"roles": [
+			"LEGISLADOR"
+		],
 		"levels": 1,
 		"childs": [],
 		"status": 1
@@ -305,63 +345,89 @@
 		"image": "../img/empleado.svg",
 		"alt": "Gaceta",
 		"text": "",
-		"roles": ["LEGISLADOR", "OPERADOR"],
+		"roles": [
+			"LEGISLADOR",
+			"OPERADOR"
+		],
 		"levels": 2,
 		"childs": [
-				{
-					"id": 1,
-					"app": "gazette",
-					"index": 1.0,
-					"title": "Crear nuevo",
-					"url": "#!modulood",
-					"icon": "far fa-plus-square",
-					"color": "#ADB5BD",
-					"image": "../img/periodico.png",
-					"alt": "Crear nuevo",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				},
-				{
-					"id": 2,
-					"app": "gazette",
-					"index": 1.1,
-					"title": "Orden del dia",
-					"url": "#!orderoftheday",
-					"icon": "far fa-folder-open",
-					"color": "#FF9A89",
-					"image": "../img/periodico.png",
-					"alt": "Ver orden del dia",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				}
-				
-			
+			{
+				"id": 1,
+				"app": "gazette",
+				"index": 1.0,
+				"title": "Crear nuevo",
+				"url": "#!modulood",
+				"icon": "far fa-plus-square",
+				"color": "#ADB5BD",
+				"image": "../img/periodico.png",
+				"alt": "Crear nuevo",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			},
+			{
+				"id": 2,
+				"app": "gazette",
+				"index": 1.1,
+				"title": "Orden del dia",
+				"url": "#!orderoftheday",
+				"icon": "far fa-folder-open",
+				"color": "#FF9A89",
+				"image": "../img/periodico.png",
+				"alt": "Ver orden del dia",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			}
 		],
 		"status": 1
 	},
 	{
-				"id": 13,
-				"index": 13.0,
-				"title": "Orden del dia",
-				"url": "#!orderday",
-				"icon": "fab fa-accusoft",
-				"color": "#FA8072",
-				"image": "../img/periodico.png",
-				"alt": "Orden del día",
-				"text": "",
-				"roles": ["OPERADOR"],
-				"levels": 1,
-				"childs": [],
-				"status": 1
-	},{
-				"id": 14,
-				"index": 14.0,
+		"id": 13,
+		"index": 13.0,
+		"title": "Orden del dia",
+		"url": "#!orderday",
+		"icon": "fab fa-accusoft",
+		"color": "#FA8072",
+		"image": "../img/periodico.png",
+		"alt": "Orden del día",
+		"text": "",
+		"roles": [
+			"OPERADOR"
+		],
+		"levels": 1,
+		"childs": [],
+		"status": 1
+	},
+	{
+
+		"id": 14,
+		"index": 14.0,
+		"title": "Recursos Humanos",
+		"url": "#!rrhh",
+		"icon": "fas fa-person-booth",
+		"color": "#FFAA99",
+		"image": "../img/analitica.png",
+		"alt": "Consulta de reportes",
+		"text": "",
+		"roles": [
+			"OPERADOR"
+		],
+		"levels": 2,
+		"status": 1,
+		"childs": [
+			{
+				"id": 1,
+				"app": "rrhh",
+				"index": 14.1,
 				"title": "Organigrama",
 				"url": "#!organigrama",
 				"icon": "fas fa-sitemap",
@@ -369,9 +435,13 @@
 				"image": "../img/periodico.png",
 				"alt": "Organigrama",
 				"text": "",
-				"roles": ["OPERADOR"],
+				"roles": [
+					"OPERADOR"
+				],
 				"levels": 1,
 				"childs": [],
 				"status": 1
+			}
+		]
 	}
 ]
