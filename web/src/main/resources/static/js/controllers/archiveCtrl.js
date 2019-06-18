@@ -17,7 +17,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	// Obtiene los documentos que se encuentran registrados
 	$scope.getRecords = () => {
 		swal({
-			title: "Consultandos documentos",
+			title: "Consultando documentos",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
