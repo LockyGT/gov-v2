@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,7 +31,9 @@ import com.solucionesdigitales.vote.service.user.MongoUserDetailsService;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurity.class);	
-
+	
+	@Value("${authentication.by.password.enabled: false}")
+	private boolean passwordEnabled;
 	@Autowired
 	private MongoUserDetailsService userDetailsService;
 
@@ -80,6 +83,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, "/partner/byStatus/init*").permitAll()
 		.antMatchers(HttpMethod.GET, "/partner/byUsername/init*").permitAll()			
 		.antMatchers(HttpMethod.GET, "/config/auth").permitAll()
+		.antMatchers(HttpMethod.GET, "/config/auth-password").permitAll()
 		.antMatchers("/index.html","/views/**").permitAll()
 		.antMatchers("/votes-socket/**").permitAll()
 		.antMatchers("/js/**").permitAll()
@@ -91,7 +95,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		//.antMatchers("/config/**").anonymous()
 		.antMatchers("/favicon.*").anonymous()
 		.anyRequest().authenticated().and()
-		.addFilter(new JWTAuthenticationFilter(authenticationManager(),partnerService,fingerPrintRepository,validadorDeHuella))
+		.addFilter(new JWTAuthenticationFilter(authenticationManager(),partnerService,fingerPrintRepository,validadorDeHuella,passwordEnabled))
 		//.addFilter(new JWTAuthenticationFilter())
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 	}

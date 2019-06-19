@@ -351,7 +351,6 @@
 		],
 		"levels": 2,
 		"childs": [
-<<<<<<< HEAD
 			{
 				"id": 1,
 				"app": "gazette",
@@ -374,56 +373,10 @@
 				"id": 2,
 				"app": "gazette",
 				"index": 1.1,
-				"title": "Orden del dia",
+				"title": "Orden del día",
 				"url": "#!orderoftheday",
 				"icon": "far fa-folder-open",
 				"color": "#FF9A89",
-=======
-				{
-					"id": 1,
-					"app": "gazette",
-					"index": 1.0,
-					"title": "Crear nuevo",
-					"url": "#!modulood",
-					"icon": "far fa-plus-square",
-					"color": "#ADB5BD",
-					"image": "../img/periodico.png",
-					"alt": "Crear nuevo",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				},
-				{
-					"id": 2,
-					"app": "gazette",
-					"index": 1.1,
-					"title": "Orden del día",
-					"url": "#!orderoftheday",
-					"icon": "far fa-folder-open",
-					"color": "#FF9A89",
-					"image": "../img/periodico.png",
-					"alt": "Ver orden del día",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				}
-				
-			
-		],
-		"status": 1
-	},
-	{
-				"id": 13,
-				"index": 13.0,
-				"title": "Orden del día",
-				"url": "#!orderday",
-				"icon": "fab fa-accusoft",
-				"color": "#FA8072",
->>>>>>> dev_sprint_3
 				"image": "../img/periodico.png",
 				"alt": "Ver orden del dia",
 				"text": "",
@@ -440,7 +393,7 @@
 	{
 		"id": 13,
 		"index": 13.0,
-		"title": "Orden del dia",
+		"title": "Orden del día",
 		"url": "#!orderday",
 		"icon": "fab fa-accusoft",
 		"color": "#FA8072",
@@ -455,13 +408,12 @@
 		"status": 1
 	},
 	{
-
 		"id": 14,
 		"index": 14.0,
 		"title": "Recursos Humanos",
 		"url": "#!rrhh",
 		"icon": "fas fa-person-booth",
-		"color": "#FFAA99",
+		"color": "#FF3880",
 		"image": "../img/analitica.png",
 		"alt": "Consulta de reportes",
 		"text": "",
@@ -475,10 +427,83 @@
 				"id": 1,
 				"app": "rrhh",
 				"index": 14.1,
+				"title": "Expediente electrónico",
+				"url": "#!electromic-file",
+				"icon": "fas fa-id-badge",
+				"color": "#31DEBB",
+				"image": "../img/periodico.png",
+				"alt": "Organigrama",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			},
+			{
+				"id": 2,
+				"app": "rrhh",
+				"index": 14.2,
 				"title": "Organigrama",
 				"url": "#!organigrama",
 				"icon": "fas fa-sitemap",
 				"color": "#4286f4",
+				"image": "../img/periodico.png",
+				"alt": "Organigrama",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 2,
+				"childs": [
+					{
+						"id": 1,
+						"app": "record",
+						"index": 2.1,
+						"title": "Legisladores",
+						"url": "#!record-legislators",
+						"icon": "fas fa-id-badge",
+						"color": "#31DEBB",
+						"image": "../img/periodico.png",
+						"alt": "Organigrama",
+						"text": "",
+						"roles": [
+							"OPERADOR"
+						],
+						"levels": 1,
+						"childs": [],
+						"status": 1
+					},
+					{
+						"id": 2,
+						"app": "record",
+						"index": 2.2,
+						"title": "Administradores",
+						"url": "#!record-admin",
+						"icon": "fas fa-user-tie",
+						"color": "#31DEBB",
+						"image": "../img/periodico.png",
+						"alt": "Organigrama",
+						"text": "",
+						"roles": [
+							"OPERADOR"
+						],
+						"levels": 1,
+						"childs": [],
+						"status": 1
+					}
+				],
+				"status": 1
+			},
+			{
+				"id": 3,
+				"app": "rrhh",
+				"index": 14.2,
+				"title": "Asistencias",
+				"url": "#!assists",
+				"icon": "fas fa-list-alt",
+				"color": "#7838FF",
 				"image": "../img/periodico.png",
 				"alt": "Organigrama",
 				"text": "",

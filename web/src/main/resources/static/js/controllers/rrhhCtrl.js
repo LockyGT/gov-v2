@@ -42,8 +42,6 @@ app.controller('rrhhCtrl', function($scope, $rootScope, $stateParams, $state, Lo
 		return res;
 	};
 	
-
-	
 	const constructor =()=>{
 		
 		if(!LoginService.isAuthenticated()) {
