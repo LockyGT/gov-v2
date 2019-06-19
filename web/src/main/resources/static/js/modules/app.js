@@ -240,6 +240,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/organigrama.html',
 		controller : 'organigramaCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('categoriaDeDocumentos', {
+		url : '/categoriaDeDocumentos',
+		templateUrl : './views/admin/categoriaDeDocumentos.html',
+		controller : 'categoriaDeDocumentosCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	

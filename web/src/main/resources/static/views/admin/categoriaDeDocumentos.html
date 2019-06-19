@@ -1,0 +1,99 @@
+
+<!-- Page Heading -->
+<h1 class="my-4 toHide">
+	Repositorio de Documentos <i class="fas fa-copy"></i><small></small>
+</h1>
+
+<div >
+<div >
+  <h5 class="card-header"> 
+ 	<form>
+	  <div class="row">
+	    <div class="col">
+			<select class="form-control" data-ng-model="categoriaDeDocumentos.tipoPartner" data-ng-options="tipoDePartner.tipo as  
+	            tipoDePartner.name for tipoDePartner in tiposDePartner" data-ng-change="getCategoriaDeDocumentosByTipoPartner(categoriaDeDocumentos.tipoPartner);">
+				<option value="">Seleccione un tipo Usuario..</option>
+			</select>
+	    </div>
+	   </div>
+	   <br>
+	  <div class="row">
+	  <div class="col-md-6 mb-3 ">
+	      Titulo<input type="text" class="form-control" data-ng-model="documentoAux.titulo" placeholder="Titulo">
+	  </div>
+	  <div class="col">
+	  	Tipo Archivo<select class="form-control" data-ng-model="documentoAux.tipo" data-ng-options="tiposDeArchivo.tipo as  
+	            tiposDeArchivo.name for tiposDeArchivo in tiposDeArchivos" >
+				<option value="">Seleccione un tipo Archivo..</option>
+		</select>
+	  </div>
+	  <div class="col">
+	  	Requerido<select class="form-control" data-ng-model="documentoAux.requerido" 
+	            tiposDeArchivo.name for tiposDeArchivo in tiposDeArchivos" >
+	            	<option value="">Seleccione si es requerido</option>
+				<option value="false">No</option>
+				<option value="true">S&iacute;</option>
+		</select>
+	  </div>
+		
+	  </div>
+	  <div class="row">
+	    <div class="col" ng-if="documentoIndex === -1">
+		    	<button  class="btn btn-success btn-sm" type="button" ng-click="addDocumento();">Agregar documento</button>
+		 </div>
+		 <div class="col" ng-if="documentoIndex !== -1">
+		    	<button   class="btn btn-warning btn-sm" type="button" ng-click="doEditar();">Editar</button>
+		 </div>
+		 <div class="col"  ng-if="documentoIndex !== -1">
+		    	<button class="btn btn-danger btn-sm" type="button" ng-click="cancelar();">Cancelar</button>
+		 </div>	
+	  </div>
+	   
+    </form> 		
+  	</h5>
+  <div class="card-body">
+	  <div class="table-responsive" >
+	     <table class="table table-inversed table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Titulo</th>	
+					<th>Tipo</th>	
+					<th>Requerido</th>	
+					<th>Accion</th>	
+						
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="documento in categoriaDeDocumentos.documentos track by $index ">
+					<td>{{documento.titulo}}</td>
+					<td ng-if="documento.tipo  == 1 ">PDF</td>
+					<td ng-if="documento.tipo  == 2 ">Imagen</td>
+					<td ng-if="documento.requerido"> S&iacute;</td>
+					<td ng-if="!documento.requerido"> No</td>
+					<td><button class="btn btn-warning btn-sm" type="button" ng-click="editar(documento,$index);">Editar</button>
+						<button class="btn btn-danger btn-sm" type="button" ng-click="eliminarDocumento($index);">Eliminar</button></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+  </div>
+   <div class="card-footer text-muted">
+   	<form>
+	  <div class="row">
+	    <div class="col">
+	      Categoria<input type="text" class="form-control" data-ng-model="categoriaDeDocumentos.nombreCategoria" placeholder="Categoria">
+	    </div>
+	  </div>
+	</form>
+	<br>
+  	<button class="btn btn-success" ng-disabled="categoriaDeDocumentos.documentos.length === 0 || categoriaDeDocumentos.nombreCategoria === ''" data-ng-click="save();" type="button" >Guardar</button>
+<!--   	<button class="btn btn-success"  data-ng-click="edit();" data-ng-disabled="dataToDisplay.length === 0 || organigrama.descripcion ==='' " type="button" >Editar</button> -->
+	<button class="btn btn-danger" type="button" data-ng-click="doAction(0);"  >Cancelar</button>	
+
+  </div>
+</div>
+
+ </div>
+ 
+
+

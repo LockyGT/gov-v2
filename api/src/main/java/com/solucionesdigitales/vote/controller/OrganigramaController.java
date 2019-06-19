@@ -1,4 +1,4 @@
-package com.solucionesdigitales.vote.entity.security;
+package com.solucionesdigitales.vote.controller;
 
 import java.util.List;
 
