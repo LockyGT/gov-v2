@@ -1,14 +1,44 @@
 app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $scope, $window, $log, $filter, $state,orderdayService, _ORDERDAY,storageService,elementOdService) {
-	var self = this;
+
 	$scope.odgazzete=null;
 	$scope.orderday={};
 	$scope.attached = {};
-	$scope.searchDateStart = new Date();
-	$scope.searchDateEnd = new Date();
-	$scope._ORDERDAY = _ORDERDAY;
+	$scope.filtrosFechas = {};
+	$scope.filtrosFechas.searchDateStart = new Date();
+	$scope.filtrosFechas.searchDateEnd = new Date();
 
 	
-	$scope.getBetweenDatesPublished = (searchDateStart, searchDateEnd) => {
+	$scope._ORDERDAY = _ORDERDAY;
+
+
+	$scope.buscar = function doSearch() {
+		var tableReg = document.getElementById('datos');
+		var searchText = document.getElementById('searchTerm').value.toLowerCase();
+		var cellsOfRow="";
+		var found=false;
+		var compareWith="";
+		for (var i = 1; i < tableReg.rows.length; i++)
+		{
+			cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+			found = false;
+			for (var j = 0; j < cellsOfRow.length && !found; j++)
+			{
+				compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+				if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
+				{
+					found = true;
+				}
+			}
+			if(found)
+			{
+				tableReg.rows[i].style.display = '';
+			} else {
+				tableReg.rows[i].style.display = 'none';
+			}
+		}
+	};
+	
+	$scope.getBetweenDatesPublished = (filtrosFechas) => {
 		swal({
 			title: "Consultandos Ordenes del día",
 			text: "Por favor espere...",
@@ -20,10 +50,12 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
+		
 		let dataFilter = {
-				"datestart": $filter('date')(searchDateStart, "yyyy/MM/dd"),
-				"dateend":$filter('date')(searchDateEnd, "yyyy/MM/dd")
-				};
+				"publicada": true,
+				"datestart": $filter('date')(filtrosFechas.searchDateStart, "yyyy/MM/dd"),
+				"dateend":$filter('date')(filtrosFechas.searchDateEnd, "yyyy/MM/dd")
+		};
 		orderdayService.getBetweenDatesPublished(dataFilter).then(function success(data){
 			$scope.publishedOds = data;
 			$timeout(()=>{
@@ -31,15 +63,15 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 				swal.close();
 				//$scope.getPostOrderDays();
 			},500);
-			
+
 		}, function error(response){
 			$scope.myWelcome = response;
 			swal.stopLoading();
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-	
-	
+
+
 	$scope.getPostOrderDays = function (){
 		swal({
 			title: "Publicando Orden del día",
@@ -67,7 +99,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-	
+
 	$scope.downloadZip=()=>{
 		console.log('Intentando descargar archivos: prueba -1');
 
@@ -136,7 +168,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			console.error('Error al descargar el archivo:', error);
 		});
 	};
-	
+
 	$scope.viewAttachmentsV = (orderday)=>{ 
 		//orderday.fecha = new Date(orderday.fecha);
 		$scope.orderday= orderday;
@@ -145,10 +177,10 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		}); 
 		$('#attachments-verssion').modal('show');
 	};
-	
-	
-	
-	
+
+
+
+
 	$scope.previous= function(){
 		window.history.back();
 	};

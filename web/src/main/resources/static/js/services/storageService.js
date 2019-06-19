@@ -62,6 +62,7 @@ app.service('storageService', function($q, factory) {
 		});
 	};
 	
+	
 	self.update = file => {
 		return $q(function(resolve, reject) {	
 			let fd = new FormData();
@@ -109,6 +110,24 @@ app.service('storageService', function($q, factory) {
 			fd.append('status', file.status);
 			console.log('Informacion recibida: ', file)
 			factory.postFile(path+'/update-files', fd).then(function mySuccess(data) {		
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	self.saveAttached = file => {
+		return $q(function(resolve, reject) {	
+			let fd = new FormData();
+			angular.forEach(file.files, function(file){
+				fd.append('files',file);
+			});
+			
+			fd.append('folder', file.folder);
+			fd.append('userId', file.userId);
+			console.log('Informacion recibida: ', file)
+			factory.postFile(path+'/saveAttached', fd).then(function mySuccess(data) {		
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);

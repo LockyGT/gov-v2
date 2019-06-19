@@ -126,7 +126,7 @@ app.controller('elementOdCtrl', function($log, $timeout,$filter, $scope,$http, $
 					return element.nombre.toLowerCase() == $scope.elementOd.nombre.toLowerCase();
 				});
 				if(!isRegister){
-					scope.postElement();
+					$scope.postElement();
 				}else {
 					swal({
 						  title: "Elemento Existente",

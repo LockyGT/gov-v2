@@ -12,9 +12,30 @@ app.service('reportService', function($q, factory, $filter){
 			});
 		});
 	};
+	
 	self.getResultInitiative = (data) => {
 		return $q(function (resolve, reject){
 			factory.get(path+'/results-initiatives', data).then(data=>{
+				resolve(data);
+			}, error=>{
+				reject(error);
+			});
+		});
+	};
+	
+	self.getInitiative = (data) => {
+		return $q(function (resolve, reject){
+			factory.get(path+'/initiatives', data).then(data=>{
+				resolve(data);
+			}, error=>{
+				reject(error);
+			});
+		});
+	};
+	
+	self.getLegislaturas = (data) => {
+		return $q(function (resolve, reject){
+			factory.get(path+'/legislaturas', data).then(data=>{
 				resolve(data);
 			}, error=>{
 				reject(error);

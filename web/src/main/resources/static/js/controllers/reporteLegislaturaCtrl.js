@@ -1,4 +1,5 @@
-app.controller('initiativePeriodReportCtrl', function($scope, reportService,voteSessionService,voteSessionTypeService, $timeout, $filter){
+app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,reportService, voteSessionTypeService,$timeout, $filter, formulaService) {
+
 	$scope.selected = {
 			startDate: new Date(),
 			endDate: new Date(),
@@ -7,35 +8,41 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			initiatives: [],
 			results: []
 	};
+	$scope.maxSearchDate = new Date();
 	
-	$scope.maxSearchDate    = new Date();
-	$scope.initiativeReport = [];
-	$scope.initiatives      = [];
-	$scope.sessions         = [];
-	$scope.reporteBar       = null;
-	$scope.reportePie       = null;
+	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9", 
+		"#752F09","#FF8442","#007571", "#1FC2BC","#C2581F"];
 	
-	$scope.getResultsReport = () => {
+	$scope.initiatives       = [];
+	$scope.sessions          = [];
+	$scope.filter            = {};
+	$scope.reporteBar        = null;
+	$scope.reportePie        = null;
+	$scope.legislaturaReport = null;
+	$scope.tabView           = 'cardbodyBar';
+	
+	
+	$scope.getLegislaturaReport = () => {
+		console.log("Obtener selecciones: ", $scope.selected);
 		
-		console.log('Informacion obtenida: ', $scope.selected);
 		let dataReport = {
-			sessionsId: $scope.selected.sessions.map(f => f.id),
-			initiativesId: $scope.selected.initiatives.map(f => f.id)
-		};
-		
-		reportService.getInitiative(dataReport).then(success => {
-			$scope.initiativeReport = JSON.parse(success.data);
-			console.log('Informacion obtenida del reporte: ', $scope.initiativeReport);
-		}, error => {
-			console.log('Error al obtener la información: ', error);
-		});
+				sessionsId: $scope.selected.sessions.map(f => f.id),
+				initiativesId: $scope.selected.initiatives.map(f => f.id)
+		}
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			reportService.getLegislaturas(dataReport).then(success => {
+				$scope.legislaturaReport = JSON.parse(success.data);
+			}, error => {
+				console.log('Error al obtener la información del reporte: ', error)
+			});
+		}
 	};
 	
-	$scope.getTypeSessions = () => {
+	$scope.getTypeSession = () => {
 		voteSessionTypeService.get().then(data=>{
 			$scope.typeSessions = data;
 			console.log('Tipos de sesión obtenidas: ', data);
-		}, error=>{
+		},error=>{
 			console.log('Error al obtener el tipo de sesión: ', error);
 		});
 	};
@@ -45,21 +52,12 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			"fecha": selected.startDate,
 			"fechaFin": selected.endDate
 		};
-		console.log('fechas: ', sendData);
-		
-		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
-			voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
-				$scope.sessions = data;
-				$scope.initiatives = [];
-				console.log('Error en los datos: ', data);
-				
-			}, error=>{
-				console.log('Error al obtener las sesiones: ', error);
-			});
-		} else {
-			console.log('Fechas no validadas');
-		}
-		
+		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
+			$scope.sessions = data;
+			$scope.initiatives = [];
+		}, error=>{
+			console.log('Error al obtener las sesiones: ', error)
+		});
 	};
 	
 	$scope.getInitiatives = () => {
@@ -70,45 +68,57 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		}
 	};
 	
+	$scope.getFormula = () => {
+		formulaService.get().then(data => {
+			$scope.formulas = data;
+			console.log('Datos obtenidos: ', data);
+		}, error => {
+			console.log('Ha ocurrio un error al cargar los archivos: ', data);
+		});
+	};
+	
 	$scope.getResultsInitiatives = () => {
+		console.log('Informacion de resultados: ')
 		$scope.results = [{name:'Aprobado', color:'success'}, {name:'No aprobado', color:'danger'}];
+
 	};
 	
 	$scope.checkAllOptions = (array, e) => {
+		
 		angular.forEach(array, function(el){
 			el.checked = e.target.checked;
 		});
-		
 		$scope.updateSelectedTypeSession();
 		$scope.updateSelectedSessions();
 		$scope.updateSelectedInitiatives();
 		$scope.updateSelectedResults();
 	};
 	
-	$scope.updateSelectedTypeSessions = () => {
-		
+	// Filters
+	$scope.updateSelectedTypeSession = () => {
+		console.log('Informacion de la sesion: ')
 		$timeout( () => {
 			$scope.selected.typeSessions = $filter('filter')($scope.typeSessions, {checked: true});
-		},500);
+		}, 500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
-		$timeout( () => {
+		$timeout ( () => {
 			$scope.selected.sessions = $filter('filter')($scope.sessions, {checked: true});
 			$scope.getInitiatives();
-		});
+		}, 500);
 	};
 	
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
 			$scope.selected.initiatives = $filter('filter')($scope.initiatives, {checked: true});
-		},500);
+		}, 500);
 	};
 	
 	$scope.updateSelectedResults = () => {
 		$timeout( () => {
-			$scope.selected.results = $filter('filter')($scope.results, {checked: true});
-		},500);
+			$scope.selected.results = $filter('filter')($scope.results, {checked: true});			
+		}, 500);
 	};
 	
 	$scope.filterTypeSession = e => {
@@ -133,27 +143,31 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 	};
 	
 	$scope.printTable = () => {
-		$scope.initiativeReport.title = 'Resultados - Periodos';
-		$scope.initiativeReport.headRows = [{date:"Fecha", typeSession:"Tipo de sesión", session:"sesión", 
-			initiative:"Iniciativa", timeVote:"Tiempo para votar", aFavor:"A favor", against: "En contra",
-			abstention:"Abstención", notVote: "No votó", present:"Presentes", missing:"Ausentes", 
-			result: "Resultado"}];
+		$scope.legislaturaReport.title = 'Legislatura - periodo';
+		$scope.legislaturaReport.headRows = [{date:"Fecha", typeSession:"Tipo de sesión", session:"Sesión", initiative:"Iniciativa", result:"Resultado"}];
+		$scope.legislaturaReport.footRows = [{date:'', typeSession:'', session:'',initiative:'', result:''}];
+		$scope.legislaturaReport.bodyRows = bodyRows($scope.legislaturaReport.data);
 		
-		$scope.initiativeReport.footRows = [{date:"", typeSession:"", session:"", initiative:"", timeVote:"",
-			aFavor:"", against: "", abstention:"", notVote: "", present:"", missing:"", result: ""}];
-		
-		$scope.initiativeReport.bodyRows = bodyRows($scope.initiativeReport.data);
-		
-		reportService.printPdf($scope.initiativeReport).then(doc=>{
+		reportService.printPdf($scope.legislaturaReport).then(doc => {
 			doc.setProperties({
-				title:"Reporte: Resultados - Periodos",
-				subject:'Reporte pdf de los Resultados - Periodos'
+				title: "Reporte: Legislatura",
+				subject: 'Reporte pdf de las legislaturas'
 			});
-			doc.save('Reporte_resultados-periodos.pdf');
-		}, errorDoc=>{
-			console.log('Error al obtener el reporte');
+			doc.save('Reporte_legislaturas.pdf');
+		}, errorDoc => {
+			console.log('Error al obtener el reporte: ', errorDoc);
 		});
 	};
+	
+	$scope.changeTabView = tabIndex => {
+		$scope.tabView = tabIndex;
+	};
+	
+	$scope.toReturn = () => {
+		$scope.reporteBar =  null;
+		$scope.reportePie = null;
+	};
+	
 	$scope.startReportBar = () => {
 		$scope.reporteBar = {
 				totalVotos    : 0,
@@ -213,21 +227,21 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		let voteTypeWin = {};
 		
 		$scope.optionPercent = [];
-		
-		angular.forEach($scope.results, function(val, key){
-			$scope.reporteBar.labels.push(val.name);
-			$scope.reportePie.labels.push(val.name);
+		let ic = 0;
+		angular.forEach($scope.selected.sessions, function(val, key){
+			$scope.reporteBar.labels.push('Sesión - '+(ic+1));
+			$scope.reportePie.labels.push('fórmula - '+(ic+1));
 			
 			$scope.reporteBar.series.push('Resultado votación');
 			$scope.reportePie.series.push('Resultado votación');
 			
 			let percentTmp = val;
-			let find = $scope.initiativeReport.data.filter(rr => rr.result === val.name);
+			let find = $scope.legislaturaReport.data.filter(rr => rr.sessionId === val.id);
 			
 			$scope.reporteBar.data.push(find.length);
 			
 			if(find.length > 0) {
-				let percentage = ($scope.initiativeReport.data.length / find.length) * 100;
+				let percentage = ($scope.legislaturaReport.data.length / find.length) * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);
@@ -236,37 +250,25 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 				percentTmp.percentage = 0;
 				$scope.optionPercent.push(percentTmp);
 			}
+			if($scope.selected.sessions.length === 1){
+				$scope.optionPercent.push(0);
+			}
 			
-			$scope.reportePie.colors.push(
-					hexToRgbA((val.color == 'success') ? '#00b300':
-						(val.votecolor == 'danger')? '#cc0000':'#000000')
-				);
-				
-				$scope.reporteBar.colors.push(
-					hexToRgbA((val.color == 'success') ? '#00b300':
-						(val.color == 'danger')? '#cc0000': '#000000')
-				);
+			
+			$scope.reportePie.colors.push(hexToRgbA($scope.colorsGraph[ic]));
+			$scope.reporteBar.colors.push($scope.colorsGraph[ic]);
 				
 			if(val.totalOption > max) {
 				max = val.totalOption;
 				voteTypeWin = val;
 			}
-			
+			ic++;
 		});
-	};
-	
-	$scope.changeTabView = tabIndex => {
-		$scope.tabView = tabIndex;
-	};
-	
-	$scope.toReturn = () => {
-		$scope.reporteBar =  null;
-		$scope.reportePie = null;
 	};
 	
 	$scope.printImg = () => {
 		let divCardOrg = document.getElementById($scope.tabView);
-		
+		console.log('Elemento seleccionado: ', divCardOrg);
 		html2canvas(divCardOrg).then(function(canvas){
 			let win1 = window.open("","Print", "width=800, height=800");
 			
@@ -275,7 +277,7 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			windowContent += '<head>';
 			windowContent += '</head>';
 			windowContent += '<body>';
-			windowContent += '<h1 class="my-4">Reporte legisladores</h1>';
+			windowContent += '<h1 class="my-4">Reporte Legislaturas</h1>';
 			windowContent += '<img src="'
 					+ canvas.toDataURL() + '"/>';
 			windowContent += '</body>';
@@ -296,6 +298,17 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		});
 	};
 	
+	function bodyRows (arrayJson) {
+		let body = [], date;
+		
+		arrayJson.forEach(function (json){
+			date = new Date(json.date)
+			body.push({date:date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear(), 
+				typeSession:json.typeSession, session:json.session,initiative:json.initiative, result:json.result});
+		});
+		return body;
+	}
+	
 	function hexToRgbA(hex){	
 	    var c;
 	    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
@@ -309,25 +322,14 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 	    throw new Error('Bad Hex');
 	}
 	
-	function bodyRows (arrayJson) {
-		let body = [], date;
-		
-		arrayJson.forEach( function (json) {
-			date = new Date(json.date);
-			body.push({date:date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear(), 
-				typeSession:json.typeSession, session:json.session, initiative:json.initiative,
-				timeVote:json.timeVote,aFavor:json.aFavor, against: json.against, abstention:json.abstention,
-				notVote: json.notVote, present:json.present, missing:json.missing, result: json.result})
-		});
-		return body;
-	}
-	
 	const initController = () => {
-		$scope.getTypeSessions();
+		$scope.getTypeSession();
 		$scope.getResultsInitiatives();
+		$scope.getFormula();
 	};
-	
-	angular.element(document).ready(function(){
+
+	angular.element(document).ready(function () {
 		initController();
 	});
-}); 
+
+})

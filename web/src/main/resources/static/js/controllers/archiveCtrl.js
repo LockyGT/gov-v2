@@ -360,6 +360,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	
+	
 	$scope.saveFiles = ()=>{
 		let file = {
 				files: $scope.archive.filesUploads,
@@ -441,7 +442,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 
 	$scope.filterExtention = (extencion) => {
-		let ignores = ["doc","pptx","xls", "docx"];
+		let ignores = ["doc","pptx","xls","xlsx", "docx"];
 		let filter = $filter('filter')(ignores,extencion);
 		
 		if(filter.length){

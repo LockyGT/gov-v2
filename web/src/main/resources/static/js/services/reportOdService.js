@@ -15,17 +15,28 @@ app.service('reportOdService', function($q, factory, $filter){
 		console.log('Generar pdfs')
 		const doc = new jsPDF('p', 'pt', 'letter');
 		doc.text(20,20,'Orden del día')
-		const orderday = [];
+		const source = window.document.getElementsByTagName("body")[0];
+		
 		doc.setFontSize(12);
-		//const paragraphs= [];
-		
-		orderday.forEach(function(item){
-			doc.setFontSize(20);
-			doc.text(20,20,item.nombre);
-			
+		doc.setLineWidth(2); 
+
+
+		const orderday = [];
+
+
+
+
+		orderday.forEach(function(p){
+			doc.text(10,10,p.contenidoP)
+
+//			elements.forEach(function(elm){
+//			doc.text(10,10,elm.nombre)
+//			})
+
 		});
-		
-		console.log('+--------------+',orderday)
+
+
+
 		const iframe = document.createElement('iframe');
 		iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
 		document.body.appendChild(iframe);
