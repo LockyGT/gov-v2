@@ -245,6 +245,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/organigrama.html',
 		controller : 'organigramaCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('electronic-file', {
+		url : '/electronic-file',
+		templateUrl : './views/admin/electronic-file.html',
+		controller : 'electronicFileCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	
