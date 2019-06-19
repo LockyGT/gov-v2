@@ -2,9 +2,11 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.orderday = null
 	$scope.orderdayVerssion=null;
+	$scope.elementOd=null;
 	$scope.numeroIndice = 0;
 	$scope.filtrosFechas = {};
 	$scope.attached = {};
+	//$scope.elements=[];
 	$scope.filtrosFechas.fecha= new Date();
 	$scope.filtrosFechas.fechaFin = new Date();
 	$scope.fecha=new Date();
@@ -48,25 +50,173 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			}
 		}
 	}
+/******************************Metodos de elementos*****************************/
 
-	$scope.getElementsOd = function(){
-		elementOdService.getNameOrder().then(function success(data) {
+	$scope.getElementsOd = () =>{
+		swal({
+			title: "Consultando elementos",
+			text: "Por favor espere ...",
+			icon: 'info',						
+			button: {
+				text: "Ok",
+				closeModal: false,
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+		elementOdService.getNameOrder($scope.elementOd).then(function mySuccess(data) {			
 			$scope.elementsOd = data;
-		},function error(error){
-			console.log('Error al obtener los elementos', error);
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+			}, 500);			
+		}, function myError(response) {
+			$scope.myWelcome = response;
+			swal.stopLoading();
+			swal("Error",$scope.myWelcome, "error");
 		});
 	};
 
-//	$scope.getParagraphsOd = function(){
-//		let data = new Object();
-//		data['status'] = 2;
-//		paragraphOdService.getByStatus(data).then(function success(data) {
-//			$scope.paragraphs = data;
-//		},function error(error){
-//			console.log('Error al obtener los elementos', error);
-//		});
-//	};
+	$scope.postElement = function(){
+		console.log("Archivo enviada",$scope.elementOd);
+		swal({
+			title: "Guardando elemento de la ORDEN DEL DIA",
+			text: "Por favor espere...",
+			icon: 'info',
+			button: {
+				text: "Ok",
+				closeModal: false
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+		$scope.elementOd.status = 1;
+		console.log('Elemento enviado ',$scope.elementOd);
+		elementOdService.post($scope.elementOd).then(function success(data){
+			if(data){
+				swal("Exito", "Elemento agregado correctamente", "success");
+				swal.stopLoading();
+				$scope.getElementsOd();
+				$scope.elementOd = null;
+			} else {
+				swal("Error", "Elemento no agregado", "error");
+			}
+		}, function error(error){
+			$scope.myWelcome = error.statusText;
+			swal("Error","El elemento no se ha agregado "+$scope.myWelcome, "error");
+			swal.stopLoading();
+		});
+	};
 
+	$scope.putElement = ()=>{
+		swal({
+			title: "Actualizando Elemento",
+			text: "Por favor espere ...",
+			icon: 'info',						
+			button: {
+				text: "Ok",
+				closeModal: false,
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+
+		console.log('Actualizar elemenmto de la OD', $scope.elementOd)
+		elementOdService.put($scope.elementOd).then(function mySuccess(data) {			
+			if(data){
+				swal.stopLoading();
+				swal("Exito", "Elemento actualizado correctamente", "success");
+				$scope.getElementsOd();
+				$scope.elementOd = null;
+
+			}else{
+				swal("Error", "Elemento no actualizado", "error");
+			}	
+		}, 
+		function myError(response) {
+			$scope.myWelcome = response.statusText;
+			swal.stopLoading();
+			swal("Error",$scope.myWelcome, "error");				
+		});		
+
+	};
+	$scope.confirmDelete = (elementOd) =>{
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: elementOd.nombre,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteElement(elementOd);
+			};
+		});
+	};
+
+
+	$scope.deleteElement = elementOd=> {
+		elementOdService.deleteElement(elementOd).then(function success(data){
+			if(data){
+				swal("Exito","Elemento eliminado exitosamente", "success");
+				$scope.getElementsOd();
+			}
+		}, function error(){
+			swal("Errpr","Elemento no eliminado","error");
+		});
+	};
+	
+	$scope.addUpdateElement = () => {
+		if($scope.elementOd != null){
+			if($scope.elementOd.id != null){
+				$scope.putElement();
+			} else {
+				let isRegister = $scope.orderday.elementsOd.find(function(element){
+					return element.nombre.toLowerCase() == $scope.elementOd.nombre.toLowerCase();
+				});
+				if(!isRegister){
+					$scope.postElement();
+				}else {
+					swal({
+						  title: "Elemento Existente",
+						  text: "El nombre del elemento ya existe. Por favor intente con otro",
+						  icon: "warning",
+						  button: true
+					})
+				}
+				
+			}
+		} else {
+			console.log("Falta informacion para completar el registro");
+		}
+	};
+	$scope.submitForms = (isValid) => {
+		//console.log('validForm');
+		console.log(isValid);
+		if(isValid) {
+			$scope.addUpdateElement();
+		}
+	};
+
+	$scope.addElement = () => {
+		console.log('Agregar nuevo elemento', $scope.elementOD);
+		$scope.elementOd = {
+				nombre:''
+		}
+
+	};
+	$scope.editElement = function (elementOd){
+		console.log('Actualizar elementos', $scope.elementOd);
+		$scope.elementOd = elementOd;
+	};
+	$scope.cancelElement = () =>{
+		$scope.getElementsOd();
+		$scope.elementOd = null;
+	};
+
+	
+/******************************End**********************************************/
+	
 	$scope.verVersiones = (orderday)=>{ 
 		let odOriginal = "";
 		if(orderday.odOriginal){
@@ -380,16 +530,14 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	}
 	$scope.removeElements = e => {
 		e.status = 0;
-		
 	}
-	
 	$scope.deleteFile = fl => {
 		fl.status = 0;
 	};
 
-	$scope.addElementsOd = function (){
-		$location.path('elementOd');
-	};
+//	$scope.addElementsOd = function (){
+//		$location.path('elementOd');
+//	};
 	$scope.previous= function(){
 		window.history.back();
 	};
@@ -535,10 +683,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.addContentE = function(){
 		console.log('Agregar elementos para los parrafos');
 		$scope.currentElement.paragraphs = [];
+		
 		let isExistsElement= $filter('filter')($scope.orderday.elementsOd,{id: $scope.currentElement.id});
 		console.log(isExistsElement)
 		if(!isExistsElement.length){
 			$scope.orderday.elementsOd.push($scope.currentElement);
+			//$scope.currentElement.status= 1;
 		}
 	};
 
@@ -554,7 +704,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	};
 	$scope.addSubParagraphs = function(p){ 
-		console.log('Sub Parrafo',$scope.paragraphs)  
+		console.log('Sub Parrafo',$scope.subParagraphs)  
 		p.subParagraphs.push({ 
 			'contenidotxt': '', 
 			'status': 2,
@@ -589,10 +739,10 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 					'width': margins.width, 
 					'elementHandlers': specialElementHandlers
 				},
-				function footer(){ 
-				    doc.text(150,285, 'page ' + doc.page); 
-				    doc.page ++;
-				},
+//				function footer(){ 
+//				    doc.text(150,285, 'page ' + doc.page); 
+//				    doc.page ++;
+//				},
 
 				function (dispose) {
 					const iframe = document.createElement('iframe');
@@ -643,8 +793,15 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	});
 	
 	$scope.addOrderOfTheDay = (orderday)=>{ 
+		console.log('modal ver orden dia', orderday)
 		$scope.orderdayshow= orderday;
 	};
+	
+//	$scope.elementOd=null;
+//	$scope.elements=[];
+//	$scope.addElementsOd = (orderday) => {
+//		$scope.elements= orderday; 
+//	}
 
 	$scope.addAnnexes = (orderday)=>{ 
 		orderday.fecha = new Date(orderday.fecha);

@@ -84,6 +84,20 @@
 #select-elements{
 	margin-top: 0.5em;
 }
+#position-fixed{
+	position: sticky;
+    
+    width: 100%;
+    z-index: 100;
+    top: 20px;
+}
+.wrapper-el{
+	width: 100%;
+    margin: auto;
+    overflow: inherit;
+    padding-top: 7px;
+    margin-top: -2%;
+}
 .check-p{
 	margin-top: 0em;
     margin-left: 3em;
