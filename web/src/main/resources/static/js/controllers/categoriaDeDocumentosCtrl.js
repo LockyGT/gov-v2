@@ -9,6 +9,14 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 			"tipo":2
 		}
 	];
+	$scope.requeridos = [
+		{	"name":"No",
+			"tipo":false
+		},	
+		{	"name":"Si",
+			"tipo":true
+		}
+	];
 	$scope.tiposDeArchivos = [
 		{	"name":"PDF",
 			"tipo":"1"
@@ -22,11 +30,11 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	$scope.documentoCopy ={};
 
 	$scope.documentoIndex =-1;
-	$scope.categoriaDeDocumentos ={documentos:[]};
+	$scope.categoriaDeDocumentos ={id:null,documentos:[]};
 	
 	
 	$scope.getCategoriaDeDocumentosByTipoPartner = (tipoDePartner) =>{
-		$scope.categoriaDeDocumentos ={documentos:[],tipoPartner:tipoDePartner};
+		$scope.categoriaDeDocumentos ={id:null,documentos:[],tipoPartner:tipoDePartner};
 		categoriaDeDocumentosService.get(tipoDePartner).then(function mySuccess(data) {			
 			$scope.tipoDePartner ={};
 			$scope.documentoAux ={};
@@ -42,8 +50,10 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	
 	$scope.save = () =>{
 		//$scope.categoriaDeDocumentos.tipoPartner =	$scope.tipoDePartner.tipo;
+		$scope.create_UUID
 		categoriaDeDocumentosService.post($scope.categoriaDeDocumentos).then(function mySuccess(data) {			
-			$scope.categoriaDeDocumentos = data;	
+			$scope.categoriaDeDocumentos = data;
+			swal('Exito','Se ha guardad correctamente','success')
 		}, function myError(response) {
 			console.log(response);
 		});
@@ -51,6 +61,8 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	};	
 	
 	$scope.addDocumento = () =>{
+		$scope.documentoAux.uuid = '';
+		$scope.documentoAux.uuid = $scope.createUUID();
 		$scope.categoriaDeDocumentos.documentos.push($scope.documentoAux);
 		$scope.documentoAux ={};
 	};
@@ -59,9 +71,12 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 		$scope.categoriaDeDocumentos.documentos.splice(index,1);	
 	};
 	$scope.editar = (documento,index) =>{
+		
 		angular.copy(documento,  $scope.documentoCopy);
 		$scope.documentoAux  = documento;
-		console.log($scope.documentoAux );
+		
+		//setTimeout(function(){ angular.element('.requeridoDocumento').val( $scope.documentoAux.requerido? 'true':'false'); }, 100);
+
 		$scope.documentoIndex = index;
 	};
 	$scope.cancelar = () =>{
@@ -69,6 +84,12 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	    $scope.documentoCopy = {};
 		$scope.documentoAux  = {};
 		$scope.documentoIndex = -1;
+	};
+	$scope.doCancelar = () =>{
+		$scope.documentoCopy = {};
+		$scope.documentoAux  = {};
+		$scope.documentoIndex = -1;
+		$scope.getCategoriaDeDocumentosByTipoPartner("");
 	};
 	$scope.doEditar = () =>{
 	   $scope.addEditDocu = {};
@@ -78,6 +99,19 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	   $scope.documentoAux  = {};
 	   $scope.documentoIndex = -1;
 	};
+	
+	
+	$scope.createUUID = () =>{
+	    var dt = new Date().getTime();
+	    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	        var r = (dt + Math.random()*16)%16 | 0;
+	        dt = Math.floor(dt/16);
+	        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+	    });
+	    return uuid;
+	}
+
+
 	const initController = () => {
    	 	
 		

@@ -4,8 +4,8 @@
 	Repositorio de Documentos <i class="fas fa-copy"></i><small></small>
 </h1>
 
-<div >
-<div >
+
+<div class="card">
   <h5 class="card-header"> 
  	<form>
 	  <div class="row">
@@ -28,25 +28,23 @@
 		</select>
 	  </div>
 	  <div class="col">
-	  	Requerido<select class="form-control" data-ng-model="documentoAux.requerido" 
-	            tiposDeArchivo.name for tiposDeArchivo in tiposDeArchivos" >
-	            	<option value="">Seleccione si es requerido</option>
-				<option value="false">No</option>
-				<option value="true">S&iacute;</option>
+	  	Requerido<select class="form-control requeridoDocumento" data-ng-model="documentoAux.requerido" 
+	            data-ng-options="requerido.tipo as  
+	            requerido.name for requerido in requeridos" >
+	            <option value="">Seleccione si es requerido</option>
+			
 		</select>
 	  </div>
 		
 	  </div>
 	  <div class="row">
-	    <div class="col" ng-if="documentoIndex === -1">
+	    <div class="col" data-ng-if="documentoIndex === -1">
 		    	<button  class="btn btn-success btn-sm" type="button" ng-click="addDocumento();">Agregar documento</button>
 		 </div>
-		 <div class="col" ng-if="documentoIndex !== -1">
+		 <div class="col" data-ng-if="documentoIndex !== -1">
 		    	<button   class="btn btn-warning btn-sm" type="button" ng-click="doEditar();">Editar</button>
-		 </div>
-		 <div class="col"  ng-if="documentoIndex !== -1">
 		    	<button class="btn btn-danger btn-sm" type="button" ng-click="cancelar();">Cancelar</button>
-		 </div>	
+		 </div>
 	  </div>
 	   
     </form> 		
@@ -86,14 +84,13 @@
 	  </div>
 	</form>
 	<br>
-  	<button class="btn btn-success" ng-disabled="categoriaDeDocumentos.documentos.length === 0 || categoriaDeDocumentos.nombreCategoria === ''" data-ng-click="save();" type="button" >Guardar</button>
+	<button class="btn btn-warning" ng-show="categoriaDeDocumentos.id !== null" ng-disabled="categoriaDeDocumentos.documentos.length === 0 || categoriaDeDocumentos.nombreCategoria === ''" data-ng-click="save();" type="button" >Editar</button>
+  	<button class="btn btn-success"  ng-show="categoriaDeDocumentos.id === null" ng-disabled="categoriaDeDocumentos.documentos.length === 0 || categoriaDeDocumentos.nombreCategoria === ''" data-ng-click="save();" type="button" >Guardar</button>
 <!--   	<button class="btn btn-success"  data-ng-click="edit();" data-ng-disabled="dataToDisplay.length === 0 || organigrama.descripcion ==='' " type="button" >Editar</button> -->
-	<button class="btn btn-danger" type="button" data-ng-click="doAction(0);"  >Cancelar</button>	
+	<button class="btn btn-danger" type="button" data-ng-click="doCancelar();"  >Cancelar</button>	
 
   </div>
 </div>
-
- </div>
- 
+	
 
 

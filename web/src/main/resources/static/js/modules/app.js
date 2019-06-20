@@ -245,6 +245,14 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/categoriaDeDocumentos.html',
 		controller : 'categoriaDeDocumentosCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('documentoPartner', {
+		url : '/documentoPartner',
+		params: {
+			partnerId: null
+		},
+		templateUrl : './views/admin/documentoPartner.html',
+		controller : 'documentoPartnerCtrl' ,
+		resolve: { authenticate: authenticate }
 	});
 	
 	
@@ -269,6 +277,19 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 
 }]);
 
+app.directive('customOnChange', function() {
+	  return {
+	    restrict: 'A',
+	    link: function (scope, element, attrs) {
+	      var onChangeHandler = scope.$eval(attrs.customOnChange);
+	      element.on('change', onChangeHandler);
+	      element.on('$destroy', function() {
+	        element.off();
+	      });
+
+	    }
+	  };
+});
 
 //your directive
 app.directive("fileread", ['$rootScope', function($rootScope) {
