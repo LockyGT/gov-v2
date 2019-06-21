@@ -250,6 +250,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/electronic-file.html',
 		controller : 'electronicFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('record-legislators', {
+		url : '/record-legislators',
+		templateUrl : './views/admin/record-legislators.html',
+		controller : 'recordLegislatorsCtrl',
+		resolve: { authenticate: authenticate }
 	});
 	
 	
