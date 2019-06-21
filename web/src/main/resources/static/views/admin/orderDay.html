@@ -67,10 +67,10 @@
 							</div>
 							<div class="tab-pane fade" id="profile" role="tabpanel"
 								aria-labelledby="nav-profile-tab">
-								<div class="form-row align-items-center">
+								<div class="form-row align-items-center" id="position-fixed">
 									<div class="col-auto">
-										<button data-ng-click="addElementsOd()" type="button"
-											class="btn btn-info">Nuevo Elemento</button>
+										<button data-toggle="modal" data-target="#elements"
+											type="button" class="btn btn-info">Nuevo Elemento</button>
 									</div>
 									<div class="col-auto"></div>
 									<div class="col-auto">
@@ -79,10 +79,8 @@
 											<select
 												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
 												data-ng-model="currentElement" id="inputState"
-												name="elementsOd" class="form-control"
-												title="{{ele.nombre}}">
-												<option disabled value="">Seleccione un
-													elemento...</option>
+												name="elements" class="form-control" title="{{ele.nombre}}">
+												<option disabled value="">Seleccione un elemento...</option>
 											</select>
 										</div>
 									</div>
@@ -93,7 +91,7 @@
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="container">
+									<div class="container wrapper-el">
 										<div class="margin-top"
 											data-ng-repeat="e in orderday.elementsOd | filter: {status: 1} track by $index">
 
@@ -103,15 +101,15 @@
 														{{e.nombre}}</label>
 												</div>
 												<div class="col-auto"></div>
-												<div class="col-auto">
-													<button type="button" class="btn btn-primary mb-2"
-														data-ng-click="addParagraph(e)">Párrafo</button>
-												</div>
+
 												<div class="col-auto">
 													<button type="button"
-														class="btn btn-danger btn-sm margin-top"
+														class="btn btn-primary mb-2"
+														data-ng-click="addParagraph(e)">Párrafo</button>
+												
+													<button type="button" class="btn btn-danger mb-2"
 														aria-label="Close" data-ng-click="removeElements(e)"
-														data-ng-click="">Eliminar</button>
+														>Eliminar</button>
 												</div>
 											</div>
 
@@ -125,7 +123,7 @@
 														class="form-check-label" for="defaultCheck1"></label>
 
 												</div>
-												<div class="col-4 col-md-9 margin-top">
+												<div class="col-4 col-md-9 margin-top" id="summernote">
 													<textarea class="form-control" rows="5" id="contenidotxt"
 														name="editordata" placeholder="Agregar párrafo ..."
 														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
@@ -189,55 +187,15 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-	
-// 	function() {
-// 		var editor = $('#summernote');
-// 		editor.summernote({
-// 			height: ($(window).height() - 250),
-// 			focus: false,
-// 			toolbar: [
-// 				['style', ['bold', 'italic', 'underline', 'clear']],
-// 				['font', ['strikethrough']],
-// 				['fontsize', ['fontsize']],
-// 				['para', ['ul', 'ol', 'paragraph']],
-// 				['height', ['height']],
-// 				['view', ['fullscreen', 'codeview']],
-// 				],
-// 				oninit: function() {
-// 					// Add "open" - "save" buttons
-// 					var noteBtn = '<button id="makeSnote" type="button" class="btn btn-default btn-sm btn-small" title="Identify a music note" data-event="something" tabindex="-1"><i class="fa fa-music"></i></button>';            
-// 					var fileGroup = '<div class="note-file btn-group">' + noteBtn + '</div>';
-// 					$(fileGroup).appendTo($('.note-toolbar'));
-// 					// Button tooltips
-// 					$('#makeSnote').tooltip({container: 'body', placement: 'bottom'});
-// 					// Button events
-// 					$('#makeSnote').click(function(event) {
-// 						var highlight = window.getSelection(),  
-// 						spn = document.createElement('span'),
-// 						range = highlight.getRangeAt(0)
-
-// 						spn.innerHTML = highlight;
-// 						spn.className = 'snote';  
-// 						spn.style.color = 'blue';
-
-// 						range.deleteContents();
-// 						range.insertNode(spn);
-// 					});
-// 				},
-
-// 		});
-
-// 		var para = "<p>I am trying to make it</p><p>such that when a user</p><p>highlights any character or</p><p>word within this textbox (using their cursor)</p><p>and then clicks the music note button</p><p>in the toolbar, that a function</p>will:</p><p><ol><li>Wrap that highlighted text in a 'span' tag with a class of 'snote'</li><li>All of the formatting in this textbox will remain the same</li><li>The text will be the color 'blue'</li></ol></p><p>Right now the function does #1 and #3 but cannot do #2 and it deletes some text too</p>";
-
-// 		$('.note-editable').html(para);
-
-// 		$('#resetBtn').click(function() {
-// 			$('.note-editable').html('').html(para);
-// 		});
-
-// 	}
-	
+	<script>
+		$(document).ready(function() {
+			$('#summernote').summernote({
+				height : 300,
+				minHeight : null,
+				maxHeight : null,
+				focus : true
+			});
+		});
 	</script>
 
 </section>
@@ -390,8 +348,7 @@
 		</div>
 	</div>
 	<script>
-	
-	
+		
 	</script>
 
 	<script type="text/javascript">
@@ -517,7 +474,7 @@
 			</div>
 			<div class="modal-body" id="modal-od-1">
 				<div class="content-paragraph"
-					data-ng-repeat="a in orderdayshow.elementsOd track by $index">
+					data-ng-repeat="a in orderdayshow.elementsOd | filter: {status: 1}  track by $index">
 					<p class="element-name">
 						<strong>{{$index+1}}. {{a.nombre}}</strong>
 					</p>
@@ -685,4 +642,145 @@
 		</div>
 	</div>
 </div>
-<!-- IMPRIMIR PDF -->
+
+<!-- MODAL PARA GREGAR ELEMENTOS A LA OD -->
+<div class="modal fade bd-example-modal-lg" id="elements" tabindex="-1"
+	role="dialog" aria-labelledby="showFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="my-4">
+					Elementos <i class="fab fa-elementor"></i><small></small>
+				</h1>
+			</div>
+			<div class="modal-body">
+				<section data-ng-show="elementOd !== null">
+					<div class="row">
+						<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
+							<form name="elementForm"
+								data-ng-submit="submitForms(elementForm.$valid)" novalidate>
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title">{{!elementOd.id ? 'Nuevo ':
+											'Actualizar '}}</h5>
+									</div>
+									<div class="card-body">
+										<div class="form-group row">
+											<label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
+											<div class="input-group input-group-lg col-sm-10">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="inputGroup-sizing-lg4"><i
+														class="fas fa-file-signature"></i></span>
+												</div>
+												<input type="text" class="form-control" id="txtNombre"
+													placeholder="Nombre" data-ng-model="elementOd.nombre"
+													required data-ng-class="invalidClassName" maxlength="250">
+											</div>
+										</div>
+										<br>
+
+										<!-- CardBody -->
+										<div class="card-footer">
+											<button type="submit" class="btn btn-success">
+												<i class="fas"
+													data-ng-class="!elementOd.id
+							? 'fa-plus': 'fa-sync'"></i>
+												{{!elementOd.id ? 'Guardar': 'Actualizar'}}
+											</button>
+											<button type="button" class="btn btn-danger"
+												data-ng-click="cancelElement()">
+												<i class="fas fa-times"></i> Cancelar
+											</button>
+										</div>
+										<!-- CardFooter -->
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</section>
+				<section data-ng-if="elementOd === null">
+					<div class="card">
+						<div class="card-header">
+							<div class="row">
+								<div class="btn-group mr-3"></div>
+								<div class="btn-group">
+									<button type="button" class="btn btn-success"
+										data-ng-click="addElement()">
+										<i class="fas fa-user-plus"></i> Nuevo
+									</button>
+								</div>
+								<div class="input-group col-md-4">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i class="fas fa-search"></i>
+										</div>
+									</div>
+									<input class="form-control py-2" type="search" value="search"
+										id="example-search-input" placeholder="Buscar"
+										data-ng-model="searchElement"> <span
+										class="input-group-append"> </span>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="alert alert-primary" role="alert"
+									data-ng-if="!elementsOd.length">
+									No se han encontrado elementos registrados en el sistema <a
+										data-ng-click="addElement()" style="cursor: pointer;"
+										class="alert-link"><i class="fas fa-user-plus"></i>
+										Agregue elementos para la Orden del dia</a>.
+								</div>
+								<div class="table-responsive" data-ng-if="elementsOd.length > 0">
+									<table class="table table-inversed table-hover table-striped">
+										<thead>
+											<tr>
+												<th>Nombre</th>
+												<th>Editar</th>
+												<th>Eliminar</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
+											</tr>
+										</tfoot>
+										<tbody>
+											<tr
+												data-ng-repeat="element in elementsOd  | filter : searchElement track by element.id">
+												<td>{{element.nombre}}</td>
+												<td>
+													<!-- data-ng-if="legislator.id != null" -->
+													<button type="button" class="btn btn-warning"
+														data-ng-click="editElement(element)">Actualizar</button>
+												</td>
+												<td>
+													<button type="button" class="btn btn-danger"
+														data-ng-click="confirmDelete(element)">Eliminar</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
