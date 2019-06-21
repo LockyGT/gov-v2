@@ -389,44 +389,6 @@
 		"status": 1
 	},
 	{
-				"id": 13,
-				"index": 13.0,
-				"title": "Orden del día",
-				"url": "#!orderday",
-				"icon": "fab fa-accusoft",
-				"color": "#FA8072",
-				"image": "../img/periodico.png",
-				"alt": "Crear nuevo",
-				"text": "",
-				"roles": [
-					"OPERADOR"
-				],
-				"levels": 1,
-				"childs": [],
-				"status": 1
-			},
-			{
-				"id": 2,
-				"app": "gazette",
-				"index": 1.1,
-				"title": "Orden del día",
-				"url": "#!orderoftheday",
-				"icon": "far fa-folder-open",
-				"color": "#FF9A89",
-				"image": "../img/periodico.png",
-				"alt": "Ver orden del dia",
-				"text": "",
-				"roles": [
-					"OPERADOR"
-				],
-				"levels": 1,
-				"childs": [],
-				"status": 1
-			}
-		],
-		"status": 1
-	},
-	{
 		"id": 13,
 		"index": 13.0,
 		"title": "Orden del día",
