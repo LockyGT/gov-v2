@@ -1,5 +1,6 @@
 package com.solucionesdigitales.vote.entity.partner;
 
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,6 +10,8 @@ import com.solucionesdigitales.vote.entity.Documento;
 @Document(collection = "documento_partner")
 public class DocumentoPartner {
 	
+	@Id
+	private String id;
 	private String idPartner;
 	private String uuidDocumento;
 	private String acrhivo;
@@ -38,6 +41,12 @@ public class DocumentoPartner {
 	}
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

@@ -129,7 +129,7 @@
     margin: 0 auto;
     color: #2ea591;
     font-weight: 600;
-    text-transform: capitalize;
+    text-transform: capitalize; 
     text-align: center;
 }
 
@@ -154,14 +154,20 @@
 <h1 class="my-4 toHide">
 	Repositorio de Documentos <i class="fas fa-copy"></i><small></small>
 </h1>
+	<div> <span class="badge badge-success  badge-pill ">Archivo cargado</span>
+<span class="badge badge-warning  badge-pill ">Opcional</span>
+<span class="badge badge-danger  badge-pill " >Requerido</span></div>
+<br>
 	<div class="row" >
 	  <div class="col-md-6" ng-repeat="partnerDocument in partnerDocuments">
-             <div  class="form-group " ng-class="{'files-danger': partnerDocument.documento.requerido  == true,
-             										 'files-warning': partnerDocument.documento.requerido  == false}" >
-               <label>{{partnerDocument.documento.titulo}} <button class="btn btn-success btn-sm float-right" ng-disabled="partnerDocument.acrhivo == null">Descargar archivo</button></label>
+             <div  class="form-group " 
+             ng-class="{'files-danger': partnerDocument.documento.requerido  == true && partnerDocument.acrhivo == null,
+             										 'files-warning': partnerDocument.documento.requerido  == false && partnerDocument.acrhivo == null,
+             										  'files-success': partnerDocument.acrhivo != null}" >
+               <label><b>{{partnerDocument.documento.titulo}}</b> </label>
                <input type="file" class="form-control" custom-on-change="uploadFile" data-id="{{$index}}">
              </div> 
-<!--              <button class="btn btn-success btn-sm" style="padding-left: 40%;padding-right: 40%;line-height:0.8;margin-top:-35px;font-weight: 300;" >Descargar archivo</button> -->
+             <button class="btn btn-success btn-sm" ng-disabled="partnerDocument.acrhivo == null"  ng-click="downloadFile(partnerDocument);"  style="padding-left: 40%;padding-right: 40%;line-height:0.8;margin-top:-35px;font-weight: 300;" >Descargar archivo</button>
 	  </div>
 	</div>
 

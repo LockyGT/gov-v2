@@ -44,10 +44,9 @@ public class DocumentoPartnerServiceImpl implements DocumentoPartnerService {
 			if(documentoPartner == null) {
 				documentoPartner  = new DocumentoPartner();
 				documentoPartner.setUuidDocumento(documento.getUuid());
-				documentoPartner.setDocumento(documento);
-			}else {
-				documentoPartner.setDocumento(documento);
 			}
+			documentoPartner.setDocumento(documento);
+			documentoPartner.setIdPartner(idPartner);
 			lista.add(documentoPartner);
 		}
 		return lista;
@@ -55,6 +54,7 @@ public class DocumentoPartnerServiceImpl implements DocumentoPartnerService {
 
 	@Override
 	public DocumentoPartner saveDocumentoPartner(DocumentoPartner documentoPartner) {
+		documentoPartner.setDocumento(null);
 		return documentoParnterRepo.save(documentoPartner);
 	}
 
