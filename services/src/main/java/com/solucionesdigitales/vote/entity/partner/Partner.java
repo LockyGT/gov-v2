@@ -28,6 +28,7 @@ public class Partner {
 	private String distrito;
 	private String legislatura;
 	private String telefono;
+	private String celular;
 	@DBRef
 	private PoliticalParty partido;
 	@DBRef
@@ -37,6 +38,12 @@ public class Partner {
 	@DBRef
 	private Photo foto;	
 	private int tipoPartner;//1 LEGISLATOR, 2 OPERATOR 
+	private String sexo;
+	private int edad;
+	private String rfc;
+	private String curp;
+	private String nss;
+	private Section section;
 	private int status;
 	
 	/**
@@ -120,6 +127,18 @@ public class Partner {
 		this.telefono = telefono;
 	}
 	/**
+	 * @return the celular
+	 */
+	public String getCelular() {
+		return celular;
+	}
+	/**
+	 * @param celular the celular to set
+	 */
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+	/**
 	 * @return the comisiones
 	 */
 	public String getComisiones() {
@@ -198,14 +217,84 @@ public class Partner {
 	public void setTipoPartner(int tipoPartner) {
 		this.tipoPartner = tipoPartner;
 	}
+	/**
+	 * @return the sexo
+	 */
+	public String getSexo() {
+		return sexo;
+	}
+	/**
+	 * @param sexo the sexo to set
+	 */
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	/**
+	 * @return the edad
+	 */
+	public int getEdad() {
+		return edad;
+	}
+	/**
+	 * @param edad the edad to set
+	 */
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+	/**
+	 * @return the rfc
+	 */
+	public String getRfc() {
+		return rfc;
+	}
+	/**
+	 * @param rfc the rfc to set
+	 */
+	public void setRfc(String rfc) {
+		this.rfc = rfc;
+	}
+	/**
+	 * @return the curp
+	 */
+	public String getCurp() {
+		return curp;
+	}
+	/**
+	 * @param curp the curp to set
+	 */
+	public void setCurp(String curp) {
+		this.curp = curp;
+	}
+	/**
+	 * @return the nss
+	 */
+	public String getNss() {
+		return nss;
+	}
+	/**
+	 * @param nss the nss to set
+	 */
+	public void setNss(String nss) {
+		this.nss = nss;
+	}
+	/**
+	 * @return the section
+	 */
+	public Section getSection() {
+		return section;
+	}
+	/**
+	 * @param section the section to set
+	 */
+	public void setSection(Section section) {
+		this.section = section;
+	}
 	public int getStatus() {
 		return status;
 	}
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
 	public User getUser() {
 		return user;
 	}
@@ -220,8 +309,8 @@ public class Partner {
 		return "Partner [id=" + id + ", sku=" + sku + ", name=" + name + ", apPaterno=" + apPaterno + ", apMaterno="
 				+ apMaterno + ", fechaCumplianos=" + fechaCumplianos + ", email=" + email + ", comisiones=" + comisiones
 				+ ", distrito=" + distrito + ", legislatura=" + legislatura + ", telefono=" + telefono + ", partido="
-				+ partido + ", user=" + user + ", congreso=" + congreso + ", foto=, tipoPartner="
-				+ tipoPartner + ", status=" + status + "]";
-	}	
-	
+				+ partido + ", user=" + user + ", congreso=" + congreso + ", foto=" + foto + ", tipoPartner="
+				+ tipoPartner + ", sexo=" + sexo + ", edad=" + edad + ", rfc=" + rfc + ", curp=" + curp + ", nss=" + nss
+				+ ", section=" + section + ", status=" + status + "]";
+	}
 }

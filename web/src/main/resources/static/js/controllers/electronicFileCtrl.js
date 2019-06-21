@@ -1,4 +1,4 @@
-app.controller('rrhhCtrl', function($scope, $rootScope, $stateParams, $state, LoginService, factory, MenuHasSubMenuService) {
+app.controller('electronicFileCtrl', function($scope, $rootScope, $stateParams, $state, LoginService, factory, MenuHasSubMenuService) {
 	$rootScope.title = "AngularJS Login Sample";    
 	$scope.bgClassBody  = 'bg-body-panel';
 	angular.element('body').removeClass($scope.bgClassBody);
@@ -20,8 +20,12 @@ app.controller('rrhhCtrl', function($scope, $rootScope, $stateParams, $state, Lo
 		factory.get('components/data/menu/index_menu.json').then(function mySuccess(data) {				
 			$scope.menus = data;
 			angular.forEach($scope.menus, function(val, key){
-				if(val.id == indexMenu){	
-					$scope.subMenus = val.childs;
+				if(val.id == 14){	
+					angular.forEach(val.childs, function(val1, key1){
+						if(val1.id == indexMenu){	
+							$scope.subMenus = val1.childs;
+						}
+					});
 				}
 			});
 		}, function myError(response) {

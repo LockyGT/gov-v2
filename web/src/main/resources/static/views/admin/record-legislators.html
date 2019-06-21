@@ -1,0 +1,568 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+.modal-lg {
+	max-width: 80% !important;
+}
+
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	-webkit-box-shadow: 0px 0px 0px 0px #000;
+	box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+	font-size: 1.2em !important;
+	font-weight: bold !important;
+	text-align: left !important;
+	width: inherit; /* Or auto */
+	padding: 0 10px; /* To give a bit of padding on the left and right */
+	border-bottom: none;
+}
+</style>
+<h1 class="my-4">
+	Expediente electrónico legisladores <i class="far fa-address-card"></i>
+</h1>
+<section data-ng-if="partner">
+	<div class="row">
+		<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
+			<form name="formLegislator"
+				data-ng-submit="submitForm(formLegislator.$valid)" novalidate>
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">{{!recorLegislator.id ? 'Nuevo ':
+							'Actualizar'}}</h5>
+					</div>
+					<div class="card-body">
+						<!-- 					Datos personales del legislador -->
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Datos
+								personales</legend>
+							<article class="row">
+								<div class="col-md-4">
+									<i class="fas fa-user fa-5x"></i> <input type="file" class="form-control-input" accept="image/png, image/jpeg" data-fileread="partner.foto.filePath">
+								</div>
+								<div class="col-md-8">
+									<div class="form-group">
+										<label for="nameLegislator">Nombre(s)</label> <input
+											type="text"  name="nameLegislator"  class="form-control" data-ng-model="partner.name" id="nameLegislator"
+											data-fileread="partner.foto.filePath" maxlength="40">
+									</div>
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="surnamePLegislator">Apellido Paterno</label> <input name="surnamePLegislator" 
+												type="text" class="form-control" maxlength="40" data-ng-model="partner.apPaterno" id="surnamePLegislator">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="surnameMLegislator">Apellido Materno</label> <input name="surnamePMegislator"
+												type="text" class="form-control" maxlength="40" id="surnamePMegislator" data-ng-model="partner.apMaterno">
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="fechaCumplianosLegislator">Fecha de nacimiento</label> <input
+												data-ng-model="partner.fechaCumplianos" name="fechaCumplianosLegislator"
+												data-ng-max="maxDate"
+												type="date" class="form-control" id="fechaCumplianosLegislator">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="edadLegislator">Edad</label> <input
+												data-ng-model="partner.edad" name="edadLegislator"
+												type="number" class="form-control" id="edadLegislator">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="sexoLegislator">Sexo</label> <select
+												data-ng-model="partner.sexo" id="sexoLegislator"
+												class="form-control" name="sexoLegislator">
+												<option value="" selected disabled>Seleccione..</option>
+												<option value="m">Masculino</option>
+												<option value="f">Femenino</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="curpLegislator">Curp</label> <input
+												data-ng-model="partner.curp" name="curpLegislator"
+												type="text" class="form-control" id="curpLegislator">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="rfcLegislator">RFC</label> <input
+												data-ng-model="partner.rfc" name="rfcLegislator"
+												type="text" class="form-control" id="rfcLegislator">
+										</div>
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<!-- 					Datos Grupos y Representaciones parlamentarias -->
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Grupos y
+								Representaciones parlamentarias</legend>
+							<article class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="partidoLegislator">Partido político</label> <select
+											data-ng-model="partner.partido" name="partidoLegislator"
+											data-ng-options="pa as pa.name for pa in parties track by $index"
+											class="form-control" id="partidoLegislator">
+											<option value="" selected disabled>Seleccione...</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="comisionesLegislator">Comisiones</label> <input
+											data-ng-model="partner.comisiones" name="comisionesLegislator"
+											type="text" class="form-control" id="comisionesLegislator">
+									</div>
+									<div class="form-group">
+										<label for="distritoLegislator">Distrito</label> 
+										<input
+											data-ng-model="partner.distrito" name="distritoLegislator"
+											type="text" class="form-control" id="distritoLegislator">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="d-flex flex-column">
+										<span>Logo partido</span> <i class="far fa-image fa-5x"></i>
+									</div>
+									<div class="form-group">
+										<label for="legislaturaLegislator">Legislatura</label> <input
+											data-ng-model="partner.legislatura" name="legislaturaLegislator"
+											type="text" class="form-control" id="legislaturaLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<!-- 					Datos domicilio particular -->
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Domicilio
+								Particular</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-6">
+										<label for="streetPLegislator">Calle</label> <input
+											data-ng-model="partner.section.homeAddress.street"
+											name="streetLegislator"
+											type="text" class="form-control" id="streetLegislator">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="numberExtLegislator">Número ext.</label> <input
+											data-ng-model="partner.section.homeAddress.numberExt"
+											name="numberExtLegislator"
+											type="text" class="form-control" id="numberExtLegislator">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="numberIntLegislator">Número Int.</label> <input
+											data-ng-model="partner.section.homeAddress.numberInt"
+											name="numberIntLegislator"
+											type="text" class="form-control" id="numberIntLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="cpLegislator">C.P.</label> <input
+											data-ng-model="partner.section.homeAddress.cp"
+											type="text" class="form-control" id="cpLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="colonyLegislator">Colonia</label> <input
+											data-ng-model="partner.section.homeAddress.colony"
+											name="colonyLegislator"
+											type="text" class="form-control" id="colonyLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="betweenStreetsLegislator">Entre calles</label> <input
+											data-ng-model="partner.section.homeAddress.betweenStreets"
+											name="betweenStreetsLegislator"
+											type="text" class="form-control" id="betweenStreetsLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="stateLegislator">Estado</label> <input
+											data-ng-model="partner.section.homeAddress.state"
+											name="stateLegislator"
+											type="text" class="form-control" id="stateLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="municipalityLegislator">Delegación/Municipio</label> <input
+											data-ng-model="partner.section.homeAddress.municipality"
+											name="municipalityLegislator"
+											type="text" class="form-control" id="municipalityLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<!-- 					Datos domicilio laboral -->
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Domicilio
+								Laboral</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-6">
+										<label for="streetLLegislator">Calle</label> <input
+											data-ng-model="partner.section.laborAddress.street"
+											name="streetLLegislator"
+											type="text" class="form-control" id="streetLLegislator">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="numberExtLLegislator">Número ext.</label> <input
+											data-ng-model="partner.section.laborAddress.numberExt"
+											name="numberExtLLegislator"
+											type="text" class="form-control" id="numberExtLLegislator">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="numberIntLLegislator">Número Int.</label> <input
+											data-ng-model="partner.section.laborAddress.numberInt"
+											name="numberIntLLegislator"
+											type="text" class="form-control" id="numberIntLLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="cpLLegislator">C.P.</label> <input
+											data-ng-model="partner.section.laborAddress.cp"
+											name="cpLLegislator"
+											type="text" class="form-control" id="cpLLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="colonyLLegislator">Colonia</label> <input
+											data-ng-model="partner.section.laborAddress.colony"
+											name="colonyLLegislator"
+											type="text" class="form-control" id="colonyLLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="betwennStreetsLLegislator">Entre calles</label> <input
+											data-ng-model="partner.section.laborAddress.betwennStreets"
+											type="text" class="form-control" id="betwennStreetsLLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="stateLLegislator">Estado</label> <input
+											data-ng-model="partner.section.laborAddress.state"
+											name="stateLLegislator"
+											type="text" class="form-control" id="stateLLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="municipalityLLegislator">Delegación/Municipio</label> <input
+											data-ng-model="partner.section.laborAddress.municipality"
+											name="municipalityLLegislator"
+											type="text" class="form-control" id="municipalityLLegislator">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="numberFixedLLegislator">Número fijo</label> <input
+											data-ng-model="partner.section.laborAddress.numberFixed"
+											name="numberFixedLegislator"
+											type="text" class="form-control" id="numberFixedLegislator">
+									</div>
+									<div class="form-group col-md-1">
+										<label for="extLLegislator">Ext</label> <input
+											data-ng-model="partner.section.laborAddress.ext"
+											name="extLLegislator"
+											type="text" class="form-control" id="extLLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<!-- 					Nivel de estudios-->
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Nivel de
+								estudios</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-6">
+										<label for="lastGradeLegislator">Ultimo grado de estudios</label> 
+										<select class="form-control" id="lastGradeLegislator"
+												name="lastGradeLegislator"
+												data-ng-model="partner.section.studies.lastGrade">
+											<option value="" selected disabled>Seleccione...</option>
+											<option value="Primaria">Primaria</option>
+											<option value="Secundaria">Secundaria</option>
+											<option value="Preparatoria">Preparatoria</option>
+											<option value="Universidad">Universidad</option>
+											<option value="Maestria">Maestria</option>
+											<option value="Doctorado">Doctorado</option>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="complementaryStudiesLegislator">Estudios complementarios</label> <input
+											data-ng-model="partner.section.studies.complementaryStudies"
+											name="complementaryStudiesLegislator"
+											type="text" class="form-control" id="complementaryStudiesLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-6">
+										<label for="careerLegislator">Carrea/Licenciatura</label> <input
+											data-ng-model="partner.section.studies.career"
+											name="careerLegislator"
+											type="text" class="form-control" id="careerLegislator">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="complementaryStudiesOtherLegislator">Estudios complementarios</label> <input
+											data-ng-model="partner.section.studies.complementaryStudiesOther"
+											name="complementaryStudiesOtherLegislator"
+											type="text" class="form-control" id="complementaryStudiesOtherLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-6">
+										<label for="professionalLicenseLegislator">Cédula Profecional</label> <input
+											data-ng-model="partner.section.studies.professionalLicense"
+											name="professionalLicenseLegislator"
+											type="text" class="form-control" id="professionalLicenseLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Datos de
+								salud</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="nssLegislator">NSS</label> <input
+											data-ng-model="partner.nss" name="nssLegislator"
+											type="text" class="form-control" id="nssLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="allergiesLegislator">Alergías</label> <input
+											data-ng-model="partner.section.health.allergies" name="allergiesLegislator"
+											type="text" class="form-control" id="allergiesLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="surnameMLegislator">Tipo de sangre</label> <input
+											data-ng-model="partner.section.health.bloodType" name="surnamePMegislator"
+											type="text" class="form-control" id="surnamePMegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="surnamePLegislator">Enfermedades</label> <input
+											data-ng-model="partner.section.health.diseases" name="surnamePLegislator"
+											type="text" class="form-control" id="surnamePLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Datos de
+								contacto</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="telefonoLegislator">No. Teléfono</label> <input
+											data-ng-model="partner.telefono" name="telefonoLegislator"
+											type="text" class="form-control" id="telefonoLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="celularLegislator">No. Celular</label> <input
+											data-ng-model="partner.celular" name="celularLegislator"
+											type="text" class="form-control" id="celularLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="emailLegislator">Correo</label> <input
+											data-ng-model="partner.email" name="emailLegislator"
+											type="text" class="form-control" id="emailLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="personLegislator">Persona de contacto</label> <input
+											data-ng-model="partner.section.contact.person" name="personLegislator"
+											type="text" class="form-control" id="personLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="relationshipLegislator">Parentesco</label> <input
+											data-ng-model="partner.section.contact.relationship" name="relationshipLegislator"
+											type="text" class="form-control" id="relationshipLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="telephoneCLegislator">Teléfono</label> <input
+											data-ng-model="partner.section.contact.telephone" name="telephoneCLegislator"
+											type="text" class="form-control" id="telephoneCLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Datos
+								bancarios</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="bankLegislator">Banco operador</label>
+										 <select class="form-control" id="bankLegislator"
+										 		name="bankLegislator"
+										 		data-ng-model="partner.section.bankData.bank">
+										 	<option value="" selected disabled>Seleccione...</option>
+										 	<option value="Bancomer">Bancomer</option>
+										 	<option value="Banamex">Banamex</option>
+										 </select>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="numberAccountLegislator">No. de cuenta</label> <input
+											data-ng-model="partner.section.bankData.numberAccount"
+											name="numberAccountLegislator"
+											type="text" class="form-control" id="numberAccountLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="numberKeyLegislator">No. de cuenta CLABE</label> <input
+											data-ng-model="partner.section.bankData.numberKey"
+											name="numberKeyLegislator"
+											type="text" class="form-control" id="numberKeyLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+						<fieldset class="scheduler-border">
+							<legend align="left" class="scheduler-border">Datos de
+								contrato</legend>
+							<article class="row">
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="coontractTypeLegislator">Tipo de contrato</label> <input
+											data-ng-model="partner.section.contractData.coontractType"
+											name="coontractTypeLegislator"
+											type="text" class="form-control" id="coontractTypeLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="jobLegislator">Puesto laboral</label> 
+										<select class="form-control" id="jobLegislator"
+												name="jobLegislator"
+												data-ng-model="partner.section.contractData.job">
+										 	<option value="" selected disabled>Seleccione...</option>
+										 	<option value="legislador">Legislador</option>
+										 	<option value="Otro">Otro</option>
+										 </select>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="bossLegislator">Jefe inmediato</label> <input
+											data-ng-model="partner.section.contractData.boss"
+											name="bossLegislator"
+											type="text" class="form-control" id="bossLegislator">
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="startDateLegislator">Fecha de inicio</label>
+										<input
+											data-ng-model="partner.section.contractData.startDate"
+											name="startDateLegislator"
+											type="date" class="form-control" id="startDateLegislator">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="endDateLegislator">Fecha fín</label> 
+										<input
+											data-ng-model="partner.section.contractData.endDate"
+											name="endDateLegislator"
+											type="date" class="form-control" id="endDateLegislator">
+									</div>
+								</div>
+							</article>
+						</fieldset>
+					</div>
+
+					<div class="card-footer">
+						<button type="submit" class="btn btn-success">
+							<i class="fas"
+								data-ng-class="!partner.id? 'fa-plus': 'fa-sync'"></i>
+							{{!partner.id? 'Guardar': 'Actualizar'}}
+						</button>
+						<button type="button" class="btn btn-danger"
+							data-ng-click="cancelAddUpModule()">
+							<i class="fas fa-times"></i> Cancelar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+
+<section data-ng-if="!partner">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="btn-group mr-3">
+					<button type="button" class="btn btn-light"
+						data-ng-click="topReturn()">
+						<i class="fas fa-arrow-left"></i> Regresar
+					</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-success"
+						data-ng-click="newRecordLegislator()">
+						<i class="fas fa-plus"></i> Nuevo
+					</button>
+				</div>
+				<div class="input-group col-md-4">
+					<input class="form-control py-2" type="search" value="search"
+						id="example-search-input" placeholder="Buscar"
+						data-ng-model="searchRecordLegislator"> <span
+						class="input-group-append"> </span>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-body">
+			<div class="row">
+				<div class="alert alert-primary"
+					data-ng-if="!recordLegislators.length">No se encontraron
+					expedientes electrónicos de los legisladores en el sistema</div>
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Partido</th>
+								<th>Rol</th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
+						<tbody>
+							<tr
+								data-ng-repeat="rl in recordLegislators | filter: searchRecordLegislator track by $index">
+								<td>{{rl.name}} {{rl.apPaterno}} {{rl.apMaterno}}</td>
+								<td>{{rl.partido.acronym}}</td>
+								<td>{{rl.user.userRol.rolename}}</td>
+								<td>
+									<button type="button" class="btn btn-info"
+										data-ng-if="rl.id != null" data-ng-click="show(rl)">Ver</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-success"
+										data-ng-if="rl.id != null" data-ng-click="update(rl)">Actualizar</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-danger"
+										data-ng-if="rl.id != null" data-ng-click="confirmDelete(rl)">Eliminar</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-dark"
+										data-ng-if="rl.id != null" data-ng-click="archive(rl)">Documento</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
