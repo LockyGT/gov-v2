@@ -37,7 +37,7 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
     $scope.downloadFile = function(partnerDocument){
     	$scope.getOldFileNames = partnerDocument.acrhivo.split(",");
     	let file = {
-    			path:'partner\\' + $scope.getOldFileNames[1],
+    			path:'partner/' + $scope.getOldFileNames[1],
     			filename:$scope.getOldFileNames[0]		
     	}
     	
@@ -80,7 +80,7 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 		}); 
 		$scope.getOldFileNames = partnerDocument.acrhivo.split(",");
 		let file = {
-			urlServerFile:'partner\\' + $scope.getOldFileNames[1],
+			urlServerFile:'partner/' + $scope.getOldFileNames[1],
 			serverName:$scope.getOldFileNames[0],
 			originalName:$scope.getOldFileNames[2]
 			
