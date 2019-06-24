@@ -74,8 +74,13 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 					})
 				}, 1000)
 			} else {
-				swal.stopLoading();				
-				$scope.error = "Usuario/Password incorrecto!";
+				swal.stopLoading();	
+				if($scope.passwordEnable){
+					$scope.error = "Usuario/Password incorrecto!";
+				} else {
+					$scope.error = "Usuario incorrecto!";
+				}
+				
 				return !1
 			}
 		}, function error(response) {
@@ -521,7 +526,15 @@ app.controller('inicioCtrl', function($timeout, $rootScope, $scope, $http, $log,
 				case "deshabilitado":
 					partnerService.getByStatusInit(_PARTNER._STATUS._ACTIVE).then(function(response) {
 						if (response && response.mensaje === "forbidden") {
-							$scope.enterEnable = !0
+							
+							configService.getPE().then(dataEnabled => {
+								if(dataEnabled.passwordEnabled === "deshabilitado") {
+									$scope.passwordEnable = !1;
+								} else if(dataEnabled.passwordEnabled === "habilitado"){
+									$scope.passwordEnable = !0;
+								}
+								$scope.enterEnable = !0
+							}, errorDataEnabled => {});
 						} else {
 							if (response && response.mensaje === "allowed") {
 								//$scope.getAccessToken();

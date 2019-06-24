@@ -9,4 +9,14 @@ app.service('configService', function($q, factory) {
 			});			
 		});
 	};
+	
+	self.getPE = ()=>{		
+		return $q(function(resolve, reject) {			
+			factory.get('config/auth-password').then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
 });

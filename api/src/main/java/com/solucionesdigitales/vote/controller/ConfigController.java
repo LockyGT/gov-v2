@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("config")
 public class ConfigController {
 	private static final Logger logger = LoggerFactory.getLogger(ConfigController.class);	
+	
 	@Value("${authentication.by.finger.enabled: false}")
 	private boolean fingerPrintEnabled;	
+	
+	@Value("${authentication.by.password.enabled: false}")
+	private boolean passwordEnabled;
+	
 	/**
 	 * 
 	 * @return Object
@@ -33,7 +38,20 @@ public class ConfigController {
 		Map<String, String> resp2 = new HashMap<String, String>();
 		resp2.put("fingerPrintEnabled", resp);	
 		return resp2;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @return Object
+	 */
+	@GetMapping(value = "/auth-password")
+	public Object getAuthPassword() {
+		logger.info("consulta de auth:");
+		String resp = passwordEnabled ? "habilitado" : "deshabilitado";
+		Map<String, String> resp2 = new HashMap<String, String>();
+		resp2.put("passwordEnabled", resp);	
+		return resp2;
+	}
 
 
 }

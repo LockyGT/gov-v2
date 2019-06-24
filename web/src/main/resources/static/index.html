@@ -11,7 +11,7 @@
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css">
-<!-- <link rel="stylesheet" type="text/css" href="/webjars/summernote/0.8.11/dist/summernote.css"> -->
+<link rel="stylesheet" type="text/css" href="/webjars/summernote/0.8.11/dist/summernote.css"> 
 <link href="css/main.css" rel="stylesheet" type="text/css">
 <!-- Custom styles for this template -->
 <link href="css/4-col-portfolio.css" rel="stylesheet" type="text/css">
@@ -86,6 +86,7 @@
 	</div>
 	<!-- /.container -->
 	<script type="text/ng-template" id="login.html">
+
       <div class="card-login card-container">
         <img id="profile-img" class="profile-img-card loginPicture" src="../img/user.png" />
         <p id="profile-name" class="profile-name-card"></p>
@@ -95,7 +96,8 @@
           <input type="text" id="txtUserName" class="form-control" ng-model="username" placeholder="Nombre de Usuario" value="test" required ng-required="required" autofocus>
           <br/>
           <span id="reauth-email" class="reauth-email"></span>
-          <input type="password" id="txtUserPassword" class="form-control" data-ng-model="password" placeholder="Contraseña" value="test" ng-required="required" >
+		
+          <input type="password" ng-show="passwordEnable" id="txtUserPassword" class="form-control" ng-model="password" placeholder="Contraseña" value="test" ng-required="required" >
         
           <p class="text-danger">{{error}}</p>
 		  <br>
@@ -142,7 +144,7 @@
 	<!-- BOOTSTRAP -->
 	<script type="text/javascript"
 		src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- 	<script type="text/javascript" src="/webjars/summernote/0.8.11/dist/summernote.js"></script> -->
+	<script type="text/javascript" src="/webjars/summernote/0.8.11/dist/summernote.js"></script>
 	<!-- ANGULAR -->
 	<script type="text/javascript"
 		src="/webjars/angularjs/1.7.7/angular.min.js"></script>
@@ -246,9 +248,11 @@
 	<script type="text/javascript" src="js/controllers/initiativePeriodReportCtrl.js"></script>
 	<script type="text/javascript" src="js/controllers/reporteLegislaturaCtrl.js"></script>
 	<script type="text/javascript" src="js/controllers/categoriaDeDocumentosCtrl.js"></script>
-	
 	<script type="text/javascript" src="js/controllers/documentoPartnerCtrl.js"></script>
-	
+	<script type="text/javascript" src="js/controllers/rrhhCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/electronicFileCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/recordLegislatorsCtrl.js"></script>
+
 	<!-- Services Angular -->
 	<script type="text/javascript" src="js/services/LoginService.js"></script>
 	<script type="text/javascript"

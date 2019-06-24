@@ -40,7 +40,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 	
-	
 	//@Autowired
 	MongoUserDetailsService userDetails;
 	UserRepository userRepository;
@@ -49,35 +48,38 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private PartnerService partnerService;
 	
 	private AuthenticationManager authenticationManager;
-	
-	
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager,PartnerService partnerService,FingerPrintRepository fingerPrintRepository,PartnerHasFingerPrintServiceImpl validadorDeHuella) {
+	private boolean passwordEnabled;
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager,PartnerService partnerService,FingerPrintRepository fingerPrintRepository,PartnerHasFingerPrintServiceImpl validadorDeHuella,boolean passwordEnabled) {
 		this.authenticationManager = authenticationManager;
 		this.partnerService= partnerService;
 		this.fingerPrintRepository = fingerPrintRepository;
 		this.validadorDeHuella = validadorDeHuella;
-		
-		
+		this.passwordEnabled = passwordEnabled;
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request,	HttpServletResponse response) 
 			throws AuthenticationException {
 		LOGGER.error("AUTENTICANDO");
+		
+		
 		com.solucionesdigitales.vote.entity.user.User access;
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = null;
 			access = new ObjectMapper().readValue(request.getInputStream(),
 					com.solucionesdigitales.vote.entity.user.User.class);			
 			LOGGER.info("access object -->" + access.toString());
-			
+			FingerPrint fp = new FingerPrint();
 			Partner partner =partnerService.findByUserUsername(access.getUsername());
-			if(partner != null) {
+			if(partner != null && passwordEnabled) {
 				partner = partnerService.findByUsernameAndPassword(access.getUsername(), access.getPassword());
 			}
 			
+			if(!passwordEnabled) {
+				access.setPassword("test");
+			}
 			//FingerPrint  fingerPrint = fingerPrintRepository.findByTemplateSt(access.getPassword());//?
-			FingerPrint fp = new FingerPrint();
+			
 			fp.setTemplateSt(access.getPassword());
 			
 			PartnerHasFingerPrint partnerHasFingerPrint = new PartnerHasFingerPrint();
@@ -101,7 +103,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain, Authentication auth)
 			throws IOException, ServletException {
-		LOGGER.debug("Test(User):"+((User) auth.getPrincipal()).getUsername());
+		LOGGER.debug("----------- | Test(User):"+((User) auth.getPrincipal()).getUsername());
 
 		String token = Jwts
 				.builder()

@@ -235,6 +235,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/demoVersionFile.html',
 		controller : 'demoVersionFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('rrhh', {
+		url : '/rrhh',
+		templateUrl : './views/admin/rrhh.html',
+		controller : 'rrhhCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('organigrama', {
 		url : '/organigrama',
 		templateUrl : './views/admin/organigrama.html',
@@ -252,7 +257,15 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		},
 		templateUrl : './views/admin/documentoPartner.html',
 		controller : 'documentoPartnerCtrl' ,
+	}).state('electronic-file', {
+		url : '/electronic-file',
+		templateUrl : './views/admin/electronic-file.html',
+		controller : 'electronicFileCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('record-legislators', {
+		url : '/record-legislators',
+		templateUrl : './views/admin/record-legislators.html',
+		controller : 'recordLegislatorsCtrl',
 	});
 	
 	
