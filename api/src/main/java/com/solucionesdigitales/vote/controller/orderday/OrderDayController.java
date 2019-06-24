@@ -126,6 +126,12 @@ public class OrderDayController {
 		return service.postNewVerssion(entity);
 	}
 	
+	@PutMapping(value="/updatePublished")
+	public OrderDay putPublished(@RequestBody final OrderDay entity) {				
+		logger.info("Actualizacion de la orden del dia publicada: ["+entity.toString()+"]");		
+		return service.putPublished(entity);
+	}
+	
 	@PutMapping
 	public OrderDay put(@RequestBody final OrderDay entity) {				
 		logger.info("Order Day a actualizar: ["+entity.toString()+"]");		

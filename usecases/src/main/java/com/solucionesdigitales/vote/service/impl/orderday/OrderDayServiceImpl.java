@@ -122,7 +122,19 @@ public class OrderDayServiceImpl implements OrderDayService {
 		orderDayRepository.save(entity);
 		return nuevaVersion;
 	}
-
+	
+	@Override
+	public OrderDay putPublished(OrderDay entity) {
+		OrderDay upPublished = new OrderDay();
+		
+		upPublished = orderDayRepository.findByReferencia(entity.getReferencia());
+		upPublished.setPublished(true);
+//		if(entity.getReferencia() != null) {
+//			
+//		}
+		
+		return upPublished;
+	}
 
 	@Override
 	public OrderDay put(OrderDay entity) {
@@ -164,6 +176,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 		date.add(Calendar.DAY_OF_YEAR, 1);
 		return orderDayRepository.findByIsPublishedAndFechaBetween(status,dateStart,date.getTime());
 	}
+
+	
 
 	
 

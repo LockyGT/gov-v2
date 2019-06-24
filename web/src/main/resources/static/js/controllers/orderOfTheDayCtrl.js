@@ -38,6 +38,16 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		}
 	};
 	
+	$scope.cancelSearch = () => {
+		$scope.getPostOrderDays();
+		$scope.searchElement = null;
+		$scope.isSearch=false;
+		$scope.filtrosFechas.searchDateStart = new Date();
+		$scope.filtrosFechas.searchDateEnd = new Date();
+
+		
+	};
+	
 	$scope.getBetweenDatesPublished = (filtrosFechas) => {
 		swal({
 			title: "Consultandos Ordenes del día",
@@ -61,6 +71,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
+				$scope.isSearch=true;
 				//$scope.getPostOrderDays();
 			},500);
 
@@ -74,7 +85,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 
 	$scope.getPostOrderDays = function (){
 		swal({
-			title: "Publicando Orden del día",
+			title: "Concultando Orden del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {

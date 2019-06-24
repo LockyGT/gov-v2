@@ -12,6 +12,17 @@ app.service('orderdayService', function($q, factory) {
 	};
 	
 	
+	self.getPdf = (orderday)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get('reportOd/getPdf', orderday).then(function mySuccess(data) {	
+				
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.getByDateBetween = (date)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/date/between', date).then(function mySuccess(data) {						
@@ -112,7 +123,7 @@ app.service('orderdayService', function($q, factory) {
 				reject(errResponse);
 			});			
 		});
-	};	
+	};
 	
 	self.post = (orderday) => {
 		return $q((resolve, reject)=>{
@@ -132,11 +143,21 @@ app.service('orderdayService', function($q, factory) {
 				resolve(errorData);
 			});
 		});
-	};
+	}; 
 	
 	self.put = (orderday) => {
 		return $q((resolve, reject)=>{
 			factory.put(path,orderday).then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				resolve(errorData);
+			});
+		});
+	};
+	
+	self.putPublished = (orderday) => {
+		return $q((resolve, reject)=>{
+			factory.put(path+ '/updatePublished',orderday).then(function success(data){
 				resolve(data);
 			}, function error(errorData){
 				resolve(errorData);
