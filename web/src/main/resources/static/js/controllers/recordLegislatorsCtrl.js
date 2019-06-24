@@ -1,11 +1,13 @@
-app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout){
+app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService){
 	
 	$scope.parties           = [];
 	$scope.recordLegislator  = null;
 	$scope.recordLegislators = [];
-	$scope.maxDate = new Date();
+	$scope.maxDate           = new Date();
+	$scope.partner           = null;
 	
 	$scope.newRecordLegislator = () => {
+		console.log('Nuevo legislador: ')
 		$scope.partner = {
 				status: 1,
 				tipoPartner: 1
@@ -13,11 +15,41 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	};
 
 	$scope.show = recordLegislator => {
-		console.log('Información para mostrar: ', recordLegislator);
+		$scope.recordLegislator = recordLegislator;
 	};
 	
 	$scope.update = recordLegislator => {
 		$scope.partner  = recordLegislator;
+		if($scope.partner.foto != null && $scope.partner.foto.filePath != null) {
+			$scope.fetchFile($scope.partner.foto.filePath);
+		}
+	};
+	
+	$scope.changePolicalParty = (partido) => {
+		console.log('Informacion del legislador: ',$scope.partner.partido, 'partido_: ', partido)
+		if($scope.partner.partido.logo){
+			let sendData = {
+					"filePath": $scope.partner.partido.logo
+			};
+			console.log('Informacion del logo enviada: ', sendData);
+			storageService.getB64(sendData).then(response => {
+				$scope.fotoPartido = response.file;
+			}, errorResponse => {
+				console.log('Error: ', errorResponse);
+			});
+		}
+	};
+	
+	$scope.fetchFile = filePath => {
+		let sendData = {
+				"filePath": filePath
+		};
+		storageService.getB64(sendData).then(response => {
+			$scope.partner.foto.filePath = response.file;
+		}, errorResponse => {
+			console.log('Error: ', errorResponse);
+		});
+		
 	};
 	
 	$scope.delete = recordLegislator => {
@@ -95,6 +127,7 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	$scope.getPoliticalParties = () =>{	
 		factory.get('politicalparty').then(function mySuccess(data) {			
 			$scope.parties = data;
+			console.log('Data de partidos recibida: ', data)
 		}, function myError(response) {
 			$scope.myWelcome = response.statusText;
 			swal("Error",$scope.myWelcome, "error");			
