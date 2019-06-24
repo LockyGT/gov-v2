@@ -262,6 +262,10 @@ app.controller('partnerCtrl', function($rootScope, $timeout, $scope,$http, $wind
 		$state.go('partners.enrollment', {partner: leg});
 		$('#myModal').modal('show');
 	};
+	$scope.addDocuments = (leg) =>{
+		$state.go('documentoPartner', {partnerId: leg.id});
+		
+	};
 	
 	$scope.validText=()=>{
 		 var today = new Date();

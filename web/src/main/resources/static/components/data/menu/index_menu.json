@@ -511,7 +511,20 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
-			}
-		]
+
+	},{
+				"id": 14,
+				"index": 14.0,
+				"title": "Repositorio de Documentos",
+				"url": "#!categoriaDeDocumentos",
+				"icon": "fas fa-copy",
+				"color": "#4286f4",
+				"image": "../img/periodico.png",
+				"alt": "categoriaDeDocumentos",
+				"text": "",
+				"roles": ["OPERADOR"],
+				"levels": 1,
+				"childs": [],
+				"status": 1
 	}
 ]
