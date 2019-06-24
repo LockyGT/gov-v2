@@ -1,0 +1,175 @@
+<style>
+
+.files-success input {
+    outline: 4px dashed #28a745;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+
+
+.files-warning input {
+    outline: 4px dashed #d39e00;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+
+.files-danger input {
+    outline: 4px dashed #dc3545;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+
+
+.files-warning input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+ .files-success input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+ .files-danger input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+ 
+.files-warning{ position:relative}
+.files-success{ position:relative}
+.files-danger{ position:relative}
+
+.files-success:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.files-warning:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.files-danger:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.files-danger input{ background-color:#f1f1f1;}
+.files-success input{ background-color:#f1f1f1;}
+.files-warning input{ background-color:#f1f1f1;}
+
+.files-danger:before {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: " Arrasta el archivo adentro del cuadro ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.files-success:before {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: " Arrasta el archivo adentro del cuadro ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize; 
+    text-align: center;
+}
+
+.files-warning:before {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: " Arrasta el archivo adentro del cuadro ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+</style>
+<!-- Page Heading -->
+<h1 class="my-4 toHide">
+	Repositorio de Documentos <i class="fas fa-copy"></i><small></small>
+</h1>
+	<div> <span class="badge badge-success  badge-pill ">Archivo cargado</span>
+<span class="badge badge-warning  badge-pill ">Opcional</span>
+<span class="badge badge-danger  badge-pill " >Requerido</span></div>
+<br>
+	<div class="row" >
+	  <div class="col-md-6" ng-repeat="partnerDocument in partnerDocuments">
+             <div  class="form-group " 
+             ng-class="{'files-danger': partnerDocument.documento.requerido  == true && partnerDocument.acrhivo == null,
+             										 'files-warning': partnerDocument.documento.requerido  == false && partnerDocument.acrhivo == null,
+             										  'files-success': partnerDocument.acrhivo != null}" >
+               <label><b>{{partnerDocument.documento.titulo}}</b> </label>
+               <input type="file" class="form-control" custom-on-change="uploadFile" data-id="{{$index}}">
+             </div> 
+             <button class="btn btn-success btn-sm" ng-disabled="partnerDocument.acrhivo == null"  ng-click="downloadFile(partnerDocument);"  style="padding-left: 40%;padding-right: 40%;line-height:0.8;margin-top:-35px;font-weight: 300;" >Descargar archivo</button>
+	  </div>
+	</div>
+
+
+

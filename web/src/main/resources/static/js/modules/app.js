@@ -245,6 +245,27 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/organigrama.html',
 		controller : 'organigramaCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('categoriaDeDocumentos', {
+		url : '/categoriaDeDocumentos',
+		templateUrl : './views/admin/categoriaDeDocumentos.html',
+		controller : 'categoriaDeDocumentosCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('documentoPartner', {
+		url : '/documentoPartner',
+		params: {
+			partnerId: null
+		},
+		templateUrl : './views/admin/documentoPartner.html',
+		controller : 'documentoPartnerCtrl' ,
+	}).state('electronic-file', {
+		url : '/electronic-file',
+		templateUrl : './views/admin/electronic-file.html',
+		controller : 'electronicFileCtrl',
+		resolve: { authenticate: authenticate }
+	}).state('record-legislators', {
+		url : '/record-legislators',
+		templateUrl : './views/admin/record-legislators.html',
+		controller : 'recordLegislatorsCtrl',
 	});
 	
 	
@@ -269,6 +290,19 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 
 }]);
 
+app.directive('customOnChange', function() {
+	  return {
+	    restrict: 'A',
+	    link: function (scope, element, attrs) {
+	      var onChangeHandler = scope.$eval(attrs.customOnChange);
+	      element.on('change', onChangeHandler);
+	      element.on('$destroy', function() {
+	        element.off();
+	      });
+
+	    }
+	  };
+});
 
 //your directive
 app.directive("fileread", ['$rootScope', function($rootScope) {

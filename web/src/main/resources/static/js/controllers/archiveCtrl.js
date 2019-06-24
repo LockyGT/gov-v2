@@ -1,11 +1,12 @@
 app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, storageService, moduloodService, $stateParams){
 	
-	$scope.records   = [];
-	$scope.archive   = null;
-	$scope.moduleod  = null;
-	$scope.showFiles = null;
+	$scope.records         = [];
+	$scope.archive         = null;
+	$scope.moduleod        = null;
+	$scope.showFiles       = null;
 	$scope.searchDateStart = new Date();
-	$scope.searchDateEnd = new Date();
+	$scope.searchDateEnd   = new Date();
+	$scope.maxSearchDate   = new Date();
 
 	// Reerstablece un tiempo para activar los tooltips
 	$timeout(()=>{
@@ -442,13 +443,13 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 
 	$scope.filterExtention = (extencion) => {
-		let ignores = ["doc","pptx","xls","xlsx", "docx"];
+		let ignores = ["pdf","png", "jpeg"];
 		let filter = $filter('filter')(ignores,extencion);
 		
 		if(filter.length){
-			return false;
-		}else {
 			return true;
+		}else {
+			return false;
 		}
 	};
 	
