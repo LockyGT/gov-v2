@@ -87,32 +87,52 @@ legend.scheduler-border {
 									<i class="fas fa-user fa-5x text-dark"></i>
 									<img data-ng-show="partner.foto" alt="Vista previa foto" data-ng-src="{{partner.foto? partner.foto.filePath: './img/archivo-de-imagen.png'}}">
 								</div>
-									<label class="btn btn-default image-preview-input"> <span
+									<label class="btn btn-default image-preview-input"
+										 data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"> <span
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title"><i class="fas fa-camera text-secondary"></i> Foto</span> <input
 										type="file" accept="image/png, image/jpeg"
 										name="input-file-preview"
 										data-fileread="partner.foto.filePath" /> <!-- rename it -->
 									</label>
+									<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+							        	Ingrese una imagen.
+							      </div>
 								</div>
 								<div class="col-md-8">
 									<div class="form-group">
 										<label for="nameLegislator">Nombre(s)</label> <input
-											type="text" name="nameLegislator" class="form-control"
+											type="text" name="nameLegislator" class="form-control" required
+											data-ng-class="validClass.name ? 'is-'+validClass.name:''"
 											data-ng-model="partner.name" id="nameLegislator" maxlength="40">
+										<div class="d-block" 
+											data-ng-class="validClass.name ? validClass.name+'-feedback':''"
+											data-ng-show="validClass.name">
+								        	Por favor ingrese el nombre.
+								      </div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="surnamePLegislator">Apellido Paterno</label> <input
 												name="surnamePLegislator" type="text" class="form-control"
-												maxlength="40" data-ng-model="partner.apPaterno"
+												data-ng-class="validClass.surnameP ? 'is-'+validClass.surnameP:''"
+												maxlength="40" data-ng-model="partner.apPaterno" required
 												id="surnamePLegislator">
+											<div class="d-block" data-ng-show="validClass.surnameP"
+												data-ng-class="validClass.surnameP ? validClass.surnameP+'-feedback':''">
+									        	Por favor ingrese el apellido paterno.
+									      </div>
 										</div>
 										<div class="form-group col-md-6">
 											<label for="surnameMLegislator">Apellido Materno</label> <input
 												name="surnamePMegislator" type="text" class="form-control"
-												maxlength="40" id="surnamePMegislator"
+												maxlength="40" id="surnamePMegislator" required
+												data-ng-class="validClass.surnameM ? 'is-'+validClass.surnameM:''"
 												data-ng-model="partner.apMaterno">
+											<div class="d-block" data-ng-show="validClass.surnameM"
+												data-ng-class="validClass.surnameM ? validClass.surnameM+'-feedback':''">
+									        	Por favor ingrese el apellido materno.
+									      </div>
 										</div>
 									</div>
 									<div class="form-row">
@@ -120,34 +140,57 @@ legend.scheduler-border {
 											<label for="fechaCumplianosLegislator">Fecha de
 												nacimiento</label> <input data-ng-model="partner.fechaCumplianos"
 												name="fechaCumplianosLegislator" data-ng-max="maxDate"
-												type="date" class="form-control"
+												type="date" class="form-control" required
+												data-ng-class="validClass.fechaCumplianos ? 'is-'+validClass.fechaCumplianos:''"
 												id="fechaCumplianosLegislator">
+											<div class="d-block" data-ng-show="validClass.fechaCumplianos"
+												data-ng-class="validClass.fechaCumplianos ? validClass.fechaCumplianos+'-feedback':''">
+									        	Por favor ingrese una fecha correcta.
+									      </div>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="edadLegislator">Edad</label> <input
-												data-ng-model="partner.edad" name="edadLegislator"
+											<label for="edadLegislator">Edad</label> <input min="1"
+												data-ng-model="partner.edad" name="edadLegislator" required
+												data-ng-class="validClass.edad ? 'is-'+validClass.edad:''"
 												type="number" class="form-control" id="edadLegislator">
+											<div class="d-block" data-ng-show="validClass.edad"
+												data-ng-class="validClass.edad ? validClass.edad+'-feedback':''">
+									        	Por favor ingrese la edad
+									      </div>
 										</div>
 										<div class="form-group col-md-4">
 											<label for="sexoLegislator">Sexo</label> <select
-												data-ng-model="partner.sexo" id="sexoLegislator"
+												data-ng-model="partner.sexo" id="sexoLegislator" required
+												data-ng-class="validClass.sexo ? 'is-'+validClass.sexo:''"
 												class="form-control" name="sexoLegislator">
 												<option value="" selected disabled>Seleccione..</option>
 												<option value="m">Masculino</option>
 												<option value="f">Femenino</option>
 											</select>
+											<div class="d-block" data-ng-show="validClass.sexo"
+												data-ng-class="validClass.sexo ? validClass.sexo+'-feedback':''">
+									        	Por favor ingrese el sexo.
+									      </div>
 										</div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="curpLegislator">Curp</label> <input
 												data-ng-model="partner.curp" name="curpLegislator"
+												data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 												type="text" class="form-control" id="curpLegislator">
+											<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la Curp.
+									      </div>
 										</div>
 										<div class="form-group col-md-6">
 											<label for="rfcLegislator">RFC</label> <input
 												data-ng-model="partner.rfc" name="rfcLegislator" type="text"
+												data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 												class="form-control" id="rfcLegislator">
+											<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el RFC.
+									      </div>
 										</div>
 									</div>
 								</div>
@@ -162,35 +205,53 @@ legend.scheduler-border {
 									<div class="form-group">
 										<label for="partidoLegislator">Partido político</label> <select
 											data-ng-model="partner.partido" name="partidoLegislator"
-											data-ng-options="pa as pa.name for pa in parties track by $index"
-											data-ng-change="changePolicalParty(partner.partido)"
+											data-ng-options="partie as partie.name for partie in parties"
+											data-ng-change="changePolicalParty(partner.partido)" required
+											data-ng-class="validClass.partido ? 'is-'+validClass.partido:''"
 											class="form-control" id="partidoLegislator">
 											<option value="" selected disabled>Seleccione...</option>
 										</select>
+										<div class="d-block" data-ng-show="validClass.partido"
+											data-ng-class="validClass.partido ? validClass.partido+'-feedback':''">
+									        	Por favor ingrese el partido politico.
+									      </div>
 									</div>
 									<div class="form-group">
 										<label for="comisionesLegislator">Comisiones</label> <input
 											data-ng-model="partner.comisiones"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="comisionesLegislator" type="text" class="form-control"
 											id="comisionesLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese las comisiones.
+									      </div>
 									</div>
 									<div class="form-group">
 										<label for="distritoLegislator">Distrito</label> <input
 											data-ng-model="partner.distrito" name="distritoLegislator"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											type="text" class="form-control" id="distritoLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el distrito.
+									      </div>
 									</div>
 								</div>
 								<div class="col-md-6">
-									<div class="d-flex flex-column">
-										<span>Logo partido</span>
-										 <img alt="vista previa foto"
+									<div>
+										<p>Logo partido</p>
+										 <img alt="vista previa foto" style="height: 8em; margin-bottom: 4px;"
 										 data-ng-src="{{fotoPartido? fotoPartido : './img/archivo-de-imagen.png'}}">
 									</div>
 									<div class="form-group">
 										<label for="legislaturaLegislator">Legislatura</label> <input
-											data-ng-model="partner.legislatura"
+											data-ng-model="partner.legislatura" required
+											data-ng-class="validClass.legislatura ? 'is-'+validClass.legislatura:''"
 											name="legislaturaLegislator" type="text" class="form-control"
 											id="legislaturaLegislator">
+										<div class="d-block" data-ng-show="validClass.legislatura"
+											data-ng-class="validClass.legislatura ? validClass.legislatura+'-feedback':''">
+									        	Por favor ingrese la legislatura.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -205,38 +266,62 @@ legend.scheduler-border {
 										<label for="streetPLegislator">Calle</label> <input
 											data-ng-model="partner.section.homeAddress.street"
 											name="streetLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="streetLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la calle.
+									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLegislator">Número ext.</label> <input
 											data-ng-model="partner.section.homeAddress.numberExt"
 											name="numberExtLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberExtLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el número ext.
+									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberIntLegislator">Número Int.</label> <input
 											data-ng-model="partner.section.homeAddress.numberInt"
 											name="numberIntLegislator" type="text" class="form-control"
-											id="numberIntLegislator">
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											id="numberIntLegislator" >
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el número int.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="cpLegislator">C.P.</label> <input
 											data-ng-model="partner.section.homeAddress.cp" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="cpLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el C.P.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLegislator">Colonia</label> <input
 											data-ng-model="partner.section.homeAddress.colony"
 											name="colonyLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="colonyLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la colonia.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="betweenStreetsLegislator">Entre calles</label> <input
 											data-ng-model="partner.section.homeAddress.betweenStreets"
 											name="betweenStreetsLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="betweenStreetsLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese entre que calles.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -244,14 +329,22 @@ legend.scheduler-border {
 										<label for="stateLegislator">Estado</label> <input
 											data-ng-model="partner.section.homeAddress.state"
 											name="stateLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="stateLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el estado.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="municipalityLegislator">Delegación/Municipio</label>
 										<input
 											data-ng-model="partner.section.homeAddress.municipality"
 											name="municipalityLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="municipalityLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la Delegación/Municipio.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -265,20 +358,32 @@ legend.scheduler-border {
 									<div class="form-group col-md-6">
 										<label for="streetLLegislator">Calle</label> <input
 											data-ng-model="partner.section.laborAddress.street"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="streetLLegislator" type="text" class="form-control"
 											id="streetLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la calle.
+									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLLegislator">Número ext.</label> <input
 											data-ng-model="partner.section.laborAddress.numberExt"
 											name="numberExtLLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberExtLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el número ext.
+									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberIntLLegislator">Número Int.</label> <input
 											data-ng-model="partner.section.laborAddress.numberInt"
 											name="numberIntLLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberIntLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el número int.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -286,19 +391,31 @@ legend.scheduler-border {
 										<label for="cpLLegislator">C.P.</label> <input
 											data-ng-model="partner.section.laborAddress.cp"
 											name="cpLLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="cpLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el C.P.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLLegislator">Colonia</label> <input
 											data-ng-model="partner.section.laborAddress.colony"
 											name="colonyLLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="colonyLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la colonia.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="betwennStreetsLLegislator">Entre calles</label> <input
 											data-ng-model="partner.section.laborAddress.betwennStreets"
 											type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="betwennStreetsLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese entre que calles.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -306,26 +423,42 @@ legend.scheduler-border {
 										<label for="stateLLegislator">Estado</label> <input
 											data-ng-model="partner.section.laborAddress.state"
 											name="stateLLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="stateLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el estado.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="municipalityLLegislator">Delegación/Municipio</label>
 										<input
 											data-ng-model="partner.section.laborAddress.municipality"
 											name="municipalityLLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="municipalityLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la Delegación/Municipio.
+									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberFixedLLegislator">Número fijo</label> <input
 											data-ng-model="partner.section.laborAddress.numberFixed"
 											name="numberFixedLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberFixedLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el número fijo.
+									      </div>
 									</div>
 									<div class="form-group col-md-1">
 										<label for="extLLegislator">Ext</label> <input
 											data-ng-model="partner.section.laborAddress.ext"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="extLLegislator" type="text" class="form-control"
 											id="extLLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el ext.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -339,7 +472,8 @@ legend.scheduler-border {
 									<div class="form-group col-md-6">
 										<label for="lastGradeLegislator">Ultimo grado de
 											estudios</label> <select class="form-control"
-											id="lastGradeLegislator" name="lastGradeLegislator"
+											data-ng-class="validClass.lastGrade ? 'is-'+validClass.lastGrade:''"
+											id="lastGradeLegislator" name="lastGradeLegislator" required
 											data-ng-model="partner.section.studies.lastGrade">
 											<option value="" selected disabled>Seleccione...</option>
 											<option value="Primaria">Primaria</option>
@@ -349,28 +483,45 @@ legend.scheduler-border {
 											<option value="Maestria">Maestria</option>
 											<option value="Doctorado">Doctorado</option>
 										</select>
+										<div class="valid-feedback d-block" data-ng-show="validClass.lastGrade"
+											data-ng-class="validClass.lastGrade ? validClass.lastGrade+'-feedback':''">
+									        	Por favor ingrese el ultimo grado de estudios.
+									      </div>
 									</div>
 									<div class="form-group col-md-6">
 										<label for="complementaryStudiesLegislator">Estudios
 											complementarios</label> <input
 											data-ng-model="partner.section.studies.complementaryStudies"
 											name="complementaryStudiesLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="complementaryStudiesLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese estudios complementarios.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
 										<label for="careerLegislator">Carrea/Licenciatura</label> <input
-											data-ng-model="partner.section.studies.career"
+											data-ng-model="partner.section.studies.career" required
 											name="careerLegislator" type="text" class="form-control"
+											data-ng-class="validClass.career ? 'is-'+validClass.career:''"
 											id="careerLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.career"
+											data-ng-class="validClass.career ? validClass.career+'-feedback':''">
+									        	Por favor ingrese la Carrera/Licenciatura.
+									      </div>
 									</div>
 									<div class="form-group col-md-6">
 										<label for="complementaryStudiesOtherLegislator">Estudios
 											complementarios</label> <input
 											data-ng-model="partner.section.studies.complementaryStudiesOther"
 											name="complementaryStudiesOtherLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="complementaryStudiesOtherLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese estudios complementarios.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -379,7 +530,11 @@ legend.scheduler-border {
 											Profecional</label> <input
 											data-ng-model="partner.section.studies.professionalLicense"
 											name="professionalLicenseLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="professionalLicenseLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la cédula profecional.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -392,19 +547,32 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="nssLegislator">NSS</label> <input
 											data-ng-model="partner.nss" name="nssLegislator" type="text"
-											class="form-control" id="nssLegislator">
+											data-ng-class="validClass.nss ? 'is-'+validClass.nss:''"
+											class="form-control" id="nssLegislator" required>
+										<div class="valid-feedback d-block" data-ng-show="validClass.nss"
+											data-ng-class="validClass.nss ? validClass.nss+'-feedback':''">
+									        	Por favor ingrese el NSS.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="allergiesLegislator">Alergías</label> <input
 											data-ng-model="partner.section.health.allergies"
 											name="allergiesLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="allergiesLegislator">
+										<div class="valid-feedback d-block"  data-ng-show="validClass.valid">
+									        	Por favor ingrese si tiene alergías.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="surnameMLegislator">Tipo de sangre</label> <input
 											data-ng-model="partner.section.health.bloodType"
 											name="surnamePMegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="surnamePMegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el tipo de sangre.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -412,7 +580,11 @@ legend.scheduler-border {
 										<label for="surnamePLegislator">Enfermedades</label> <input
 											data-ng-model="partner.section.health.diseases"
 											name="surnamePLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="surnamePLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese si tiene enfermedades.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -425,17 +597,30 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="telefonoLegislator">No. Teléfono</label> <input
 											data-ng-model="partner.telefono" name="telefonoLegislator"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											type="text" class="form-control" id="telefonoLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el No. Teléfono.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="celularLegislator">No. Celular</label> <input
 											data-ng-model="partner.celular" name="celularLegislator"
-											type="text" class="form-control" id="celularLegislator">
+											data-ng-class="validClass.celular ? 'is-'+validClass.celular:''"
+											type="text" class="form-control" id="celularLegislator" required>
+										<div class="valid-feedback d-block" data-ng-show="validClass.celular"
+											data-ng-class="validClass.celular ? validClass.celular+'-feedback':''">
+									        	Por favor ingrese el No. Celular.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="emailLegislator">Correo</label> <input
 											data-ng-model="partner.email" name="emailLegislator"
-											type="text" class="form-control" id="emailLegislator">
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											type="email" class="form-control" id="emailLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el correo.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -443,19 +628,31 @@ legend.scheduler-border {
 										<label for="personLegislator">Persona de contacto</label> <input
 											data-ng-model="partner.section.contact.person"
 											name="personLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="personLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la persona de contacto.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="relationshipLegislator">Parentesco</label> <input
 											data-ng-model="partner.section.contact.relationship"
 											name="relationshipLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="relationshipLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el parentesco.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="telephoneCLegislator">Teléfono</label> <input
 											data-ng-model="partner.section.contact.telephone"
 											name="telephoneCLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="telephoneCLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el teléfono.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -468,24 +665,36 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="bankLegislator">Banco operador</label> <select
 											class="form-control" id="bankLegislator"
-											name="bankLegislator"
+											name="bankLegislator" 
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											data-ng-model="partner.section.bankData.bank">
 											<option value="" selected disabled>Seleccione...</option>
 											<option value="Bancomer">Bancomer</option>
 											<option value="Banamex">Banamex</option>
 										</select>
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor seleccione el banco operador.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="numberAccountLegislator">No. de cuenta</label> <input
 											data-ng-model="partner.section.bankData.numberAccount"
 											name="numberAccountLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="numberAccountLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el No. de cuenta.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="numberKeyLegislator">No. de cuenta CLABE</label> <input
 											data-ng-model="partner.section.bankData.numberKey"
 											name="numberKeyLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberKeyLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el No. de cuenta clabe.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -496,40 +705,72 @@ legend.scheduler-border {
 							<article class="row">
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="coontractTypeLegislator">Tipo de contrato</label>
+										<label for="contractTypeLegislator">Tipo de contrato</label>
 										<input
 											data-ng-model="partner.section.contractData.coontractType"
 											name="coontractTypeLegislator" type="text"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="coontractTypeLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el tipo de contrato.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="jobLegislator">Puesto laboral</label> <select
 											class="form-control" id="jobLegislator" name="jobLegislator"
-											data-ng-model="partner.section.contractData.job">
+											data-ng-class="validClass.job ? 'is-'+validClass.job:''"
+											data-ng-model="partner.section.contractData.job" required>
 											<option value="" selected disabled>Seleccione...</option>
 											<option value="legislador">Legislador</option>
 											<option value="Otro">Otro</option>
 										</select>
+										<div class="valid-feedback d-block" data-ng-show="validClass.job"
+											data-ng-class="validClass.job ? validClass.job+'-feedback':''">
+									        	Por favor seleccione el puesto laboral.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="bossLegislator">Jefe inmediato</label> <input
-											data-ng-model="partner.section.contractData.boss"
-											name="bossLegislator" type="text" class="form-control"
-											id="bossLegislator">
+										<label for="areaLegislator">Área</label> <input
+											data-ng-model="partner.section.contractData.area"
+											name="areaLegislator" type="text" class="form-control"
+											data-ng-class="validClass.area ? 'is-'+validClass.area:''"
+											id="areaLegislator" required>
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid"
+											data-ng-class="validClass.area ? validClass.area+'-feedback':''">
+									        	Por favor ingrese el área.
+									      </div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
+										<label for="bossLegislator">Jefe inmediato</label> <input
+											data-ng-model="partner.section.contractData.boss"
+											name="bossLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											id="bossLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el jefe inmediato.
+									      </div>
+									</div>
+									<div class="form-group col-md-4">
 										<label for="startDateLegislator">Fecha de inicio</label> <input
 											data-ng-model="partner.section.contractData.startDate"
 											name="startDateLegislator" type="date" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="startDateLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la fecha de inicio.
+									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="endDateLegislator">Fecha fín</label> <input
 											data-ng-model="partner.section.contractData.endDate"
 											name="endDateLegislator" type="date" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="endDateLegislator">
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese la fecha fín.
+									      </div>
 									</div>
 								</div>
 							</article>
@@ -660,6 +901,7 @@ legend.scheduler-border {
 							<div class="col-md-4">
 								<div class="container-img-preview">
 									<i class="fas fa-user fa-5x text-dark"></i>
+									<img data-ng-show="recordLegislator.foto" alt="Vista previa foto" data-ng-src="{{recordLegislator.foto? recordLegislator.foto.filePath: './img/archivo-de-imagen.png'}}">
 								</div>
 							</div>
 							<div class="col-md-8">
@@ -688,7 +930,7 @@ legend.scheduler-border {
 									</div>
 									<div class="form-group col-md-4">
 										<p>Sexo</p> 
-										<P>recordLegislator.sexo</P>
+										<P>{{recordLegislator.sexo}}</P>
 									</div>
 								</div>
 								<div class="form-row">
@@ -881,7 +1123,7 @@ legend.scheduler-border {
 								</div>
 								<div class="form-group col-md-4">
 									<P>Tipo de sangre</P> 
-									<p>recordLegislator.section.health.bloodType</p>
+									<p>{{recordLegislator.section.health.bloodType}}</p>
 								</div>
 							</div>
 							<div class="form-row col-12">
@@ -917,7 +1159,7 @@ legend.scheduler-border {
 								</div>
 								<div class="form-group col-md-4">
 									<P>Parentesco</P>
-									<P>recordLegislator.section.contact.relationship}}</P>
+									<P>{{recordLegislator.section.contact.relationship}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Teléfono</P>
@@ -953,7 +1195,7 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Tipo de contrato</P>
-									<P>{{recordLegislator.section.contractData.coontractType}}</P>
+									<P>{{recordLegislator.section.contractData.contractType}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Puesto laboral</P>
@@ -967,11 +1209,11 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Fecha de inicio</P> 
-									<P>{{recordLegislator.section.contractData.startDate}}</P>
+									<P>{{recordLegislator.section.contractData.startDate | date: 'dd/MM/yyyy'}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Fecha fín</P> 
-									<P>{{recordLegislator.section.contractData.endDate}}</P>
+									<P>{{recordLegislator.section.contractData.endDate | date: 'dd/MM/yyyy'}}</P>
 								</div>
 							</div>
 						</article>

@@ -1,6 +1,6 @@
 app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService){
 	
-	$scope.parties           = [];
+// $scope.parties = [];
 	$scope.recordLegislator  = null;
 	$scope.recordLegislators = [];
 	$scope.maxDate           = new Date();
@@ -16,6 +16,22 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 
 	$scope.show = recordLegislator => {
 		$scope.recordLegislator = recordLegislator;
+		console.log('Informacion del legislador: ', recordLegislator);
+		
+		if(recordLegislator.foto && recordLegislator.foto.filePath){
+			$scope.fetchFile(recordLegislator.foto.filePath);
+		}
+		
+		if(recordLegislator.partido && recordLegislator.partido.logo){
+			let sendData = {
+					"filePath": recordLegislator.partido.logo
+			};
+			storageService.getB64(sendData).then(response => {
+				$scope.recordLegislator.partido.logo = response.file;
+			}, errorResponse => {
+				console.log('Error: ', errorResponse);
+			});
+		}
 	};
 	
 	$scope.update = recordLegislator => {
@@ -31,7 +47,6 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			let sendData = {
 					"filePath": $scope.partner.partido.logo
 			};
-			console.log('Informacion del logo enviada: ', sendData);
 			storageService.getB64(sendData).then(response => {
 				$scope.fotoPartido = response.file;
 			}, errorResponse => {
@@ -45,7 +60,13 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 				"filePath": filePath
 		};
 		storageService.getB64(sendData).then(response => {
-			$scope.partner.foto.filePath = response.file;
+			
+			if($scope.partner){
+				$scope.partner.foto.filePath = response.file;
+			} else if($scope.recordLegislator){
+				$scope.recordLegislator.foto.filePath = response.file;
+			}
+			
 		}, errorResponse => {
 			console.log('Error: ', errorResponse);
 		});
@@ -115,20 +136,11 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			$scope.post();
 		}
 	};
-	$scope.submitForm = isValid => {
-		if(isValid) {
-			$scope.addUpdate();
-		} else {
-			console.log('Formulario invalido');
-			console.log('Informacion del partner: ', $scope.partner);
-		}
-	};
 	
 	$scope.getPoliticalParties = () =>{	
-		factory.get('politicalparty').then(function mySuccess(data) {			
+		factory.get('politicalparty').then(data => {			
 			$scope.parties = data;
-			console.log('Data de partidos recibida: ', data)
-		}, function myError(response) {
+		}, response => {
 			$scope.myWelcome = response.statusText;
 			swal("Error",$scope.myWelcome, "error");			
 		});
@@ -200,6 +212,117 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	
 	$scope.topReturn = () => {
 		window.history.back();
+	};
+	
+	$scope.submitForm = isValid => {
+		$scope.validClass = {};
+		if(isValid) {
+			$scope.addUpdate();
+		} else {
+			$scope.validClass.valid           = 'valid';
+			$scope.validClass.name            = 'valid';
+			$scope.validClass.surnameP        = 'valid';
+			$scope.validClass.surnameM        = 'valid';
+			$scope.validClass.fechaCumplianos = 'valid';
+			$scope.validClass.edad            = 'valid';
+			$scope.validClass.sexo            = 'valid';
+			$scope.validClass.partido         = 'valid';
+			$scope.validClass.legislatura     = 'valid';
+			$scope.validClass.lastGrade       = 'valid';
+			$scope.validClass.career          = 'valid';
+			$scope.validClass.nss             = 'valid';
+			$scope.validClass.celular         = 'valid';
+			$scope.validClass.job             = 'valid';
+			$scope.validClass.area            = 'valid';
+			
+			if(!$scope.partner.name){
+				$scope.validClass.name = 'invalid';
+			} else if($scope.partner.name.trim().length === 0){
+				$scope.validClass.name = 'invalid';
+			}
+			
+			if(!$scope.partner.apPaterno){
+				$scope.validClass.name = 'invalid';
+			} else if ($scope.partner.apPaterno.trim().length === 0){
+				$scope.validClass.name = 'invalid';
+			}
+			
+			if(!$scope.partner.apMaterno){
+				$scope.validClass.surnameP = 'invalid';
+			} else if($scope.partner.apMaterno.trim().length === 0){
+				$scope.validClass.surnameP = 'invalid';
+			}
+			
+			if(!$scope.partner.fechaCumplianos){
+				$scope.validClass.surnameM = 'invalid';
+			} else if(!$scope.partner.fechaCumplianos.trim().length === 0){
+				$scope.validClass.surnameM = 'invalid';
+			}
+			
+			if(!$scope.partner.edad){
+				$scope.validClass.fechaCumplianos = 'invalid';
+			} else if(!$scope.partner.edad.trim().length === 0){
+				$scope.validClass.fechaCumplianos = 'invalid';
+			}
+			
+			if(!$scope.partner.sexo){
+				$scope.validClass.edad = 'invalid';
+			}else if($scope.partner.sexo.trim().length === 0){
+				$scope.validClass.edad = 'invalid';
+			}
+			
+			if(!$scope.partner.partido){
+				$scope.validClass.partido = 'invalid';
+			} else if($scope.partner.partido.trim().length === 0){
+				$scope.validClass.partido = 'invalid';
+			}
+			
+			if(!$scope.partner.legislatura){
+				$scope.validClass.partido = 'invalid';
+			} else if($scope.partner.legislatura.trim().length === 0){
+				$scope.validClass.partido = 'invalid';
+			}
+			
+			if($scope.partner.section.studies){
+				if($scope.partner.section.studies.lastGrade){
+					$scope.validClass.lastGrade = 'invalid';
+				}else if($scope.partner.section.studies.lastGrade.trim().length === 0){
+					$scope.validClass.lastGrade = 'invalid';
+				}
+				
+				if(!$scope.partner.section.studies.career){
+					$scope.validClass.career = 'invalid';
+				}else if($scope.partner.section.studies.career.trim().length === 0){
+					$scope.validClass.career = 'invalid';
+				}
+			} else {
+				$scope.validClass.lastGrade = 'invalid';
+				$scope.validClass.career = 'invalid';
+			}
+			
+			if(!$scope.partner.nss){
+				$scope.validClass.nss = 'invalid';
+			}else if($scope.partner.nss.trim().length === 0){
+				$scope.validClass.nss = 'invalid';
+			}
+			
+			if(!$scope.partner.celular){
+				$scope.validClass.celular = 'invalid';
+			} else if($scope.partner.celular.trim().length === 0){
+				$scope.validClass.celular = 'invalid';
+			}
+			
+			if(!$scope.partner.section.contractData.job){
+				$scope.validClass.job = 'invalid';
+			}else if($scope.partner.section.contractData.job.trim().length === 0){
+				$scope.validClass.job = 'invalid';
+			}
+			if(!$scope.partner.section.contractData.area){
+				$scope.validClass.area = 'invalid';
+			}else if($scope.partner.section.contractData.area.trim().length === 0){
+				$scope.validClass.area = 'invalid';
+			}
+		}
 	};
 	 
 	const initController = () => {
