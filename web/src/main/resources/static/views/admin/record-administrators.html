@@ -3,7 +3,6 @@
 .modal-lg {
 	max-width: 80% !important;
 }
-
 fieldset.scheduler-border {
 	border: 1px groove #ddd !important;
 	padding: 0 1.4em 1.4em 1.4em !important;
@@ -11,7 +10,6 @@ fieldset.scheduler-border {
 	-webkit-box-shadow: 0px 0px 0px 0px #000;
 	box-shadow: 0px 0px 0px 0px #000;
 }
-
 legend.scheduler-border {
 	font-size: 1.2em !important;
 	font-weight: bold !important;
@@ -20,7 +18,6 @@ legend.scheduler-border {
 	padding: 0 10px; /* To give a bit of padding on the left and right */
 	border-bottom: none;
 }
-
 .container-img-preview {
     border: 1px solid var(--gray);
     height: 15em;
@@ -32,7 +29,6 @@ legend.scheduler-border {
     overflow: hidden;
     position: relative
 }
-
 .container-img-preview img{
 	height: 100%;
 	display: block;
@@ -40,7 +36,6 @@ legend.scheduler-border {
     position: absolute;
     z-index: 10;
 }
-
 .container-img-preview::before {
 	content: '';
 	position: absolute;
@@ -48,7 +43,6 @@ legend.scheduler-border {
     border: .5px solid var(--gray);
     transform: rotate(45deg)
 }
-
 .container-img-preview::after {
 	content: '';
 	position: absolute;
@@ -56,18 +50,16 @@ legend.scheduler-border {
     border: .5px solid var(--gray);
     transform: rotate(-45deg)
 }
-
 .image-preview-input {
     width: 76%;
     left: 12%;
 }
-
 </style>
 <h1 class="my-4">
-	Expediente electrónico legisladores <i class="far fa-address-card"></i>
+	Expediente electrónico administradores <i class="far fa-address-card"></i>
 </h1>
 <section data-ng-if="partner">
-	<div class="row">
+		<div class="row">
 		<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
 			<form name="formLegislator"
 				data-ng-submit="submitForm(formLegislator.$valid)" novalidate>
@@ -196,66 +188,6 @@ legend.scheduler-border {
 								</div>
 							</article>
 						</fieldset>
-						<!-- 					Datos Grupos y Representaciones parlamentarias -->
-						<fieldset class="scheduler-border">
-							<legend align="left" class="scheduler-border">Grupos y
-								Representaciones parlamentarias</legend>
-							<article class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="partidoLegislator">Partido político</label> <select
-											data-ng-model="partner.partido" name="partidoLegislator"
-											data-ng-options="partie as partie.name for partie in parties"
-											data-ng-change="changePolicalParty(partner.partido)" required
-											data-ng-class="validClass.partido ? 'is-'+validClass.partido:''"
-											class="form-control" id="partidoLegislator">
-											<option value="" selected disabled>Seleccione...</option>
-										</select>
-										<div class="d-block" data-ng-show="validClass.partido"
-											data-ng-class="validClass.partido ? validClass.partido+'-feedback':''">
-									        	Por favor ingrese el partido politico.
-									      </div>
-									</div>
-									<div class="form-group">
-										<label for="comisionesLegislator">Comisiones</label> <input
-											data-ng-model="partner.comisiones"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											name="comisionesLegislator" type="text" class="form-control"
-											id="comisionesLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
-									        	Por favor ingrese las comisiones.
-									      </div>
-									</div>
-									<div class="form-group">
-										<label for="distritoLegislator">Distrito</label> <input
-											data-ng-model="partner.distrito" name="distritoLegislator"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											type="text" class="form-control" id="distritoLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
-									        	Por favor ingrese el distrito.
-									      </div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div>
-										<p>Logo partido</p>
-										 <img alt="vista previa foto" style="height: 8em; margin-bottom: 4px;"
-										 data-ng-src="{{fotoPartido? fotoPartido : './img/archivo-de-imagen.png'}}">
-									</div>
-									<div class="form-group">
-										<label for="legislaturaLegislator">Legislatura</label> <input
-											data-ng-model="partner.legislatura" required
-											data-ng-class="validClass.legislatura ? 'is-'+validClass.legislatura:''"
-											name="legislaturaLegislator" type="text" class="form-control"
-											id="legislaturaLegislator">
-										<div class="d-block" data-ng-show="validClass.legislatura"
-											data-ng-class="validClass.legislatura ? validClass.legislatura+'-feedback':''">
-									        	Por favor ingrese la legislatura.
-									      </div>
-									</div>
-								</div>
-							</article>
-						</fieldset>
 						<!-- 					Datos domicilio particular -->
 						<fieldset class="scheduler-border">
 							<legend align="left" class="scheduler-border">Domicilio
@@ -264,21 +196,23 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
 										<label for="streetPLegislator">Calle</label> <input
-											data-ng-model="partner.section.homeAddress.street"
+											data-ng-model="partner.section.homeAddress.street" required
 											name="streetLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.streetL ? 'is-'+validClass.streetL:''"
 											id="streetLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.streetL"
+												data-ng-class="validClass.streetL ? validClass.streetL+'-feedback':''">
 									        	Por favor ingrese la calle.
 									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLegislator">Número ext.</label> <input
-											data-ng-model="partner.section.homeAddress.numberExt"
+											data-ng-model="partner.section.homeAddress.numberExt" required
 											name="numberExtLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.numberExtL ? 'is-'+validClass.numberExtL:''"
 											id="numberExtLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.numberExtL"
+											data-ng-class="validClass.numberExtL ? validClass.numberExtL+'-feedback':''">
 									        	Por favor ingrese el número ext.
 									      </div>
 									</div>
@@ -297,19 +231,21 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="cpLegislator">C.P.</label> <input
 											data-ng-model="partner.section.homeAddress.cp" type="text"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											class="form-control" id="cpLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+											data-ng-class="validClass.cpL ? 'is-'+validClass.cpL:''"
+											class="form-control" id="cpLegislator" required>
+										<div class="d-block" data-ng-show="validClass.cpL"
+											data-ng-class="validClass.cpL ? validClass.cpL+'-feedback':''">
 									        	Por favor ingrese el C.P.
 									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLegislator">Colonia</label> <input
-											data-ng-model="partner.section.homeAddress.colony"
+											data-ng-model="partner.section.homeAddress.colony" required
 											name="colonyLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.colonyL ? 'is-'+validClass.colonyL:''"
 											id="colonyLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.colonyL"
+											data-ng-class="validClass.colonyL ? validClass.colonyL+'-feedback':''">
 									        	Por favor ingrese la colonia.
 									      </div>
 									</div>
@@ -327,11 +263,12 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="stateLegislator">Estado</label> <input
-											data-ng-model="partner.section.homeAddress.state"
+											data-ng-model="partner.section.homeAddress.state" required
 											name="stateLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.stateL ? 'is-'+validClass.stateL:''"
 											id="stateLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.stateL"
+											data-ng-class="validClass.stateL ? validClass.stateL+'-feedback':''">
 									        	Por favor ingrese el estado.
 									      </div>
 									</div>
@@ -339,10 +276,11 @@ legend.scheduler-border {
 										<label for="municipalityLegislator">Delegación/Municipio</label>
 										<input
 											data-ng-model="partner.section.homeAddress.municipality"
-											name="municipalityLegislator" type="text"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											name="municipalityLegislator" type="text" required
+											data-ng-class="validClass.municipalityL ? 'is-'+validClass.municipalityL:''"
 											class="form-control" id="municipalityLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.municipalityL"
+											data-ng-class="validClass.municipalityL ? validClass.municipalityL+'-feedback':''">
 									        	Por favor ingrese la Delegación/Municipio.
 									      </div>
 									</div>
@@ -357,21 +295,23 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
 										<label for="streetLLegislator">Calle</label> <input
-											data-ng-model="partner.section.laborAddress.street"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-model="partner.section.laborAddress.street" required
+											data-ng-class="validClass.streetLL ? 'is-'+validClass.streetLL:''"
 											name="streetLLegislator" type="text" class="form-control"
 											id="streetLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.streetLL"
+											data-ng-class="validClass.streetLL ? validClass.streetLL+'-feedback':''">
 									        	Por favor ingrese la calle.
 									      </div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLLegislator">Número ext.</label> <input
-											data-ng-model="partner.section.laborAddress.numberExt"
+											data-ng-model="partner.section.laborAddress.numberExt" required
 											name="numberExtLLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.numberExtLL ? 'is-'+validClass.numberExtLL:''"
 											id="numberExtLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.numberExtLL"
+											data-ng-class="validClass.numberExtLL ? validClass.numberExtLL+'-feedback':''">
 									        	Por favor ingrese el número ext.
 									      </div>
 									</div>
@@ -389,21 +329,23 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="cpLLegislator">C.P.</label> <input
-											data-ng-model="partner.section.laborAddress.cp"
+											data-ng-model="partner.section.laborAddress.cp" required
 											name="cpLLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.cpLL ? 'is-'+validClass.cpLL:''"
 											id="cpLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.cpLL"
+											data-ng-class="validClass.cpLL ? validClass.cpLL+'-feedback':''">
 									        	Por favor ingrese el C.P.
 									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLLegislator">Colonia</label> <input
-											data-ng-model="partner.section.laborAddress.colony"
+											data-ng-model="partner.section.laborAddress.colony" required
 											name="colonyLLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											data-ng-class="validClass.colonyLL ? 'is-'+validClass.colonyLL:''"
 											id="colonyLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.colonyLL"
+											data-ng-class="validClass.colonyLL ? validClass.colonyLL+'-feedback':''">
 									        	Por favor ingrese la colonia.
 									      </div>
 									</div>
@@ -422,10 +364,11 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="stateLLegislator">Estado</label> <input
 											data-ng-model="partner.section.laborAddress.state"
-											name="stateLLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											name="stateLLegislator" type="text" class="form-control" required
+											data-ng-class="validClass.stateLL ? 'is-'+validClass.stateLL:''"
 											id="stateLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.stateLL"
+											data-ng-class="validClass.stateLL ? validClass.stateLL+'-feedback':''">
 									        	Por favor ingrese el estado.
 									      </div>
 									</div>
@@ -433,10 +376,11 @@ legend.scheduler-border {
 										<label for="municipalityLLegislator">Delegación/Municipio</label>
 										<input
 											data-ng-model="partner.section.laborAddress.municipality"
-											name="municipalityLLegislator" type="text"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											name="municipalityLLegislator" type="text" required
+											data-ng-class="validClass.municipalityLL ? 'is-'+validClass.municipalityLL:''"
 											class="form-control" id="municipalityLLegislator">
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+										<div class="d-block" data-ng-show="validClass.municipalityLL"
+											data-ng-class="validClass.municipalityLL ? validClass.municipalityLL+'-feedback':''">
 									        	Por favor ingrese la Delegación/Municipio.
 									      </div>
 									</div>
@@ -483,7 +427,7 @@ legend.scheduler-border {
 											<option value="Maestria">Maestria</option>
 											<option value="Doctorado">Doctorado</option>
 										</select>
-										<div class="valid-feedback d-block" data-ng-show="validClass.lastGrade"
+										<div class="d-block" data-ng-show="validClass.lastGrade"
 											data-ng-class="validClass.lastGrade ? validClass.lastGrade+'-feedback':''">
 									        	Por favor ingrese el ultimo grado de estudios.
 									      </div>
@@ -708,9 +652,9 @@ legend.scheduler-border {
 										<label for="contractTypeLegislator">Tipo de contrato</label>
 										<input
 											data-ng-model="partner.section.contractData.contractType"
-											name="coontractTypeLegislator" type="text"
+											name="contractTypeLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											class="form-control" id="coontractTypeLegislator">
+											class="form-control" id="contractTypeLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el tipo de contrato.
 									      </div>
@@ -747,14 +691,14 @@ legend.scheduler-border {
 											data-ng-model="partner.section.contractData.boss"
 											name="bossLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="bossLegislator">
+											id="bossLegislator" required>
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el jefe inmediato.
 									      </div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="startDateLegislator">Fecha de inicio</label> <input
-											data-ng-model="partner.section.contractData.startDate"
+											data-ng-model="partner.section.contractData.startDate" required
 											name="startDateLegislator" type="date" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="startDateLegislator">
@@ -783,7 +727,7 @@ legend.scheduler-border {
 							{{!partner.id? 'Guardar': 'Actualizar'}}
 						</button>
 						<button type="button" class="btn btn-danger"
-							data-ng-click="cancelAddUpModule()">
+							data-ng-click="cancelAddUp()">
 							<i class="fas fa-times"></i> Cancelar
 						</button>
 					</div>
@@ -799,7 +743,7 @@ legend.scheduler-border {
 			<div class="row">
 				<div class="btn-group mr-3">
 					<button type="button" class="btn btn-light"
-						data-ng-click="topReturn()">
+						data-ng-click="toReturn()">
 						<i class="fas fa-arrow-left"></i> Regresar
 					</button>
 				</div>
@@ -821,7 +765,7 @@ legend.scheduler-border {
 		<div class="card-body">
 			<div class="row">
 				<div class="alert alert-primary"
-					data-ng-if="!recordLegislators.length">No se encontraron
+					data-ng-if="!recordAdministrators.length">No se encontraron
 					expedientes electrónicos de los legisladores en el sistema</div>
 				<div class="table-responsive">
 					<table class="table table-inversed table-hover table-striped">
@@ -849,26 +793,26 @@ legend.scheduler-border {
 						</tfoot>
 						<tbody>
 							<tr
-								data-ng-repeat="rl in recordLegislators | filter: searchRecordLegislator track by $index">
-								<td>{{rl.name}} {{rl.apPaterno}} {{rl.apMaterno}}</td>
-								<td>{{rl.partido.acronym}}</td>
-								<td>{{rl.user.userRol.rolename}}</td>
+								data-ng-repeat="ra in recordAdministrators | filter: searchRecordAdministrator track by $index">
+								<td>{{ra.name}} {{ra.apPaterno}} {{ra.apMaterno}}</td>
+								<td>{{ra.partido.acronym}}</td>
+								<td>{{ra.user.userRol.rolename}}</td>
 								<td>
 									<button type="button" class="btn btn-info" data-toggle="modal"
-										data-target="#modal-show-record-legislator"
-										data-ng-if="rl.id != null" data-ng-click="show(rl)">Ver</button>
+										data-target="#modal-show-record-administrator"
+										data-ng-if="ra.id != null" data-ng-click="show(ra)">Ver</button>
 								</td>
 								<td>
 									<button type="button" class="btn btn-success"
-										data-ng-if="rl.id != null" data-ng-click="update(rl)">Actualizar</button>
+										data-ng-if="ra.id != null" data-ng-click="update(ra)">Actualizar</button>
 								</td>
 								<td>
 									<button type="button" class="btn btn-danger"
-										data-ng-if="rl.id != null" data-ng-click="confirmDelete(rl)">Eliminar</button>
+										data-ng-if="ra.id != null" data-ng-click="confirmDelete(ra)">Eliminar</button>
 								</td>
 								<td>
 									<button type="button" class="btn btn-dark"
-										data-ng-if="rl.id != null" data-ng-click="createPDF(rl)">Documento</button>
+										data-ng-if="ra.id != null" data-ng-click="createPDF(ra)">Documento</button>
 								</td>
 							</tr>
 						</tbody>
@@ -878,8 +822,7 @@ legend.scheduler-border {
 		</div>
 	</div>
 </section>
-<!-- Modal -->
-<div class="modal fade" id="modal-show-record-legislator" tabindex="-1"
+<div class="modal fade" id="modal-show-record-administrator" tabindex="-1"
 	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -901,77 +844,47 @@ legend.scheduler-border {
 							<div class="col-md-4">
 								<div class="container-img-preview">
 									<i class="fas fa-user fa-5x text-dark"></i>
-									<img data-ng-show="recordLegislator.foto" alt="Vista previa foto" data-ng-src="{{recordLegislator.foto? recordLegislator.foto.filePath: './img/archivo-de-imagen.png'}}">
+									<img data-ng-show="recordAdministrator.foto" alt="Vista previa foto" data-ng-src="{{recordAdministrator.foto? recordAdministrator.foto.filePath: './img/archivo-de-imagen.png'}}">
 								</div>
 							</div>
 							<div class="col-md-8">
 								<div class="form-group">
 									<p>Nombre(s)</p> 
-									<p>{{recordLegislator.name}}</p>
+									<p>{{recordAdministrator.name}}</p>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<p>Apellido Paterno</p>
-										<p>{{recordLegislator.apPaterno}}</p>
+										<p>{{recordAdministrator.apPaterno}}</p>
 									</div>
 									<div class="form-group col-md-6">
 										<p>Apellido Materno</p> 
-										<p>{{recordLegislator.apMaterno}}</p>
+										<p>{{recordAdministrator.apMaterno}}</p>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
 										<p>Fecha de nacimiento</p> 
-										<p>{{recordLegislator.fechaCumplianos}}</p>
+										<p>{{recordAdministrator.fechaCumplianos}}</p>
 									</div>
 									<div class="form-group col-md-4">
 										<p>Edad</p> 
-										<p>{{recordLegislator.edad}}</p>
+										<p>{{recordAdministrator.edad}}</p>
 									</div>
 									<div class="form-group col-md-4">
 										<p>Sexo</p> 
-										<P>{{recordLegislator.sexo}}</P>
+										<P>{{recordAdministrator.sexo}}</P>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<p>Curp</p>
-										<p>{{recordLegislator.curp}}</p>
+										<p>{{recordAdministrator.curp}}</p>
 									</div>
 									<div class="form-group col-md-6">
 										<p>RFC</p>
-										<p>{{recordLegislator.rfc}}</p>
+										<p>{{recordAdministrator.rfc}}</p>
 									</div>
-								</div>
-							</div>
-						</article>
-					</fieldset>
-					<!-- 					Datos Grupos y Representaciones parlamentarias -->
-					<fieldset class="scheduler-border">
-						<legend align="left" class="scheduler-border">Grupos y
-							Representaciones parlamentarias</legend>
-						<article class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<p>Partido político</p>
-									<p>{{recordLegislator.partido.name}}</p>
-								</div>
-								<div class="form-group">
-									<p>Comisiones</p> 
-									<p>{{recordLegislator.comisiones}}</p>
-								</div>
-								<div class="form-group">
-									<p>Distrito</p>
-									<P>{{recordLegislator.distrito}}</P>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="d-flex flex-column">
-									<span>Logo partido</span> <i class="far fa-image fa-5x"></i>
-								</div>
-								<div class="form-group">
-									<P>Legislatura</P>
-									<P>{{recordLegislator.legislatura}}</P>
 								</div>
 							</div>
 						</article>
@@ -984,40 +897,40 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-6">
 									<P>Calle</P>
-									<P>{{recordLegislator.section.homeAddress.street}}</P>
+									<P>{{recordAdministrator.section.homeAddress.street}}</P>
 								</div>
 								<div class="form-group col-md-3">
 									<P>Número ext.</P> 
-									<P>{{recordLegislator.section.homeAddress.numberExt}}</P>
+									<P>{{recordAdministrator.section.homeAddress.numberExt}}</P>
 								</div>
 								<div class="form-group col-md-3">
 									<P>Número Int.</P> 
-									<P>{{recordLegislator.section.homeAddress.numberInt}}</P>
+									<P>{{recordAdministrator.section.homeAddress.numberInt}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>C.P.</P> 
-									<P>{{recordLegislator.section.homeAddress.cp}}</P>
+									<P>{{recordAdministrator.section.homeAddress.cp}}</P>
 									
 								</div>
 								<div class="form-group col-md-4">
 									<P>Colonia</P> 
-									<P>{{recordLegislator.section.homeAddress.colony}}</P>
+									<P>{{recordAdministrator.section.homeAddress.colony}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Entre calles</P>
-									<P>{{recordLegislator.section.homeAddress.betweenStreets}}</P>
+									<P>{{recordAdministrator.section.homeAddress.betweenStreets}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Estado</P> 
-									<p>{{recordLegislator.section.homeAddress.state}}</p>
+									<p>{{recordAdministrator.section.homeAddress.state}}</p>
 								</div>
 								<div class="form-group col-md-4">
 									<p>Delegación/Municipio</p>
-									<p>{{recordLegislator.section.homeAddress.municipality}}</p>
+									<p>{{recordAdministrator.section.homeAddress.municipality}}</p>
 								</div>
 							</div>
 						</article>
@@ -1030,47 +943,47 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-6">
 									<p>Calle</p>
-									<p>{{recordLegislator.section.laborAddress.street}}</p>
+									<p>{{recordAdministrator.section.laborAddress.street}}</p>
 								</div>
 								<div class="form-group col-md-3">
 									<p>Número ext.</p> 
-									<p>{{recordLegislator.section.laborAddress.numberExt}}</p>
+									<p>{{recordAdministrator.section.laborAddress.numberExt}}</p>
 								</div>
 								<div class="form-group col-md-3">
 									<p>Número Int.</p>
-									<p>{{recordLegislator.section.laborAddress.numberInt}}</p>
+									<p>{{recordAdministrator.section.laborAddress.numberInt}}</p>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<p>C.P.</p> 
-									<p>{{recordLegislator.section.laborAddress.cp}}</p>
+									<p>{{recordAdministrator.section.laborAddress.cp}}</p>
 								</div>
 								<div class="form-group col-md-4">
 									<p>Colonia</p>
-									<p>{{recordLegislator.section.laborAddress.colony}}</p>
+									<p>{{recordAdministrator.section.laborAddress.colony}}</p>
 								</div>
 								<div class="form-group col-md-4">
 									<p>Entre calles</p>
-									<p>{{recordLegislator.section.laborAddress.betwennStreets}}</p>
+									<p>{{recordAdministrator.section.laborAddress.betwennStreets}}</p>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<p>Estado</p>
-									<p>{{recordLegislator.section.laborAddress.state}}</p>
+									<p>{{recordAdministrator.section.laborAddress.state}}</p>
 								</div>
 								<div class="form-group col-md-4">
 									<p>Delegación/Municipio</p>
-									<p>{{recordLegislator.section.laborAddress.municipality}}</p>
+									<p>{{recordAdministrator.section.laborAddress.municipality}}</p>
 								</div>
 								<div class="form-group col-md-3">
 									<p>Número fijo</p>
-									<P>{{recordLegislator.section.laborAddress.numberFixed}}</P>
+									<P>{{recordAdministrator.section.laborAddress.numberFixed}}</P>
 								</div>
 								<div class="form-group col-md-1">
 									<P>Ext</P>
-									<P>{{recordLegislator.section.laborAddress.ext}}</P>
+									<P>{{recordAdministrator.section.laborAddress.ext}}</P>
 								</div>
 							</div>
 						</article>
@@ -1083,27 +996,27 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-6">
 									<P>Ultimo grado de estudios</P>
-									<P>{{recordLegislator.section.studies.lastGrade}}</P>
+									<P>{{recordAdministrator.section.studies.lastGrade}}</P>
 								</div>
 								<div class="form-group col-md-6">
 									<P>Estudios complementarios</P> 
-									<P>{{recordLegislator.section.studies.complementaryStudies}}</P>
+									<P>{{recordAdministrator.section.studies.complementaryStudies}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-6">
 									<P>Carrea/Licenciatura</P> 
-									<P>{{recordLegislator.section.studies.career}}</P>
+									<P>{{recordAdministrator.section.studies.career}}</P>
 								</div>
 								<div class="form-group col-md-6">
 									<P>Estudios complementarios</P> 
-									<P>{{recordLegislator.section.studies.complementaryStudiesOther}}</P>
+									<P>{{recordAdministrator.section.studies.complementaryStudiesOther}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-6">
 									<P>Cédula Profecional</P> 
-									<P>{{recordLegislator.section.studies.professionalLicense}}</P>
+									<P>{{recordAdministrator.section.studies.professionalLicense}}</P>
 								</div>
 							</div>
 						</article>
@@ -1115,21 +1028,21 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>NSS</P>
-									<p>{{recordLegislator.nss}}</p>
+									<p>{{recordAdministrator.nss}}</p>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Alergías</P> 
-									<P>{{recordLegislator.section.health.allergies}}</P>
+									<P>{{recordAdministrator.section.health.allergies}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Tipo de sangre</P> 
-									<p>{{recordLegislator.section.health.bloodType}}</p>
+									<p>{{recordAdministrator.section.health.bloodType}}</p>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Enfermedades</P> 
-									<P>{{recordLegislator.section.health.diseases}}</P>
+									<P>{{recordAdministrator.section.health.diseases}}</P>
 								</div>
 							</div>
 						</article>
@@ -1141,29 +1054,29 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>No. Teléfono</P> 
-									<P>{{recordLegislator.telefono}}</P>
+									<P>{{recordAdministrator.telefono}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>No. Celular</P> 
-									<P>{{recordLegislator.celular}}</P>
+									<P>{{recordAdministrator.celular}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Correo</P> 
-									<P>{{recordLegislator.email}}</P>
+									<P>{{recordAdministrator.email}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Persona de contacto</P> 
-									<P>{{recordLegislator.section.contact.person}}</P>
+									<P>{{recordAdministrator.section.contact.person}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Parentesco</P>
-									<P>{{recordLegislator.section.contact.relationship}}</P>
+									<P>{{recordAdministrator.section.contact.relationship}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Teléfono</P>
-									<P>{{recordLegislator.section.contact.telephone}}</P>
+									<P>{{recordAdministrator.section.contact.telephone}}</P>
 								</div>
 							</div>
 						</article>
@@ -1175,15 +1088,15 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Banco operador</P>
-									<P>{{recordLegislator.section.bankData.bank}}</P>
+									<P>{{recordAdministrator.section.bankData.bank}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>No. de cuenta</P>
-									<P>{{recordLegislator.section.bankData.numberAccount}}</P>
+									<P>{{recordAdministrator.section.bankData.numberAccount}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>No. de cuenta CLABE</P>
-									<P>{{recordLegislator.section.bankData.numberKey}}</P>
+									<P>{{recordAdministrator.section.bankData.numberKey}}</P>
 								</div>
 							</div>
 						</article>
@@ -1195,25 +1108,29 @@ legend.scheduler-border {
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Tipo de contrato</P>
-									<P>{{recordLegislator.section.contractData.contractType}}</P>
+									<P>{{recordAdministrator.section.contractData.contractType}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Puesto laboral</P>
-									<P>{{recordLegislator.section.contractData.job}}</P>
+									<P>{{recordAdministrator.section.contractData.job}}</P>
 								</div>
 								<div class="form-group col-md-4">
-									<P>Jefe inmediato</P>
-									<P>{{recordLegislator.section.contractData.boss}}</P>
+									<P>Área</P>
+									<P>{{recordAdministrator.section.contractData.area}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
+									<P>Jefe inmediato</P>
+									<P>{{recordAdministrator.section.contractData.boss}}</P>
+								</div>
+								<div class="form-group col-md-4">
 									<P>Fecha de inicio</P> 
-									<P>{{recordLegislator.section.contractData.startDate | date: 'dd/MM/yyyy'}}</P>
+									<P>{{recordAdministrator.section.contractData.startDate | date: 'dd/MM/yyyy'}}</P>
 								</div>
 								<div class="form-group col-md-4">
 									<P>Fecha fín</P> 
-									<P>{{recordLegislator.section.contractData.endDate | date: 'dd/MM/yyyy'}}</P>
+									<P>{{recordAdministrator.section.contractData.endDate | date: 'dd/MM/yyyy'}}</P>
 								</div>
 							</div>
 						</article>
@@ -1226,4 +1143,3 @@ legend.scheduler-border {
 		</div>
 	</div>
 </div>
-

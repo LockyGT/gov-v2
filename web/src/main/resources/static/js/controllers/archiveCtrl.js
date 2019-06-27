@@ -420,7 +420,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		
 	};
 	
-	$scope.showDocument = (archive) => {;
+	$scope.showDocument = (archive) => {
 		$scope.showFiles = archive;
 	};
 	

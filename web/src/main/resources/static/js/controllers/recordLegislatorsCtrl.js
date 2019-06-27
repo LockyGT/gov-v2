@@ -7,7 +7,7 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	$scope.partner           = null;
 	
 	$scope.newRecordLegislator = () => {
-		console.log('Nuevo legislador: ')
+		$scope.validClass = {};
 		$scope.partner = {
 				status: 1,
 				tipoPartner: 1
@@ -88,14 +88,17 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	};
 	
 	$scope.createPDF = recordLegislator => {
-		console.log('Información para ver archivo: ', recordLegislator);
+		$scope.recordLegisladorTmp = recordLegislator;
+	
 	};
+	
 	
 	$scope.cancelAddUpModule = () => {
 		$scope.partner  = null;
 	};
 	
 	$scope.confirmDelete = recordLegislator => {
+		
 		swal({
 			title: 'Esta seguro de eliminar a',
 			text: recordLegislator.name,
@@ -147,7 +150,12 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	};
 	
 	$scope.getPartners = () => {
-		partnerService.getByStatus(1).then(data => {
+		let sendData = {
+				"status": 1,
+				"tipo": 1
+		};
+		
+		partnerService.getByStatusAndTipoAndPartie(sendData).then(data => {
 			$scope.recordLegislators = data;
 		}, error => {
 			swal.stopLoading();
@@ -175,7 +183,7 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 				$scope.getPartners();
 				$scope.partner = null;
 			} else {
-				swal("Error", "Modulo de orden del día no agregado", "error");
+				swal("Error", "Expediente electrónico no agregado", "error");
 			}
 		}, error => {
 			swal("Error","Expediente electrónico no agregado "+error.statusText, "error");
@@ -242,33 +250,31 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			}
 			
 			if(!$scope.partner.apPaterno){
-				$scope.validClass.name = 'invalid';
+				$scope.validClass.surnameP = 'invalid';
 			} else if ($scope.partner.apPaterno.trim().length === 0){
-				$scope.validClass.name = 'invalid';
+				$scope.validClass.surnameP = 'invalid';
 			}
 			
 			if(!$scope.partner.apMaterno){
-				$scope.validClass.surnameP = 'invalid';
+				$scope.validClass.surnameM = 'invalid';
 			} else if($scope.partner.apMaterno.trim().length === 0){
-				$scope.validClass.surnameP = 'invalid';
+				$scope.validClass.surnameM = 'invalid';
 			}
 			
 			if(!$scope.partner.fechaCumplianos){
-				$scope.validClass.surnameM = 'invalid';
-			} else if(!$scope.partner.fechaCumplianos.trim().length === 0){
-				$scope.validClass.surnameM = 'invalid';
+				$scope.validClass.fechaCumplianos = 'invalid';
 			}
 			
 			if(!$scope.partner.edad){
-				$scope.validClass.fechaCumplianos = 'invalid';
+				$scope.validClass.edad = 'invalid';
 			} else if(!$scope.partner.edad.trim().length === 0){
-				$scope.validClass.fechaCumplianos = 'invalid';
+				$scope.validClass.edad = 'invalid';
 			}
 			
 			if(!$scope.partner.sexo){
-				$scope.validClass.edad = 'invalid';
+				$scope.validClass.sexo = 'invalid';
 			}else if($scope.partner.sexo.trim().length === 0){
-				$scope.validClass.edad = 'invalid';
+				$scope.validClass.sexo = 'invalid';
 			}
 			
 			if(!$scope.partner.partido){
@@ -278,13 +284,13 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			}
 			
 			if(!$scope.partner.legislatura){
-				$scope.validClass.partido = 'invalid';
+				$scope.validClass.legislatura = 'invalid';
 			} else if($scope.partner.legislatura.trim().length === 0){
-				$scope.validClass.partido = 'invalid';
+				$scope.validClass.legislatura = 'invalid';
 			}
 			
 			if($scope.partner.section.studies){
-				if($scope.partner.section.studies.lastGrade){
+				if(!$scope.partner.section.studies.lastGrade){
 					$scope.validClass.lastGrade = 'invalid';
 				}else if($scope.partner.section.studies.lastGrade.trim().length === 0){
 					$scope.validClass.lastGrade = 'invalid';
