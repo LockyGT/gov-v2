@@ -7,13 +7,19 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	$scope.searchDateStart = new Date();
 	$scope.searchDateEnd   = new Date();
 	$scope.maxSearchDate   = new Date();
+	
+
 
 	// Reerstablece un tiempo para activar los tooltips
 	$timeout(()=>{
-		$(function () {
-			  $('[data-toggle="tooltip"]').tooltip({animation:true, container: 'body'});
-			})
-	},1000);
+			$(function () {
+		  $('[data-toggle="popover"]').popover({
+			  animation: true,
+		    container: document.getElementById('container-table')
+		  })
+		})
+	},500);
+
 
 	// Obtiene los documentos que se encuentran registrados
 	$scope.getRecords = () => {
@@ -408,7 +414,6 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 	
 	$scope.addArchive = () => {
-		
 		$scope.isAdd = true;
 		$scope.archive = {
 				fecha: new Date(),
@@ -418,6 +423,14 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				status:1
 		};
 		
+		$timeout(()=>{
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip({
+				  animation: true,
+			    container: document.getElementById('container-form')
+			  })
+			})
+		},500);
 	};
 	
 	$scope.showDocument = (archive) => {
@@ -457,6 +470,14 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 		$scope.getRecords();
 		$scope.isAdd = false;
 		$scope.archive = null;
+		$timeout(()=>{
+			$(function () {
+		  $('[data-toggle="popover"]').popover({
+			  animation: true,
+		    container: document.getElementById('container-table')
+		  })
+		})
+	},500);
 		
 	};
 	

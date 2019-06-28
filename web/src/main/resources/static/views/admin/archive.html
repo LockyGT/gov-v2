@@ -19,6 +19,8 @@
 .list-inline-item {
 	height: 4.3rem;
 	margin-right: 0 !important;
+	margin-bottom: 1em !important;
+	
 }
 
 .list-inline-item:hover .close--delete-file {
@@ -33,7 +35,7 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	background: rgba(112, 106, 106, .8);
+	background: rgba(53, 53, 53, .9);
 	color: #fff;
 	padding: .5rem;
 	border-radius: 5px;
@@ -42,7 +44,9 @@
 	font-size: .8em;
 	max-with: 15rem;
 }
-
+.help-text--top {
+	top: 0;
+}
 .content-help-text:hover .help-text {
 	display: block;
 }
@@ -64,7 +68,7 @@
 						<h5 class="card-title">{{archive.id? 'Nuevo':'Actualizar'}}</h5>
 					</div>
 
-					<div class="card-body">
+					<div class="card-body" id="container-form" style="position: relative">
 						<div class="form-group row">
 							<label for="txtFecha" class="col-sm-2 col-form-label">Fecha</label>
 							<div class="input-group input-group-lg col-sm-10">
@@ -98,7 +102,7 @@
 									placeholder="nombre" required>
 									
 								<div data-toggle="tooltip" data-placement="left" data-ng-show="moduleod.fieldHelp"
-									data-original-title="{{moduleod.fieldHelp}}">
+									title="{{moduleod.fieldHelp}}">
 									<i class="ml-3 far fa-question-circle fa-3x text-secondary"></i>
 								</div>
 								<div class="d-block"
@@ -235,19 +239,20 @@
 				<!-- Formulario fecha -->
 				<div class="input-group col-sm-3 pr-0">
 					<input class="form-control py-2" type="date"
-						data-ng-max="searchDateEnd" name="fechaInicio"
+						max="{{searchDateEnd | date: 'yyyy-MM-dd'}}" name="fechaInicio"
+						data-ng-class="formFiltros.fechaInicio.$error.date? 'is-invalid': ''"
 						id="example-search-input" data-ng-model="searchDateStart">
 						<div class="invalid-feedback d-block"
-					data-ng-if="!formFiltros.fechaInicio.$valid">Por favor,
+					data-ng-if="formFiltros.fechaInicio.$error.date">Por favor,
 					introduce una fecha válida</div>
 				</div>
 				<div class="input-group col-sm-3">
 					<input class="form-control py-2" type="date"
-						data-ng-min="searchDateStart" name="fechaFin"
-						data-ng-max="maxSearchDate"
+						min="{{searchDateStart | date: 'yyyy-MM-dd'}}" data-ng-class="formFiltros.fechaFin.$error.date? 'is-invalid': ''"
+						max="{{maxSearchDate | date: 'yyyy-MM-dd'}}" name="fechaFin"
 						id="example-search-input" data-ng-model="searchDateEnd">
 						<div class="invalid-feedback d-block"
-						data-ng-show="!formFiltros.fechaFin.$valid">Por favor,
+						data-ng-if="formFiltros.fechaFin.$error.date">Por favor,
 					introduce una fecha válida</div>
 				</div>
 				<div class="btn-group">
@@ -258,7 +263,7 @@
 				</div>
 			</div>
 		</form>
-		<div class="card-body">
+		<div class="card-body" id="container-table" style="position: relative">
 			<div class="row">
 				<div class="alert alert-primary" data-ng-if="!records.length">
 					No se encontraron archivos registrados en el sistema</div>
@@ -289,7 +294,7 @@
 								data-ng-repeat="ar in records | filter: searchArchive track by ar.id">
 								<td>{{ar.fecha | date:'dd-MM-yyyy'}}</td>
 								<td>{{ar.nombre}}</td>
-								<td>{{ar.descripcion}}</td>
+								<td data-toggle="popover" title="Información" data-content="{{ar.descripcion}}">{{(ar.descripcion.length > 60)? ar.descripcion.substring(60,-1)+'...':ar.descripcion}}</td>
 								<td><button type="button" class="btn btn-info"
 										data-ng-if="ar.id != null" data-toggle="modal"
 										data-ng-click="showDocument(ar)"
