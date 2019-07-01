@@ -8,6 +8,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 			initiatives: [],
 			results: []
 	};
+	$scope.filterInfo = {};
 	
 	$scope.maxSearchDate = new Date();
 	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9"];
@@ -28,13 +29,16 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 				initiativesId: $scope.selected.initiatives.map(f=> f.id)
 		};
 		
-		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
 			reportService.getResultInitiative(dataReport).then(success=>{
 				$scope.resultsReport = JSON.parse(success.data);
-				console.log('Informacion del reporte: ', $scope.resultsReport);
+				
 			}, error=>{
+				$scope.resultsReport = [];
 				console.log('Error al obtener la informacion: ', error);
 			});
+		}else {
+			swal("Error","No ha llenado todos los campos", "error");
 		}
 	};
 	
@@ -53,13 +57,19 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 			"dateEnd": selected.endDate,
 			"status": 0
 		};
-		voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
-			$scope.sessions = data;
-			$scope.initiatives = [];
-			$scope.filter = {};
-		}, error=>{
-			console.log('Error al obtener las sesiones: ', error)
-		});
+		
+		if (($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)) {
+			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
+				$scope.sessions = data;
+				$scope.initiatives = [];
+				$scope.filter = {};
+			}, error=>{
+				console.log('Error al obtener las sesiones: ', error);
+			});
+			
+		} else {
+			console.log('fechas no coincidentes');
+		}
 	};
 	
 	$scope.getInitiatives = () => {
@@ -101,12 +111,14 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		console.log('Informacion de la sesion: ')
 		$timeout( () => {
 			$scope.selected.typeSessions = $filter('filter')($scope.typeSessions, {checked: true});
+			$scope.filterInfo.typeSessions = $scope.selected.typeSessions.map(f => f.name);
 		}, 500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
 		$timeout ( () => {
 			$scope.selected.sessions = $filter('filter')($scope.sessions, {checked: true});
+			$scope.filterInfo.sessions = $scope.selected.sessions.map(f => f.nombre);
 			$scope.getInitiatives();
 		}, 500);
 	};
@@ -114,12 +126,14 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
 			$scope.selected.initiatives = $filter('filter')($scope.initiatives, {checked: true});
+			$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
 		}, 500);
 	};
 	
 	$scope.updateSelectedResults = () => {
 		$timeout( () => {
-			$scope.selected.results = $filter('filter')($scope.results, {checked: true});			
+			$scope.selected.results = $filter('filter')($scope.results, {checked: true});
+			$scope.filterInfo.results = $scope.selected.results.map(f => f.name);
 		}, 500);
 	};
 	

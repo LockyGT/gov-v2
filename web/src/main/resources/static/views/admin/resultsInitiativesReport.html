@@ -53,6 +53,7 @@
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtTypeSession"
+							data-ng-model="filterInfo.typeSessions"
 							id="txtTypeSession" placeholder="Tipo de sesión" required
 							readonly>
 					</div>
@@ -67,6 +68,7 @@
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtSession"
+							data-ng-model="filterInfo.sessions"
 							id="txtSession" placeholder="Sesiones" required readonly>
 					</div>
 				</div>
@@ -80,6 +82,7 @@
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtResult"
+							data-ng-model="filterInfo.results"
 							id="txtResult" placeholder="Resultado" required readonly>
 					</div>
 				</div>
@@ -93,6 +96,7 @@
 							</span>
 						</div>
 						<input type="text" class="form-control" name="txtInitiatives"
+							data-ng-model="filterInfo.initiatives"
 							id="txtInitiatives" placeholder="Iniciativas" required readonly>
 					</div>
 				</div>
@@ -345,7 +349,7 @@
 						<tbody>
 							<tr data-ng-repeat="ss in sessions | filter: filterTypeSession">
 								<td>{{ss.nombre}}</td>
-								<td>{{ss.fechaHora | date:'dd-MM-yyyy h:mma'}}</td>
+								<td>{{ss.fechaHora | date:'dd-MM-yyyy HH:mm'}}</td>
 								<td><input type="checkbox" data-ng-model="ss.checked"
 									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
 							</tr>

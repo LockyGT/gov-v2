@@ -30,12 +30,14 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 				sessionsId: $scope.selected.sessions.map(f => f.id),
 				initiativesId: $scope.selected.initiatives.map(f => f.id)
 		}
-		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
 			reportService.getLegislaturas(dataReport).then(success => {
 				$scope.legislaturaReport = JSON.parse(success.data);
 			}, error => {
 				console.log('Error al obtener la información del reporte: ', error)
 			});
+		} else {
+			swal("Error","No ha llenado todos los campos", "error");
 		}
 	};
 	
@@ -54,14 +56,19 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			"dateEnd": selected.endDate,
 			"status": 0
 		};
-		voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
-			$scope.sessions = data;
-			$scope.initiatives = [];
-			$scope.filter = {};
-			$scope.filterInfo = {};
-		}, error=>{
-			console.log('Error al obtener las sesiones: ', error)
-		});
+		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
+			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
+				$scope.sessions = data;
+				$scope.initiatives = [];
+				$scope.filter = {};
+				$scope.filterInfo = {};
+			}, error=>{
+				console.log('Error al obtener las sesiones: ', error)
+			});
+		} else {
+			swal("Error","No ha llenado todos los campos", "error");
+		}
+
 	};
 	
 	$scope.getInitiatives = () => {

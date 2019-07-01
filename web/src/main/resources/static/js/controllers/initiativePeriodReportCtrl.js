@@ -24,11 +24,15 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			initiativesId: $scope.selected.initiatives.map(f => f.id)
 		};
 		
-		reportService.getInitiative(dataReport).then(success => {
-			$scope.initiativeReport = JSON.parse(success.data);
-		}, error => {
-			console.log('Error al obtener la información: ', error);
-		});
+		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
+			reportService.getInitiative(dataReport).then(success => {
+				$scope.initiativeReport = JSON.parse(success.data);
+			}, error => {
+				console.log('Error al obtener la información: ', error);
+			});
+		} else {
+			swal("Error","No ha llenado todos los campos", "error");
+		}
 	};
 	
 	$scope.getTypeSessions = () => {
