@@ -129,6 +129,32 @@ public class VoteSessionController {
 		return service.findVoteSessionByFechaHoraBetwen(t1, t2);
 	}
 	
+	
+	@GetMapping(value="/date/between/end/between/status")
+	public List<VoteSession> getByDateBetwenEndBetweenAndStatus(@RequestParam(value="dateStart") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha,
+			@RequestParam(value="dateEnd") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fechaFin,
+			@RequestParam(value="status") final Integer status){
+		logger.info("consulta VOTE SESSION POR FECHA INICIO:" + fecha);	
+		logger.info("consulta VOTE SESSION POR FECHA FIN:" + fechaFin);
+		ZonedDateTime inicio = fecha.atZone(ZoneId.systemDefault());		
+		logger.info("ZONEDDATE : " + inicio);
+		int year  = inicio.getYear();
+		int month = inicio.getMonthValue();
+		int day   = inicio.getDayOfMonth();
+		
+		ZonedDateTime fin = fechaFin.atZone(ZoneId.systemDefault());		
+		logger.info("ZONEDDATE : " + inicio);
+		int yearEnd  = fin.getYear();
+		int monthEnd = fin.getMonthValue();
+		int dayEnd   = fin.getDayOfMonth();
+
+		LocalDateTime t1 = LocalDateTime.of(year, month, day, 0, 0, 0, 0);
+		LocalDateTime t2 = LocalDateTime.of(yearEnd, monthEnd, dayEnd, 23, 59, 59);
+		logger.info("consulta VOTE SESSION POR FECHA1 ------> :" + t1);	
+		logger.info("consulta VOTE SESSION POR FECHA2 ------> :" + t2);
+		return service.findVoteSessionByFechaHoraBetwenAndStatus(t1, t2, status);
+	}
+	
 	/**
 	 * 
 	 * @param status

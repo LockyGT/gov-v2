@@ -29,6 +29,16 @@ app.service('voteSessionService', function($q, factory) {
 		});
 	};
 	
+	self.getInDateBetweenEndBetweenAndStatus = (dates)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get('votesession/date/between/end/between/status', dates).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.getByStatus = (status)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get('votesession/status', status).then(function mySuccess(data) {						

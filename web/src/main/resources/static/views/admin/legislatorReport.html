@@ -17,7 +17,7 @@ li.active li {
 }
 </style>
 
-<h1>Reporte legislador</h1>
+<h1>Reportes estadisticos - Legisladores</h1>
 <section data-ng-if="reporteBar === null && reportePie === null">
 	<div class="card w-95">
 		<div class="card-header">
@@ -63,7 +63,7 @@ li.active li {
 				</div>
 				<div class="w-100"></div>
 				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtNombre" class="sr-only">Partidos políticos</label>
+					<label for="selectParties" class="sr-only">Partidos políticos</label>
 					<div class="input-group" data-toggle="modal"
 						data-target="#model-select-parties">
 						<div class="input-group-prepend">
@@ -71,13 +71,13 @@ li.active li {
 								<i class="fas fa-award"></i>
 							</span>
 						</div>
-						<input type="text" class="form-control" name="txtNombre"
-							id="txtNombre" data-ng-model="archive.nombre"
+						<input type="text" class="form-control" name="txtParties"
+							id="selectParties" data-ng-model="filterInfo.parties"
 							placeholder="Partidos políticos" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtNombre" class="sr-only">Legisladores</label>
+					<label for="selectLegislators" class="sr-only">Legisladores</label>
 					<div class="input-group" data-toggle="modal"
 						data-target="#model-select-legislators">
 						<div class="input-group-prepend">
@@ -85,13 +85,13 @@ li.active li {
 								<i class="fas fa-user"></i>
 							</span>
 						</div>
-						<input type="text" class="form-control" name="txtNombre"
-							id="txtNombre" data-ng-model="archive.nombre"
+						<input type="text" class="form-control" name="txtLegislators"
+							id="selectLegislators" data-ng-model="filterInfo.legislators"
 							placeholder="Legisladores" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtNombre" class="sr-only">Sesiones</label>
+					<label for="selectSessions" class="sr-only">Sesiones</label>
 					<div class="input-group" data-toggle="modal"
 						data-target="#model-select-sessions">
 						<div class="input-group-prepend">
@@ -99,13 +99,27 @@ li.active li {
 								<i class="fas fa-balance-scale"></i>
 							</span>
 						</div>
-						<input type="text" class="form-control" name="txtNombre"
-							id="txtNombre" data-ng-model="archive.nombre"
+						<input type="text" class="form-control" name="txtSessions"
+							id="selectSessions" data-ng-model="filterInfo.sessions"
 							placeholder="Sesiones" required readonly>
 					</div>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
-					<label for="txtNombre" class="sr-only">Iniciativas</label>
+					<label for="selectVotes" class="sr-only">Votos</label>
+					<div class="input-group" data-toggle="modal"
+						data-target="#model-select-votes">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-lg4">
+								<i class="fas fa-vote-yea"></i>
+							</span>
+						</div>
+						<input type="text" class="form-control" name="txtVotes"
+							id="selectVotes" data-ng-model="filterInfo.voteOptions"
+							placeholder="Voto" required readonly>
+					</div>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label for="selectInitiatives" class="sr-only">Iniciativas</label>
 					<div class="input-group" data-toggle="modal"
 						data-target="#model-select-initiatives">
 						<div class="input-group-prepend">
@@ -113,8 +127,8 @@ li.active li {
 								<i class="fas fa-book"></i>
 							</span>
 						</div>
-						<input type="text" class="form-control" name="txtNombre"
-							id="txtNombre" data-ng-model="archive.nombre"
+						<input type="text" class="form-control" name="txtInitiatives"
+							id="selectInitiatives" data-ng-model="filterInfo.initiatives"
 							placeholder="Iniciativas" required readonly>
 					</div>
 				</div>
@@ -142,7 +156,10 @@ li.active li {
 							<th>Distrito</th>
 							<th>Comisión</th>
 							<th>Fecha</th>
+							<th>Sesión</th>
 							<th>Iniciativas</th>
+							<th>Voto</th>
+							<th>Tiempo</th>
 							<th>Resultado</th>
 						</tr>
 					</thead>
@@ -152,14 +169,17 @@ li.active li {
 							<td>{{lr.namePartner}}</td>
 							<td>{{lr.district}}</td>
 							<td>{{lr.commission}}</td>
-							<td>{{lr.date | date:'dd-MM-yyyy'}}</td>
+							<td>{{lr.date | date:'dd/MM/yyyy'}}</td>
+							<td>{{lr.session}}</td>
 							<td>{{lr.initiative}}</td>
+							<td>{{lr.vote}}</td>
+							<td>{{lr.startTime | date:'h:mma'}} - {{lr.endTime | date:'h:mma'}}</td>
 							<td>{{lr.result}}</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="5"></td>
+							<td colspan="10"></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -222,7 +242,7 @@ li.active li {
 											<tr>
 												<th>PARTICIPANTES</th>
 												<th>INICIATIVAS</th>
-												<th class="text-right">TOTAL VOTOS 
+												<th class="text-right">
 													<span class="badge badge-pill badge-dark badge-panel-dark">{{legislatorsReport.data.length}}</span>
 												</th>
 											</tr>
@@ -329,8 +349,7 @@ li.active li {
 								<th>Nombre</th>
 								<th>Acrónimo</th>
 								<th><input type="checkbox" id="checked-parties"
-									data-ng-click="checkAllOptions(politicalParties,$event)"
-									data-ng-model="checkAllOptionsFlag"></th>
+									data-ng-click="checkAllOptions(politicalParties,$event)"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -372,8 +391,7 @@ li.active li {
 								<th>Nombre</th>
 								<th>Partido</th>
 								<th><input type="checkbox" id="checked-legislator"
-									data-ng-click="checkAllOptions(legislators,$event)"
-									data-ng-model="checkAllOptionsFlag"></th>
+									data-ng-click="checkAllOptions(legislators,$event)"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -416,8 +434,7 @@ li.active li {
 								<th>Nombre</th>
 								<th>Fecha/Hora</th>
 								<td><input type="checkbox" id="checked-session"
-									data-ng-click="checkAllOptions(sessions,$event)"
-									data-ng-model="checkAllOptionsFlag"></td>
+									data-ng-click="checkAllOptions(sessions,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -457,13 +474,13 @@ li.active li {
 							<tr>
 								<td>Nombre</td>
 								<td>Resultado</td>
-								<td><input type="checkbox" data-ng-model="pp.checked"
+								<td><input type="checkbox"
 									id="checked-initiative"
-									data-ng-click="updateGlobalOptionsChecked()"></td>
+									data-ng-click="checkAllOptions(initiatives,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="int in initiatives">
+							<tr data-ng-repeat="int in initiatives track by $index">
 								<td>{{int.name}}</td>
 								<td>{{int.result.resultName}}</td>
 								<td><input type="checkbox" data-ng-model="int.checked"
@@ -480,7 +497,47 @@ li.active li {
 		</div>
 	</div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="model-select-votes" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLongTitle"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Votos</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped">
+						<thead>
+							<tr>
+								<td>Nombre</td>
+								<td><input type="checkbox"
+									id="checked-initiative"
+									data-ng-click="checkAllOptions(voteOptions,$event)"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="vo in voteOptions track by $index">
+								<td>{{vo.name}}</td>
+								<td><input type="checkbox" data-ng-model="vo.checked"
+									name="checked-vote-option"
+									data-ng-click="updateSelectedVoteOptions()"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 

@@ -49,18 +49,21 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	
 	$scope.getSessionsBetweenDates = (selected) => {
 		let sendData = {
-			"fecha": selected.startDate,
-			"fechaFin": selected.endDate
+			"dateStart": selected.startDate,
+			"dateEnd": selected.endDate,
+			"status": 0
 		};
-		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
+		voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
 			$scope.sessions = data;
 			$scope.initiatives = [];
+			$scope.filter = {};
 		}, error=>{
 			console.log('Error al obtener las sesiones: ', error)
 		});
 	};
 	
 	$scope.getInitiatives = () => {
+		$scope.initiatives = [];
 		if($scope.selected.sessions.length){
 			$scope.selected.sessions.forEach(function(session){
 				$scope.initiatives = $scope.initiatives.concat(session.iniciativas);

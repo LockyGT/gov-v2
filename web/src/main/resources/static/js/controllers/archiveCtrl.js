@@ -15,7 +15,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			$(function () {
 		  $('[data-toggle="popover"]').popover({
 			  animation: true,
-		    container: document.getElementById('container-table')
+			  ontainer: document.getElementById('container-table')
 		  })
 		})
 	},500);
@@ -474,7 +474,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 			$(function () {
 		  $('[data-toggle="popover"]').popover({
 			  animation: true,
-		    container: document.getElementById('container-table')
+		      container: document.getElementById('container-table')
 		  })
 		})
 	},500);

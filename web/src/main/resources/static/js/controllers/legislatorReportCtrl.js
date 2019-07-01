@@ -16,7 +16,8 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.reporteBar        = null;
 	$scope.reportePie        = null;
 	$scope.voteOptions       = [];
-	$scope.tabView = 'cardbodyBar';
+	$scope.tabView           = 'cardbodyBar';
+	$scope.filterInfo        = {};
 	
 	$scope.getReportLegislator = () => {
 		dataReport = {
@@ -25,31 +26,35 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		};
 		
 		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
-			reportService.getLegislatorReport(dataReport).then(success=>{
+			console.log('Informacion enviada: ', dataReport)
+			reportService.getLegislatorReport(dataReport).then( success => {
 				$scope.legislatorsReport = JSON.parse(success.data);
 				console.log('Informacion del reporte: ', $scope.legislatorsReport);
-			}, error=>{
-				console.log('Error al obtener el nombre del legislador: ', error);
+			}, error => {
+				console.log('Error al obtener el reporte del legislador: ', error);
 			});
 		}
 	};
 	
 	$scope.getSessionsBetweenDates = (selected) => {
 		let sendData = {
-			"fecha":selected.startDate,
-			"fechaFin":selected.endDate
+			"dateStart":selected.startDate,
+			"dateEnd":selected.endDate,
+			"status": 0
 		};
-		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
+		voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then( data => {
+
 			$scope.sessions = data;
 			$scope.initiatives = [];
 		}, error => {
-			swal("Error", response, "error");
+			console.log('Error al obtener las sesiones: ', error);
 		});
 	};
 	
 	$scope.getInitiatives = () => {
+		$scope.initiatives = [];
 		if($scope.selected.sessions.length){
-			$scope.selected.sessions.forEach(function(session){
+		   $scope.selected.sessions.forEach(function(session){
 				$scope.initiatives = $scope.initiatives.concat(session.iniciativas);
 			});
 		}
@@ -102,10 +107,10 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	};
 	
 	$scope.checkAllOptions = (array, e) => {
-		
 		angular.forEach(array, function(el){
 			el.checked = e.target.checked;
 		});
+		
 		$scope.updateSelectedParties();
 		$scope.updateSelectedLegislators();
 		$scope.updateSelectedSessions();
@@ -115,7 +120,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.updateSelectedParties = () => {
 		$timeout( () => {
 			$scope.selected.parties = $filter('filter')($scope.politicalParties,{checked: true});
-			
+			$scope.filterInfo.parties = $scope.selected.parties.map(f => f.acronym);
 		},500);
 		
 	};
@@ -123,19 +128,29 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.updateSelectedLegislators = () => {
 		$timeout( () => {
 			$scope.selected.legislators = $filter('filter')($scope.legislators,{checked: true});
+			$scope.filterInfo.legislators = $scope.selected.legislators.map(f => f.name+" "+f.apPaterno+" "+f.apMaterno);
 		},500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
 		$timeout( () => {
 			$scope.selected.sessions = $filter('filter')($scope.sessions,{checked: true});
+			$scope.filterInfo.sessions = $scope.selected.sessions.map(f => f.nombre);
 			$scope.getInitiatives();
+		},500);
+	};
+	
+	$scope.updateSelectedVoteOptions = () => {
+		$timeout( () => {
+			$scope.selected.voteOptions = $filter('filter')($scope.voteOptions,{checked: true});
+			$scope.filterInfo.voteOptions = $scope.selected.voteOptions.map(f => f.name);
 		},500);
 	};
 	
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
-			$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true})
+			$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true});
+			$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
 		},500);
 	};
 	
@@ -189,6 +204,17 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.filterLegislator = e => {
 		let r = $scope.selected.parties.find(function(element){
 			return element.id == e.partido.id;
+		});
+		if(r){
+			return true;
+		}
+		return false;
+
+	};
+	
+	$scope.filterVoteOptions = e => {
+		let r = $scope.selected.voteOptions.find(function(element){
+			return element.name.toLowerCase()== e.result.resultName.toLowerCase();
 		});
 		if(r){
 			return true;

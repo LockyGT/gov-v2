@@ -126,7 +126,7 @@
 					</thead>
 					<tbody>
 						<tr data-ng-repeat="rr in resultsReport.data">
-							<td>{{rr.date | date: 'dd-MM-yyyy'}}</td>
+							<td>{{rr.date | date: 'dd/MM/yyyy'}}</td>
 							<td>{{rr.typeSession}}</td>
 							<td>{{rr.session}}</td>
 							<td>{{rr.initiative}}</td>
@@ -292,8 +292,7 @@
 							<tr>
 								<td>Nombre</td>
 								<td><input type="checkbox" id="checked-type-session"
-									data-ng-click="checkAllOptions(typeSessions,$event)"
-									data-ng-model="checkAllOptionsFlag"></td>
+									data-ng-click="checkAllOptions(typeSessions,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -328,14 +327,19 @@
 			</div>
 			<div class="modal-body">
 				<div class="table-responsive">
-					<table class="table table-inversed table-hover table-striped">
+					<div class="alert alert-primary" role="alert"
+						data-ng-if="!sessions.length">No se ha encontrado
+						información con los datos ingresados</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped"
+						data-ng-if="sessions.length">
 						<thead>
 							<tr>
 								<th>Nombre</th>
 								<th>Fecha/Hora</th>
 								<td><input type="checkbox" id="checked-session"
-									data-ng-click="checkAllOptions(sessions,$event)"
-									data-ng-model="checkAllOptionsFlag"></td>
+									data-ng-click="checkAllOptions(sessions,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -370,12 +374,18 @@
 			</div>
 			<div class="modal-body">
 				<div class="table-responsive">
-					<table class="table table-inversed table-hover table-striped">
+					<div class="alert alert-primary" role="alert"
+						data-ng-if="!initiatives.length">No se ha encontrado
+						información con los datos ingresados</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-inversed table-hover table-striped"
+						data-ng-if="initiatives.length">
 						<thead>
 							<tr>
 								<td>Nombre</td>
 								<td>Resultado</td>
-								<td><input type="checkbox" data-ng-model="pp.checked"
+								<td><input type="checkbox"
 									id="checked-initiative"
 									data-ng-click="checkAllOptions(initiatives,$event)"></td>
 							</tr>
@@ -418,7 +428,7 @@
 						<thead>
 							<tr>
 								<td>Nombre</td>
-								<td><input type="checkbox" data-ng-model="pp.checked"
+								<td><input type="checkbox"
 									id="checked-initiative"
 									data-ng-click="checkAllOptions(results,$event)"></td>
 							</tr>

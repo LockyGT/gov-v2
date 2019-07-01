@@ -25,6 +25,7 @@ public interface VoteSessionService {
 	VoteSession findById(String id);
 
 	List<VoteSession> findVoteSessionByFechaHoraBetwen(LocalDateTime t1, LocalDateTime t2);
+	List<VoteSession> findVoteSessionByFechaHoraBetwenAndStatus(LocalDateTime t1, LocalDateTime t2, Integer status);
 
 	List<VoteSession> fetchByIsAttendanceOpen(boolean status);
 }

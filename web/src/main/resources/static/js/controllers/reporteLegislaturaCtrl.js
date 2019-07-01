@@ -9,6 +9,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			results: []
 	};
 	$scope.maxSearchDate = new Date();
+	$scope.filterInfo = {};
 	
 	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9", 
 		"#752F09","#FF8442","#007571", "#1FC2BC","#C2581F"];
@@ -49,18 +50,23 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	
 	$scope.getSessionsBetweenDates = (selected) => {
 		let sendData = {
-			"fecha": selected.startDate,
-			"fechaFin": selected.endDate
+			"dateStart": selected.startDate,
+			"dateEnd": selected.endDate,
+			"status": 0
 		};
-		voteSessionService.getInDateBetweenEndBetween(sendData).then(data=>{
+		voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
 			$scope.sessions = data;
 			$scope.initiatives = [];
+			$scope.filter = {};
+			$scope.filterInfo = {};
 		}, error=>{
 			console.log('Error al obtener las sesiones: ', error)
 		});
 	};
 	
 	$scope.getInitiatives = () => {
+		$scope.initiatives = [];
+		$scope.filter.initiatives = null;
 		if($scope.selected.sessions.length){
 			$scope.selected.sessions.forEach(function(session){
 				$scope.initiatives = $scope.initiatives.concat(session.iniciativas);
@@ -78,7 +84,6 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	};
 	
 	$scope.getResultsInitiatives = () => {
-		console.log('Informacion de resultados: ')
 		$scope.results = [{name:'Aprobado', color:'success'}, {name:'No aprobado', color:'danger'}];
 
 	};
@@ -96,15 +101,16 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	
 	// Filters
 	$scope.updateSelectedTypeSession = () => {
-		console.log('Informacion de la sesion: ')
 		$timeout( () => {
 			$scope.selected.typeSessions = $filter('filter')($scope.typeSessions, {checked: true});
+			$scope.filterInfo.typeSessions = $scope.selected.typeSessions.map(f => f.name); 
 		}, 500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
 		$timeout ( () => {
 			$scope.selected.sessions = $filter('filter')($scope.sessions, {checked: true});
+			$scope.filterInfo.sessions = $scope.selected.sessions.map(f => f.nombre);
 			$scope.getInitiatives();
 		}, 500);
 	};
@@ -112,12 +118,14 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
 			$scope.selected.initiatives = $filter('filter')($scope.initiatives, {checked: true});
+			$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
 		}, 500);
 	};
 	
 	$scope.updateSelectedResults = () => {
 		$timeout( () => {
-			$scope.selected.results = $filter('filter')($scope.results, {checked: true});			
+			$scope.selected.results = $filter('filter')($scope.results, {checked: true});		
+			$scope.filterInfo.results = $scope.selected.results.map(f => f.name);
 		}, 500);
 	};
 	

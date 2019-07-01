@@ -77,6 +77,12 @@ public class VoteSessionServiceImpl implements VoteSessionService {
 	public List<VoteSession> fetchByIsAttendanceOpen(boolean status) {
 		
 		return repo.findByIsAttendanceOpen(status);
+	}
+
+	@Override
+	public List<VoteSession> findVoteSessionByFechaHoraBetwenAndStatus(LocalDateTime t1, LocalDateTime t2,
+			Integer status) {
+		return repo.findVoteSessionByFechaHoraBetweenAndStatusNot(t1, t2, status);
 	}	
 
 }

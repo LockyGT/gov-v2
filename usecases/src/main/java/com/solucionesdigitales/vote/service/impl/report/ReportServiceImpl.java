@@ -46,20 +46,24 @@ public class ReportServiceImpl implements ReportService {
 		VoteSession voteSession;
 		JsonObject jsonLegislator;
 		
-		LegislatorReport legislator = new LegislatorReport();
+		LegislatorReport legislator =null;
 		for(String partnerId : partnersId) {
+			legislator = new LegislatorReport();
 			partner = partnerRepository.findFirstById(partnerId);
 			legislator.setPartner(partner);
 			for(String initiativeId : initiativesId) {
 				votes = voteRepository.findByInitiativeIdAndPartnerId(initiativeId, partnerId);
-				legislator.setVote(votes.get(0));
-				initiative = initiativeRepository.findFirstByIdAndStatus(votes.get(0).getInitiative().getId(), 6);
-				legislator.setInitiative(initiative);
-				voteSession = voteSessionReporsitory.findFirsByIniciativasId(initiativeId);
-				legislator.setVoteSession(voteSession);
-				listLegislator.add(legislator);
+				if(votes.size()>0) {
+					legislator.setVote(votes.get(0));
+					initiative = initiativeRepository.findFirstByIdAndStatus(votes.get(0).getInitiative().getId(), 6);
+					legislator.setInitiative(initiative);
+					voteSession = voteSessionReporsitory.findFirsByIniciativasId(initiativeId);
+					legislator.setVoteSession(voteSession);
+					listLegislator.add(legislator);
+				}
 			}
 		}
+		
 		for (LegislatorReport lr : listLegislator) {
 			jsonLegislator = new JsonObject();
 			jsonLegislator.addProperty("politicalPartie", lr.getPartner().getPartido().getAcronym());
@@ -88,17 +92,18 @@ public class ReportServiceImpl implements ReportService {
 		JsonArray arr = new JsonArray();
 		ArrayList<ResultReport> listResults = new ArrayList<ResultReport>();
 		JsonObject jsonResults;
-		ResultReport resultReport;
+		ResultReport resultReport = null;
 		VoteSession session;
 		
 		for(String sessionId : sessionsId) {
-
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
-			for(String initiativeId : initiativesId) {
+			if(session != null) {
 				resultReport = new ResultReport();
-				resultReport.setSession(session);
-				resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
-				listResults.add(resultReport);
+				for(String initiativeId : initiativesId) {
+					resultReport.setSession(session);
+					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+					listResults.add(resultReport);
+				}
 			}
 		}
 		
@@ -131,13 +136,14 @@ public class ReportServiceImpl implements ReportService {
 		VoteSession session;
 		
 		for(String sessionId : sessionsId) {
-
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
-			for(String initiativeId : initiativesId) {
+			if(session != null) {
 				resultReport = new ResultReport();
-				resultReport.setSession(session);
-				resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
-				listResults.add(resultReport);
+				for(String initiativeId : initiativesId) {
+					resultReport.setSession(session);
+					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+					listResults.add(resultReport);
+				}
 			}
 		}
 		
@@ -147,11 +153,11 @@ public class ReportServiceImpl implements ReportService {
 			jsonResults.addProperty("typeSession",result.getSession().getType().getName());
 			jsonResults.addProperty("session", result.getSession().getNombre());
 			jsonResults.addProperty("initiative",result.getInitiative().getName());
-			jsonResults.addProperty("timeVote",result.getInitiative().getHours()+":"+result.getInitiative().getMinutes()+":"+result.getInitiative().getSeconds());
+			jsonResults.addProperty("timeVote",result.getInitiative().getMinutes()+":"+result.getInitiative().getSeconds());
 			jsonResults.addProperty("aFavor",result.getInitiative().getResult().getTotalAFavor());
 			jsonResults.addProperty("against",result.getInitiative().getResult().getTotalEnContra());
 			jsonResults.addProperty("abstention",result.getInitiative().getResult().getTotalAbstencion());
-			jsonResults.addProperty("notVote",result.getInitiative().getResult().getTotalAFavor());
+			jsonResults.addProperty("notVote",result.getInitiative().getResult().getTotalNoVoto());
 			jsonResults.addProperty("present",result.getInitiative().getResult().getPresentes());
 			jsonResults.addProperty("missing",result.getInitiative().getResult().getTotalAusente());
 			jsonResults.addProperty("result", result.getInitiative().getResult().getResultName());
@@ -173,13 +179,14 @@ public class ReportServiceImpl implements ReportService {
 		VoteSession session;
 		
 		for(String sessionId : sessionsId) {
-
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
-			for(String initiativeId : initiativesId) {
+			if(session != null) {
 				resultReport = new ResultReport();
-				resultReport.setSession(session);
-				resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
-				listResults.add(resultReport);
+				for(String initiativeId : initiativesId) {
+					resultReport.setSession(session);
+					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+					listResults.add(resultReport);
+				}
 			}
 		}
 		

@@ -159,9 +159,9 @@
 			},
 			{
 				"id": 5,
-				"app": "reports",
+				"app": "statistics",
 				"index": 5.5,
-				"title": "Legislador",
+				"title": "Reportes estadisticos / Legisladores",
 				"url": "#!legislatorReport",
 				"icon": "far fa-clipboard",
 				"color": "#0290AD",
@@ -177,9 +177,9 @@
 			},
 			{
 				"id": 6,
-				"app": "reports",
+				"app": "statistics",
 				"index": 5.6,
-				"title": "Legislatura",
+				"title": "Reportes estadísticos/ Legislatura",
 				"url": "#!reporteLegislatura",
 				"icon": "fas fa-clipboard",
 				"color": "peru",
@@ -195,14 +195,14 @@
 			},
 			{
 				"id": 7,
-				"app": "reports",
+				"app": "statistics",
 				"index": 5.7,
-				"title": "Resultados iniciativas",
-				"url": "#!resultsInitiativesReport",
-				"icon": "fas fa-poll-h",
-				"color": "#BD5133",
+				"title": "Reportes estadísticos / Iniciativas",
+				"url": "#!initiativePeriodReport",
+				"icon": "fas fa-paste",
+				"color": "#6E08C4",
 				"image": "../img/periodico.png",
-				"alt": "Consulta de Sesiones e iniciativas por resultados",
+				"alt": "Iniciativa",
 				"text": "",
 				"roles": [
 					"OPERADOR"
@@ -212,15 +212,15 @@
 				"status": 1
 			},
 			{
-				"id": 7,
-				"app": "reports",
+				"id": 8,
+				"app": "statistics",
 				"index": 5.7,
-				"title": "Iniciativas",
-				"url": "#!initiativePeriodReport",
-				"icon": "fas fa-paste",
-				"color": "#6E08C4",
+				"title": "Reportes estadísticos - Resultados",
+				"url": "#!resultsInitiativesReport",
+				"icon": "fas fa-poll-h",
+				"color": "#BD5133",
 				"image": "../img/periodico.png",
-				"alt": "Iniciativa",
+				"alt": "Consulta de Sesiones e iniciativas por resultados",
 				"text": "",
 				"roles": [
 					"OPERADOR"
@@ -351,40 +351,42 @@
 		],
 		"levels": 2,
 		"childs": [
-				{
-					"id": 1,
-					"app": "gazette",
-					"index": 1.0,
-					"title": "Crear nuevo",
-					"url": "#!modulood",
-					"icon": "far fa-plus-square",
-					"color": "#ADB5BD",
-					"image": "../img/periodico.png",
-					"alt": "Crear nuevo",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				},
-				{
-					"id": 2,
-					"app": "gazette",
-					"index": 1.1,
-					"title": "Orden del día",
-					"url": "#!orderoftheday",
-					"icon": "far fa-folder-open",
-					"color": "#FF9A89",
-					"image": "../img/periodico.png",
-					"alt": "Ver orden del día",
-					"text": "",
-					"roles": ["OPERADOR"],
-					"levels": 1,
-					"childs": [],
-					"status": 1
-				}
-				
-			
+			{
+				"id": 1,
+				"app": "gazette",
+				"index": 1.0,
+				"title": "Crear nuevo",
+				"url": "#!modulood",
+				"icon": "far fa-plus-square",
+				"color": "#ADB5BD",
+				"image": "../img/periodico.png",
+				"alt": "Crear nuevo",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			},
+			{
+				"id": 2,
+				"app": "gazette",
+				"index": 1.1,
+				"title": "Orden del día",
+				"url": "#!orderoftheday",
+				"icon": "far fa-folder-open",
+				"color": "#FF9A89",
+				"image": "../img/periodico.png",
+				"alt": "Ver orden del día",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			}
 		],
 		"status": 1
 	},
@@ -511,21 +513,24 @@
 				"levels": 1,
 				"childs": [],
 				"status": 1
-				}
+			}
 		]
-	},{
-				"id": 15,
-				"index": 14.0,
-				"title": "Repositorio de Documentos",
-				"url": "#!categoriaDeDocumentos",
-				"icon": "fas fa-copy",
-				"color": "#4286f4",
-				"image": "../img/periodico.png",
-				"alt": "categoriaDeDocumentos",
-				"text": "",
-				"roles": ["OPERADOR"],
-				"levels": 1,
-				"childs": [],
-				"status": 1
+	},
+	{
+		"id": 15,
+		"index": 14.0,
+		"title": "Repositorio de Documentos",
+		"url": "#!categoriaDeDocumentos",
+		"icon": "fas fa-copy",
+		"color": "#4286f4",
+		"image": "../img/periodico.png",
+		"alt": "categoriaDeDocumentos",
+		"text": "",
+		"roles": [
+			"OPERADOR"
+		],
+		"levels": 1,
+		"childs": [],
+		"status": 1
 	}
 ]
