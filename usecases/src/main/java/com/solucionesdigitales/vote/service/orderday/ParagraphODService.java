@@ -17,6 +17,8 @@ public interface ParagraphODService {
 
 	List<ParagraphOD> getByStatus();
 
+	List<ParagraphOD> getByStatusIniciative(boolean status);
+
 	
 
 }

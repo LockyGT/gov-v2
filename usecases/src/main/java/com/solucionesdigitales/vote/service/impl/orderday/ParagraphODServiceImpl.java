@@ -2,13 +2,12 @@ package com.solucionesdigitales.vote.service.impl.orderday;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
+import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.repository.orderday.ParagraphODRepository;
 import com.solucionesdigitales.vote.service.orderday.ParagraphODService;
@@ -59,6 +58,13 @@ public class ParagraphODServiceImpl implements ParagraphODService {
 			logger.info("Parrafo eliminado: ["+entity+"]");
 		}
 		return paragraph;
+	}
+
+	@Override
+	public List<ParagraphOD> getByStatusIniciative(boolean status) {
+		List<ParagraphOD> iniciativa= new ArrayList<ParagraphOD>();
+		iniciativa = repository.findByIsIniciativa(status);
+		return iniciativa;
 	}
 
 }

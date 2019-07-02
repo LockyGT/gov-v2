@@ -10,6 +10,19 @@ app.service('paragraphOdService', function ($q, factory){
 			});
 		});
 	};
+	
+	self.getByStatusIniciative = (status)=>{		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/iniciative', status).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	
+	
 	self.getByStatus = (status)=>{		
 		return $q(function(resolve, reject) {			
 			factory.get(path+'/status', status).then(function mySuccess(data) {						

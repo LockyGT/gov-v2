@@ -48,20 +48,20 @@ public class OrderDayController {
 		logger.info("consulta de Versiones de Orden del dia:");
 		return service.getSustituidaWithReference();
 	}
-	
+
 	@GetMapping(value="/fetch/id")
 	public OrderDay getOrderDayById(@RequestParam(value="id") final String id){
 		logger.info("consulta de Versiones de Orden del dia:");
 		return service.fetchById(id);
 	}
-	
+
 
 	@GetMapping(value="/odOriginal")
 	public List<OrderDay> getOdOriginal(@RequestParam(value="odOriginal") final String odOriginal){
 		logger.info("Consulta de versiones");
 		return service.getOdOriginal(odOriginal);
 	}
-	
+
 	@GetMapping(value="/status")
 	public List<OrderDay> getByStatus(@RequestParam(value="status")final int status){
 		logger.info("Consulta de OD Publicadas");
@@ -72,11 +72,17 @@ public class OrderDayController {
 		logger.info("Publicar la orden dia en la gaceta");
 		return service.getByStatusPublicada(status);
 	}
-	
+
 	@GetMapping(value="/approved")
 	public List<OrderDay> getByStatusAprobada(@RequestParam(value="aprobada")final boolean status){
 		logger.info("Aprovar la orden del dia");
 		return service.getByStatusAprobada(status);
+	}
+
+	@GetMapping(value="/date/status")
+	public List<OrderDay> getByDateAndStatusWithoutReference(@RequestParam(value="fecha") @DateTimeFormat(pattern="yyyy/MM/dd") final Date fecha, @RequestParam(value="status")final int  status) {
+		logger.info("Consulta Orden del dia publicadas por fechas " + fecha);
+		return service.fetchByDateAndStatus(fecha, status);
 	}
 
 	@GetMapping(value="/date/between" )	
@@ -105,12 +111,12 @@ public class OrderDayController {
 		logger.info("consulta OD POR FECHA2 ------> :" + l2);
 		return service.getByDateBetween(status,l1,l2);
 	}
-	
+
 	@GetMapping(value="/datesbetween")
 	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="publicada") final boolean status,@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
 			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
 		logger.info("Consulta Orden del dia publicadas por fechas "+dateStart+" y "+dateEnd);
-		
+
 		return service.fetchByBetweenDates(status, dateStart,dateEnd);
 	}
 
@@ -119,19 +125,19 @@ public class OrderDayController {
 		logger.info("Order Day a guardar: ["+entity.toString()+"]");		
 		return service.post(entity);
 	}
-	
+
 	@PostMapping(value="/newVerssion") 
 	public OrderDay postNewVerssion(@RequestBody final OrderDay entity) {
 		logger.info("Version de la orden del dia guardado: [" +entity.toString()+"]");
 		return service.postNewVerssion(entity);
 	}
-	
+
 	@PutMapping(value="/updatePublished")
 	public OrderDay putPublished(@RequestBody final OrderDay entity) {				
 		logger.info("Actualizacion de la orden del dia publicada: ["+entity.toString()+"]");		
 		return service.putPublished(entity);
 	}
-	
+
 	@PutMapping
 	public OrderDay put(@RequestBody final OrderDay entity) {				
 		logger.info("Order Day a actualizar: ["+entity.toString()+"]");		

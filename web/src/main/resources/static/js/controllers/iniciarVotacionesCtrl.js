@@ -1,4 +1,4 @@
-app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, formulaService,  _INICIATIVA, _SESION) {
+app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, formulaService, paragraphOdService,  _INICIATIVA, _SESION) {
 	let self = this;
 	$scope.voteOptions = [];
 	$scope.initiatives = [];
@@ -97,7 +97,21 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 			$scope.initiatives = $scope.voteSession.iniciativas;			
 		}
 	};
+	
+	$scope.addParagraphInit = () => {
+		$scope.voteSession.initiative = {
+				orderday: {
+					elementsOd: {
+						paragraphs:[]
+					}
+					
+				}
+		}
+	console.log("Parrafos a iniciativas", $scope.voteSession.initiative);
+	};
 
+	
+	
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
 		$scope.initiative = {
@@ -106,6 +120,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 				seconds : 30,
 				result: {},
 				status : _INICIATIVA._CREATED
+				
 		};
 	};
 

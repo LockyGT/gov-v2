@@ -6,11 +6,11 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.numeroIndice = 0;
 	$scope.filtrosFechas = {};
 	$scope.attached = {};
-	//$scope.elements=[];
 	$scope.filtrosFechas.fecha= new Date();
 	$scope.filtrosFechas.fechaFin = new Date();
 	$scope.fecha=new Date();
-	$scope.pdfOrderday = [];
+	
+	$scope.selection =[];
 
 
 	$scope.changeToAdd =()=>{
@@ -22,7 +22,16 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 //	};
 
 
-
+	$scope.toggleSelection = function toggleSelection(paragraphs) {
+		var idx = $scope.selection.indexOf(paragraphs);
+		if (idx > -1) {
+			$scope.selection.splice(idx, 1);
+		}
+		else {
+			$scope.selection.push(paragraphs);
+		}
+	};
+	
 	$scope.buscar = function doSearch()
 	{
 		var tableReg = document.getElementById('datosA');
@@ -159,7 +168,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			if(willDelete){
 				$scope.deleteElement(elementOd);
 			};
-		});
+		});	
 	};
 
 
@@ -330,6 +339,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnEsc: false
 		});
 		console.log('*--------------*', newFiles)
+		//$scope.orderday.paragraph.iniciativa = true;
+		$scope.orderday.paragraphs = $scope.selection;
 		$scope.orderday.status = 1;
 		console.log('Orden del dia enviada ',$scope.orderday);
 		orderdayService.post($scope.orderday).then(function success(data){
@@ -429,25 +440,22 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		orderday.fecha =  new Date();
 	};
 	
-//	$scope.publishedOd = (orderday)=>{ 
-//		let referencia = "";
-//		if(orderday.referencia){
-//			referencia = orderday.referencia;
+//	$scope.toPostOdGazzete = (orderday)=>{ 
+//		let odOriginal = "";
+//		if(orderday.odOriginal){
+//			odOriginal = orderday.odOriginal;
 //		}else{
 //			referencia = orderday.id;
 //		}
-//
-//		$scope.toPostOdGazzete(referencia);
+//		$scope.publishedOd(odOriginal);
 //
 //	};
 	
-	
-
 	$scope.toPostOdGazzete = (orderday) => {
 		console.log('orden del dia publicada',orderday)
 		orderday.published = true;
 		orderdayService.putPublished(orderday).then(function mySuccess(data) {
-			console.log('+-----------+',data)
+			console.log('+-----------+ od',data)
 			if(data){
 				swal("Exito","Orden del día publicado exitosamente", "success");
 				$scope.orderday = null;
@@ -555,9 +563,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		fl.status = 0;
 	};
 
-//	$scope.addElementsOd = function (){
-//		$location.path('elementOd');
-//	};
 	$scope.previous= function(){
 		window.history.back();
 	};
@@ -721,8 +726,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.addContentE = function(){
 		console.log('Agregar elementos para los parrafos');
 		$scope.currentElement.paragraphs = [];
-		$scope.isButtons=true;
-		let isExistsElement= $filter('filter')($scope.orderday.elementsOd,{id: $scope.currentElement.id});
+		//$scope.isButtons=true;
+		let isExistsElement= $filter('filter')($scope.orderday.elementsOd,{id: $scope.currentElement.id,status:1});
 		//$scope.isButtons=true;
 		console.log(isExistsElement)
 		if(!isExistsElement.length){
@@ -732,11 +737,10 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.addParagraph = function(e) {
 		console.log('Parrafo creado', $scope.orderday)
-		$scope.isButtons=false;
 		e.paragraphs.push({
 			'contenidotxt': '',
 			'status': 2,
-			'isIniciativa': false,
+			'iniciativa': false,
 			'nivel':1,
 			subParagraphs:[]
 		});
@@ -747,74 +751,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		p.subParagraphs.push({ 
 			'contenidotxt': '', 
 			'status': 2,
-			'isIniciativa': false, 
+			'iniciativa': false, 
 			'nivel':1 
 
 		});
 	};
 
-	$scope.printPdf = () =>{
-		const doc = new jsPDF('p', 'pt', 'letter');
-		doc.page=1;
-		
-		doc.setFont("helvetica", "blod");
-		doc.setFontSize(30);
-		doc.text(80,80,'Orden del día' );
-		
-		
-		source = $('#ps')[0];
-		specialElementHandlers = {
-				'#bypassme': function (element, renderer) {
-					return true
-				}
-		};
-		margins = {
-				top: 90,
-				bottom: 60,
-				left: 30,
-				width: 522
-		};
-		doc.fromHTML(
-				source,
-				margins.left, 
-				margins.top, { 
-					'width': margins.width, 
-					'elementHandlers': specialElementHandlers
-				},
-//				function footer(){ 
-//				    doc.text(150,285, 'page ' + doc.page); 
-//				    doc.page ++;
-//				},
-
-				function (dispose) {
-					const iframe = document.createElement('iframe');
-					iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
-					document.body.appendChild(iframe);
-					iframe.src = doc.output('datauristring');
-					
-					
-					//doc.save('od.pdf');
-				}, margins);
-		
-		
-	}
-
-	$scope.generatePdf = () => {
-		$scope.pdfOrderday.title = "Orden del día";
-		$scope.pdfOrderday.orderday = [{p:contenidoP}];
-		console.log('+-------|---------+',$scope.pdfOrderday)
-		reportOdService.printPdf($scope.pdfOrderday).then(doc=>{
-
-			doc.setProperties({
-				title: 'Reporte: Od',
-				subject: 'Reporte pdf de las Ordenes del día'
-			});
-
-			doc.save('od.pdf');
-		},errorDoc=>{
-			console.log("Error al obtener el reporte: ", errorDoc);
-		});
-	};
 	
 	$scope.filterExtention = (extencion) => {
 		let ignores = ["doc","pptx","xls","xlsx","docx"];

@@ -15,6 +15,9 @@
 						data-ng-disabled="voteSession.status == _SESION._FINALIZED">
 						Nueva</button>
 				</div>
+				<div class="col-auto">
+					<button data-ng-click="addParagraphInit();" class="btn btn-warning">Importar iniciativas</button>
+				</div>
 			</div>
 		</div>
 		<div class="card-body">
@@ -31,6 +34,7 @@
 					<thead>
 						<tr>
 							<th>NOMBRE</th>
+							<th>Iniciativas OD</th>
 							<th>TIEMPO</th>
 							<th>ESTATUS</th>
 							<th>ACCIONES</th>
@@ -47,6 +51,7 @@
 						<tr
 							data-ng-repeat="initiative in initiatives track by initiative.id">
 							<td>{{initiative.name}}</td>
+							<td>{{initiative.voteSession.orderday.paragraphs.contenidotxt)}}</td>
 							<td>{{ (initiative.hours <= 9 ) ? ('0' + initiative.hours) :
 								initiative.hours}} : {{ (initiative.minutes <= 9 ) ? ('0' +
 								initiative.minutes) : initiative.minutes}} : {{
@@ -86,7 +91,9 @@
 									data-ng-disabled="!initiative.closed"
 									data-ng-click="qualification(initiative)"
 									data-ng-if="initiative.id != null && initiative.status == _INICIATIVA._FINALIZED && initiative.status != _INICIATIVA._INITIATED">
-									<span data-ng-class="initiative.result.resultName == 'Aprobado' ? 'text-success' : 'text-danger'">{{initiative.result.resultName}}</span></button></td>
+									<span
+										data-ng-class="initiative.result.resultName == 'Aprobado' ? 'text-success' : 'text-danger'">{{initiative.result.resultName}}</span>
+								</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -120,6 +127,11 @@
 									data-ng-model="initiative.name"
 									data-ng-disabled="voteSession.status == _SESION._FINALIZED  || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED">
 							</div>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlTextarea1">Contenido de Orden del d�a</label>
+							<textarea  data-ng-model="initiative.orderday" class="form-control" id="exampleFormControlTextarea1"
+								rows="3"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="name">Tipo de Respuesta: </label>
@@ -187,31 +199,36 @@
 									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
 										class="fas fa-calculator"></i></span>
 								</div>
-								<select required="required" class="form-control" data-ng-class="invalidClassFormula" id="formulaSelect" data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
+								<select required="required" class="form-control"
+									data-ng-class="invalidClassFormula" id="formulaSelect"
+									data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
 									data-ng-options="formula.formulaName + ' (' + formula.formulaExpression + ')' for formula in formulas track by formula.id"
 									data-ng-model="initiative.result.formula">
 									<option value="">Seleccione una formula...</option>
 								</select>
 							</div>
-							<small id="formulaSelectHelpBlock" data-ng-if="initiative.result.formula.formulaDescription"
+							<small id="formulaSelectHelpBlock"
+								data-ng-if="initiative.result.formula.formulaDescription"
 								class="form-text text-muted animate-if">
-								{{initiative.result.formula.formulaDescription}} 
-								</small>
+								{{initiative.result.formula.formulaDescription}} </small>
 						</div>
 						<div class="form-group row">
-							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">Método de redondeo</label>
+							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">Método
+								de redondeo</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
 										class="fas fa-calculator"></i></span>
 								</div>
-								<select required="required" class="form-control" data-ng-class="invalidClassRoundMethod" id="formulaRoundMethod" data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
+								<select required="required" class="form-control"
+									data-ng-class="invalidClassRoundMethod" id="formulaRoundMethod"
+									data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
 									data-ng-options="roundMethod as roundMethod.name + '('+roundMethod.value+')' for roundMethod in roundMethods track by roundMethod.id"
 									data-ng-model="initiative.result.roundMethod">
 									<option value="">Seleccione una método de redondeo...</option>
 								</select>
 							</div>
-							
+
 						</div>
 					</div>
 					<!-- CardBody -->
@@ -285,24 +302,28 @@
 					</div>
 					<div class="row text-center"
 						data-ng-if="initiativeQualify.result.formula">
-						<button class="btn btn-primary" type="button" data-ng-if="calculating">
+						<button class="btn btn-primary" type="button"
+							data-ng-if="calculating">
 							<span class="spinner-border spinner-border-sm" role="status"
 								aria-hidden="true"></span> Calificando...
 						</button>
 					</div>
 					<div class="row">
-						<span class="badge badge-pill badge-light" data-ng-class="initiativeQualify.result.resultName == 'Aprobado' ? 'badge-success' : 'badge-danger'">{{initiativeQualify.result.resultName}}</span>
+						<span class="badge badge-pill badge-light"
+							data-ng-class="initiativeQualify.result.resultName == 'Aprobado' ? 'badge-success' : 'badge-danger'">{{initiativeQualify.result.resultName}}</span>
 						<button type="button" class="btn btn-info" id="playIniciativa_1"
-									data-ng-click="showVotation(initiativeQualify, 0)">
-									<i class="far fa-eye"></i></button>
+							data-ng-click="showVotation(initiativeQualify, 0)">
+							<i class="far fa-eye"></i>
+						</button>
 					</div>
-					
+
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary" data-ng-disabled="initiativeQualify.result.resultName" data-ng-click="qualify()">Guardar
-					cambios</button>
+				<button type="button" class="btn btn-primary"
+					data-ng-disabled="initiativeQualify.result.resultName"
+					data-ng-click="qualify()">Guardar cambios</button>
 			</div>
 		</div>
 	</div>

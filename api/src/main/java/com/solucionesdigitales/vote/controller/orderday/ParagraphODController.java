@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
+import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.service.orderday.ParagraphODService;
 
@@ -47,6 +49,12 @@ private static final Logger logger = LoggerFactory.getLogger(ParagraphODControll
 	public ParagraphOD putData(@RequestBody final ParagraphOD entity) {				
 		logger.info("Paragraph a actualizar: ["+entity.toString()+"]");		
 		return service.put(entity);
+	}
+	
+	@GetMapping(value="/iniciative")
+	public List<ParagraphOD> getByStatusIniciative(@RequestParam(value="iniciativa")final boolean status){
+		logger.info("Agregar a una iniciativa");
+		return service.getByStatusIniciative(status);
 	}
 	
 	@PutMapping(value="/delete/")

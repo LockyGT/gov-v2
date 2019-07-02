@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 
 
@@ -12,6 +13,7 @@ import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 public interface  ParagraphODRepository extends MongoRepository<ParagraphOD, String> {
 
 	List<ParagraphOD>findByStatus(int status);
+	List<ParagraphOD> findByIsIniciativa(boolean status);
 
 
 }

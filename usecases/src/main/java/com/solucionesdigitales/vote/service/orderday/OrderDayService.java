@@ -27,4 +27,5 @@ public interface OrderDayService {
 	List<OrderDay> getByDateBetween(int status, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
 	OrderDay putPublished(OrderDay entity);
+	List<OrderDay> fetchByDateAndStatus(Date fecha, int status);
 }

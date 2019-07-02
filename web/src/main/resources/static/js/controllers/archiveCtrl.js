@@ -73,6 +73,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 				"datestart": $filter('date')(searchDateStart, "yyyy/MM/dd"),
 				"dateend":$filter('date')(searchDateEnd, "yyyy/MM/dd")
 				};
+		console.log("-------",dataFilter)
 		archiveService.getRecordsBetweenDates(dataFilter).then(function success(data){
 			$scope.records = data;
 			$timeout(()=>{

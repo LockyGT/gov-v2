@@ -102,19 +102,14 @@
 												</div>
 												<div class="col-auto"></div>
 
-												<div class="col-auto" data-ng-if="isButtons">
+												<div class="col-auto">
 													<button type="button" class="btn btn-primary mb-2"
 														data-ng-click="addParagraph(e)">Párrafo</button>
 
 													<button type="button" class="btn btn-danger mb-2"
 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button>
 												</div>
-												<div class="col-auto">
-													<button type="button"
-														class="btn btn-danger btn-sm margin-top"
-														aria-label="Close" data-ng-click="removeElements(e)"
-														data-ng-click="">Eliminar</button>
-												</div>
+												
 											</div>
 
 											<div class="input-group"
@@ -122,8 +117,10 @@
 
 												<div class="col check-p">
 													<input class="form-check-input new"
-														data-ng-model="e.paragraphs[$index].isIniciativa"
-														type="checkbox" value="" id="defaultCheck1"> <label
+														name="selectedVoteOptions[]"
+														data-ng-click="toggleSelection(p.iniciativa)"
+														data-ng-model="p.iniciativa"
+														type="checkbox" value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}"> <label
 														class="form-check-label" for="defaultCheck1"></label>
 
 												</div>
@@ -140,23 +137,25 @@
 														aria-label="Close" data-ng-click="removeParagraphs(p)">Eliminar</button>
 
 												</div>
+												
+												
+<!-- 												<div class="col-auto" data-ng-show="e.paragraphs" -->
+<!-- 													style="margin-top: 1em; margin-left: 9em;"> -->
+<!-- 													<button type="button" class="btn btn-primary mb-2" -->
+<!-- 														data-ng-click="addParagraph(e)">Párrafo</button> -->
 
-												<div class="col-auto" data-ng-show="e.paragraphs"
-													style="margin-top: 1em; margin-left: 9em;">
-													<button type="button" class="btn btn-primary mb-2"
-														data-ng-click="addParagraph(e)">Párrafo</button>
-
-													<button type="button" class="btn btn-danger mb-2"
-														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button>
-												</div>
+<!-- 													<button type="button" class="btn btn-danger mb-2" -->
+<!-- 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button> -->
+<!-- 												</div> -->
 												<div class="container">
 													<div class="row margin-top"
 														data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">
 														<div class="col-2">
 															<input
-																data-ng-model="p.subParagraphs[$index].isIniciativa"
+																data-ng-click="toggleSelection(sp.iniciativa)"
+																data-ng-model="sp.iniciativa"
 																class="form-check-input marggin" type="checkbox"
-																value="" id="defaultCheck1"> <label
+																value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}"> <label
 																class="form-check-label" for="defaultCheck1"></label>
 
 														</div>
@@ -511,8 +510,7 @@
 					</ol>
 				</div>
 				<div class="modal-footer" id="bypassme">
-					<button type="button" class="btn btn-warning" id="print"
-						data-ng-click="printPdf();">Descargar</button>
+					
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>

@@ -99,7 +99,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		data['publicada'] = true;
 		orderdayService.getByStatusPublicada(data).then(function success(data){
 			$scope.publishedOds = data;
-			console.log('Texto', $scope.publishedOds)
+			console.log('Orden del dia Publicada', $scope.publishedOds)
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
@@ -189,6 +189,16 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		$('#attachments-verssion').modal('show');
 	};
 
+	$scope.filterExtention = (extencion) => {
+		let ignores = ["doc","pptx","xls","xlsx","docx"];
+		let filter = $filter('filter')(ignores,extencion);
+		
+		if(filter.length){
+			return false;
+		}else {
+			return true;
+		}
+	};
 
 
 

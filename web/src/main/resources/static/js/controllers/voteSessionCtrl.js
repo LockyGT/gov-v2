@@ -1,15 +1,18 @@
-app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope, $window, $log, $filter, $state, voteSessionService, VoteSessionHasInitiativesService, voteSessionTypeService, _SESION, _PARTNER, attendanceService) {
+app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope, $window, $log, $filter, $state, voteSessionService, VoteSessionHasInitiativesService, voteSessionTypeService, _SESION, _PARTNER, attendanceService, orderdayService) {
 	var self = this;
 	$scope.titleTabView = '';
 	$scope.titleSession = '' ;
 	$scope.voteSessions = [];
 	$scope.voteSession = null;
+	$scope.orderday=null;
 	$scope.voteSessionTypes = [];
 	$scope.voteSessionOn = {};
 	$scope._SESION = _SESION;
 	$scope.attendances = [];
+	$scope.currentDate = new Date();
+	//$scope.fecha=new Date();
 
-	
+
 	$scope.connect = function() {
 		var socket = new SockJS('/votes-socket');
 		stompClient = Stomp.over(socket);
@@ -24,7 +27,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 				$scope.startAttendance(angular.fromJson(message.body));
 			});
 		});	
-		
+
 	};	
 
 	$scope.stompFailureCallback = function (error) {
@@ -36,15 +39,73 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			$timeout($scope.connect, 1000);
 		}
 	};
-	
+
 	$scope.startAttendance = (voteSession)=>{
 		console.log(voteSession);
 	};
-	
+
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
 	
+//**************************Order Day***************************************//
+	$scope.getOdIniciatives  = () =>{
+		swal({
+			title: "Consultando ordenes del día",
+			text: "Por favor espere ...",
+			icon: 'info',						
+			button: {
+				text: "Ok",
+				closeModal: false,
+			},
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+		let dateNow = new Date();
+		
+		console.log("fecha 3",dateNow)
+		let map = new Object(); 
+		map['status']= 1;
+		map['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd");
+		console.log("------",map);
+		orderdayService.getByDateAndStatusWithoutReference(map).then(function mySuccess(data) {
+			$scope.orderdays = data;
+			console.log("orden del dia---- ", $scope.orderdays);
+			angular.forEach($scope.orderdays, function(val, key){
+				if(val.fecha != null && val.fecha.length > 0){	
+					val.fecha = new Date(val.fecha);
+				}
+			});			
+			$timeout(()=>{
+				swal.stopLoading();
+				swal.close();
+			}, 500);
+		}, function myError(response) {
+			$scope.myWelcome = response.statusText;
+			swal("Error",$scope.myWelcome, "error");			
+		});
+	};
+	
+//	$scope.getOdIniciatives = () =>{
+//		orderdayService.getActiveWithAndWithoutReference().then(function mySuccess(data) {
+//			$scope.orderdays = data;
+//			console.log("Ordenes del dia a mostrar.", data)
+//			if(data){
+//				swal("Exito", "Ordenes del día obtenidas", "success");
+//			}else{
+//				swal("Error", "Fallo en la obtencion de OD", "error");
+//			}	
+//		}, 
+//		function myError(response) {
+//			$scope.myWelcome = response.statusText;
+//			swal("Error",$scope.myWelcome, "error");			
+//		});
+//	};
+	
+//******************************End Order Day*******************************************//
+
+	
+
 	$scope.iniciarFecha=()=>{
 		console.log('Se inicia la fecha');
 		let now = new Date();
@@ -120,7 +181,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			icon: 'info',						
 			button: {
 				text: "Ok",
-			    closeModal: false,
+				closeModal: false,
 			},
 			closeOnClickOutside: false,
 			closeOnEsc: false
@@ -496,7 +557,6 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	$scope.openInitiativesFromSession = (voteSession) =>{
 		VoteSessionHasInitiativesService.setVoteSession(voteSession);
 		$state.transitionTo('iniciativas');
-
 	};
 
 	$scope.validText=()=>{
@@ -587,7 +647,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			swal("Error",$scope.myWelcome, "error");			
 		});
 	};
-	
+
 	$scope.toggleAttendanceOpen = (voteSession) =>{
 		voteSession.attendanceOpen = !voteSession.attendanceOpen;
 		if(voteSession.attendanceOpen == true){
@@ -625,7 +685,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 		}
 		stompClient.send("/votesapp/initattendance", {}, angular.toJson(voteSession));
 	};
-	
+
 	$scope.setConnected = function(connected){	
 		$scope.connected = connected;
 	};	
@@ -643,7 +703,9 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	const initController = () =>{
 		$scope.iniciarFecha();
 		$scope.getVoteSessions();
+		$scope.getOdIniciatives();
 		$scope.getAttendances(null,null);
+		$scope.currentDate = new Date();
 		$scope.validText();
 		$scope.changeTitleTabView('SESIONES');
 		$rootScope.title = "SESIONES";

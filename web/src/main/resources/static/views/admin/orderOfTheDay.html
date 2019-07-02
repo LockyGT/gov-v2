@@ -176,6 +176,7 @@
 								<td scope="row">{{$index+1}}</td>
 								<td>{{file.originalName}}</td>
 								<td><button type="button" class="btn btn-danger"
+										data-ng-if="filterExtention(file.extention)"
 										data-toggle="modal" data-target="#show-file"
 										data-ng-click="showDownloadFile(file);">
 										Ver

@@ -1,6 +1,7 @@
 package com.solucionesdigitales.vote.entity.vote;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.solucionesdigitales.vote.entity.Congress;
 import com.solucionesdigitales.vote.entity.initiative.Initiative;
+import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 
 /**
  * 
@@ -33,6 +35,7 @@ public class VoteSession {
 	private int attendanceNumber;
 	private int status;
 	
+	private OrderDay orderday;
 	/**
 	 * @return the id
 	 */
@@ -143,4 +146,11 @@ public class VoteSession {
 				+ iniciativas + ", type=" + type + ", congress=" + congress + ", isAttendanceOpen=" + isAttendanceOpen
 				+ ", status=" + status + "]";
 	}
+	public OrderDay getOrderday() {
+		return orderday;
+	}
+	public void setOrderday(OrderDay orderday) {
+		this.orderday = orderday;
+	}
+	
 }
