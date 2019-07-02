@@ -26,10 +26,11 @@ public class ReportController {
 	@GetMapping("/legislator")
 	
 	public Object getReportLegislator(@RequestParam(value="partnersId") final String[] partnersId, 
-			@RequestParam(value="initiativesId") final String[] initiativesId){
+			@RequestParam(value="initiativesId") final String[] initiativesId, 
+			@RequestParam(value="votesId") final String[] votesId){
 		LOGGER.info("---- OBTENIENDO EL REPORTE DEL LEGISLADOR ----");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("data", reportService.generatedReporLegislator(partnersId, initiativesId).toString());
+		map.put("data", reportService.generatedReporLegislator(partnersId, initiativesId, votesId).toString());
 		return map;
 	}
 	

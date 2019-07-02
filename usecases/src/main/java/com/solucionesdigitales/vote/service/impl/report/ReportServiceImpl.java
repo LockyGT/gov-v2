@@ -1,7 +1,7 @@
 package com.solucionesdigitales.vote.service.impl.report;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +37,10 @@ public class ReportServiceImpl implements ReportService {
 	private VoteRepository voteRepository;
 
 	@Override
-	public JsonObject generatedReporLegislator(String[] partnersId, String[] initiativesId) {
+	public JsonObject generatedReporLegislator(String[] partnersId, String[] initiativesId, String[] votesId) {
 		JsonArray arr = new JsonArray();
 		ArrayList<LegislatorReport> listLegislator = new ArrayList<LegislatorReport>();
-		List<Vote> votes;
+		Vote votes;
 		Initiative initiative;
 		Partner partner;
 		VoteSession voteSession;
@@ -48,18 +48,22 @@ public class ReportServiceImpl implements ReportService {
 		
 		LegislatorReport legislator =null;
 		for(String partnerId : partnersId) {
-			legislator = new LegislatorReport();
-			partner = partnerRepository.findFirstById(partnerId);
-			legislator.setPartner(partner);
 			for(String initiativeId : initiativesId) {
-				votes = voteRepository.findByInitiativeIdAndPartnerId(initiativeId, partnerId);
-				if(votes.size()>0) {
-					legislator.setVote(votes.get(0));
-					initiative = initiativeRepository.findFirstByIdAndStatus(votes.get(0).getInitiative().getId(), 6);
-					legislator.setInitiative(initiative);
-					voteSession = voteSessionReporsitory.findFirsByIniciativasId(initiativeId);
-					legislator.setVoteSession(voteSession);
-					listLegislator.add(legislator);
+				for(String optionId : votesId) {
+					votes = voteRepository.findFirsByInitiativeIdAndPartnerIdAndOptionId(initiativeId, partnerId, optionId);
+					System.out.println(">>> VOTES -"+votes+" <<<");
+					if(votes != null) {
+						System.out.println(">>> CONTADOR <<<");
+						legislator = new LegislatorReport();
+						partner = partnerRepository.findFirstById(partnerId);
+						legislator.setPartner(partner);
+						legislator.setVote(votes);
+						initiative = initiativeRepository.findFirstByIdAndStatus(votes.getInitiative().getId(), 6);
+						legislator.setInitiative(initiative);
+						voteSession = voteSessionReporsitory.findFirsByIniciativasId(initiativeId);
+						legislator.setVoteSession(voteSession);
+						listLegislator.add(legislator);
+					}
 				}
 			}
 		}
@@ -99,10 +103,12 @@ public class ReportServiceImpl implements ReportService {
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
 			if(session != null) {
 				resultReport = new ResultReport();
-				for(String initiativeId : initiativesId) {
-					resultReport.setSession(session);
-					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
-					listResults.add(resultReport);
+				for(Initiative initiative : session.getIniciativas()) {
+					if(Arrays.asList(initiativesId).contains(initiative.getId())) {
+						resultReport.setSession(session);
+						resultReport.setInitiative(initiative);
+						listResults.add(resultReport);
+					}
 				}
 			}
 		}
@@ -126,7 +132,6 @@ public class ReportServiceImpl implements ReportService {
 		return json;
 	}
 
-
 	@Override
 	public JsonObject generatedReportInitiatives(String[] sessionsId, String[] initiativesId) {
 		JsonArray arr = new JsonArray();
@@ -137,14 +142,14 @@ public class ReportServiceImpl implements ReportService {
 		
 		for(String sessionId : sessionsId) {
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
-			if(session != null) {
-				resultReport = new ResultReport();
-				for(String initiativeId : initiativesId) {
-					resultReport.setSession(session);
-					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
-					listResults.add(resultReport);
+				for(Initiative initiative : session.getIniciativas()) {
+					if(Arrays.asList(initiativesId).contains(initiative.getId())){
+						resultReport = new ResultReport();
+						resultReport.setSession(session);
+						resultReport.setInitiative(initiative);
+						listResults.add(resultReport);
+					}
 				}
-			}
 		}
 		
 		for(ResultReport result : listResults) {
@@ -180,14 +185,16 @@ public class ReportServiceImpl implements ReportService {
 		
 		for(String sessionId : sessionsId) {
 			session = voteSessionReporsitory.findFirsByIdOrderByNombreAsc(sessionId);
-			if(session != null) {
-				resultReport = new ResultReport();
-				for(String initiativeId : initiativesId) {
+			
+			for(Initiative initiative : session.getIniciativas()) {
+				if(Arrays.asList(initiativesId).contains(initiative.getId())) {
+					resultReport = new ResultReport();
 					resultReport.setSession(session);
-					resultReport.setInitiative(initiativeRepository.findFirstByIdAndStatus(initiativeId, 6));
+					resultReport.setInitiative(initiative);
 					listResults.add(resultReport);
 				}
 			}
+
 		}
 		
 		for(ResultReport result : listResults) {

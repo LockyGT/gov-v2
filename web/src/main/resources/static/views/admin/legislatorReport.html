@@ -349,6 +349,7 @@ li.active li {
 								<th>Nombre</th>
 								<th>Acrónimo</th>
 								<th><input type="checkbox" id="checked-parties"
+									data-ng-model="flagsCheckbox.parties"
 									data-ng-click="checkAllOptions(politicalParties,$event)"></th>
 							</tr>
 						</thead>
@@ -391,6 +392,7 @@ li.active li {
 								<th>Nombre</th>
 								<th>Partido</th>
 								<th><input type="checkbox" id="checked-legislator"
+									data-ng-model="flagsCheckbox.legislator"
 									data-ng-click="checkAllOptions(legislators,$event)"></th>
 							</tr>
 						</thead>
@@ -434,13 +436,14 @@ li.active li {
 								<th>Nombre</th>
 								<th>Fecha/Hora</th>
 								<td><input type="checkbox" id="checked-session"
+									data-ng-model="flagsCheckbox.session"
 									data-ng-click="checkAllOptions(sessions,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
 							<tr data-ng-repeat="ss in sessions">
 								<td>{{ss.nombre}}</td>
-								<td>{{ss.fechaHora | date:'dd-MM-yyyy HH:mm'}}</td>
+								<td>{{ss.fechaHora | date:'dd/MM/yyyy HH:mm'}}</td>
 								<td><input type="checkbox" data-ng-model="ss.checked"
 									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
 							</tr>
@@ -476,6 +479,7 @@ li.active li {
 								<td>Resultado</td>
 								<td><input type="checkbox"
 									id="checked-initiative"
+									data-ng-model="flagsCheckbox.initiatives"
 									data-ng-click="checkAllOptions(initiatives,$event)"></td>
 							</tr>
 						</thead>
@@ -517,7 +521,8 @@ li.active li {
 							<tr>
 								<td>Nombre</td>
 								<td><input type="checkbox"
-									id="checked-initiative"
+									id="checked-vote"
+									data-ng-model="flagsCheckbox.vote"
 									data-ng-click="checkAllOptions(voteOptions,$event)"></td>
 							</tr>
 						</thead>

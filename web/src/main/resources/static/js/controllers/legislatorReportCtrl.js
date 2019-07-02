@@ -22,10 +22,12 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.getReportLegislator = () => {
 		dataReport = {
 				partnersId: $scope.selected.legislators.map(f=> f.id),
-				initiativesId: $scope.selected.initiatives.map(f=> f.id)
+				initiativesId: $scope.selected.initiatives.map(f=> f.id),
+				votesId: $scope.selected.voteOptions.map(f => f.id)
 		};
 		
-		if($scope.selected.legislators.length && $scope.selected.initiatives.length){
+		if($scope.selected.legislators.length && $scope.selected.initiatives.length
+				&& $scope.selected.voteOptions.length){
 			console.log('Informacion enviada: ', dataReport)
 			reportService.getLegislatorReport(dataReport).then( success => {
 				$scope.legislatorsReport = JSON.parse(success.data);
@@ -80,9 +82,10 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 				"status": 1,
 				"tipo": 1
 		};
-		partnerService.getByStatusAndTipoAndPartie(sendData).then(data=>{
+		partnerService.getByStatusAndTipoAndPartie(sendData).then( data => {
 			$scope.legislators = data;
-		}, error=>{
+			console.log('Legisladores obtenidos: ', data);
+		}, error => {
 			$console.log("error al obtener los legisladores: ",error);
 		});
 	};
@@ -121,6 +124,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		$scope.updateSelectedLegislators();
 		$scope.updateSelectedSessions();
 		$scope.updateSelectedInitiatives();
+		$scope.updateSelectedVoteOptions();
 	};
 	
 	$scope.updateSelectedParties = () => {
@@ -147,6 +151,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	};
 	
 	$scope.updateSelectedVoteOptions = () => {
+		console.log('selected')
 		$timeout( () => {
 			$scope.selected.voteOptions = $filter('filter')($scope.voteOptions,{checked: true});
 			$scope.filterInfo.voteOptions = $scope.selected.voteOptions.map(f => f.name);

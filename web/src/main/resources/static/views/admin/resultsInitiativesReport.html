@@ -349,7 +349,7 @@
 						<tbody>
 							<tr data-ng-repeat="ss in sessions | filter: filterTypeSession">
 								<td>{{ss.nombre}}</td>
-								<td>{{ss.fechaHora | date:'dd-MM-yyyy HH:mm'}}</td>
+								<td>{{ss.fechaHora | date:'dd/MM/yyyy HH:mm'}}</td>
 								<td><input type="checkbox" data-ng-model="ss.checked"
 									name="checked-session" data-ng-click="updateSelectedSessions()"></td>
 							</tr>

@@ -12,6 +12,8 @@ public interface VoteRepository extends MongoRepository<Vote, String> {
 
 	List<Vote> findByInitiativeIdAndPartnerId(String initiativeId, String partnerId);
 	
+	Vote findFirsByInitiativeIdAndPartnerIdAndOptionId(String initiativeId, String partnerId, String optionId);
+	
 	List<Vote> findByInitiativeId(String id);
 	
 	List<Vote> findByPartnerId(String id);

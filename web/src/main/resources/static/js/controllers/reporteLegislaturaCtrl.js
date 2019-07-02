@@ -57,13 +57,17 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			"status": 0
 		};
 		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
-			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
+			$scope.getTypeSession();
+			$scope.getResultsInitiatives();
+			
+			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data => {
 				$scope.sessions = data;
 				$scope.initiatives = [];
 				$scope.filter = {};
 				$scope.filterInfo = {};
-			}, error=>{
+			}, error => {
 				console.log('Error al obtener las sesiones: ', error)
+				swal("Error","Ha ocurrido un error", "error");
 			});
 		} else {
 			swal("Error","No ha llenado todos los campos", "error");
