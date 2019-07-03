@@ -51,9 +51,7 @@ public class ReportServiceImpl implements ReportService {
 			for(String initiativeId : initiativesId) {
 				for(String optionId : votesId) {
 					votes = voteRepository.findFirsByInitiativeIdAndPartnerIdAndOptionId(initiativeId, partnerId, optionId);
-					System.out.println(">>> VOTES -"+votes+" <<<");
 					if(votes != null) {
-						System.out.println(">>> CONTADOR <<<");
 						legislator = new LegislatorReport();
 						partner = partnerRepository.findFirstById(partnerId);
 						legislator.setPartner(partner);
@@ -70,6 +68,7 @@ public class ReportServiceImpl implements ReportService {
 		
 		for (LegislatorReport lr : listLegislator) {
 			jsonLegislator = new JsonObject();
+			jsonLegislator.addProperty("idPartner", lr.getPartner().getId());
 			jsonLegislator.addProperty("politicalPartie", lr.getPartner().getPartido().getAcronym());
 			jsonLegislator.addProperty("namePartner", lr.getPartner().getName() + " " + lr.getPartner().getApPaterno()
 					+ " " + lr.getPartner().getApMaterno());

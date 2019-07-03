@@ -151,7 +151,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	};
 	
 	$scope.updateSelectedVoteOptions = () => {
-		console.log('selected')
 		$timeout( () => {
 			$scope.selected.voteOptions = $filter('filter')($scope.voteOptions,{checked: true});
 			$scope.filterInfo.voteOptions = $scope.selected.voteOptions.map(f => f.name);
@@ -165,6 +164,19 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		},500);
 	};
 	
+	$scope.setFilterByPartner = idPartner => {
+		
+		$scope.legislatorsReportGraph = $filter('filter')($scope.legislatorsReport.data, {"idPartner": idPartner});
+		$scope.createGraph();
+		console.log('Informacion del legislador: ',$scope.legislatorsReportGraph);
+		$scope.filterByLegislator = true;
+	};
+	
+	$scope.toReturnGraph = () => {
+		$scope.legislatorsReportGraph = null;
+		$scope.createGraph();
+		$scope.filterByLegislator = false;
+	};
 
 //	Inicia la impresion del reporte
 	$scope.printTable = () => {
@@ -292,6 +304,11 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	};
 	
 	$scope.createGraph = () => {
+		
+		if(!$scope.legislatorsReportGraph){
+			$scope.legislatorsReportGraph = $scope.legislatorsReport.data;
+		}
+		
 		$scope.startReportBar();
 		$scope.startReportPie();
 		
@@ -305,13 +322,13 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 			$scope.reporteBar.series.push('Resultado Votación');
 			$scope.reportePie.series.push('Resultado Votación');
 			let percentTmp = val;
-			let find = $scope.legislatorsReport.data.filter(le => le.vote === val.name);
+			let find = $scope.legislatorsReportGraph.filter(le => le.vote === val.name);
 			
 			$scope.reporteBar.data.push(find.length);
 			
 			if(find.length>0){
 				
-				let percentage = ($scope.legislatorsReport.data.length / find.length)  * 100;
+				let percentage = ($scope.legislatorsReportGraph.length / find.length)  * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);
