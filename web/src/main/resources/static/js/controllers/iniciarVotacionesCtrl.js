@@ -1,11 +1,16 @@
-app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, formulaService, paragraphOdService,  _INICIATIVA, _SESION) {
+app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, orderdayService, formulaService, _INICIATIVA, _SESION) {
 	let self = this;
 	$scope.voteOptions = [];
 	$scope.initiatives = [];
 	$scope.initiatives = [];
 	$scope.selection = [];
 	$scope.initiative = null;
+	$scope.voteSession = [];
+
+	$scope.voteSessions = [];
+	$scope.orderday = null;
 	$scope.voteSession = null;
+
 	$scope._INICIATIVA = _INICIATIVA;
 	$scope._SESION = _SESION;
 
@@ -17,12 +22,12 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 	$scope.errMsjHours  = '';
 	$scope.errMsjNoMinutes  = '';
 	$scope.errMsjNoSeconds  = '';
-	
+
 	$scope.roundMethods = [
 		{id: 1, name: "Inferior inmediato", value: "floor"},
 		{id: 2, name: "Superior inmediato", value: "ceil"},
 		{id: 3, name: "Ninguno", value: "none"}
-	];
+		];
 
 	self.deleteUser = function(){
 		$scope.user = {};
@@ -72,6 +77,17 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 		});
 	};
 
+	/************************* Get VoteSessions ***********************************/
+	$scope.getVoteSessions = () =>{
+		voteSessionService.getById().then(function mySuccess(data) {			
+			$scope.voteSessions = data;
+		},
+		function myError(response) {			
+			console.error("error: opciones de votos no obtenidos! " + response);			
+		});		
+	};
+
+
 	$scope.getVoteOptions = () =>{
 		voteOptionService.get().then(function mySuccess(data) {			
 			$scope.voteOptions = data;
@@ -97,21 +113,33 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 			$scope.initiatives = $scope.voteSession.iniciativas;			
 		}
 	};
-	
+
 	$scope.addParagraphInit = () => {
-		$scope.voteSession.initiative = {
-				orderday: {
-					elementsOd: {
-						paragraphs:[]
-					}
-					
-				}
-		}
-	console.log("Parrafos a iniciativas", $scope.voteSession.initiative);
+		console.log('----', $scope.voteSession.orderday);
+		$scope.voteSession.orderday = [];
+		$scope.voteSession.orderday.initiative= {
+					elementsOd:{
+						paragraphs:{
+							contenidotxt:'',
+							iniciativa: true
+						}
+					},
+					hours : 0,
+					minutes : 0,
+					seconds : 30,
+					result: {},
+					status : _INICIATIVA._CREATED
+				
+			}
+		
 	};
 
-	
-	
+	$scope.addSessionsOd = (voteSession)=>{ 
+		console.log('modal ver orden dia',voteSession)
+		$scope.sessionView= voteSession;
+	};
+
+
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
 		$scope.initiative = {
@@ -120,7 +148,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 				seconds : 30,
 				result: {},
 				status : _INICIATIVA._CREATED
-				
+
 		};
 	};
 
@@ -693,6 +721,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 		}
 		console.warn($scope.voteSession.fechaHora);
 
+		$scope.getVoteSessions();
 		$scope.getInitiatives();
 		$rootScope.title = "INICIATIVAS";
 	};
