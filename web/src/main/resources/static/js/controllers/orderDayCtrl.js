@@ -9,10 +9,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.filtrosFechas.fecha= new Date();
 	$scope.filtrosFechas.fechaFin = new Date();
 	$scope.fecha=new Date();
-	
 	$scope.selection =[];
-
-
+	
 	$scope.changeToAdd =()=>{
 		$scope.isAdd = true;
 	};

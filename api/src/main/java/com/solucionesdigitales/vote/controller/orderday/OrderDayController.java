@@ -79,11 +79,13 @@ public class OrderDayController {
 		return service.getByStatusAprobada(status);
 	}
 
-	@GetMapping(value="/date/status")
-	public List<OrderDay> getByDateAndStatusWithoutReference(@RequestParam(value="fecha") @DateTimeFormat(pattern="yyyy/MM/dd") final Date fecha, @RequestParam(value="status")final int  status) {
+	@GetMapping(value="/date")
+	public List<OrderDay> getByDateAndStatusWithoutReference(@RequestParam(value="fecha") @DateTimeFormat(pattern="yyyy/MM/dd") final Date fecha, @RequestParam(value="status") final int  status) {
 		logger.info("Consulta Orden del dia publicadas por fechas " + fecha);
 		return service.fetchByDateAndStatus(fecha, status);
 	}
+	
+	
 
 	@GetMapping(value="/date/between" )	
 	public List<OrderDay> getByDateBetween(@RequestParam(value="status")final int status,@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 

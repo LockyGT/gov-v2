@@ -10,7 +10,6 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	$scope._SESION = _SESION;
 	$scope.attendances = [];
 	$scope.currentDate = new Date();
-	//$scope.fecha=new Date();
 
 
 	$scope.connect = function() {
@@ -62,20 +61,13 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			closeOnEsc: false
 		});
 		let dateNow = new Date();
-		
-		console.log("fecha 3",dateNow)
-		let map = new Object(); 
-		map['status']= 1;
-		map['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd");
-		console.log("------",map);
-		orderdayService.getByDateAndStatusWithoutReference(map).then(function mySuccess(data) {
+		let data = new Object();
+		data['status'] = 1;
+		data['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd");
+		console.log("------",data);
+		orderdayService.getByDateAndStatusWithoutReference(data).then(function mySuccess(data) {
 			$scope.orderdays = data;
 			console.log("orden del dia---- ", $scope.orderdays);
-			angular.forEach($scope.orderdays, function(val, key){
-				if(val.fecha != null && val.fecha.length > 0){	
-					val.fecha = new Date(val.fecha);
-				}
-			});			
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();

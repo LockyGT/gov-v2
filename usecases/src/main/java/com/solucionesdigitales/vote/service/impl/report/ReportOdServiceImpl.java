@@ -1,44 +1,27 @@
 package com.solucionesdigitales.vote.service.impl.report;
 
-import java.awt.Color;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.io.RandomAccessSourceFactory;
 import com.itextpdf.text.GreekList;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.RomanList;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.GrayColor;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfGState;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.RandomAccessFileOrArray;
-import com.itextpdf.text.pdf.codec.TiffImage;
 import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
@@ -122,8 +105,8 @@ public class ReportOdServiceImpl implements ReportOdService {
 
 
 			for (ElementOd elementOd: orderday.getElementsOd()) {
-
-				listItem = new ListItem(new Phrase(elementOd.getNombre() + "\n\n", fontElement));
+				listItem = new ListItem(new Phrase(elementOd.getNombre()  +"\n\n", fontElement));
+				elementOd.setStatus(1);
 				listItem.setAlignment(Element.ALIGN_JUSTIFIED);
 				listaParagraph = new GreekList();
 

@@ -1,4 +1,4 @@
-
+<meta charset="UTF-8">
 <!-- Page Heading -->
 <h1 class="my-4">
 	{{voteSession.id !== null ? voteSession.nombre : 'INICIATIVAS DEL
@@ -16,18 +16,20 @@
 						Nueva</button>
 				</div>
 				<div class="col-auto">
-					<button data-ng-click="addParagraphInit();" class="btn btn-warning">Importar iniciativas</button>
+					<button data-ng-click="addSessionsOd(voteSession);"
+						data-toggle="modal" data-target="#exampleModalCenter"
+						class="btn btn-warning">Iniciativas</button>
 				</div>
 			</div>
 		</div>
 		<div class="card-body">
 			<div class="alert alert-primary" role="alert"
 				data-ng-if="!initiatives.length">
-				La sesión seleccionada no cuenta con iniciativas <a
+				La sesiÃ³n seleccionada no cuenta con iniciativas <a
 					data-ng-click="addInitiative()" style="cursor: pointer;"
 					data-ng-disabled="voteSession.status == _SESION._FINALIZED"
 					class="alert-link">Agregue una nueva iniciativa</a>. O seleccione
-				otra sesión
+				otra sesiÃ³n
 			</div>
 			<div class="table-responsive" data-ng-if="initiatives.length">
 				<table class="table table-stripped">
@@ -50,8 +52,8 @@
 					<tbody>
 						<tr
 							data-ng-repeat="initiative in initiatives track by initiative.id">
-							<td>{{initiative.name}}</td>
-							<td>{{initiative.voteSession.orderday.paragraphs.contenidotxt)}}</td>
+							<td>{{initiative.name}}</td>	
+							<td>{{initiative.voteSession.orderday.elementsOd.paragraphs.contenidotxt}}</td>
 							<td>{{ (initiative.hours <= 9 ) ? ('0' + initiative.hours) :
 								initiative.hours}} : {{ (initiative.minutes <= 9 ) ? ('0' +
 								initiative.minutes) : initiative.minutes}} : {{
@@ -105,7 +107,6 @@
 		</div>
 	</div>
 	<!-- /.row -->
-
 </section>
 <section data-ng-show="initiative !== null">
 	<div class="row">
@@ -129,9 +130,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="exampleFormControlTextarea1">Contenido de Orden del d�a</label>
-							<textarea  data-ng-model="initiative.orderday" class="form-control" id="exampleFormControlTextarea1"
-								rows="3"></textarea>
+							<label for="exampleFormControlTextarea1">Contenido de
+								Orden del día</label>
+							<textarea data-ng-model="initiative.voteSession.orderday"
+								class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="name">Tipo de Respuesta: </label>
@@ -193,7 +195,7 @@
 						</div>
 						<div class="form-group row">
 							<label for="formulaSelect" class="col-sm-2 col-form-label">Formula
-								de cálculo</label>
+								de cÃ¡lculo</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
@@ -213,7 +215,7 @@
 								{{initiative.result.formula.formulaDescription}} </small>
 						</div>
 						<div class="form-group row">
-							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">Método
+							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">MÃ©todo
 								de redondeo</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
@@ -225,7 +227,7 @@
 									data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
 									data-ng-options="roundMethod as roundMethod.name + '('+roundMethod.value+')' for roundMethod in roundMethods track by roundMethod.id"
 									data-ng-model="initiative.result.roundMethod">
-									<option value="">Seleccione una método de redondeo...</option>
+									<option value="">Seleccione una mÃ©todo de redondeo...</option>
 								</select>
 							</div>
 
@@ -270,8 +272,8 @@
 									<tr>
 										<th>A favor</th>
 										<th>En contra</th>
-										<th>Abstención</th>
-										<th>No votó</th>
+										<th>AbstenciÃ³n</th>
+										<th>No votÃ³</th>
 										<th>Ausente</th>
 									</tr>
 								</thead>
@@ -324,6 +326,55 @@
 				<button type="button" class="btn btn-primary"
 					data-ng-disabled="initiativeQualify.result.resultName"
 					data-ng-click="qualify()">Guardar cambios</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!---------------------Modal Parrafos de Od------------------------------>
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter"
+	tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Sesión:
+					{{sessionView.nombre}}</h5>
+				<br> <br>
+				<h5 class="modal-title" id="exampleModalLongTitle"></h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="card">
+					<div class="card-header">Orden del día:
+						{{sessionView.orderday.nombre}}</div>
+					<div class="card-body">
+						<div class="container">
+							<div data-ng-repeat="od in sessionView track by $index">
+								<ul style="margin-top: 1em" data-ng-repeat="ele in od.elementsOd track by $index">
+									<li style="margin-top: 2em"
+										data-ng-repeat="pa in ele.paragraphs | filter: {iniciativa: true } track by $index">
+										{{pa.contenidotxt}}
+										<ul>
+											<li style="margin-top: 2em"
+												data-ng-repeat="subPa in pa.subParagraphs | filter: {iniciativa: true } track by $index">
+												{{subPa.contenidotxt}}</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" data-ng-click="addParagraphInit();">Importar
+					Iniciativas</button>
 			</div>
 		</div>
 	</div>

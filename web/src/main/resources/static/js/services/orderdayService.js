@@ -24,9 +24,9 @@ app.service('orderdayService', function($q, factory) {
 	};
 	
 	
-	self.getByDateAndStatusWithoutReference = (date)=>{
+	self.getByDateAndStatusWithoutReference = (data)=>{
 		return $q(function(resolve, reject) {			
-			factory.get(path +'/date/status',date).then(function mySuccess(data) {						
+			factory.get(path +'/date',data).then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);

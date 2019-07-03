@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -172,10 +173,18 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public List<OrderDay> fetchByDateAndStatus(Date fecha, int status) {
-//		Calendar date = Calendar.getInstance();
-//		date.setTime(fecha);
-//		date.add(Calendar.DAY_OF_YEAR, 1);
-		return orderDayRepository.findByFechaAndStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA, fecha);
+		Calendar date = Calendar.getInstance();
+		date.setTime(fecha);
+		date.add(Calendar.DAY_OF_YEAR, 1);
+		List<OrderDay> l1 = orderDayRepository.findByFechaAndStatusAndReferenciaIsNull(status, date.getTime());
+		List<OrderDay> l2= orderDayRepository.findByStatusAndReferenciaIsNullOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
+		List<OrderDay> ordenes = new ArrayList<OrderDay>();
+		ordenes.addAll(l1);
+		ordenes.addAll(l2);
 
+		return ordenes;
 	}
+	
+	
+	
 }

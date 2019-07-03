@@ -65,7 +65,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	}
 
 	public void onEndPage(PdfWriter pdfwriter, Document document) {
-		PdfPTable tables = new PdfPTable(4);
+		PdfPTable tables = new PdfPTable(3);
 
 		try {
 
