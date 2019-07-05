@@ -29,6 +29,8 @@ public class Initiative {
 	private boolean noVoteIsAbstention;
 	private int status;//0 stado inicial, 1 abierta, 2 pausada, 3 detenida, 4 borrada, 5 error
 	
+	private String contenidoOd;
+	
 	/**
 	 * @return the id
 	 */
@@ -173,6 +175,12 @@ public class Initiative {
 				+ ", minutes=" + minutes + ", seconds=" + seconds + ", isClosed=" + isClosed + ", result=" + result
 				+ ", answerType=" + answerType + ", noVoteIsAbstention=" + noVoteIsAbstention + ", status=" + status
 				+ "]";
+	}
+	public String getContenidoOd() {
+		return contenidoOd;
+	}
+	public void setContenidoOd(String contenidoOd) {
+		this.contenidoOd = contenidoOd;
 	}
 		
 }

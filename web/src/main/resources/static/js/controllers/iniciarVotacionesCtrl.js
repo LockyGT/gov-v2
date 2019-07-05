@@ -1,4 +1,4 @@
-app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, orderdayService, formulaService, _INICIATIVA, _SESION) {
+app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $scope, $log, $state, VoteSessionHasInitiativesService, initiativeService, initiativeHasPartnerService, voteSessionService, voteOptionService, notificationService, orderdayService, formulaService, _INICIATIVA, _SESION) {
 	let self = this;
 	$scope.voteOptions = [];
 	$scope.initiatives = [];
@@ -23,6 +23,11 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 	$scope.errMsjNoMinutes  = '';
 	$scope.errMsjNoSeconds  = '';
 
+	
+	$scope.selected = {
+			voteSessions: []
+	};
+	
 	$scope.roundMethods = [
 		{id: 1, name: "Inferior inmediato", value: "floor"},
 		{id: 2, name: "Superior inmediato", value: "ceil"},
@@ -114,32 +119,36 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 		}
 	};
 
-	$scope.addParagraphInit = () => {
-		console.log('----', $scope.voteSession.orderday);
-		$scope.voteSession.orderday = [];
-		$scope.voteSession.orderday.initiative= {
-					elementsOd:{
-						paragraphs:{
-							contenidotxt:'',
-							iniciativa: true
-						}
-					},
-					hours : 0,
-					minutes : 0,
-					seconds : 30,
-					result: {},
-					status : _INICIATIVA._CREATED
-				
-			}
+/*************************** add OD ***************************************/
+
+	
+	$scope.checkAllOptions = (array, e) => {
+
+		angular.forEach(array, function(el){
+			el.checked = e.target.checked;
+		});
+		$scope.updateSelected();
 		
+	};
+
+
+	$scope.updateSelected = (paragraph) => {
+		$scope.initiative= {
+				status: 1,
+				hours : 0,
+				minutes : 0,
+				seconds : 30,
+				result: {},
+				status : _INICIATIVA._CREATED
+		};
+		$scope.initiative.contenidoOd = paragraph;
 	};
 
 	$scope.addSessionsOd = (voteSession)=>{ 
 		console.log('modal ver orden dia',voteSession)
 		$scope.sessionView= voteSession;
 	};
-
-
+/************************************************/
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
 		$scope.initiative = {
@@ -169,6 +178,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 			}
 			if (isValid) {
 				$scope.invalidClassName = '';
+				$scope.ivalidClassContent ='',
 				$scope.invalidClassHours= '';
 				$scope.invalidClassMinutes= '';
 				$scope.invalidClassSeconds= '';
@@ -331,10 +341,12 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope, $scope, $
 
 	$scope.postInitiative = ()=>{
 		$scope.initiative.tiposVotos = $scope.voteOptions;
-		initiativeService.post($scope.initiative).then(function mySuccess(data) {			
+		initiativeService.post($scope.initiative).then(function mySuccess(data) {
+			console.log('Iniciativas a guardar', data);
 			if(data){				
 				if($scope.voteSession != null ){
 					$scope.voteSession.iniciativas.push(data);
+					console.log('+-----+', data)
 					$scope.updateVoteSession();
 				}				
 				swal("Exito", "Iniciativa agregada correctamente", "success");

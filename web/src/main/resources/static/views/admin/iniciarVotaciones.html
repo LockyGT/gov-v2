@@ -1,4 +1,39 @@
 <meta charset="UTF-8">
+<style>
+<!--
+
+.ellipsis {
+    width:150px;
+/*     display: block; */
+}
+
+.ellipsis:after {
+    position:relative;
+/*     background-color:white; */
+    left:138px;
+    top:-16px;
+    content:'...';
+}
+.ellipsis p{
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    max-height: 93px;
+    width: 14em;
+}
+
+.ellipsis:hover:after {
+    display:none;
+}
+
+.ellipsis:hover p {
+    max-height:100%;
+}
+
+-->
+</style>
 <!-- Page Heading -->
 <h1 class="my-4">
 	{{voteSession.id !== null ? voteSession.nombre : 'INICIATIVAS DEL
@@ -18,7 +53,7 @@
 				<div class="col-auto">
 					<button data-ng-click="addSessionsOd(voteSession);"
 						data-toggle="modal" data-target="#exampleModalCenter"
-						class="btn btn-warning">Iniciativas</button>
+						class="btn btn-warning">Importar Iniciativas</button>
 				</div>
 			</div>
 		</div>
@@ -52,8 +87,9 @@
 					<tbody>
 						<tr
 							data-ng-repeat="initiative in initiatives track by initiative.id">
-							<td>{{initiative.name}}</td>	
-							<td>{{initiative.voteSession.orderday.elementsOd.paragraphs.contenidotxt}}</td>
+							<td>{{initiative.name}}</td>
+							<td class="ellipsis"><p>{{initiative.contenidoOd}}</p></td>
+							<!--{{(initiative.contenidoOd.length > 60)? initiative.contenidoOd.substring(60,-1)+'...':initiative.contenidoOd}} -->
 							<td>{{ (initiative.hours <= 9 ) ? ('0' + initiative.hours) :
 								initiative.hours}} : {{ (initiative.minutes <= 9 ) ? ('0' +
 								initiative.minutes) : initiative.minutes}} : {{
@@ -78,7 +114,7 @@
 								data-ng-if="(iniciativaRecibidaInicia.id == initiative.id && !initiative.closed && iniciativaRecibidaFin != initiative.id ) || initiative.status == _INICIATIVA._INITIATED"></i>
 							</td>
 							<td>
-								<button type="button"
+								<button type="button" id="copy2"
 									class="btn btn-{{initiative.status == _INICIATIVA._FINALIZED ? 'info' : 'warning'}}"
 									data-ng-click="updateInitiative(initiative)"
 									data-ng-if="initiative.id != null && initiative.status != _INICIATIVA._INITIATED">{{initiative.status
@@ -132,8 +168,9 @@
 						<div class="form-group">
 							<label for="exampleFormControlTextarea1">Contenido de
 								Orden del día</label>
-							<textarea data-ng-model="initiative.voteSession.orderday"
-								class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+							<textarea  disabled="disabled" data-ng-model="initiative.contenidoOd"
+								class="form-control" data-ng-class="ivalidClassContent"
+								rows="3"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="name">Tipo de Respuesta: </label>
@@ -267,7 +304,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="table-responsive">
-							<table class="table table-bordered table-condensed">
+							<table id="two" class="table table-bordered table-condensed">
 								<thead>
 									<tr>
 										<th>A favor</th>
@@ -353,17 +390,34 @@
 						{{sessionView.orderday.nombre}}</div>
 					<div class="card-body">
 						<div class="container">
-							<div data-ng-repeat="od in sessionView track by $index">
-								<ul style="margin-top: 1em" data-ng-repeat="ele in od.elementsOd track by $index">
-									<li style="margin-top: 2em"
-										data-ng-repeat="pa in ele.paragraphs | filter: {iniciativa: true } track by $index">
-										{{pa.contenidotxt}}
-										<ul>
-											<li style="margin-top: 2em"
-												data-ng-repeat="subPa in pa.subParagraphs | filter: {iniciativa: true } track by $index">
-												{{subPa.contenidotxt}}</li>
-										</ul>
-									</li>
+							<div  data-ng-repeat="od in sessionView track by $index">
+								<ul style="margin-top: 1em; list-style: none"
+									data-ng-repeat="ele in od.elementsOd track by $index">
+									
+<!-- 									<input type="checkbox" name="" -->
+<!-- 										data-ng-click="checkAllOptions(paragraphs,$event)"> -->
+										
+									<div class="input-group">
+										<li style="margin-top: 2em" data-ng-model="pa.checked"
+											data-ng-repeat="pa in ele.paragraphs | filter: {iniciativa: true} track by $index">
+
+											<input type="checkbox" name="Pcontenidotxt"
+											data-ng-click="updateSelected(pa.contenidotxt)">
+											{{pa.contenidotxt}}
+
+											<ul>
+												<li style="margin-top: 2em; list-style: none"
+													id="subParagraphs" data-ng-model="subPa.checked"
+													data-ng-repeat="subPa in pa.subParagraphs | filter: {iniciativa: true } track by $index">
+
+													<input type="checkbox" name="gender" value="spContenidotxt"
+													data-ng-click="updateSelected(subPa.contenidotxt)">
+
+													{{subPa.contenidotxt}}
+												</li>
+											</ul>
+										</li>
+									</div>
 								</ul>
 							</div>
 						</div>
@@ -373,9 +427,18 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary" data-ng-click="addParagraphInit();">Importar
+				<!--<button  type="button" class="btn btn-primary">Importar
 					Iniciativas</button>
+				 					data-ng-click="addParagraphInit(od);" -->
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+
+
+
+</script>
+
+
+

@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
+import com.solucionesdigitales.vote.entity.vote.VoteSession;
 
 
 
@@ -26,6 +29,10 @@ public interface OrderDayService {
 	List<OrderDay> fetchByBetweenDates(boolean status, Date dateStart, Date dateEnd);
 	List<OrderDay> getByDateBetween(int status, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
-	OrderDay putPublished(OrderDay entity);
-	List<OrderDay> fetchByDateAndStatus(Date fecha, int status);
+	
+	OrderDay putPublishedByOdOriginal(OrderDay entity);
+	
+	List<OrderDay> getDateAndActiveWithAndWithoutReference(Date fecha,int  status);
+	
+	List<OrderDay> getActiveWithoutReference();
 }

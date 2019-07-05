@@ -46,9 +46,9 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
-	
-//**************************Order Day***************************************//
-	$scope.getOdIniciatives  = () =>{
+
+//	**************************Order Day***************************************//
+	$scope.getOdIniciatives = () =>{
 		swal({
 			title: "Consultando ordenes del día",
 			text: "Por favor espere ...",
@@ -60,12 +60,13 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
+		
 		let dateNow = new Date();
 		let data = new Object();
-		data['status'] = 1;
-		data['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd");
-		console.log("------",data);
-		orderdayService.getByDateAndStatusWithoutReference(data).then(function mySuccess(data) {
+		//data['status'] = 1;
+		data['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd")
+		
+		orderdayService.getActiveWithoutReference(data).then(function mySuccess(data) {
 			$scope.orderdays = data;
 			console.log("orden del dia---- ", $scope.orderdays);
 			$timeout(()=>{
@@ -77,26 +78,34 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			swal("Error",$scope.myWelcome, "error");			
 		});
 	};
-	
-//	$scope.getOdIniciatives = () =>{
-//		orderdayService.getActiveWithAndWithoutReference().then(function mySuccess(data) {
+
+
+
+//	$scope.getOdIniciatives = (status) =>{	
+//
+//		let dateInit = new Date();	
+//		let map = new Object(); 
+//		map['status']=1;
+//		map['fecha'] = $filter('date')(dateInit, "yyyy/MM/dd");
+//
+//		console.log('*************', map);
+//		orderdayService.getByDateAndStatusAndReferencia(map).then(function mySuccess(data) {
 //			$scope.orderdays = data;
-//			console.log("Ordenes del dia a mostrar.", data)
-//			if(data){
-//				swal("Exito", "Ordenes del día obtenidas", "success");
-//			}else{
-//				swal("Error", "Fallo en la obtencion de OD", "error");
-//			}	
-//		}, 
-//		function myError(response) {
-//			$scope.myWelcome = response.statusText;
-//			swal("Error",$scope.myWelcome, "error");			
+//			console.log('ordenes del dia', data)
+//		}, function myError(response) {
+//
+//			swal("Error", "Error en la consulta", "error");			
 //		});
 //	};
-	
-//******************************End Order Day*******************************************//
 
-	
+
+
+
+
+
+	/******************************End Order Day*******************************************/
+
+
 
 	$scope.iniciarFecha=()=>{
 		console.log('Se inicia la fecha');

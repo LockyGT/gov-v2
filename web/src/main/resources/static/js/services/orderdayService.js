@@ -24,9 +24,9 @@ app.service('orderdayService', function($q, factory) {
 	};
 	
 	
-	self.getByDateAndStatusWithoutReference = (data)=>{
+	self.getActiveWithoutReference = ()=>{
 		return $q(function(resolve, reject) {			
-			factory.get(path +'/date',data).then(function mySuccess(data) {						
+			factory.get(path +'/date/active/without').then(function mySuccess(data) {						
 				resolve(data);
 			}, function myError(errResponse) {
 				reject(errResponse);
@@ -166,7 +166,7 @@ app.service('orderdayService', function($q, factory) {
 		});
 	};
 	
-	self.putPublished = (orderday) => {
+	self.putPublishedByOdOriginal = (orderday) => {
 		return $q((resolve, reject)=>{
 			factory.put(path+'/updatePublished',orderday).then(function success(data){
 				resolve(data);
@@ -175,6 +175,19 @@ app.service('orderdayService', function($q, factory) {
 			});
 		});
 	};
+	
+	self.getByDateAndStatusAndReferencia = (date)=>{
+		
+		return $q(function(resolve, reject) {			
+			factory.get(path+'/fecha/without/referencia',date).then(function mySuccess(data) {						
+				resolve(data);
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
+	
 	
 	
 	
