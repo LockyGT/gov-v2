@@ -11,9 +11,6 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	$scope.maxSearchDate = new Date();
 	$scope.filterInfo = {};
 	
-	$scope.colorsGraph = ["#6132C2","#0AA4C9","#00B300","#C9AE0A","#C2591F","#0A78C9", 
-		"#752F09","#FF8442","#007571", "#1FC2BC","#C2581F"];
-	
 	$scope.initiatives       = [];
 	$scope.sessions          = [];
 	$scope.filter            = {};
@@ -33,12 +30,21 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
 			reportService.getLegislaturas(dataReport).then(success => {
 				$scope.legislaturaReport = JSON.parse(success.data);
+				$scope.uniqueSession = $filter('unique')($scope.legislaturaReport.data, 'session');
 			}, error => {
 				console.log('Error al obtener la información del reporte: ', error)
 			});
 		} else {
 			swal("Error","No ha llenado todos los campos", "error");
 		}
+	};
+	
+	$scope.filterInfoLength = (filterSession, filterResult) => {
+		
+		let fil = $scope.legislaturaReport.data.filter(function(element){
+			return (element.session == filterSession && element.result == filterResult)
+		});
+		return fil? fil.length : 0;
 	};
 	
 	$scope.getTypeSession = () => {
@@ -185,7 +191,14 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	$scope.toReturn = () => {
 		$scope.reporteBar =  null;
 		$scope.reportePie = null;
+		$scope.sessionSelected = null;
 	};
+	
+	$scope.setFilterBySession = session => {
+		$scope.sessionSelected = session;
+		$scope.sessionReportGraph = $filter('filter')($scope.legislaturaReport.data, {"session": session});
+		$scope.createGraph();
+	}
 	
 	$scope.startReportBar = () => {
 		$scope.reporteBar = {
@@ -239,6 +252,11 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	};
 	
 	$scope.createGraph = () => {
+		
+		if(!$scope.sessionReportGraph){
+			$scope.sessionReportGraph = $scope.legislaturaReport.data;
+		}
+		
 		$scope.startReportBar();
 		$scope.startReportPie();
 		
@@ -246,21 +264,21 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 		let voteTypeWin = {};
 		
 		$scope.optionPercent = [];
-		let ic = 0;
-		angular.forEach($scope.selected.sessions, function(val, key){
-			$scope.reporteBar.labels.push('Sesión - '+(ic+1));
-			$scope.reportePie.labels.push('fórmula - '+(ic+1));
+		angular.forEach($scope.selected.results, function(val, key){
+			
+			$scope.reporteBar.labels.push(val.name);
+			$scope.reportePie.labels.push(val.name);
 			
 			$scope.reporteBar.series.push('Resultado votación');
 			$scope.reportePie.series.push('Resultado votación');
 			
 			let percentTmp = val;
-			let find = $scope.legislaturaReport.data.filter(rr => rr.sessionId === val.id);
+			let find = $scope.sessionReportGraph.filter(rr => rr.result === val.name);
 			
 			$scope.reporteBar.data.push(find.length);
 			
 			if(find.length > 0) {
-				let percentage = ($scope.legislaturaReport.data.length / find.length) * 100;
+				let percentage = (find.length / $scope.sessionReportGraph.length) * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);
@@ -272,16 +290,16 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			if($scope.selected.sessions.length === 1){
 				$scope.optionPercent.push(0);
 			}
-			
-			
-			$scope.reportePie.colors.push(hexToRgbA($scope.colorsGraph[ic]));
-			$scope.reporteBar.colors.push($scope.colorsGraph[ic]);
+						
+			$scope.reportePie.colors.push(hexToRgbA((val.color == "success")? "#00b300": 
+								(val.color == "danger")? "#cc0000": '#000000'));
+			$scope.reporteBar.colors.push(hexToRgbA((val.color == "success")? "#00b300": 
+				(val.color == "danger")? "#cc0000": '#000000'));
 				
 			if(val.totalOption > max) {
 				max = val.totalOption;
 				voteTypeWin = val;
 			}
-			ic++;
 		});
 	};
 	

@@ -27,6 +27,7 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
 			reportService.getInitiative(dataReport).then(success => {
 				$scope.initiativeReport = JSON.parse(success.data);
+				$scope.uniqueSession = $filter('unique')($scope.initiativeReport.data,'session')
 			}, error => {
 				console.log('Error al obtener la información: ', error);
 			});
@@ -141,6 +142,14 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		return false;
 	};
 	
+	$scope.filterInfoLength = (filterSession) => {
+		
+		let fil = $scope.initiativeReport.data.filter(function(element){
+			return (element.session == filterSession);
+		});
+		return fil? fil.length : 0;
+	};
+	
 	$scope.printTable = () => {
 		$scope.initiativeReport.title = 'Resultados - Periodos';
 		$scope.initiativeReport.headRows = [{date:"Fecha", typeSession:"Tipo de sesión", session:"sesión", 
@@ -163,6 +172,13 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			console.log('Error al obtener el reporte');
 		});
 	};
+	
+	$scope.addTotalVoteOptions = () => {
+		angular.forEach($scope.uniqueSession, function(valvo, keyvo){
+			valvo.voteOption = 0;
+		});
+	};
+	
 	$scope.startReportBar = () => {
 		$scope.reporteBar = {
 				totalVotos    : 0,
@@ -217,26 +233,26 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 	$scope.createGraph = () => {
 		$scope.startReportBar();
 		$scope.startReportPie();
-		
+		$scope.addTotalVoteOptions();
 		let max         = 0;
 		let voteTypeWin = {};
 		
 		$scope.optionPercent = [];
 		
-		angular.forEach($scope.results, function(val, key){
-			$scope.reporteBar.labels.push(val.name);
-			$scope.reportePie.labels.push(val.name);
+		angular.forEach($scope.uniqueSession, function(val, key){
+			$scope.reporteBar.labels.push(val.session);
+			$scope.reportePie.labels.push(val.session);
 			
 			$scope.reporteBar.series.push('Resultado votación');
 			$scope.reportePie.series.push('Resultado votación');
 			
 			let percentTmp = val;
-			let find = $scope.initiativeReport.data.filter(rr => rr.result === val.name);
+			let find = $scope.initiativeReport.data.filter(rr => rr.session === val.session);
 			
 			$scope.reporteBar.data.push(find.length);
 			
 			if(find.length > 0) {
-				let percentage = ($scope.initiativeReport.data.length / find.length) * 100;
+				let percentage = (find.length / $scope.initiativeReport.data.length) * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);
@@ -246,15 +262,15 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 				$scope.optionPercent.push(percentTmp);
 			}
 			
-			$scope.reportePie.colors.push(
-					hexToRgbA((val.color == 'success') ? '#00b300':
-						(val.votecolor == 'danger')? '#cc0000':'#000000')
-				);
-				
-				$scope.reporteBar.colors.push(
-					hexToRgbA((val.color == 'success') ? '#00b300':
-						(val.color == 'danger')? '#cc0000': '#000000')
-				);
+//			$scope.reportePie.colors.push(
+//					hexToRgbA((val.color == 'success') ? '#00b300':
+//						(val.color == 'danger')? '#cc0000':'#000000')
+//				);
+//				
+//				$scope.reporteBar.colors.push(
+//					hexToRgbA((val.color == 'success') ? '#00b300':
+//						(val.color == 'danger')? '#cc0000': '#000000')
+//				);
 				
 			if(val.totalOption > max) {
 				max = val.totalOption;
@@ -262,6 +278,7 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			}
 			
 		});
+		
 	};
 	
 	$scope.changeTabView = tabIndex => {

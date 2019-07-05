@@ -20,14 +20,17 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.filterInfo        = {};
 	
 	$scope.getReportLegislator = () => {
-		dataReport = {
-				partnersId: $scope.selected.legislators.map(f=> f.id),
-				initiativesId: $scope.selected.initiatives.map(f=> f.id),
-				votesId: $scope.selected.voteOptions.map(f => f.id)
-		};
+		
 		
 		if($scope.selected.legislators.length && $scope.selected.initiatives.length
 				&& $scope.selected.voteOptions.length){
+			console.log('Informacion seleccionada: ', $scope.selected.legislators);
+			let dataReport = {
+					partnersId: $scope.selected.legislators.map(f=> f.id),
+					initiativesId: $scope.selected.initiatives.map(f=> f.id),
+					votesId: $scope.selected.voteOptions.map(f => f.id)
+			};
+			
 			console.log('Informacion enviada: ', dataReport)
 			reportService.getLegislatorReport(dataReport).then( success => {
 				$scope.legislatorsReport = JSON.parse(success.data);
@@ -39,6 +42,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 			swal("Error","No ha llenado todos los campos", "error");
 		}
 	};
+	
 	
 	$scope.getSessionsBetweenDates = (selected) => {
 		let sendData = {
@@ -129,16 +133,23 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	
 	$scope.updateSelectedParties = () => {
 		$timeout( () => {
-			$scope.selected.parties = $filter('filter')($scope.politicalParties,{checked: true});
+			$scope.selected.parties   = $filter('filter')($scope.politicalParties,{checked: true});
 			$scope.filterInfo.parties = $scope.selected.parties.map(f => f.acronym);
+			$scope.fLegislators = $filter('filter')($scope.legislators, $scope.filterLegislator);
+		
+//			$scope.selected.legislators = [];
+//			$scope.filterInfo.legislators = null;
+			$scope.updateSelectedLegislators();
+			console.log('Informacion seleccionada: ', $scope.fLegislators);
 		},500);
 		
 	};
 	
 	$scope.updateSelectedLegislators = () => {
 		$timeout( () => {
-			$scope.selected.legislators = $filter('filter')($scope.legislators,{checked: true});
+			$scope.selected.legislators = $filter('filter')($scope.fLegislators,{checked: true});
 			$scope.filterInfo.legislators = $scope.selected.legislators.map(f => f.name+" "+f.apPaterno+" "+f.apMaterno);
+			console.log('Informacion seleccionada: legisladores', $scope.selected.legislators);
 		},500);
 	};
 	
@@ -168,7 +179,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		
 		$scope.legislatorsReportGraph = $filter('filter')($scope.legislatorsReport.data, {"idPartner": idPartner});
 		$scope.createGraph();
-		console.log('Informacion del legislador: ',$scope.legislatorsReportGraph);
 		$scope.filterByLegislator = true;
 	};
 	
@@ -328,7 +338,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 			
 			if(find.length>0){
 				
-				let percentage = ($scope.legislatorsReportGraph.length / find.length)  * 100;
+				let percentage = (find.length / $scope.legislatorsReportGraph.length)  * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);

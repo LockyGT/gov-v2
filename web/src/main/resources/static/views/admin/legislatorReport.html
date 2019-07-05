@@ -247,7 +247,7 @@ li.active li {
 										</thead>
 										<tbody>
 											<tr
-												data-ng-repeat="p in legislatorsReport.data | orderBy: p.namePartner">
+												data-ng-repeat="p in legislatorsReport.data | unique: 'idPartner'">
 												<td>{{p.namePartner}}</td>
 												<td class="text-center">
 													<button type="button" class="btn btn-light"
@@ -319,7 +319,7 @@ li.active li {
 										</thead>
 										<tbody>
 											<tr
-												data-ng-repeat="p in legislatorsReport.data | orderBy: p.namePartner">
+												data-ng-repeat="p in legislatorsReport.data | unique: 'idPartner'">
 												<td>{{p.namePartner}}</td>
 												<td class="text-center">
 													<button type="button" class="btn btn-light"
@@ -432,11 +432,11 @@ li.active li {
 								<th>Partido</th>
 								<th><input type="checkbox" id="checked-legislator"
 									data-ng-model="flagsCheckbox.legislator"
-									data-ng-click="checkAllOptions(legislators,$event)"></th>
+									data-ng-click="checkAllOptions(fLegislators,$event)"></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="lr in legislators | filter: filterLegislator">
+							<tr data-ng-repeat="lr in fLegislators">
 								<td>{{lr.name}} {{lr.apPaterno}} {{lr.apMaterno}}</td>
 								<td>{{lr.partido.acronym}}</td>
 								<td><input type="checkbox" data-ng-model="lr.checked"
@@ -522,7 +522,7 @@ li.active li {
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="int in initiatives track by $index">
+							<tr data-ng-repeat="int in initiatives track by $index" data-ng-if="int.result">
 								<td>{{int.name}}</td>
 								<td>{{int.result.resultName}}</td>
 								<td><input type="checkbox" data-ng-model="int.checked"
