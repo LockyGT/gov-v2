@@ -41,7 +41,6 @@ public class VoteSessionServiceImpl implements VoteSessionService {
 
 	@Override
 	public List<VoteSession> fetchByDateAndStatus(LocalDateTime fecha) {
-
 		return repo.findVoteSessionByFechaHoraGreaterThanEqualAndStatusNot(fecha, Constants._DELETED);
 	}
 

@@ -46,9 +46,9 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	$scope.changeTitleTabView=(title)=>{
 		$scope.titleTabView = title;
 	};
-	
-//**************************Order Day***************************************//
-	$scope.getOdIniciatives  = () =>{
+
+	/************************** Order Day ***************************************/
+	$scope.getOdIniciatives = () =>{
 		swal({
 			title: "Consultando ordenes del día",
 			text: "Por favor espere ...",
@@ -61,13 +61,14 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			closeOnEsc: false
 		});
 		let dateNow = new Date();
-		let data = new Object();
-		data['status'] = 1;
-		data['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd");
-		console.log("------",data);
-		orderdayService.getByDateAndStatusWithoutReference(data).then(function mySuccess(data) {
+		dateNow.setTime( dateNow.getTime() - dateNow.getTimezoneOffset()*60*1000 );
+		let data = new Object(); 
+		data['status']= 1;
+		data['fecha'] = dateNow;
+		console.log('Obtener Ordenes del dia por fecha', data);
+		orderdayService.getByDateAndStatusAndReferencia(data).then(function mySuccess(data) {
 			$scope.orderdays = data;
-			console.log("orden del dia---- ", $scope.orderdays);
+			console.log("Orden del dia", $scope.orderdays);
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
@@ -77,26 +78,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			swal("Error",$scope.myWelcome, "error");			
 		});
 	};
-	
-//	$scope.getOdIniciatives = () =>{
-//		orderdayService.getActiveWithAndWithoutReference().then(function mySuccess(data) {
-//			$scope.orderdays = data;
-//			console.log("Ordenes del dia a mostrar.", data)
-//			if(data){
-//				swal("Exito", "Ordenes del día obtenidas", "success");
-//			}else{
-//				swal("Error", "Fallo en la obtencion de OD", "error");
-//			}	
-//		}, 
-//		function myError(response) {
-//			$scope.myWelcome = response.statusText;
-//			swal("Error",$scope.myWelcome, "error");			
-//		});
-//	};
-	
-//******************************End Order Day*******************************************//
-
-	
+	/******************************End Order Day*******************************************/
 
 	$scope.iniciarFecha=()=>{
 		console.log('Se inicia la fecha');

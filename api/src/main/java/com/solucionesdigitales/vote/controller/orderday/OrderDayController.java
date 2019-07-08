@@ -5,11 +5,15 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
+import com.solucionesdigitales.vote.entity.vote.VoteSession;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
 
 @RestController
@@ -79,14 +84,25 @@ public class OrderDayController {
 		return service.getByStatusAprobada(status);
 	}
 
-	@GetMapping(value="/date")
-	public List<OrderDay> getByDateAndStatusWithoutReference(@RequestParam(value="fecha") @DateTimeFormat(pattern="yyyy/MM/dd") final Date fecha, @RequestParam(value="status") final int  status) {
-		logger.info("Consulta Orden del dia publicadas por fechas " + fecha);
-		return service.fetchByDateAndStatus(fecha, status);
+	@GetMapping(value="/date/active/without/reference")
+	public List<OrderDay> getByDateAndStatusAndReferencia(@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, @RequestParam(value="status")final int status){
+		logger.info("consulta ORDEN DEL DÍA POR FECHA:" + fecha);	 
+
+		ZonedDateTime here = fecha.atZone(ZoneId.systemDefault());		
+		logger.info("ZONEDDATE : " + here);
+		int year  = here.getYear();
+		int month = here.getMonthValue();
+		int day   = here.getDayOfMonth();
+		logger.info("day of the month : " + day);
+
+		LocalDateTime t1 = LocalDateTime.of(year, month, day, 0, 0, 0, 0);
+		LocalDateTime t2 = LocalDateTime.of(year, month, day, 23, 59, 59);
+		logger.info("consulta ORDEN DEL DIA EN SESIONES POR FECHA1 ------> :" + t1);	
+		logger.info("consulta ORDEN DEL DIA EN SESIONES POR FECHA2 ------> :" + t2);
+		return service.getDateAndActiveWithoutReference(t1 , t2, status);
+		
 	}
 	
-	
-
 	@GetMapping(value="/date/between" )	
 	public List<OrderDay> getByDateBetween(@RequestParam(value="status")final int status,@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
 			@RequestParam(value="fechaFin") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fechaFin){
@@ -117,7 +133,7 @@ public class OrderDayController {
 	@GetMapping(value="/datesbetween")
 	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="publicada") final boolean status,@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
 			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
-		logger.info("Consulta Orden del dia publicadas por fechas "+dateStart+" y "+dateEnd);
+		logger.info("CONSULTA DE ORDEN DEL DIA PUBLICADA POR FECHA " +dateStart+" y "+dateEnd);
 
 		return service.fetchByBetweenDates(status, dateStart,dateEnd);
 	}
@@ -133,12 +149,17 @@ public class OrderDayController {
 		logger.info("Version de la orden del dia guardado: [" +entity.toString()+"]");
 		return service.postNewVerssion(entity);
 	}
+	
+	/***** UPDATE PUBLISHED *****/
 
 	@PutMapping(value="/updatePublished")
-	public OrderDay putPublished(@RequestBody final OrderDay entity) {				
-		logger.info("Actualizacion de la orden del dia publicada: ["+entity.toString()+"]");		
-		return service.putPublished(entity);
+	public OrderDay putPublishedByOdOriginal( @RequestBody final OrderDay entity) {				
+		logger.info("Actualizacion de la orden del dia publicada: ["+entity.toString()+"]");
+		entity.setPublished(true);
+		return service.putPublishedByOdOriginal(entity);
 	}
+	
+	
 
 	@PutMapping
 	public OrderDay put(@RequestBody final OrderDay entity) {				
