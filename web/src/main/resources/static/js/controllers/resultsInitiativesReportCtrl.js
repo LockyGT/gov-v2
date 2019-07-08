@@ -30,16 +30,32 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		};
 		
 		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
-			reportService.getResultInitiative(dataReport).then(success=>{
+			reportService.getResultInitiative(dataReport).then(success => {
 				$scope.resultsReport = JSON.parse(success.data);
-				
-			}, error=>{
+				$scope.uniqueSession = $filter('unique')($scope.resultsReport.data, 'sessionId');
+			}, error => {
 				$scope.resultsReport = [];
 				console.log('Error al obtener la informacion: ', error);
 			});
 		}else {
 			swal("Error","No ha llenado todos los campos", "error");
 		}
+	};
+	
+	$scope.filterBySession = sessionId => {
+		let fil = $scope.resultsReport.data.filter(function(element){
+			return element.sessionId == sessionId;
+		});
+		
+		return $filter('unique')(fil, 'formulaId');
+	};
+	
+	$scope.filterInfoLength = (sessionId, formulaId) => {
+		let fil = $scope.resultsReport.data.filter(function(element){
+			return (element.sessionId == sessionId && element.formulaId == formulaId);
+		});
+		
+		return fil? fil.length : 0;
 	};
 	
 	$scope.getTypeSession = () => {
@@ -59,10 +75,11 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		};
 		
 		if (($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)) {
-			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
+			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data => {
 				$scope.sessions = data;
 				$scope.initiatives = [];
 				$scope.filter = {};
+				console.log('Sesiones optenidos: ', $scope.sessions);
 			}, error=>{
 				console.log('Error al obtener las sesiones: ', error);
 			});
@@ -84,7 +101,8 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	$scope.getFormula = () => {
 		formulaService.get().then(data => {
 			$scope.formulas = data;
-			console.log('Datos obtenidos: ', data);
+			console.log('Informacion: ', $scope.formulas);
+			$scope.assingColor();
 		}, error => {
 			console.log('Ha ocurrio un error al cargar los archivos: ', data);
 		});
@@ -112,12 +130,13 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		$timeout( () => {
 			$scope.selected.typeSessions = $filter('filter')($scope.typeSessions, {checked: true});
 			$scope.filterInfo.typeSessions = $scope.selected.typeSessions.map(f => f.name);
+			$scope.fSessions = $filter('filter')($scope.sessions, $scope.filterTypeSession);
 		}, 500);
 	};
 	
 	$scope.updateSelectedSessions = () => {
 		$timeout ( () => {
-			$scope.selected.sessions = $filter('filter')($scope.sessions, {checked: true});
+			$scope.selected.sessions = $filter('filter')($scope.fSessions, {checked: true});
 			$scope.filterInfo.sessions = $scope.selected.sessions.map(f => f.nombre);
 			$scope.getInitiatives();
 		}, 500);
@@ -125,8 +144,11 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
-			$scope.selected.initiatives = $filter('filter')($scope.initiatives, {checked: true});
-			$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
+			if($scope.fInitiatives){
+				$scope.selected.initiatives = $filter('filter')($scope.fInitiatives, {checked: true});
+				$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
+				
+			}
 		}, 500);
 	};
 	
@@ -134,6 +156,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		$timeout( () => {
 			$scope.selected.results = $filter('filter')($scope.results, {checked: true});
 			$scope.filterInfo.results = $scope.selected.results.map(f => f.name);
+			$scope.fInitiatives = $filter('filter')($scope.initiatives, $scope.filterResult);
 		}, 500);
 	};
 	
@@ -199,6 +222,11 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		$scope.reportePie = null;
 	};
 	
+	$scope.setSessionReportGraph = sessionId => {
+		$scope.sessionReportGraph = $filter('filter')($scope.resultsReport.data,{"sessionId": sessionId});
+		$scope.createGraph();
+	};
+	
 	$scope.startReportBar = () => {
 		$scope.reporteBar = {
 				totalVotos    : 0,
@@ -251,6 +279,11 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	};
 	
 	$scope.createGraph = () => {
+		
+		if(!$scope.sessionReportGraph){
+			$scope.sessionReportGraph = $scope.resultsReport.data;
+		}
+		
 		$scope.startReportBar();
 		$scope.startReportPie();
 		
@@ -259,20 +292,23 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		
 		$scope.optionPercent = [];
 		let ic = 0;
-		angular.forEach($scope.formulas, function(val, key){
+		$scope.uniqueFormulas = $filter('unique')($scope.sessionReportGraph, 'formulaId');
+		angular.forEach($scope.uniqueFormulas, function(val, key){
 			$scope.reporteBar.labels.push('fórmula - '+(ic+1));
 			$scope.reportePie.labels.push('fórmula - '+(ic+1));
+			
+			console.log('Informacion de la formula: id', val.formulaId+", nombre",val.formula);
 			
 			$scope.reporteBar.series.push('Resultado votación');
 			$scope.reportePie.series.push('Resultado votación');
 			
 			let percentTmp = val;
-			let find = $scope.resultsReport.data.filter(rr => rr.formulaId === val.id);
+			let find = $scope.sessionReportGraph.filter(rr => rr.formulaId === val.formulaId);
 			
 			$scope.reporteBar.data.push(find.length);
 			
 			if(find.length > 0) {
-				let percentage = ($scope.resultsReport.data.length / find.length) * 100;
+				let percentage = (find.length / $scope.sessionReportGraph.length) * 100;
 				$scope.reportePie.data.push(percentage);
 				percentTmp.percentage = percentage;
 				$scope.optionPercent.push(percentTmp);
@@ -282,8 +318,8 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 				$scope.optionPercent.push(percentTmp);
 			}
 			
-			$scope.reportePie.colors.push(hexToRgbA($scope.colorsGraph[ic]));
-			$scope.reporteBar.colors.push($scope.colorsGraph[ic]);
+			$scope.reportePie.colors.push(hexToRgbA($scope.findColor(val.formulaId)));
+			$scope.reporteBar.colors.push($scope.findColor(val.formulaId));
 				
 			if(val.totalOption > max) {
 				max = val.totalOption;
@@ -332,6 +368,19 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 				}
 			}
 		});
+	};
+	
+	$scope.assingColor = () => {
+		angular.forEach($scope.formulas, function(val, key){
+			$scope.formulas[key].color = $scope.colorsGraph[key];
+		});
+	};
+	
+	$scope.findColor = formulaId => {
+		let fil = $scope.formulas.find(function(element){
+			return element.id == formulaId;
+		});
+		return fil.color;
 	};
 	
 	function hexToRgbA(hex){	

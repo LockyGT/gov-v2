@@ -335,7 +335,7 @@ li.active li {
 			<div class="modal-body">
 				<div class="table-responsive">
 					<div class="alert alert-primary" role="alert"
-						data-ng-if="!sessions.length">No se ha encontrado
+						data-ng-if="!fSessions.length">No se ha encontrado
 						información con los datos ingresados</div>
 				</div>
 				<div class="table-responsive">
@@ -345,11 +345,11 @@ li.active li {
 								<th>Nombre</th>
 								<th>Fecha/Hora</th>
 								<td><input type="checkbox" id="checked-session"
-									data-ng-click="checkAllOptions(sessions,$event)"></td>
+									data-ng-click="checkAllOptions(fSessions,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="ss in sessions | filter: filterTypeSession">
+							<tr data-ng-repeat="ss in fSessions">
 								<td>{{ss.nombre}}</td>
 								<td>{{ss.fechaHora | date:'dd/MM/yyyy HH:mm'}}</td>
 								<td><input type="checkbox" data-ng-model="ss.checked"
@@ -380,7 +380,7 @@ li.active li {
 			</div>
 			<div class="modal-body">
 			<div class="alert alert-primary" role="alert"
-						data-ng-if="!initiatives.length">No se ha encontrado
+						data-ng-if="!fInitiatives.length">No se ha encontrado
 						información con los datos ingresados</div>
 				<div class="table-responsive">
 					<table class="table table-inversed table-hover table-striped" data-ng-if="initiatives.length">
@@ -390,11 +390,11 @@ li.active li {
 								<td>Resultado</td>
 								<td><input type="checkbox"
 									id="checked-initiative"
-									data-ng-click="checkAllOptions(initiatives,$event)"></td>
+									data-ng-click="checkAllOptions(fInitiatives,$event)"></td>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="int in initiatives | filter: filterResult">
+							<tr data-ng-repeat="int in fInitiatives">
 								<td>{{int.name}}</td>
 								<td>{{int.result.resultName}}</td>
 								<td><input type="checkbox" data-ng-model="int.checked"
@@ -437,7 +437,7 @@ li.active li {
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-ng-repeat="r in results | filter: filterTypeResults">
+							<tr data-ng-repeat="r in results">
 								<td>{{r.name}}</td>
 								<td><input type="checkbox" data-ng-model="r.checked"
 									name="checked-initiative"
