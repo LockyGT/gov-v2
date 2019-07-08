@@ -84,28 +84,25 @@ public class OrderDayController {
 		return service.getByStatusAprobada(status);
 	}
 
-	@GetMapping(value="/date/active/without")
-	public List<OrderDay> getActiveWithoutReference() {
-		logger.info("Consulta Orden del dia publicadas por fechas ");
-		return service.getActiveWithoutReference();
-	}
-	
-	
-	@GetMapping(value="/fecha/without/referencia")
-	public List<OrderDay> getByDateAndStatusAndReferencia(@RequestParam(value="fecha") @DateTimeFormat(pattern="yyyy/MM/dd") final Date fecha, @RequestParam(value="status")final int status){
-		logger.info("consulta VOTE SESSION POR FECHA:");	
-		
-		return service.getDateAndActiveWithAndWithoutReference(fecha, status);
-		
-	}
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping(value="/date/active/without/reference")
+	public List<OrderDay> getByDateAndStatusAndReferencia(@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, @RequestParam(value="status")final int status){
+		logger.info("consulta ORDEN DEL DÍA POR FECHA:" + fecha);	 
 
+		ZonedDateTime here = fecha.atZone(ZoneId.systemDefault());		
+		logger.info("ZONEDDATE : " + here);
+		int year  = here.getYear();
+		int month = here.getMonthValue();
+		int day   = here.getDayOfMonth();
+		logger.info("day of the month : " + day);
+
+		LocalDateTime t1 = LocalDateTime.of(year, month, day, 0, 0, 0, 0);
+		LocalDateTime t2 = LocalDateTime.of(year, month, day, 23, 59, 59);
+		logger.info("consulta ORDEN DEL DIA EN SESIONES POR FECHA1 ------> :" + t1);	
+		logger.info("consulta ORDEN DEL DIA EN SESIONES POR FECHA2 ------> :" + t2);
+		return service.getDateAndActiveWithoutReference(t1 , t2, status);
+		
+	}
+	
 	@GetMapping(value="/date/between" )	
 	public List<OrderDay> getByDateBetween(@RequestParam(value="status")final int status,@RequestParam(value="fecha") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fecha, 
 			@RequestParam(value="fechaFin") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) final LocalDateTime fechaFin){
@@ -136,7 +133,7 @@ public class OrderDayController {
 	@GetMapping(value="/datesbetween")
 	public List<OrderDay> getBetweenDatesPublished(@RequestParam(value="publicada") final boolean status,@RequestParam(value="datestart") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateStart,
 			@RequestParam(value="dateend") @DateTimeFormat(pattern="yyyy/MM/dd") Date dateEnd){
-		logger.info("Consulta Orden del dia publicadas por fechas "+dateStart+" y "+dateEnd);
+		logger.info("CONSULTA DE ORDEN DEL DIA PUBLICADA POR FECHA " +dateStart+" y "+dateEnd);
 
 		return service.fetchByBetweenDates(status, dateStart,dateEnd);
 	}
@@ -152,6 +149,8 @@ public class OrderDayController {
 		logger.info("Version de la orden del dia guardado: [" +entity.toString()+"]");
 		return service.postNewVerssion(entity);
 	}
+	
+	/***** UPDATE PUBLISHED *****/
 
 	@PutMapping(value="/updatePublished")
 	public OrderDay putPublishedByOdOriginal( @RequestBody final OrderDay entity) {				

@@ -63,7 +63,7 @@
 							<label for="cboOrderDay" class="col-sm-2 col-form-label">Asignar Orden del día</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="cboOrderDay" required
-									data-ng-options="orderday as orderday.nombre for orderday in orderdays track by orderday.id"
+									data-ng-options="orderday as orderday.nombre for orderday in orderdays  track by orderday.id"
 									data-ng-model="voteSession.orderday">
 									<option value="">Seleccione una Orden del día...</option>
 								</select>

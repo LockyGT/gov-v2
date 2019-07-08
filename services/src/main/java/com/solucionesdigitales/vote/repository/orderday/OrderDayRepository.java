@@ -28,13 +28,4 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay> findByIsPublishedAndFechaBetween(boolean status,Date dateStart, Date dateEnd);
 	List<OrderDay> findByStatusAndFechaBetween(int status, LocalDateTime f1, LocalDateTime f2);
 	
-	
-	List<OrderDay> findByFecha(Date fecha);
-	
-	
-	List<OrderDay> findOrderDayByFechaAndStatus(Date fecha);
-	
-	List<OrderDay> findByFechaAndStatusAndReferenciaIsNull(int status);
-	
-	
 }

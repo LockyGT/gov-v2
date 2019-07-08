@@ -460,37 +460,11 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 //	};
 	
 	
-	$scope.updatePublished = () =>{
-		let odOriginal = orderday.odOriginal;
-		let replace = $filter('filter')($scope.orderday.odOriginal,{id: $scope.referencia.odOriginal});
-		
-		console.log(replace)
-		if(!replace.length){
-			$scope.orderday.odOriginal.push($scope.referencia);
-		}
-	}
 	
 
-	$scope.toPostOdGazzete  = (orderday) => {
+	$scope.toPostOrderday  = (orderday) => {
 		console.log('orden del dia publicada',orderday)
 		orderday.published= true;
-		orderday.odOriginal = orderday.referencia;
-		
-		orderday.referencia= orderday.odOriginal;
-		
-		if(orderday.odOriginal ){
-			odOriginal = orderday.odOriginal;
-			
-			if(orderday.referencia){
-				referencia = orderday.referencia;
-			}else{
-				referencia = orderday.odOriginal
-			}
-			
-		}else{
-			odOriginal = orderday.referencia;
-		}
-		
 		
 		orderdayService.putPublishedByOdOriginal(orderday).then(function mySuccess(data) {
 			console.log('+-----------+ od',data)

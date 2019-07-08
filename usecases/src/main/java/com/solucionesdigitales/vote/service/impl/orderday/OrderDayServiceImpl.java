@@ -120,11 +120,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public OrderDay putPublishedByOdOriginal(OrderDay entity) {
-		//OrderDay p = new OrderDay();
 		entity.setPublished(true);
 		 return orderDayRepository.save(entity);
-
-		
 	}
 
 	
@@ -162,7 +159,6 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public List<OrderDay> fetchByBetweenDates(boolean status, Date dateStart, Date dateEnd) {
-		// TODO Auto-generated method stub
 		Calendar date = Calendar.getInstance();
 		date.setTime(dateEnd);
 		date.add(Calendar.DAY_OF_YEAR, 1);
@@ -170,30 +166,14 @@ public class OrderDayServiceImpl implements OrderDayService {
 	}
 
 	@Override
-	public List<OrderDay> getActiveWithoutReference() {
-//		Calendar date = Calendar.getInstance();
-//		date.setTime(fecha);
-//		date.add(Calendar.DAY_OF_YEAR, 1);
-		List<OrderDay> d1 = orderDayRepository.findByStatusAndReferenciaIsNullOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
-		//List<OrderDay> d2 = orderDayRepository.findByStatusAndReferenciaIsNotNullOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
-		
-		List<OrderDay> datos = new ArrayList<OrderDay>();
-		datos.addAll(d1);
-		 //datos.addAll(d2);
-		return datos;
-	}
-
-	@Override
-	public List<OrderDay> getDateAndActiveWithAndWithoutReference(Date fecha, int status) {
+	public List<OrderDay> getDateAndActiveWithoutReference(LocalDateTime t1, LocalDateTime t2, int status) {
 		List<OrderDay> res = new ArrayList<OrderDay>();
-		List<OrderDay> l1 = orderDayRepository.findByFechaAndStatusAndReferenciaIsNull(ORDERDAY_STATUS._ACTIVA);
-		List<OrderDay> l2 = orderDayRepository.findOrderDayByFechaAndStatus(fecha);
-		res.addAll(l1);
-		res.addAll(l2);
-
+		List<OrderDay> l1 = orderDayRepository.findByStatusAndFechaBetween(status, t1, t2);
+		if(l1 != null) {
+			res.addAll(l1);
+		}
 		return res;	
 	}
-	
-	
+
 	
 }

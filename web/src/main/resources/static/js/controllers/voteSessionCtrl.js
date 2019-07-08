@@ -47,7 +47,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 		$scope.titleTabView = title;
 	};
 
-//	**************************Order Day***************************************//
+	/************************** Order Day ***************************************/
 	$scope.getOdIniciatives = () =>{
 		swal({
 			title: "Consultando ordenes del día",
@@ -60,15 +60,15 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
 		let dateNow = new Date();
-		let data = new Object();
-		//data['status'] = 1;
-		data['fecha'] =  $filter('date')(dateNow, "yyyy/MM/dd")
-		
-		orderdayService.getActiveWithoutReference(data).then(function mySuccess(data) {
+		dateNow.setTime( dateNow.getTime() - dateNow.getTimezoneOffset()*60*1000 );
+		let data = new Object(); 
+		data['status']= 1;
+		data['fecha'] = dateNow;
+		console.log('Obtener Ordenes del dia por fecha', data);
+		orderdayService.getByDateAndStatusAndReferencia(data).then(function mySuccess(data) {
 			$scope.orderdays = data;
-			console.log("orden del dia---- ", $scope.orderdays);
+			console.log("Orden del dia", $scope.orderdays);
 			$timeout(()=>{
 				swal.stopLoading();
 				swal.close();
@@ -78,34 +78,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			swal("Error",$scope.myWelcome, "error");			
 		});
 	};
-
-
-
-//	$scope.getOdIniciatives = (status) =>{	
-//
-//		let dateInit = new Date();	
-//		let map = new Object(); 
-//		map['status']=1;
-//		map['fecha'] = $filter('date')(dateInit, "yyyy/MM/dd");
-//
-//		console.log('*************', map);
-//		orderdayService.getByDateAndStatusAndReferencia(map).then(function mySuccess(data) {
-//			$scope.orderdays = data;
-//			console.log('ordenes del dia', data)
-//		}, function myError(response) {
-//
-//			swal("Error", "Error en la consulta", "error");			
-//		});
-//	};
-
-
-
-
-
-
 	/******************************End Order Day*******************************************/
-
-
 
 	$scope.iniciarFecha=()=>{
 		console.log('Se inicia la fecha');

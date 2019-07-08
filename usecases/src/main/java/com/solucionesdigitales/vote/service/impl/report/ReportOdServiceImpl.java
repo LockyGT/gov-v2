@@ -27,13 +27,13 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.report.ReportOdService;
+import com.solucionesdigitales.vote.service.utils.OrderDayStatus;
 
 @Service("reportOdService")
 public class ReportOdServiceImpl implements ReportOdService {
 
 	@Autowired
 	private OrderDayRepository orderDayRepository;
-
 
 	@Value("${dir.carpeta.multimedia}")
 	private String dirFolder;
@@ -98,15 +98,17 @@ public class ReportOdServiceImpl implements ReportOdService {
 
 			List lista = new List(true);
 			ListItem listItem = null;
+			
 			List listaParagraph = new GreekList();
 			ListItem itemParagraph = null;
-			List listSubP = new RomanList();
+			
+			List listaSubP = new RomanList();
 			ListItem itemSubP = null;
 
 
 			for (ElementOd elementOd: orderday.getElementsOd()) {
-				listItem = new ListItem(new Phrase(elementOd.getNombre()  +"\n\n", fontElement));
-				elementOd.setStatus(1);
+				listItem = new ListItem(elementOd.getNombre()  +"\n\n", fontElement);
+				
 				listItem.setAlignment(Element.ALIGN_JUSTIFIED);
 				listaParagraph = new GreekList();
 
@@ -114,36 +116,27 @@ public class ReportOdServiceImpl implements ReportOdService {
 				for(ParagraphOD paragraphOd : elementOd.getParagraphs()) {
 					itemParagraph = new ListItem(paragraphOd.getContenidotxt() + "\n\n" , paragraphContent);
 					itemParagraph.setAlignment(Element.ALIGN_JUSTIFIED);
-					listSubP = new RomanList();
+					listaSubP = new RomanList();
 
 					for (ParagraphOD subParagraphOd : paragraphOd.getSubParagraphs()) {
 						itemSubP = new ListItem(subParagraphOd.getContenidotxt() + "\n\n",paragraphContent);
 						itemSubP.setAlignment(Element.ALIGN_JUSTIFIED);
-
-						listSubP.add(itemSubP);
+						
+						listaSubP.add(itemSubP);
+						
 					}
 					listaParagraph.add(itemParagraph);
-
+					listaParagraph.add(listaSubP);	
 				}
+				
 				lista.add(listItem);
 				document.add(listItem);
+				
+				
 				document.add(listaParagraph);
-				document.add(listSubP);
+				document.add(listaSubP);
 			}
 
-
-
-
-
-			Paragraph p3 = new Paragraph();
-			//			p3.setFont(f);
-			//p3.addAll(paragraphList);
-			//			p3.add("TEST LOREM IPSUM DOLOR SIT AMET CONSECTETUR ADIPISCING ELIT!");
-
-
-			//document.add(paragraphContent);
-
-			document.add(p3);
 			document.close();
 
 		} catch (FileNotFoundException | DocumentException e) {
@@ -154,10 +147,4 @@ public class ReportOdServiceImpl implements ReportOdService {
 		return content;
 	}
 	
-	
-	
-	
-	
-	
-
 }

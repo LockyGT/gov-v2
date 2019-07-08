@@ -32,7 +32,6 @@ public interface OrderDayService {
 	
 	OrderDay putPublishedByOdOriginal(OrderDay entity);
 	
-	List<OrderDay> getDateAndActiveWithAndWithoutReference(Date fecha,int  status);
-	
-	List<OrderDay> getActiveWithoutReference();
+	
+	List<OrderDay> getDateAndActiveWithoutReference(LocalDateTime t1, LocalDateTime t2, int status);
 }
