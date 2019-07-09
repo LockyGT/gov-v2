@@ -13,8 +13,8 @@
 						data-ng-max="filtrosFechas.searchDateEnd" name="fechaInicio"
 						data-ng-model="filtrosFechas.searchDateStart"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''"
-						required="required"> 
-						<label for="txtFechaBusqueda" class="sr-only">Fecha de</label>
+						required="required"> <label for="txtFechaBusqueda"
+						class="sr-only">Fecha de</label>
 					<div class="input-group-prepend">
 						<div class="input-group-text">
 							<i class="far fa-calendar-alt"></i>
@@ -41,7 +41,7 @@
 						<i class="fas fa-search"></i> Buscar
 					</button>
 				</div>
-				<div class="form-group mx-sm-2 mb-2" data-ng-if="isSearch" >
+				<div class="form-group mx-sm-2 mb-2" data-ng-if="isSearch">
 					<button type="button" class="btn btn-light text-secondary"
 						data-ng-click="cancelSearch()">
 						<i class="fas fa-times"></i>
@@ -52,7 +52,7 @@
 				<span class="invalid-feedback d-block"
 					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">Rango
 					de fechas inválido!</span>
-				</div>
+			</div>
 		</div>
 	</div>
 	<div class="card w-95">
@@ -94,8 +94,7 @@
 								<tr>
 									<th>Fecha</th>
 									<th>Nombre</th>
-									<th>Ver</th>
-									<th>Descargar</th>
+									<th>Ver / Descargar</th>
 									<th>Anexos</th>
 								</tr>
 							</thead>
@@ -104,9 +103,11 @@
 									data-ng-repeat="orderday in publishedOds | filter : searchElement track by orderday.id">
 									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
 									<td>{{orderday.nombre}}</td>
-									<td><button type="button" class="btn btn-danger">ver</button></td>
-									<td><button type="button" class="btn btn-warning"
-											data-ng-click="downloadPdf(orderday);">Descargar</button></td>
+									<td><button type="button" class="btn btn-danger"
+											data-toggle="modal" data-target="#modal-showView-file"
+											data-ng-click="downloadPdf(orderday);">ver</button></td>
+<!-- 									<td><button type="button" class="btn btn-warning" -->
+<!-- 											data-ng-click="downloadPdf(orderday);">Descargar</button></td> -->
 									<td><button type="button" class="btn btn-dark"
 											data-toggle="modal" data-target="#attachments-verssion"
 											data-ng-click="viewAttachmentsV(orderday);">Anexos</button></td>
@@ -227,6 +228,35 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal show file(PDF) ORDER OF THE DAY-->
+<div class="modal fade" id="modal-showView-file" tabindex="-1" role="dialog"
+	aria-labelledby="modalShowFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalShowViewFile">{{orderday.fecha |
+					date:'dd-MM-yyyy'}} - {{orderday.nombre}}</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="embed-responsive embed-responsive-16by9 text-center">
+					<object width="400" height="400" type="application/pdf" id="object"></object>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <script type="text/javascript">
 	var tableToExcel = (function() {
 		var uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', base64 = function(

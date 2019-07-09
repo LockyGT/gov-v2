@@ -14,7 +14,7 @@ app.service('orderdayService', function($q, factory) {
 	
 	self.getPdf = (orderday)=>{		
 		return $q(function(resolve, reject) {			
-			factory.get('reportOd/getPdf', orderday).then(function mySuccess(data) {	
+			factory.getFile('reportOd/getPdf', orderday).then(function mySuccess(data) {	
 				
 				resolve(data);
 			}, function myError(errResponse) {
@@ -22,6 +22,17 @@ app.service('orderdayService', function($q, factory) {
 			});			
 		});
 	};
+	
+//	self.viewPdfOrderDay = (file)=>{		
+//		return $q(function(resolve, reject) {			
+//			factory.getFile(path+'/download', file).then(function mySuccess(data) {	
+//				
+//				resolve(data);
+//			}, function myError(errResponse) {
+//				reject(errResponse);
+//			});			
+//		});
+//	};
 	
 	self.getByDateBetween = (date)=>{		
 		return $q(function(resolve, reject) {			

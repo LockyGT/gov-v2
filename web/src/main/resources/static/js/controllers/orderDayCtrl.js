@@ -649,22 +649,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		}
 	};
 
-	$scope.downloadPdf = (orderday) =>{
-		console.log("Imprimir pdf", orderday)
-		let idData = {
-			'orderdayId': orderday.id
-		}
-		orderdayService.getPdf(idData).then(function success(data){
-			console.log('Descargar pdf', data);
-			if(data){
-				swal("Exito","Reporte de Orden del día descargado exitosamente", "success");
-				$scope.getOrderDays();
-			}
-		}, function error(){
-			swal("Error","El reporte de la orden del día, no se ha descargado","error");
-		});
-	};
-
 
 	$scope.downloadZip=()=>{
 		console.log('Intentando descargar archivos: prueba -1');

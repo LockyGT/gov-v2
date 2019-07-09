@@ -81,7 +81,7 @@
 												data-ng-model="currentElement" id="inputState"
 												name="elements" class="form-control" title="{{ele.nombre}}">
 												<option disabled value="">Seleccione un elemento...</option>
-												
+
 											</select>
 										</div>
 									</div>
@@ -110,7 +110,7 @@
 													<button type="button" class="btn btn-danger mb-2"
 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button>
 												</div>
-												
+
 											</div>
 
 											<div class="input-group"
@@ -120,9 +120,9 @@
 													<input class="form-check-input new"
 														name="selectedVoteOptions[]"
 														data-ng-click="toggleSelection(p.iniciativa)"
-														data-ng-model="p.iniciativa"
-														type="checkbox" value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}"> <label
-														class="form-check-label" for="defaultCheck1"></label>
+														data-ng-model="p.iniciativa" type="checkbox"
+														value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}">
+													<label class="form-check-label" for="defaultCheck1"></label>
 
 												</div>
 												<div class="col-4 col-md-9 margin-top" id="summernote">
@@ -138,26 +138,25 @@
 														aria-label="Close" data-ng-click="removeParagraphs(p)">Eliminar</button>
 
 												</div>
-												
-												
-<!-- 												<div class="col-auto" data-ng-show="e.paragraphs" -->
-<!-- 													style="margin-top: 1em; margin-left: 9em;"> -->
-<!-- 													<button type="button" class="btn btn-primary mb-2" -->
-<!-- 														data-ng-click="addParagraph(e)">Párrafo</button> -->
 
-<!-- 													<button type="button" class="btn btn-danger mb-2" -->
-<!-- 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button> -->
-<!-- 												</div> -->
+
+												<!-- 												<div class="col-auto" data-ng-show="e.paragraphs" -->
+												<!-- 													style="margin-top: 1em; margin-left: 9em;"> -->
+												<!-- 													<button type="button" class="btn btn-primary mb-2" -->
+												<!-- 														data-ng-click="addParagraph(e)">Párrafo</button> -->
+
+												<!-- 													<button type="button" class="btn btn-danger mb-2" -->
+												<!-- 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button> -->
+												<!-- 												</div> -->
 												<div class="container">
 													<div class="row margin-top"
 														data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">
 														<div class="col-2">
-															<input
-																data-ng-click="toggleSelection(sp.iniciativa)"
+															<input data-ng-click="toggleSelection(sp.iniciativa)"
 																data-ng-model="sp.iniciativa"
 																class="form-check-input marggin" type="checkbox"
-																value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}"> <label
-																class="form-check-label" for="defaultCheck1"></label>
+																value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}">
+															<label class="form-check-label" for="defaultCheck1"></label>
 
 														</div>
 														<div class="col-4 col-md-8">
@@ -199,18 +198,6 @@
 			</form>
 		</div>
 	</div>
-
-	<script>
-		$(document).ready(function() {
-			$('#summernote').summernote({
-				height : 300,
-				minHeight : null,
-				maxHeight : null,
-				focus : true
-			});
-		});
-	</script>
-
 </section>
 
 <section data-ng-if="orderday === null">
@@ -353,8 +340,6 @@
 												<!-- 												<a class="dropdown-item" href="#">Separated link</a> -->
 											</div>
 										</div></td>
-									<td><button type="button" class="btn btn-warning"
-											id="print" data-ng-click="downloadPdf(orderday);">Descargar</button></td>
 								</tr>
 							</tbody>
 							<tfoot>
@@ -510,7 +495,7 @@
 					</ol>
 				</div>
 				<div class="modal-footer" id="bypassme">
-					
+
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>
@@ -580,6 +565,47 @@
 							<!-- 									class="far fa-file fa-3x text-secondary"></i><br>{{attached.filesUploads.name}} -->
 							<!-- 							</ul> -->
 						</div>
+						
+<!-- 						<div class="form-group row"> -->
+<!-- 							<label for="fAnexo" class="col-sm-2 col-form-label">Anexos</label> -->
+<!-- 							<div class="input-group input-group-lg col-sm-10"> -->
+<!-- 								<div class="input-group-prepend"> -->
+<!-- 									<span class="input-group-text" id="inputGroup-sizing-lg4"> -->
+<!-- 										<i class="fas fa-file-alt"></i> -->
+<!-- 									</span> -->
+<!-- 								</div> -->
+<!-- 								<input type="text" -->
+<!-- 									value="{{attached.filesUploads.length ? 'archivos seleccionados' : 'Seleccione un archivo...'}}" -->
+<!-- 									class="form-control image-preview-filename" disabled="disabled" -->
+<!-- 									data-ng-class="validClass.file ? 'is-'+validClass.file:''" -->
+<!-- 									data-ng-if="isAdd"> -->
+<!-- 								<div class="input-group-append" data-ng-if="isAdd"> -->
+<!-- 									<label class="btn btn-default image-preview-input"> <span -->
+<!-- 										class="glyphicon glyphicon-folder-open"></span> <span -->
+<!-- 										class="image-preview-input-title">Buscar</span> <input -->
+<!-- 										type="file" name="input-file-preview" -->
+<!-- 										accept="application/pdf,  -->
+<!-- 										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, -->
+<!-- 										image/png,application/vnd.ms-excel, application/vnd.ms-powerpoint, .xls, .xlsx,.xlsm, .ppt, pptx,.pptm" -->
+<!-- 										data-records-model="archive.filesUploads" multiple /> -->
+<!-- 									</label> -->
+<!-- 								</div> -->
+<!-- 								<input type="text" class="form-control image-preview-filename" -->
+<!-- 									disabled="disabled" data-ng-if="!isAdd" -->
+<!-- 									value="archivos subidos"> -->
+<!-- 								<button type="button" class="btn btn-light" -->
+<!-- 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Cambiar</button> -->
+<!-- 								<div class="d-block" -->
+<!-- 									data-ng-class="validClass.file ? validClass.file+'-feedback':''" -->
+<!-- 									data-ng-show="validClass.name">Por favor ingrese un -->
+<!-- 									archivo</div> -->
+<!-- 							</div> -->
+
+<!-- 						</div> -->
+						
+						
+						
+						
 					</div>
 				</div>
 				<div class="alert alert-primary" role="alert"
@@ -802,4 +828,5 @@
 		</div>
 	</div>
 </div>
+
 

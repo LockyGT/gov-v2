@@ -1,6 +1,8 @@
 package com.solucionesdigitales.vote.service.report;
 
+import org.springframework.core.io.Resource;
+
 public interface ReportOdService {
 	
-	public  byte[] writePdf(String orderdayId);
+	public Resource writePdf(String orderdayId);
 }

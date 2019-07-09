@@ -3,9 +3,13 @@ package com.solucionesdigitales.vote.service.impl.report;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.Chunk;
@@ -27,7 +31,6 @@ import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.report.ReportOdService;
-import com.solucionesdigitales.vote.service.utils.OrderDayStatus;
 
 @Service("reportOdService")
 public class ReportOdServiceImpl implements ReportOdService {
@@ -38,30 +41,23 @@ public class ReportOdServiceImpl implements ReportOdService {
 	@Value("${dir.carpeta.multimedia}")
 	private String dirFolder;
 
-
 	@Override
-	public byte[] writePdf(String orderdayId) {
+	public Resource writePdf(String orderdayId) {
 		byte[] content = null;
-
+		Path file= null;
 
 		OrderDay orderday = orderDayRepository.findFirstById(orderdayId);
-
 		Document document = new Document(PageSize.LETTER, 85, 85, 135, 135);
 		try {
-			
-			String FILE_NAME = dirFolder + "/orderday.pdf";
+
+			String FILE_NAME = dirFolder + "/Orden-Del-Día.pdf";
+			file = Paths.get(dirFolder,"", "Orden-Del-Día.pdf");
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(FILE_NAME));
-		
-			
+
 			HeaderFooterPageEvent event = new HeaderFooterPageEvent();
 			writer.setPageEvent(event);
-
-			
 			document.open();
 			document.addTitle(orderday.getNombre());
-
-			
-
 
 			Font fontitle = new Font();
 			fontitle.setStyle(Font.BOLD);
@@ -98,53 +94,55 @@ public class ReportOdServiceImpl implements ReportOdService {
 
 			List lista = new List(true);
 			ListItem listItem = null;
-			
+
 			List listaParagraph = new GreekList();
 			ListItem itemParagraph = null;
-			
+
 			List listaSubP = new RomanList();
 			ListItem itemSubP = null;
 
-
 			for (ElementOd elementOd: orderday.getElementsOd()) {
-				listItem = new ListItem(elementOd.getNombre()  +"\n\n", fontElement);
-				
-				listItem.setAlignment(Element.ALIGN_JUSTIFIED);
-				listaParagraph = new GreekList();
+				if(elementOd.getStatus() == 1) {
+					listItem = new ListItem(elementOd.getNombre()  +"\n\n", fontElement);
+					listItem.setAlignment(Element.ALIGN_JUSTIFIED);
+					listaParagraph = new GreekList();
+					
+					for(ParagraphOD paragraphOd : elementOd.getParagraphs()) {
+						if(paragraphOd.getStatus() == 2) {
+							itemParagraph = new ListItem(paragraphOd.getContenidotxt() + "\n\n" , paragraphContent);
+							itemParagraph.setAlignment(Element.ALIGN_JUSTIFIED);
+							listaSubP = new RomanList();
 
+							for (ParagraphOD subParagraphOd : paragraphOd.getSubParagraphs()) {
+								if(subParagraphOd.getStatus() == 2) {
+									itemSubP = new ListItem(subParagraphOd.getContenidotxt() + "\n\n",paragraphContent);
+									itemSubP.setAlignment(Element.ALIGN_JUSTIFIED);
+									listaSubP.add(itemSubP);
 
-				for(ParagraphOD paragraphOd : elementOd.getParagraphs()) {
-					itemParagraph = new ListItem(paragraphOd.getContenidotxt() + "\n\n" , paragraphContent);
-					itemParagraph.setAlignment(Element.ALIGN_JUSTIFIED);
-					listaSubP = new RomanList();
+								}
+							}
+							listaParagraph.add(itemParagraph);
+							listaParagraph.add(listaSubP);	
 
-					for (ParagraphOD subParagraphOd : paragraphOd.getSubParagraphs()) {
-						itemSubP = new ListItem(subParagraphOd.getContenidotxt() + "\n\n",paragraphContent);
-						itemSubP.setAlignment(Element.ALIGN_JUSTIFIED);
-						
-						listaSubP.add(itemSubP);
-						
+						} 
 					}
-					listaParagraph.add(itemParagraph);
-					listaParagraph.add(listaSubP);	
+					lista.add(listItem);
+					document.add(listItem);
+					document.add(listaParagraph);
+					document.add(listaSubP);
 				}
-				
-				lista.add(listItem);
-				document.add(listItem);
-				
-				
-				document.add(listaParagraph);
-				document.add(listaSubP);
 			}
 
-			document.close();
 
+			document.close();
+			final Resource resource = new UrlResource(file.toUri());
+			return resource;
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return content;
+		return null;
 	}
-	
+
 }

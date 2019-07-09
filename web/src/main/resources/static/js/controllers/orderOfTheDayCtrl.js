@@ -7,7 +7,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 	$scope.filtrosFechas.searchDateStart = new Date();
 	$scope.filtrosFechas.searchDateEnd = new Date();
 
-	
+
 	$scope._ORDERDAY = _ORDERDAY;
 
 
@@ -37,7 +37,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			}
 		}
 	};
-	
+
 	$scope.cancelSearch = () => {
 		$scope.getPostOrderDays();
 		$scope.searchElement = null;
@@ -45,9 +45,9 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 		$scope.filtrosFechas.searchDateStart = new Date();
 		$scope.filtrosFechas.searchDateEnd = new Date();
 
-		
+
 	};
-	
+
 	$scope.getBetweenDatesPublished = (filtrosFechas) => {
 		swal({
 			title: "Consultandos Ordenes del día",
@@ -60,7 +60,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		
+
 		let dataFilter = {
 				"publicada": true,
 				"datestart": $filter('date')(filtrosFechas.searchDateStart, "yyyy/MM/dd"),
@@ -110,23 +110,33 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 			swal('Error', $scope.myWelcome, "error");
 		});
 	};
-	
+
 	$scope.downloadPdf = (orderday) =>{
 		console.log("Imprimir pdf", orderday)
 		let idData = {
-				'orderdayId': orderday.id
+			'orderdayId': orderday.id
 		}
-		orderdayService.getPdf(idData).then(function success(data){
-			console.log('Descargar pdf', data);
-			if(data){
-				swal("Exito","Reporte de Orden del día descargado exitosamente", "success");
-				$scope.getOrderDays();
-			}
+		orderdayService.getPdf(idData).then(arraybuffer=>{
+			let f = new Blob([arraybuffer],{type: "application/pdf"});
+			let fileURL = URL.createObjectURL(f);
+			let link = document.createElement('a');
+			console.log('elemento',document.getElementById('object'))
+			document.getElementById('object').type="application/pdf";
+			document.getElementById('object').data=fileURL;
+
+			$scope.orderday = orderday;
+			console.log('Visaualizar pdf', $scope.orderday)
 		}, function error(){
 			swal("Error","El reporte de la orden del día, no se ha descargado","error");
 		});
 	};
-	
+
+
+	$('#modal-showView-file').on('hidden.bs.modal', function (e) {
+		document.getElementById('object').data=null;
+
+		$scope.orderday = null;
+	});
 
 	$scope.downloadZip=()=>{
 		console.log('Intentando descargar archivos: prueba -1');
@@ -198,7 +208,6 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 	};
 
 	$scope.viewAttachmentsV = (orderday)=>{ 
-		//orderday.fecha = new Date(orderday.fecha);
 		$scope.orderday= orderday;
 		$('#attachments-verssion').modal({ 
 			keyboard: false 
@@ -209,7 +218,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 	$scope.filterExtention = (extencion) => {
 		let ignores = ["doc","pptx","xls","xlsx","docx"];
 		let filter = $filter('filter')(ignores,extencion);
-		
+
 		if(filter.length){
 			return false;
 		}else {
