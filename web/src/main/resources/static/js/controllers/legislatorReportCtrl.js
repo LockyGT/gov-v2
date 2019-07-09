@@ -147,9 +147,10 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	
 	$scope.updateSelectedLegislators = () => {
 		$timeout( () => {
-			$scope.selected.legislators = $filter('filter')($scope.fLegislators,{checked: true});
-			$scope.filterInfo.legislators = $scope.selected.legislators.map(f => f.name+" "+f.apPaterno+" "+f.apMaterno);
-			console.log('Informacion seleccionada: legisladores', $scope.selected.legislators);
+			if($scope.fLegislators){
+				$scope.selected.legislators = $filter('filter')($scope.fLegislators,{checked: true});
+				$scope.filterInfo.legislators = $scope.selected.legislators.map(f => f.name+" "+f.apPaterno+" "+f.apMaterno);
+			}
 		},500);
 	};
 	
@@ -170,8 +171,11 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	
 	$scope.updateSelectedInitiatives = () => {
 		$timeout( () => {
-			$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true});
-			$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
+			if($scope.selected.initiatives){
+				$scope.selected.initiatives = $filter('filter')($scope.initiatives,{checked: true});
+				$scope.filterInfo.initiatives = $scope.selected.initiatives.map(f => f.name);
+			}
+			
 		},500);
 	};
 	

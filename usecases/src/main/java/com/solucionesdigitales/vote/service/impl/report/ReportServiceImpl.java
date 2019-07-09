@@ -117,6 +117,7 @@ public class ReportServiceImpl implements ReportService {
 			jsonResults.addProperty("date", result.getSession().getFechaHora().toString());
 			jsonResults.addProperty("typeSession",result.getSession().getType().getName());
 			jsonResults.addProperty("session", result.getSession().getNombre());
+			jsonResults.addProperty("sessionId", result.getSession().getId());
 			jsonResults.addProperty("initiative",result.getInitiative().getName());
 			jsonResults.addProperty("present",result.getInitiative().getResult().getPresentes());
 			jsonResults.addProperty("formula", result.getInitiative().getResult().getFormula().getFormulaName());
