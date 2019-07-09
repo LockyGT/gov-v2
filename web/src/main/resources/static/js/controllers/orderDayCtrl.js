@@ -2,7 +2,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.orderday = null
 	$scope.orderdayVerssion=null;
-	$scope.elementOd=null;
+	$scope.elementOd = 	null;
 	$scope.numeroIndice = 0;
 	$scope.filtrosFechas = {};
 	$scope.attached = {};
@@ -14,11 +14,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.changeToAdd =()=>{
 		$scope.isAdd = true;
 	};
-
-//	$scope.change = function(){
-//	console.log('Resultado',$scope.orderday);
-//	};
-
 
 	$scope.toggleSelection = function toggleSelection(paragraphs) {
 		var idx = $scope.selection.indexOf(paragraphs);
@@ -65,8 +60,15 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.filtrosFechas.fecha= new Date();
 		$scope.filtrosFechas.fechaFin = new Date();
 	};
-	
+
 	/******************************Metodos de elementos*****************************/
+	$scope.elementsOd = [];
+
+	$scope.addNewElement = (elementOd)=>{ 
+		$scope.elementsOd= elementOd;
+		console.log('Agregar nuevo elemento',elementOd);
+	};	
+
 
 	$scope.getElementsOd = () =>{
 		swal({
@@ -94,7 +96,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.postElement = function(){
-		console.log("Archivo enviada",$scope.elementOd);
+		console.log("Elemento enviado",$scope.elementOd);
 		swal({
 			title: "Guardando elemento de la ORDEN DEL DIA",
 			text: "Por favor espere...",
@@ -111,9 +113,9 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		elementOdService.post($scope.elementOd).then(function success(data){
 			if(data){
 				swal("Exito", "Elemento agregado correctamente", "success");
+				$scope.elementOd = null;
 				swal.stopLoading();
 				$scope.getElementsOd();
-				$scope.elementOd = null;
 			} else {
 				swal("Error", "Elemento no agregado", "error");
 			}
@@ -138,11 +140,15 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 
 		console.log('Actualizar elemenmto de la OD', $scope.elementOd)
-		elementOdService.put($scope.elementOd).then(function mySuccess(data) {			
+		elementOdService.put($scope.elementOd).then(function mySuccess(data) {	
+			console.log("elemento actualizadp",data)
 			if(data){
-				swal.stopLoading();
+
 				swal("Exito", "Elemento actualizado correctamente", "success");
+
+
 				$scope.getElementsOd();
+				swal.stopLoading();
 				$scope.elementOd = null;
 
 			}else{
@@ -156,7 +162,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});		
 
 	};
-	$scope.confirmDelete = (elementOd) =>{
+	$scope.confirmDeleteElement = (elementOd) =>{
 		swal({
 			title: 'Esta seguro de eliminara a',
 			text: elementOd.nombre,
@@ -171,10 +177,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 
-	$scope.deleteElement = elementOd=> {
+	$scope.deleteElement = elementOd => {
 		elementOdService.deleteElement(elementOd).then(function success(data){
 			if(data){
 				swal("Exito","Elemento eliminado exitosamente", "success");
+				$scope.elementOd = null;
+				swal.stopLoading();
 				$scope.getElementsOd();
 			}
 		}, function error(){
@@ -182,12 +190,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});
 	};
 
-	$scope.addUpdateElement = () => {
+	$scope.addUpdateElementOd = () => {
 		if($scope.elementOd != null){
 			if($scope.elementOd.id != null){
 				$scope.putElement();
 			} else {
-				let isRegister = $scope.orderday.elementsOd.find(function(element){
+				let isRegister = $scope.elementsOd.find(function(element){
 					return element.nombre.toLowerCase() == $scope.elementOd.nombre.toLowerCase();
 				});
 				if(!isRegister){
@@ -206,16 +214,16 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			console.log("Falta informacion para completar el registro");
 		}
 	};
-	$scope.submitForms = (isValid) => {
+	$scope.submitFormElement = (isValid) => {
 		//console.log('validForm');
 		console.log(isValid);
 		if(isValid) {
-			$scope.addUpdateElement();
+			$scope.addUpdateElementOd();
 		}
 	};
 
 	$scope.addElement = () => {
-		console.log('Agregar nuevo elemento', $scope.elementOD);
+		console.log('Agregar nuevo elemento', $scope.elementOd);
 		$scope.elementOd = {
 				nombre:''
 		}
@@ -224,6 +232,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.editElement = function (elementOd){
 		console.log('Actualizar elementos', $scope.elementOd);
 		$scope.elementOd = elementOd;
+
 	};
 	$scope.cancelElement = () =>{
 		$scope.getElementsOd();
@@ -439,33 +448,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		orderday.fecha =  new Date();
 	};
 
-	//$scope.toPostOdGazzete= (orderday)=>{
-//		let odOriginal = "";
-//		let referencia= "";
-//		if(orderday.odOriginal){
-//			odOriginal = orderday.odOriginal;
-//			
-//			if(orderday.referencia){
-//				referencia = orderday.referencia;
-//			}else{
-//				referencia = orderday.odOriginal
-//			}
-//			
-//		}else{
-//			odOriginal = orderday.referencia;
-//		}
 
-//		$scope.updatePublished (odOriginal);
-//
-//	};
-	
-	
-	
 
 	$scope.toPostOrderday  = (orderday) => {
 		console.log('orden del dia publicada',orderday)
 		orderday.published= true;
-		
+
 		orderdayService.putPublishedByOdOriginal(orderday).then(function mySuccess(data) {
 			console.log('+-----------+ od',data)
 			if(data){
@@ -509,9 +497,9 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		orderdayService.put(dataOD).then(function success(data) {
 			console.log('anexos', data)
 			if(data){
-				swal.stopLoading();
 				swal("Exito", "Anexo guardado correctamente", "success");
 				$scope.getOrderDays();
+				swal.stopLoading();
 				$scope.attached.filesUploads = null;
 				//$scope.orderdayAnnexes = null;
 			}else{
@@ -525,8 +513,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		});		
 	};
 
-	$scope.UpAttachedOd = ()=>{
-		console.log("Anexos guardado",$scope.orderdayAnnexes);
+	$scope.addAttachedOd = () =>{
+		//console.log("Anexos guardado",$scope.orderdayAnnexes);
 		swal({
 			title: "Guardando Anexos",
 			text: "Por favor espere...",
@@ -573,9 +561,26 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.removeElements = e => {
 		e.status = 0;
 	}
+
+	$scope.comfirmDeleteFile = (file) => {
+		swal({
+			title: 'Esta seguro de eliminara a',
+			text: file.originalName,
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		}).then((willDelete)=>{
+			if(willDelete){
+				$scope.deleteFile(file);
+			}
+		});
+	};
+
 	$scope.deleteFile = fl => {
 		fl.status = 0;
+		$scope.addAttachedOd();
 	};
+
 
 	$scope.previous= function(){
 		window.history.back();
@@ -583,6 +588,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.addOrderday = () => {
 		console.log('Agregar nueva OD', $scope.orderday);
+		$scope.isAdd = true;
 		$scope.orderday = {
 				fecha:new Date(),
 				nombre:'',
@@ -596,11 +602,11 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 	$scope.invalidClassName = '';
 	$scope.submitForm = (isValid) => {
+		$scope.validClass = {};
 		console.log('validForm');
 		console.log('----------?', isValid);
 		if(isValid){
 			$scope.invalidClassName = '';
-
 		}else{
 			if($scope.orderday.nombre == null || $scope.orderday.nombre.length == 0 ){
 				$scope.invalidClassName = 'is-invalid';
@@ -608,6 +614,16 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				$scope.invalidClassName = '';
 			}
 			swal("Error","Por favor complete todos los campos", "error");
+		}
+
+		if(isValid){
+			$scope.validClass.file = 'valid';
+		}else{
+			if($scope.attached.filesUploads === undefined){
+				$scope.validClass.file = 'invalid';
+			}else{
+				swal("Error", "Por favor agregue un archivo","error")
+			}
 		}
 
 		if(isValid){
@@ -724,9 +740,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.addContentE = function(){
 		console.log('Agregar elementos para los parrafos');
 		$scope.currentElement.paragraphs = [];
-		//$scope.isButtons=true;
 		let isExistsElement= $filter('filter')($scope.orderday.elementsOd,{id: $scope.currentElement.id,status:1});
-		//$scope.isButtons=true;
+
 		console.log(isExistsElement)
 		if(!isExistsElement.length){
 			$scope.orderday.elementsOd.push($scope.currentElement);
@@ -802,6 +817,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.cancelAddUpOrderday = () =>{
 		$log.log("cancelAddUpOrderday event");
 		$scope.invalidClassName = '';
+		$scope.isAdd = false;
 		$scope.getOrderDays();
 		$scope.orderday = null;
 	};

@@ -70,6 +70,7 @@
 								<div class="form-row align-items-center" id="position-fixed">
 									<div class="col-auto">
 										<button data-toggle="modal" data-target="#elements"
+											
 											type="button" class="btn btn-info">Nuevo Elemento</button>
 									</div>
 									<div class="col-auto"></div>
@@ -542,70 +543,33 @@
 									</span>
 								</div>
 								<input type="text"
-									value="{{attached.filesUploads.length ? ' Archivos seleccionados' : 'Seleccione un archivo...'}}"
+									value="{{attached.filesUploads.length ? 'archivos seleccionados' : 'Seleccione un archivo...'}}"
 									class="form-control image-preview-filename" disabled="disabled"
+									data-ng-class="validClass.file ? 'is-'+validClass.file:''"
 									data-ng-if="isAdd">
 								<div class="input-group-append" data-ng-if="isAdd">
 									<label class="btn btn-default image-preview-input"> <span
 										class="glyphicon glyphicon-folder-open"></span> <span
 										class="image-preview-input-title">Buscar</span> <input
 										type="file" name="input-file-preview"
+										accept="application/pdf, 
+										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+										image/png,application/vnd.ms-excel, application/vnd.ms-powerpoint, .xls, .xlsx,.xlsm, .ppt, pptx,.pptm"
 										data-records-model="attached.filesUploads" multiple />
 									</label>
 								</div>
 								<input type="text" class="form-control image-preview-filename"
-									disabled="disabled" data-ng-if="!isAdd" value="Cargar archivos">
+									disabled="disabled" data-ng-if="!isAdd"
+									value="archivos subidos">
 								<button type="button" class="btn btn-light"
 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Agregar</button>
+								<div class="d-block"
+									data-ng-class="validClass.file ? validClass.file+'-feedback':''"
+									data-ng-show="validClass.nombre">Por favor ingrese un
+									archivo</div>
+								
 							</div>
-							<br>
-							<!-- 							<ul class="list-inline" > -->
-							<!-- 								<li  -->
-							<!-- 									class="list-inline-item text-center"><i -->
-							<!-- 									class="far fa-file fa-3x text-secondary"></i><br>{{attached.filesUploads.name}} -->
-							<!-- 							</ul> -->
 						</div>
-						
-<!-- 						<div class="form-group row"> -->
-<!-- 							<label for="fAnexo" class="col-sm-2 col-form-label">Anexos</label> -->
-<!-- 							<div class="input-group input-group-lg col-sm-10"> -->
-<!-- 								<div class="input-group-prepend"> -->
-<!-- 									<span class="input-group-text" id="inputGroup-sizing-lg4"> -->
-<!-- 										<i class="fas fa-file-alt"></i> -->
-<!-- 									</span> -->
-<!-- 								</div> -->
-<!-- 								<input type="text" -->
-<!-- 									value="{{attached.filesUploads.length ? 'archivos seleccionados' : 'Seleccione un archivo...'}}" -->
-<!-- 									class="form-control image-preview-filename" disabled="disabled" -->
-<!-- 									data-ng-class="validClass.file ? 'is-'+validClass.file:''" -->
-<!-- 									data-ng-if="isAdd"> -->
-<!-- 								<div class="input-group-append" data-ng-if="isAdd"> -->
-<!-- 									<label class="btn btn-default image-preview-input"> <span -->
-<!-- 										class="glyphicon glyphicon-folder-open"></span> <span -->
-<!-- 										class="image-preview-input-title">Buscar</span> <input -->
-<!-- 										type="file" name="input-file-preview" -->
-<!-- 										accept="application/pdf,  -->
-<!-- 										.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, -->
-<!-- 										image/png,application/vnd.ms-excel, application/vnd.ms-powerpoint, .xls, .xlsx,.xlsm, .ppt, pptx,.pptm" -->
-<!-- 										data-records-model="archive.filesUploads" multiple /> -->
-<!-- 									</label> -->
-<!-- 								</div> -->
-<!-- 								<input type="text" class="form-control image-preview-filename" -->
-<!-- 									disabled="disabled" data-ng-if="!isAdd" -->
-<!-- 									value="archivos subidos"> -->
-<!-- 								<button type="button" class="btn btn-light" -->
-<!-- 									data-ng-click="changeToAdd()" data-ng-if="!isAdd">Cambiar</button> -->
-<!-- 								<div class="d-block" -->
-<!-- 									data-ng-class="validClass.file ? validClass.file+'-feedback':''" -->
-<!-- 									data-ng-show="validClass.name">Por favor ingrese un -->
-<!-- 									archivo</div> -->
-<!-- 							</div> -->
-
-<!-- 						</div> -->
-						
-						
-						
-						
 					</div>
 				</div>
 				<div class="alert alert-primary" role="alert"
@@ -643,7 +607,7 @@
 								<td><button type="button" class="btn btn-secondary"
 										data-ng-click="downloadFile(file);">Descargar</button></td>
 								<td><button type="button" class="btn btn-danger"
-										data-ng-click="deleteFile(file)" aria-label="Close">Eliminar</button></td>
+										data-ng-click="comfirmDeleteFile(file)" aria-label="Close">Eliminar</button></td>
 
 							</tr>
 						</tbody>
@@ -657,7 +621,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success"
-					data-ng-click="UpAttachedOd();">Guardar</button>
+					data-ng-click="addAttachedOd();">Guardar</button>
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -688,7 +652,7 @@
 	</div>
 </div>
 
-<!-- MODAL PARA GREGAR ELEMENTOS A LA OD -->
+<!-- MODAL PARA AGREGAR ELEMENTOS A LA OD -->
 <div class="modal fade bd-example-modal-lg" id="elements" tabindex="-1"
 	role="dialog" aria-labelledby="showFile" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered"
@@ -704,7 +668,7 @@
 					<div class="row">
 						<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
 							<form name="elementForm"
-								data-ng-submit="submitForms(elementForm.$valid)" novalidate>
+								data-ng-submit="submitFormElement(elementForm.$valid)" novalidate>
 								<div class="card">
 									<div class="card-header">
 										<h5 class="card-title">{{!elementOd.id ? 'Nuevo ':
@@ -810,7 +774,7 @@
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger"
-														data-ng-click="confirmDelete(element)">Eliminar</button>
+														data-ng-click="confirmDeleteElement(element)">Eliminar</button>
 												</td>
 											</tr>
 										</tbody>
