@@ -1,4 +1,4 @@
-app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService){
+app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state){
 	
 	$scope.recordAdministrator  = null;
 	$scope.recordAdministrators = [];
@@ -268,6 +268,11 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 				$scope.delete(recordLegislator);
 			};
 		});
+	};
+	
+	$scope.addDocuments = (leg) =>{
+		$state.go('documentoPartner', {partnerId: leg.id});
+		
 	};
 	
 	$scope.getPartners = () => {

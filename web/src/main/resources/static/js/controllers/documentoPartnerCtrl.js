@@ -1,6 +1,7 @@
 
 app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,documentoPartnerService,$state,storageService){
 	$scope.partnerDocuments = [];
+	$scope.filesInfo = [];
 	
 	$scope.loadDocuments = () => {
 		documentoPartnerService.get($state.params.partnerId).then(function mySuccess(data) {			
@@ -12,36 +13,35 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 	}
 	
     $scope.uploadFile = function(event){
-        $scope.file = event.target.files[0];
+        $scope.file = event.target.files;
         $scope.index = event.currentTarget.attributes[3].value;
-        $scope.partnerDocument = $scope.partnerDocuments[ $scope.index];
+        $scope.partnerDocument = $scope.partnerDocuments[$scope.index];
         console.log($scope.partnerDocument);
-        if($scope.partnerDocument.acrhivo == null){
-			console.log("agregar");
+        //if($scope.partnerDocument.archivos == null){
 			$scope.postArchive($scope.file,$scope.partnerDocument);
-        }else{
-        	swal({
-    			title:"Reemplazar archivo",
-    			text: "Estas seguro de remplazar archivo?",
-    			icon: "warning",
-    			buttons: true,
-    			dangerMode: true,
-    		}).then((willDelete) => {
-    			if (willDelete) {
-    				$scope.deleteFile($scope.file,$scope.partnerDocument);
-    			}
-    		});
-        }
+//        }else{
+//        	swal({
+//    			title:"Reemplazar archivo",
+//    			text: "Estas seguro de remplazar archivo?",
+//    			icon: "warning",
+//    			buttons: true,
+//    			dangerMode: true,
+//    		}).then((willDelete) => {
+//    			if (willDelete) {
+//    				$scope.deleteFile($scope.file,$scope.partnerDocument);
+//    			}
+//    		});
+//        }
 
     };
-    $scope.downloadFile = function(partnerDocument){
-    	$scope.getOldFileNames = partnerDocument.acrhivo.split(",");
+    $scope.downloadFile = function(archivo){
+    	$scope.getOldFileNames = archivo.split(",");
     	let file = {
-    			path:'partner/' + $scope.getOldFileNames[1],
+    			path: $scope.getOldFileNames[1],
     			filename:$scope.getOldFileNames[0]		
     	}
     	
-    	storageService.download(file).then(success=>{
+    	storageService.download(file).then(success => {
 			if(success){
 				var byteArray = new Uint8Array(success);
 				var a = window.document.createElement('a');
@@ -65,6 +65,28 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 		});
     };
     
+    $scope.showFile = fileName => {
+    	$scope.showFileName = fileName.split(',');
+    	let file = {
+    			path: $scope.showFileName[1],
+    			filename:$scope.showFileName[0]		
+    	}
+    	
+    	storageService.download(file).then(success => {
+			if(success){
+				var byteArray = new Uint8Array(success);
+				let fileURL = window.URL.createObjectURL(new Blob([success], { type: 'application/pdf' }));
+
+				document.getElementById('object-data').type='application/pdf';
+				document.getElementById('object-data').data=fileURL;
+
+			}else {
+				swal('Error','Error al bajar archivo','error');
+			}
+		}, error => {
+			console.log('Error: ', error)
+		});
+    };
     
     $scope.deleteFile = (files,partnerDocument) => {
 		swal({
@@ -97,7 +119,14 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 		});
 	};
     
+	$scope.isVisible = extencion => {
+		let accept = ["pdf"];
+		let filter = accept.find(el => el === extencion);
+		
+		return filter?true:false;
 
+	};
+	
     $scope.postArchive = (files,partnerDocument) => {
 		swal({
 			title: "Guardando archivo",
@@ -111,14 +140,27 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 			closeOnEsc: false
 		}); 
 		let file = {
-			file:files,
-			folder:'partner'
+			files:files,
+			folder:'partner/'+$state.params.partnerId,
+			userId: ''
 		}
-		storageService.save(file).then(success=>{
+		storageService.saveAttached(file).then(success => {
 			if(success){
-				swal('Exito','Archivo agregado exitosamente', 'success');
+				swal('Exito','Archivo(s) agregado exitosamente', 'success');
 				console.log(success);
-				partnerDocument.acrhivo = success.serverName +","+success.folder+","+success.originalName;
+				
+				let newFiles = [];
+				angular.forEach(success.files,function(file){
+					newFiles.push(file.serverName +","+success.originFolder+","+file.originalName+","+file.extention);
+				});
+				if(partnerDocument.archivos){
+					partnerDocument.archivos = partnerDocument.archivos.concat(newFiles);
+				} else {
+					partnerDocument.archivos = newFiles;
+				}
+				
+				console.log('Informacion de archivos enviada; ', partnerDocument);
+				//partnerDocument.archives = success.serverName +","+success.folder+","+success.originalName;
 				documentoPartnerService.post(partnerDocument).then(function mySuccess(data) {			
 					swal.stopLoading();
 					$scope.loadDocuments();
@@ -134,12 +176,13 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 		});
 	};
 	
+	$scope.addNewCategory = () => {
+		$state.go('documentoPartner', {tipoPartner: 1, partnerId: $state.params.partnerId});
+	};
 	
 	const initController = () => {
 		$scope.loadDocuments();
 	};
-	
-	
 	
 	angular.element(document).ready(function (){
 		initController();
