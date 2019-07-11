@@ -33,6 +33,16 @@
 	margin-top: 14px;
 	font-size: .7em;
 }
+.buttons-container {
+	display: flex;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+.buttons-container__item{    width: 50%;
+    border: none;
+    }
 </style>
 <!-- Page Heading -->
 <h1 class="my-4 toHide">
@@ -62,24 +72,29 @@
 <!-- 			archivo</button> -->
 <!-- 	</div> -->
 <!-- </div> -->
-<div class="border-bottom border-info pb-2">Documentos de: Israel
-	Navarro Estrada</div>
+<div class="border-bottom border-info pb-2">Documentos de: {{namePartner}}</div>
 
 <section class="container-fluid">
-	<article class="table-responsive">
+	<article class="table-responsive" id="container-form" style="position: relative">
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Categoria</th>
+					<th>Categoría</th>
 					<th>Sección de carga</th>
 					<th>Documentos de categoria</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					data-ng-repeat="partnerDocument in partnerDocuments track by $index">
-					<td class="table-active">{{partnerDocument.documento.titulo}}
-						<i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i>
+					data-ng-repeat="partnerDocument in partnerDocuments | filter: {documento:{status: 1}} track by $index">
+					<td class="table-active position-relative">
+						<p>{{partnerDocument.documento.titulo}}</p>
+						<div class="buttons-container">
+							<button class="buttons-container__item btn-success"
+								data-toggle="modal" data-target="#modal-new-category"
+								data-ng-click="editCategory(partnerDocument.documento)"><i class="fas fa-pen"></i></button>
+							<button class="buttons-container__item btn-danger" data-ng-click="confirmDeleteCategory(partnerDocument.documento)"><i class="far fa-trash-alt"></i></button>
+						</div>
 					</td>
 					<td>
 						<div class="file-upload-wrap">
@@ -104,31 +119,37 @@
 								<div class="col-md-2">Estato</div>
 							</div>
 							<div class="row border-bottom" data-ng-repeat="f in filesInfo[$index].files track by $index">
-								<div class="col-md-6">{{f.name}}</div>
+								<div class="col-md-6" data-toggle="tooltip" data-placement="right"
+									title="{{f.name}}">{{(f.name > 23)? f.name.substring(20,-1)+'...' : f.name}}</div>
 								<div class="col-md-2">{{f.size /1000 | number: 1}}KB</div>
-								<div class="col-md-2">Cargado</div>
-								<div class="col-md-2"><i class="fas fa-check"></i></div>
+								<div class="col-md-2" data-ng-class="response?'text-success': 'text-danger'"
+								>{{response? 'Exito': 'Error'}}</div>
+								<div class="col-md-2 text-center">
+								
+								<i class="fas" data-ng-class="response?'fa-check': 'fa-exclamation'"></i>
+								<i class="fas"></i></div>
 							</div>
 						</div>
 					</td>
 					<td>
-						<div class="container-fluid" data-ng-if="partnerDocument.archivos">
+						<div class="container-fluid" data-ng-if="lengthFiles(partnerDocument.archivos)">
 							<div class="row">
 								<div class="col-md-6">Nombre</div>
 								<div class="col-md-6">Acciones</div>
 							</div>
-							<div class="row" data-ng-repeat="f in partnerDocument.archivos track by $index">
-								<div class="col-md-6">{{f.split(',')[2]}}</div>
+							<div class="row" data-ng-repeat="f in partnerDocument.archivos | filter: filterFiles track by $index">
+								<div class="col-md-6" data-toggle="tooltip" data-placement="left" 
+									title="{{f.split(',')[2]}}">{{(f.split(',')[2].length > 23)?f.split(',')[2].substring(20,-1)+'...':f.split(',')[2]}}</div>
 								<div class="col-md-6 mb-3">
 									<button type="button" class="btn btn-success btn-sm" data-ng-click="downloadFile(f);">Descargar</button>
-									<button type="button" class="btn btn-danger btn-sm">Eliminar</button>
+									<button type="button" class="btn btn-danger btn-sm" data-ng-click="confirmDelete(partnerDocument,f)">Eliminar</button>
 									<button type="button" class="btn btn-info btn-sm" data-ng-if="isVisible(f.split(',')[3])"
 										data-toggle="modal" data-target="#modal-show-file"
 										data-ng-click="showFile(f)">Ver</button>
 								</div>
 							</div>
 						</div>
-						<div class="alert alert-warning" role="alert" data-ng-if="!partnerDocument.archivos">
+						<div class="alert alert-warning" role="alert" data-ng-if="!lengthFiles(partnerDocument.archivos)">
 							<h6 class="alert-heading">
 								<i class="fas fa-exclamation-triangle"></i> Sin archivos!
 								<button type="button" class="close" data-dismiss="alert"
@@ -142,6 +163,14 @@
 					</td>
 				</tr>
 			</tbody>
+			<tbody>
+				<tr>
+					<td><button class="btn btn-success btn-block btn-lg" data-ng-click="addNewCategory()" 
+						data-toggle="modal" data-target="#modal-new-category">Nuevo</button></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
 		</table>
 	</article>
 </section>
@@ -152,14 +181,14 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Nueva categoría</h5>
-				<button type="button" class="close" data-dismiss="modal"
+				<h5 class="modal-title" id="exampleModalLabel">{{documentoAux.uuid? 'Nueva': 'Actualizar'}} categoría</h5>
+				<button type="button" class="close" data-dismiss="modal" data-ng-click="cancel()"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form name="formNewCatecory" class="was-validated">
+				<form name="formNewCatecory">
 					<div class="form-group row">
 						<label for="title" class="col-sm-2 col-form-label">Titulo</label>
 						<div class="col-sm-10">
@@ -172,8 +201,15 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary">Guardar</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" data-ng-click="cancel()">Cancelar</button>
+				<button type="button" class="btn btn-primary" 
+					data-ng-if="!documentoAux.uuid"
+					data-ng-disabled="formNewCatecory.$invalid"
+					data-ng-click="postCategory()">Guardar</button>
+				<button type="button" class="btn btn-primary"
+					data-ng-if="documentoAux.uuid"
+					data-ng-disabled="formNewCatecory.$invalid"
+					data-ng-click="updateCategory()">Actualizar</button>
 			</div>
 		</div>
 	</div>

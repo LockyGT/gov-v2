@@ -271,7 +271,7 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 	};
 	
 	$scope.addDocuments = (leg) =>{
-		$state.go('documentoPartner', {partnerId: leg.id});
+		$state.go('documentoPartner', {partnerId: leg.id, namePartner: leg.name+" "+leg.apPaterno+" "+leg.apMaterno});
 		
 	};
 	

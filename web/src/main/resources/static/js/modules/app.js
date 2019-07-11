@@ -253,7 +253,9 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 	}).state('documentoPartner', {
 		url : '/documentoPartner',
 		params: {
-			partnerId: null
+			partnerId: null,
+			namePartner: null,
+			tipoPartner: null
 		},
 		templateUrl : './views/admin/documentoPartner.html',
 		controller : 'documentoPartnerCtrl' ,

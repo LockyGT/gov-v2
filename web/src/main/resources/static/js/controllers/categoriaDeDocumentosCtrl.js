@@ -34,6 +34,7 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	
 	
 	$scope.getCategoriaDeDocumentosByTipoPartner = (tipoDePartner) =>{
+		console.log('informacion: cambiada: ', tipoDePartner);
 		$scope.categoriaDeDocumentos ={id:null,documentos:[],tipoPartner:tipoDePartner};
 		categoriaDeDocumentosService.get(tipoDePartner).then(function mySuccess(data) {			
 			$scope.tipoDePartner ={};
