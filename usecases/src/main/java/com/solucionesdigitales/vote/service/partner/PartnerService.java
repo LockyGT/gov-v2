@@ -8,6 +8,8 @@ public interface PartnerService {
 
 	List<Partner> fetch();
 	
+	List<Partner> fetchByStatusAndTipoAndAreaId(int status, int tipo, String id);
+	
 	Partner fetchBySku(int sku);
 	
 	Partner post(Partner entity);

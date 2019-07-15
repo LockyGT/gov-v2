@@ -56,7 +56,7 @@ legend.scheduler-border {
 }
 </style>
 <h1 class="my-4">
-	Expediente electrónico administradores <i class="far fa-address-card"></i>
+	Expediente electrónico - Administrativos <i class="far fa-address-card"></i>
 </h1>
 <section data-ng-if="partner">
 		<div class="row">
@@ -65,7 +65,7 @@ legend.scheduler-border {
 				data-ng-submit="submitForm(formLegislator.$valid)" novalidate>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">{{!recorLegislator.id ? 'Nuevo ':
+						<h5 class="card-title">{{!recorLegislator.id ? 'Nuevo':
 							'Actualizar'}}</h5>
 					</div>
 					<div class="card-body">
@@ -414,7 +414,7 @@ legend.scheduler-border {
 							<article class="row">
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
-										<label for="lastGradeLegislator">Ultimo grado de
+										<label for="lastGradeLegislator">último grado de
 											estudios</label> <select class="form-control"
 											data-ng-class="validClass.lastGrade ? 'is-'+validClass.lastGrade:''"
 											id="lastGradeLegislator" name="lastGradeLegislator" required
@@ -429,7 +429,7 @@ legend.scheduler-border {
 										</select>
 										<div class="d-block" data-ng-show="validClass.lastGrade"
 											data-ng-class="validClass.lastGrade ? validClass.lastGrade+'-feedback':''">
-									        	Por favor ingrese el ultimo grado de estudios.
+									        	Por favor ingrese el último grado de estudios.
 									      </div>
 									</div>
 									<div class="form-group col-md-6">
@@ -446,7 +446,7 @@ legend.scheduler-border {
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
-										<label for="careerLegislator">Carrea/Licenciatura</label> <input
+										<label for="careerLegislator">Carrera/Licenciatura</label> <input
 											data-ng-model="partner.section.studies.career" required
 											name="careerLegislator" type="text" class="form-control"
 											data-ng-class="validClass.career ? 'is-'+validClass.career:''"
@@ -457,7 +457,7 @@ legend.scheduler-border {
 									      </div>
 									</div>
 									<div class="form-group col-md-6">
-										<label for="complementaryStudiesOtherLegislator">Estudios
+										<label for="complementaryStudiesOtherLegislator">Otros estudios
 											complementarios</label> <input
 											data-ng-model="partner.section.studies.complementaryStudiesOther"
 											name="complementaryStudiesOtherLegislator" type="text"
@@ -471,13 +471,13 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-6">
 										<label for="professionalLicenseLegislator">Cédula
-											Profecional</label> <input
+											Profesional</label> <input
 											data-ng-model="partner.section.studies.professionalLicense"
 											name="professionalLicenseLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="professionalLicenseLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
-									        	Por favor ingrese la cédula profecional.
+									        	Por favor ingrese la cédula profesional.
 									      </div>
 									</div>
 								</div>
@@ -534,8 +534,7 @@ legend.scheduler-border {
 							</article>
 						</fieldset>
 						<fieldset class="scheduler-border">
-							<legend align="left" class="scheduler-border">Datos de
-								contacto</legend>
+							<legend align="left" class="scheduler-border">Datos de contacto personales</legend>
 							<article class="row">
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
@@ -567,9 +566,14 @@ legend.scheduler-border {
 									      </div>
 									</div>
 								</div>
+							</article>
+						</fieldset>
+						<fieldset>
+							<legend align="left" class="scheduler-border">Persona de contacto</legend>
+							<article class="row">
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="personLegislator">Persona de contacto</label> <input
+										<label for="personLegislator">Nombre</label> <input
 											data-ng-model="partner.section.contact.person"
 											name="personLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
@@ -660,43 +664,6 @@ legend.scheduler-border {
 									      </div>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="jobLegislator">Puesto laboral</label> <select
-											class="form-control" id="jobLegislator" name="jobLegislator"
-											data-ng-class="validClass.job ? 'is-'+validClass.job:''"
-											data-ng-model="partner.section.contractData.job" required>
-											<option value="" selected disabled>Seleccione...</option>
-											<option value="legislador">Legislador</option>
-											<option value="Otro">Otro</option>
-										</select>
-										<div class="valid-feedback d-block" data-ng-show="validClass.job"
-											data-ng-class="validClass.job ? validClass.job+'-feedback':''">
-									        	Por favor seleccione el puesto laboral.
-									      </div>
-									</div>
-									<div class="form-group col-md-4">
-										<label for="areaLegislator">Área</label> <input
-											data-ng-model="partner.section.contractData.area"
-											name="areaLegislator" type="text" class="form-control"
-											data-ng-class="validClass.area ? 'is-'+validClass.area:''"
-											id="areaLegislator" required>
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid"
-											data-ng-class="validClass.area ? validClass.area+'-feedback':''">
-									        	Por favor ingrese el área.
-									      </div>
-									</div>
-								</div>
-								<div class="form-row col-12">
-									<div class="form-group col-md-4">
-										<label for="bossLegislator">Jefe inmediato</label> <input
-											data-ng-model="partner.section.contractData.boss"
-											name="bossLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="bossLegislator" required>
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
-									        	Por favor ingrese el jefe inmediato.
-									      </div>
-									</div>
-									<div class="form-group col-md-4">
 										<label for="startDateLegislator">Fecha de inicio</label> <input
 											data-ng-model="partner.section.contractData.startDate" required
 											name="startDateLegislator" type="date" class="form-control"
@@ -713,7 +680,46 @@ legend.scheduler-border {
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="endDateLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
-									        	Por favor ingrese la fecha fín.
+									        	Termino del contrato, solo si es requerido
+									      </div>
+									</div>
+								</div>
+								<div class="form-row col-12">
+									<div class="form-group col-md-4">
+										<label for="bossLegislator">Jefe inmediato</label> <input
+											data-ng-model="partner.section.contractData.boss"
+											name="bossLegislator" type="text" class="form-control"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											id="bossLegislator" required>
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
+									        	Por favor ingrese el jefe inmediato.
+									      </div>
+									</div>
+									
+									
+									<div class="form-group col-md-4">
+										<label for="jobLegislator">Puesto laboral</label> <select
+											class="form-control" id="jobLegislator" name="jobLegislator"
+											data-ng-class="validClass.job ? 'is-'+validClass.job:''"
+											data-ng-model="partner.section.contractData.job" required>
+											<option value="" selected disabled>Seleccione...</option>
+											<option value="legislador">Legislador</option>
+											<option value="Otro">Otro</option>
+										</select>
+										<div class="valid-feedback d-block" data-ng-show="validClass.job"
+											data-ng-class="validClass.job ? validClass.job+'-feedback':''">
+									        	Por favor seleccione el puesto laboral.
+									      </div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="areaLegislator">Área</label> <input
+											data-ng-model="partner.section.contractData.area.name"
+											name="areaLegislator" type="text" class="form-control"
+											data-ng-class="validClass.area ? 'is-'+validClass.area:''"
+											id="areaLegislator" required readonly>
+										<div class="valid-feedback d-block" data-ng-show="validClass.valid"
+											data-ng-class="validClass.area ? validClass.area+'-feedback':''">
+									        	Por favor ingrese el área.
 									      </div>
 									</div>
 								</div>
@@ -772,8 +778,8 @@ legend.scheduler-border {
 						<thead>
 							<tr>
 								<th>Nombre</th>
-								<th>Partido</th>
-								<th>Rol</th>
+								<th>Estatus</th>
+								<th>Partido político</th>
 								<th></th>
 								<th></th>
 								<th></th>
@@ -812,7 +818,7 @@ legend.scheduler-border {
 								</td>
 								<td>
 									<button type="button" class="btn btn-dark"
-										data-ng-if="ra.id != null" data-ng-click="addDocuments(ra)">Documento</button>
+										data-ng-if="ra.id != null" data-ng-click="addDocuments(ra)">Documentos</button>
 								</td>
 							</tr>
 						</tbody>
@@ -1065,6 +1071,12 @@ legend.scheduler-border {
 									<P>{{recordAdministrator.email}}</P>
 								</div>
 							</div>
+
+						</article>
+					</fieldset>
+					<fieldset class="scheduler-border">
+						<legend align="left" class="scheduler-border">Persona de contacto</legend>
+						<article class="row">
 							<div class="form-row col-12">
 								<div class="form-group col-md-4">
 									<P>Persona de contacto</P> 
@@ -1081,6 +1093,7 @@ legend.scheduler-border {
 							</div>
 						</article>
 					</fieldset>
+					
 					<fieldset class="scheduler-border">
 						<legend align="left" class="scheduler-border">Datos
 							bancarios</legend>
@@ -1116,7 +1129,7 @@ legend.scheduler-border {
 								</div>
 								<div class="form-group col-md-4">
 									<P>Área</P>
-									<P>{{recordAdministrator.section.contractData.area}}</P>
+									<P>{{recordAdministrator.section.contractData.area.name}}</P>
 								</div>
 							</div>
 							<div class="form-row col-12">

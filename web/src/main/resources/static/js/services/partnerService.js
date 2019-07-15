@@ -33,6 +33,20 @@ app.service('partnerService', function($q, factory) {
 		});
 	};	
 	
+	self.getByStatusAndTipoAndAreaId = (data)=>{
+		return $q(function(resolve, reject) {
+			factory.get(path+"/by/status/tipo/area", data).then(function mySuccess(data) {
+				if(data){					
+					resolve(data);
+				}else{
+					resolve(null);
+				}
+			}, function myError(errResponse) {
+				reject(errResponse);
+			});			
+		});
+	};
+	
 	self.getByStatusAndTipoAndPartie = (data)=>{
 		return $q(function(resolve, reject) {
 			factory.get(path+"/byTipo/partie", data).then(function mySuccess(data) {

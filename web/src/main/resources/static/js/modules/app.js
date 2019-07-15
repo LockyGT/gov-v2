@@ -268,8 +268,12 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		url : '/record-legislators',
 		templateUrl : './views/admin/record-legislators.html',
 		controller : 'recordLegislatorsCtrl',
+	}).state('folders-administrators', {
+		url : '/folders-administrators',
+		templateUrl : './views/admin/folder-administrators.html',
+		controller : 'folderAdministratorCtrl',
 	}).state('record-admin', {
-		url : '/record-admin',
+		url : '/record-admin/:id',
 		templateUrl : './views/admin/record-administrators.html',
 		controller : 'recordAdministratorsCtrl',
 	});

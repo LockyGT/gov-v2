@@ -144,6 +144,12 @@ public class PartnerServiceImpl implements PartnerService {
 	public List<Partner> fetchByStatusAndTipoAndPartidoName(int status, int tipo) {
 		
 		return  repo.findAllByStatusAndTipoPartnerOrderByApPaternoAsc(status, tipo);
+	}
+
+	@Override
+	public List<Partner> fetchByStatusAndTipoAndAreaId(int status, int tipo, String id) {
+		
+		return repo.findAllByStatusAndTipoPartnerAndSectionContractDataAreaIdOrderByApPaternoAsc(status, tipo, id);
 	}	
 
 }

@@ -7,7 +7,7 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 		$(function () {
 		  $('[data-toggle="tooltip"]').tooltip({
 			  animation: true,
-		    container: document.getElementById('container-form')
+			  container: document.getElementById('container-form')
 		  })
 		})
 	},500);
@@ -35,10 +35,10 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
         		repeat += '-'+tmpEl.name+'\n';
         	}
         });
+        
         if(!repeat.length){
         	console.log($scope.partnerDocument);
         	$scope.postArchive($scope.file,$scope.partnerDocument);
-        	$scope.response = true;
         } else {
         	$scope.response = false;
         	swal({
@@ -194,8 +194,10 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 				documentoPartnerService.post(partnerDocument).then(function mySuccess(data) {			
 					swal.stopLoading();
 					$scope.loadDocuments();
+					$scope.response = true;
 				}, function myError(response) {
 					console.log(response);
+					$scope.response = false;
 				});
 			}else {
 				swal('Error','Archivo no agreado','error');
@@ -343,6 +345,10 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 			return false;
 		}
 		
+	};
+	
+	$scope.toReturn = () => {
+		window.history.back();
 	};
 	
 	$scope.filterFiles = e =>{ 
