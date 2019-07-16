@@ -6,7 +6,11 @@
     color:#f00;
 }
 
-
+.select2-selection{
+	display: block !important;
+    height: 40px !important;
+    width: 350px !important;
+}
 
 .animate-if.ng-enter, .animate-if.ng-leave {
 	transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -49,6 +53,7 @@
 /* 	text-align: justify;
 	list-style: none; */
 	padding-left: 0px;
+	
 }
 #modal-od{
 	overflow-x: scroll;
@@ -56,6 +61,7 @@
 .list-subparagraphs{
 /* 	list-style: none; */
     margin-top: 1em;
+    margin-left: -2.4em;
 }
 
 

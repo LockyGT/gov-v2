@@ -1,4 +1,4 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset= utf-8"/>
 <!-- Page Heading -->
 <h1 class="my-4">
 	{{titleTabView}} <small>{{titleSession}}</small>
@@ -63,6 +63,8 @@
 							<label for="cboOrderDay" class="col-sm-2 col-form-label">Asignar Orden del día</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="cboOrderDay" required
+									data-ng-class="invalidClassOrderDay"
+									data-ng-disabled="voteSession.status == _SESION._FINALIZED"
 									data-ng-options="orderday as orderday.nombre for orderday in orderdays  track by orderday.id"
 									data-ng-model="voteSession.orderday">
 									<option value="">Seleccione una Orden del día...</option>
@@ -120,7 +122,7 @@
 				<li class="nav-item"><a class="nav-link active" id="home-tab"
 					data-toggle="tab" data-ui-sref="state" href="#home" role="tab"
 					aria-controls="home" aria-selected="true"
-					data-ng-click="changeTitleTabView('SESIONES')">Sessiones</a></li>
+					data-ng-click="changeTitleTabView('SESIONES')">Sesiones</a></li>
 				<li class="nav-item"><a class="nav-link" id="profile-tab"
 					data-toggle="tab" ui-sref="state" href="#profile" role="tab"
 					aria-controls="profile" aria-selected="false"
@@ -156,7 +158,6 @@
 									<th>Fecha/Hora</th>
 									<th>Tipo</th>
 									<th>Estado</th>
-									<th>Od</th>
 									<th>Pase de Lista</th>
 									<th colspan="4"></th>
 								</tr>
@@ -168,7 +169,6 @@
 									<td>{{voteSession.fechaHora | date:'dd/MM/yyyy HH:mma'}}</td>
 									<td>{{voteSession.type.name}}</td>
 									<td>{{getStatusString(voteSession.status)}}</td>
-									<td>{{voteSession.orderday.nombre}}</td>
 									<td><button class="btn btn-primary" data-ng-click="toggleAttendanceOpen(voteSession)" data-toggle="button" data-ng-class="voteSession.attendanceOpen ? 'active': ''" aria-pressed="{{voteSession.attendanceOpen}}">
 											<span class="spinner-grow spinner-grow-sm" data-ng-show="voteSession.attendanceOpen"></span> 
 											{{voteSession.attendanceOpen ? 'Pasando Lista...' : 'Iniciar Pase de Lista'}}

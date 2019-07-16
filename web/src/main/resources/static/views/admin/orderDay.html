@@ -1,4 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 <!-- Page Heading -->
 <style>
 .modal-lg {
@@ -11,7 +13,7 @@
 <section data-ng-show="orderday !== null" id="contentOd">
 	<div class="row">
 		<div class="col-ld-12 col-md-12 col-sm-12">
-			<form name="formOrderDay" id="validate"
+			<form name="formOrderDay" id="formOrderDay"
 				data-ng-submit="submitForm(formOrderDay.$valid)" novalidate>
 				<div class="card" id="tabs">
 					<div class="card-header">
@@ -24,8 +26,9 @@
 								aria-selected="true">Orden del día</a></li>
 
 							<li class="nav-item"><a class="nav-link" id="profile-tab"
-								data-toggle="tab" ui-sref="state" href="#profile" role="tab"
-								aria-controls="profile" aria-selected="false">Contenido</a></li>
+								data-ng-if="orderday.nombre" data-toggle="tab" ui-sref="state"
+								href="#profile" role="tab" aria-controls="profile"
+								aria-selected="false">Contenido</a></li>
 
 						</ul>
 
@@ -44,7 +47,7 @@
 													class="far fa-calendar-alt"></i></span>
 											</div>
 											<input type="date" name="fecha" class="form-control"
-												id="fecha" required maxlength="250"
+												min="{{minAge | date:'yyyy-MM-dd'}}" id="fecha" required
 												data-ng-model="orderday.fecha">
 										</div>
 									</div>
@@ -58,9 +61,10 @@
 											</div>
 
 											<input type="text" class="form-control" name="nombre"
-												id="nombre" placeholder="Nombre de la Orden del Dia"
+												id="nombreOd" placeholder="Nombre de la Orden del Dia"
 												data-ng-model="orderday.nombre" maxlength="250"
-												data-ng-class="invalidClassName" required>
+												data-ng-class="invalidClassName" required
+												data-ng-init="orderday.nombre == true">
 										</div>
 									</div>
 								</div>
@@ -70,17 +74,16 @@
 								<div class="form-row align-items-center" id="position-fixed">
 									<div class="col-auto">
 										<button data-toggle="modal" data-target="#elements"
-											
 											type="button" class="btn btn-info">Nuevo Elemento</button>
 									</div>
 									<div class="col-auto"></div>
 									<div class="col-auto">
 										<label class="sr-only" for="inlineFormInputGroup">Elemento</label>
 										<div class="input-group mb-2" id="select-elements">
-											<select
-												data-ng-options="ele as ele.nombre for ele in elementsOd track by ele.id"
+											<select style="width: 250px;"
+												data-ng-options="elementOd as elementOd.nombre for elementOd in elementsOd track by elementOd.id"
 												data-ng-model="currentElement" id="inputState"
-												name="elements" class="form-control" title="{{ele.nombre}}">
+												name="elements" class="form-control">
 												<option disabled value="">Seleccione un elemento...</option>
 
 											</select>
@@ -89,21 +92,20 @@
 									<div class="col-auto"></div>
 									<div class="col-auto">
 										<button type="button" class="btn btn-dark"
-											data-ng-click="addContentE(ele);">Agregar</button>
+											data-ng-click="addContentE(elementOd);">Agregar</button>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="container wrapper-el">
 										<div class="margin-top"
-											data-ng-repeat="e in orderday.elementsOd | filter: {status: 1} track by $index">
+											data-ng-repeat="e in orderday.elementParagraph | filter: {status: 1} track by $index">
 
 											<div class="form-row align-items-center name-el">
 												<div class="col-auto">
-													<label class="form-check-label" for="inlineFormCheck">
-														{{e.nombre}}</label>
+													<label data-ng-model="currentElement"
+														class="form-check-label" for="inlineFormCheck">{{e.elementOd.nombre}}</label>
 												</div>
 												<div class="col-auto"></div>
-
 												<div class="col-auto">
 													<button type="button" class="btn btn-primary mb-2"
 														data-ng-click="addParagraph(e)">Párrafo</button>
@@ -111,25 +113,23 @@
 													<button type="button" class="btn btn-danger mb-2"
 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button>
 												</div>
-
 											</div>
-
 											<div class="input-group"
-												data-ng-repeat="p in e.paragraphs | filter: {status: 2} track by $index">
+												data-ng-repeat="p in e.paragraph | filter: {status: 2} track by $index">
 
 												<div class="col check-p">
-													<input class="form-check-input new"
+													<input class="form-check-input new" id="checkbox"
 														name="selectedVoteOptions[]"
-														data-ng-click="toggleSelection(p.iniciativa)"
+														data-ng-click="addIniciative()"
 														data-ng-model="p.iniciativa" type="checkbox"
-														value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}">
+														value="{{p.paragraph}}" id="inlineCheckbox{{$index}}">
 													<label class="form-check-label" for="defaultCheck1"></label>
 
 												</div>
-												<div class="col-4 col-md-9 margin-top" id="summernote">
+												<div class="col-4 col-md-9 margin-top">
 													<textarea class="form-control" rows="5" id="contenidotxt"
 														name="editordata" placeholder="Agregar párrafo ..."
-														data-ng-model="e.paragraphs[$index].contenidotxt"></textarea>
+														data-ng-model="p.contenidotxt"></textarea>
 												</div>
 												<div class="col-2 col-md-2">
 													<button type="button" class="btn btn-info btn-sm new"
@@ -139,24 +139,14 @@
 														aria-label="Close" data-ng-click="removeParagraphs(p)">Eliminar</button>
 
 												</div>
-
-
-												<!-- 												<div class="col-auto" data-ng-show="e.paragraphs" -->
-												<!-- 													style="margin-top: 1em; margin-left: 9em;"> -->
-												<!-- 													<button type="button" class="btn btn-primary mb-2" -->
-												<!-- 														data-ng-click="addParagraph(e)">Párrafo</button> -->
-
-												<!-- 													<button type="button" class="btn btn-danger mb-2" -->
-												<!-- 														aria-label="Close" data-ng-click="removeElements(e)">Eliminar</button> -->
-												<!-- 												</div> -->
 												<div class="container">
 													<div class="row margin-top"
 														data-ng-repeat="sp in p.subParagraphs | filter: {status: 2} track by $index">
 														<div class="col-2">
-															<input data-ng-click="toggleSelection(sp.iniciativa)"
+															<input data-ng-click="addIniciative()"
 																data-ng-model="sp.iniciativa"
 																class="form-check-input marggin" type="checkbox"
-																value="{{p.paragraphs}}" id="inlineCheckbox{{$index}}">
+																value="{{p.paragraph}}" id="inlineCheckbox{{$index}}">
 															<label class="form-check-label" for="defaultCheck1"></label>
 
 														</div>
@@ -165,14 +155,13 @@
 																<textarea class="form-control" rows="5"
 																	name="contenidoOdSp"
 																	placeholder="Agregar SubPárrafo ..."
-																	data-ng-model="p.subParagraphs[$index].contenidotxt"></textarea>
+																	data-ng-model="sp.contenidotxt"></textarea>
 															</div>
 														</div>
 														<div class="col col-md-2">
 															<button type="button"
 																class="btn btn-danger btn-sm margin-top"
-																aria-label="Close" data-ng-click="removeParagraphs(sp)"
-																data-ng-click="">Eliminar</button>
+																aria-label="Close" data-ng-click="removeParagraphs(sp)">Eliminar</button>
 														</div>
 													</div>
 												</div>
@@ -192,6 +181,12 @@
 
 						<button type="button" class="btn btn-danger"
 							data-ng-click="cancelAddUpOrderday()">Cancelar</button>
+
+						<!-- 						<div class="float-right"> -->
+
+						<!-- 							<button type="submit" id="enviar" -->
+						<!-- 							class="btn btn-light" data-ng-click="" >Enviar Iniciativas</button> -->
+						<!-- 						</div> -->
 					</div>
 					<!-- CardFooter -->
 				</div>
@@ -200,6 +195,14 @@
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+<!--
+
+//-->
+$("select").select2({
+	  width: '100%'
+	});
+</script>
 
 <section data-ng-if="orderday === null">
 	<div class="card w-95">
@@ -310,15 +313,17 @@
 									<td><button type="button"
 											data-ng-disabled="orderday.approved"
 											data-ng-class="orderday.approved ? 'btn btn-secondary':'btn btn-dark'"
-											data-ng-click="approvedOd(orderday);">{{orderday.approved
+											data-ng-click="confirmApproved(orderday);">{{orderday.approved
 											? 'Aprobada ' : ' Aprobar '}}</button></td>
 									<td>
 										<button type="button" class="btn btn-info"
 											data-ng-click="addNewOd(orderday);">Editar</button>
 
 									</td>
-									<td><button type="button" class="btn btn-warning"
-											data-ng-click="toPostOrderday(orderday);">{{orderday.published
+									<td><button type="button"
+											data-ng-disabled="orderday.published"
+											data-ng-class="orderday.published ? 'btn btn-danger':'btn btn-warning'"
+											data-ng-click="confirmPublished(orderday);">{{orderday.published
 											? ' Publicada ' : ' Publicar '}}</button></td>
 									<td><div class="btn-group dropright">
 											<button type="button" class="btn btn-primary">Opciones</button>
@@ -354,8 +359,9 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		
+	<script type="text/javascript">
+	
+	
 	</script>
 
 	<script type="text/javascript">
@@ -442,13 +448,13 @@
 			</div>
 			<div class="modal-body" id="modal-od">
 				<div class="content-paragraph"
-					data-ng-repeat="a in orderdayView.elementsOd track by $index">
+					data-ng-repeat="a in orderdayView.elementParagraph | filter: {status: 1}  track by $index">
 					<p class="element-name">
-						<strong>{{$index+1}}. {{a.nombre}}</strong>
+						<strong>{{$index+1}}. {{a.elementOd.nombre}}</strong>
 					</p>
 					<ol class="list-paragraphs" type="a">
 						<li class="margin-top"
-							data-ng-repeat="p in a.paragraphs | filter: {status: 2} track by $index"
+							data-ng-repeat="p in a.paragraph | filter: {status: 2} track by $index"
 							id="contenidoP">{{p.contenidotxt}}
 							<ol class="list-subparagraphs " type="I">
 								<li class="margin-top subp" id="subp"
@@ -480,13 +486,13 @@
 			</div>
 			<div class="modal-body" id="modal-od-1">
 				<div class="content-paragraph"
-					data-ng-repeat="a in orderdayshow.elementsOd | filter: {status: 1}  track by $index">
+					data-ng-repeat="a in orderdayshow.elementParagraph | filter: {status: 1}  track by $index">
 					<p class="element-name">
-						<strong>{{$index+1}}. {{a.nombre}}</strong>
+						<strong>{{$index+1}}. {{a.elementOd.nombre}}</strong>
 					</p>
 					<ol class="list-paragraphs" type="a">
 						<li class="margin-top"
-							data-ng-repeat="p in a.paragraphs | filter: {status: 2} track by $index"
+							data-ng-repeat="p in a.paragraph | filter: {status: 2} track by $index"
 							id="contenidoP">{{p.contenidotxt}}
 							<ol class="list-subparagraphs " type="I">
 								<li class="margin-top subp" id="subp"
@@ -496,10 +502,10 @@
 					</ol>
 				</div>
 				<div class="modal-footer" id="bypassme">
-
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -567,7 +573,7 @@
 									data-ng-class="validClass.file ? validClass.file+'-feedback':''"
 									data-ng-show="validClass.nombre">Por favor ingrese un
 									archivo</div>
-								
+
 							</div>
 						</div>
 					</div>
@@ -598,8 +604,8 @@
 								<td scope="row">{{$index+1}}</td>
 								<td class="d-inline-block" tabindex="0" data-toggle="tooltip"
 									title="{{file.originalName}}">{{(file.originalName.length
-									> 17)?
-									file.originalName.substring(17,-1)+'...':file.originalName}}</td>
+									> 25)?
+									file.originalName.substring(25,-1)+'...':file.originalName}}</td>
 								<td><button type="button" class="btn btn-primary"
 										data-ng-if="filterExtention(file.extention)"
 										data-toggle="modal" data-target="#show-file"
@@ -668,7 +674,8 @@
 					<div class="row">
 						<div class="mx-auto col-sm-12 col-md-12 col-lg-12">
 							<form name="elementForm"
-								data-ng-submit="submitFormElement(elementForm.$valid)" novalidate>
+								data-ng-submit="submitFormElement(elementForm.$valid)"
+								novalidate>
 								<div class="card">
 									<div class="card-header">
 										<h5 class="card-title">{{!elementOd.id ? 'Nuevo ':

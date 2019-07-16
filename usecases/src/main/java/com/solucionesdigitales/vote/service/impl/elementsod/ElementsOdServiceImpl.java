@@ -57,9 +57,8 @@ public class ElementsOdServiceImpl implements ElementsOdService {
 	@Override
 	public ElementOd delete(ElementOd entity) {
 		ElementOd elements = new ElementOd();
-		
+		entity.setStatus(ELEMENTOD_STATUS._ELIMINADO);
 		if(entity.getId() != null) {
-			entity.setStatus(ELEMENTOD_STATUS._ELIMINADO);
 			elements = elementsOdRepository.save(entity);
 			logger.info("Elemento eliminado: ["+entity+"]");
 		}

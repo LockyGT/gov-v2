@@ -52,7 +52,7 @@ public class ParagraphODServiceImpl implements ParagraphODService {
 	@Override
 	public ParagraphOD delete(ParagraphOD entity) {
 		ParagraphOD paragraph = new ParagraphOD();
-		entity.setStatus(ELEMENTOD_STATUS._ELIMINADOP);
+		entity.setStatus(0);
 		if(entity.getId() != null) {
 			paragraph = repository.save(entity);
 			logger.info("Parrafo eliminado: ["+entity+"]");

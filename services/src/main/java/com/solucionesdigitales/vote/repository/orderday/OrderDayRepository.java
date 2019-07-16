@@ -14,6 +14,7 @@ import com.solucionesdigitales.vote.entity.vote.VoteSession;
 public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 
 	OrderDay findFirstById(String id);
+	
 	OrderDay findByOdOriginal(String odOriginal);
 	
 	List<OrderDay> findByFecha(LocalDateTime fecha);

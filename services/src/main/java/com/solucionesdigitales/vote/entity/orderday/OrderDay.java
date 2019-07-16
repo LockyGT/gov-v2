@@ -6,7 +6,6 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.solucionesdigitales.vote.entity.documentfile.Attached;
-import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
 
 @Document(collection = "orderday")
 public class OrderDay {
@@ -22,9 +21,10 @@ public class OrderDay {
 	private String referencia;
 	private boolean isPublished;
 	private boolean isApproved;
-	//private ArrayList<ParagraphOD> paragraphs;
+	//private ArrayList<ElementOd> elementsOd;
 	
-	private ArrayList<ElementOd> elementsOd;
+	private ArrayList<ElementParagraph> elementParagraph;
+
 	private Attached attached;
 	
 	
@@ -59,14 +59,6 @@ public class OrderDay {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-//	public ArrayList<ParagraphOD> getParagraphs() {
-//		return paragraphs;
-//	}
-//	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
-//		this.paragraphs = paragraphs;
-//	}
-	
 	public String getOdOriginal() {
 		return odOriginal;
 	}
@@ -87,13 +79,7 @@ public class OrderDay {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	public ArrayList<ElementOd> getElementsOd() {
-		return elementsOd;
-	}
-
-	public void setElementsOd(ArrayList<ElementOd> elementsOd) {
-		this.elementsOd = elementsOd;
-	}
+	
 	/**
 	 * @return the attached
 	 */
@@ -123,14 +109,21 @@ public class OrderDay {
 		this.isApproved = isApproved;
 	}
 
+	public ArrayList<ElementParagraph> getElementParagraph() {
+		return elementParagraph;
+	}
+
+	public void setElementParagraph(ArrayList<ElementParagraph> elementParagraph) {
+		this.elementParagraph = elementParagraph;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderDay [id=" + id + ", nombre=" + nombre + ", sku=" + sku + ", status=" + status + ", fecha=" + fecha
 				+ ", odOriginal=" + odOriginal + ", referencia=" + referencia + ", isPublished=" + isPublished
-				+ ", isApproved=" + isApproved + ", elementsOd=" + elementsOd + ", attached=" + attached + "]";
+				+ ", isApproved=" + isApproved + ", elementParagraph=" + elementParagraph + ", attached=" + attached
+				+ "]";
 	}
-
-	
 	
 }
  

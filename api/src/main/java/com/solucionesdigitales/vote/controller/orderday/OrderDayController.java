@@ -6,14 +6,12 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.solucionesdigitales.vote.entity.documentfile.DocumentFile;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
-import com.solucionesdigitales.vote.entity.vote.VoteSession;
 import com.solucionesdigitales.vote.service.orderday.OrderDayService;
 
 @RestController
@@ -73,9 +69,9 @@ public class OrderDayController {
 		return service.getByStatus(status);
 	}
 	@GetMapping(value="/published")
-	public List<OrderDay> getByStatusPublicada(@RequestParam(value="publicada")final boolean status){
+	public List<OrderDay> getByStatusPublicada(@RequestParam(value="publicada")final boolean publicada){
 		logger.info("Publicar la orden dia en la gaceta");
-		return service.getByStatusPublicada(status);
+		return service.getByStatusPublicada(publicada);
 	}
 
 	@GetMapping(value="/approved")
@@ -155,7 +151,7 @@ public class OrderDayController {
 	@PutMapping(value="/updatePublished")
 	public OrderDay putPublishedByOdOriginal( @RequestBody final OrderDay entity) {				
 		logger.info("Actualizacion de la orden del dia publicada: ["+entity.toString()+"]");
-		entity.setPublished(true);
+		
 		return service.putPublishedByOdOriginal(entity);
 	}
 	

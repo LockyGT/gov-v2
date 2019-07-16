@@ -24,10 +24,6 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	$scope.errMsjNoSeconds  = '';
 
 	
-	$scope.selected = {
-			voteSessions: []
-	};
-	
 	$scope.roundMethods = [
 		{id: 1, name: "Inferior inmediato", value: "floor"},
 		{id: 2, name: "Superior inmediato", value: "ceil"},
@@ -122,15 +118,23 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 /*************************** add OD ***************************************/
 
 	
-	$scope.checkAllOptions = (array, e) => {
-
-		angular.forEach(array, function(el){
+	$scope.checkAllOptions = (paragraph, e) => {
+		angular.forEach(paragraph, function(el){
 			el.checked = e.target.checked;
 		});
-		$scope.updateSelected();
+		//$scope.postInitiative();
 		
+		$scope.updateSelect(paragraph);
 	};
-
+	
+	$scope.updateSelect = (paragraph) =>{
+		$scope.initiative= {
+				status: 1,
+		}
+		$scope.initiative.contenidoOd = paragraph;
+	};	
+	
+	
 
 	$scope.updateSelected = (paragraph) => {
 		$scope.initiative= {
@@ -143,7 +147,13 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		};
 		$scope.initiative.contenidoOd = paragraph;
 	};
-
+	
+	$scope.getOdIniciatives = () => {
+		
+	};
+	
+	
+  
 	$scope.addSessionsOd = (voteSession)=>{ 
 		console.log('modal ver orden dia',voteSession)
 		$scope.sessionView= voteSession;

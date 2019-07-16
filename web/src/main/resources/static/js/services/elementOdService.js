@@ -11,6 +11,16 @@ app.service('elementOdService', function ($q, factory){
 		});
 	};
 	
+	self.getElementParagraph = ()  => {		
+		return $q((resolve, reject)=>{
+			factory.get('/elementParagraph').then(function success(data){
+				resolve(data);
+			}, function error(errorData){
+				reject(errorData);
+			});
+		});
+	};
+	
 
 	self.getNameOrder = ()=>{
 		return $q(function(resolve, reject) {			

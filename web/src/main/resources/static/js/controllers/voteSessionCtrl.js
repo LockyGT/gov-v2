@@ -540,6 +540,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	$scope.invalidClassDate= '';
 	$scope.invalidClassType = '';
 	$scope.invalidClassTime= '';
+	$scope.invalidClassOrderDay = '';
 
 
 	$scope.submitForm =(isValid)=> {
@@ -556,6 +557,8 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			$scope.invalidClassDate= '';
 			$scope.invalidClassType = '';
 			$scope.invalidClassTime= '';
+			$scope.invalidClassOrderDay = '';
+
 			$scope.addUpdate();
 		}else{
 			if($scope.voteSession.nombre == null || $scope.voteSession.nombre.length == 0 ){
@@ -578,6 +581,11 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 				$scope.invalidClassTime= 'is-invalid';
 			}else{
 				$scope.invalidClassTime= '';
+			}
+			if( $scope.voteSession.orderday == null || $scope.voteSession.orderday.nombre.length == 0){
+				$scope.invalidClassOrderDay = 'is-invalid';
+			}else{
+				$scope.invalidClassOrderDay = '';
 			}
 			swal("Error", "Por favor rellene todos los campos", "error");
 		}

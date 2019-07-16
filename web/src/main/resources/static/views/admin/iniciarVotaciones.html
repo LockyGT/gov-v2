@@ -1,37 +1,36 @@
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset= utf-8" />
 <style>
 <!--
-
 .ellipsis {
-    width:150px;
-/*     display: block; */
+	width: 150px;
+	/*     display: block; */
 }
 
 .ellipsis:after {
-    position:relative;
-/*     background-color:white; */
-    left:138px;
-    top:-16px;
-    content:'...';
+	position: relative;
+	/*     background-color:white; */
+	left: 138px;
+	top: -16px;
+	content: '...';
 }
-.ellipsis p{
-    font-size: 12px;
-    font-weight: normal;
-    display: block;
-    margin: 0;
-    overflow: hidden;
-    max-height: 93px;
-    width: 14em;
+
+.ellipsis p {
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+	margin: 0;
+	overflow: hidden;
+	max-height: 93px;
+	width: 14em;
 }
 
 .ellipsis:hover:after {
-    display:none;
+	display: none;
 }
 
 .ellipsis:hover p {
-    max-height:100%;
+	max-height: 100%;
 }
-
 -->
 </style>
 <!-- Page Heading -->
@@ -60,18 +59,18 @@
 		<div class="card-body">
 			<div class="alert alert-primary" role="alert"
 				data-ng-if="!initiatives.length">
-				La sesiÃ³n seleccionada no cuenta con iniciativas <a
+				La sesión seleccionada no cuenta con iniciativas <a
 					data-ng-click="addInitiative()" style="cursor: pointer;"
 					data-ng-disabled="voteSession.status == _SESION._FINALIZED"
 					class="alert-link">Agregue una nueva iniciativa</a>. O seleccione
-				otra sesiÃ³n
+				otra sesión
 			</div>
 			<div class="table-responsive" data-ng-if="initiatives.length">
 				<table class="table table-stripped">
 					<thead>
 						<tr>
 							<th>NOMBRE</th>
-							<th>Iniciativas OD</th>
+							<th>PUNTOS DE ORDEN DEL DÍA</th>
 							<th>TIEMPO</th>
 							<th>ESTATUS</th>
 							<th>ACCIONES</th>
@@ -88,7 +87,7 @@
 						<tr
 							data-ng-repeat="initiative in initiatives track by initiative.id">
 							<td>{{initiative.name}}</td>
-							<td class="ellipsis"><p>{{initiative.contenidoOd}}</p></td>
+							<td class="ellipsis"><p data-ng-model="initiative.contenidoOd">{{initiative.contenidoOd}}</p></td>
 							<!--{{(initiative.contenidoOd.length > 60)? initiative.contenidoOd.substring(60,-1)+'...':initiative.contenidoOd}} -->
 							<td>{{ (initiative.hours <= 9 ) ? ('0' + initiative.hours) :
 								initiative.hours}} : {{ (initiative.minutes <= 9 ) ? ('0' +
@@ -168,9 +167,9 @@
 						<div class="form-group">
 							<label for="exampleFormControlTextarea1">Contenido de
 								Orden del día</label>
-							<textarea  disabled="disabled" data-ng-model="initiative.contenidoOd"
-								class="form-control" data-ng-class="ivalidClassContent"
-								rows="3"></textarea>
+							<textarea disabled="disabled"
+								data-ng-model="initiative.contenidoOd" class="form-control"
+								data-ng-class="ivalidClassContent" rows="3"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="name">Tipo de Respuesta: </label>
@@ -232,7 +231,7 @@
 						</div>
 						<div class="form-group row">
 							<label for="formulaSelect" class="col-sm-2 col-form-label">Formula
-								de cÃ¡lculo</label>
+								de cálculo</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg2"><i
@@ -243,7 +242,7 @@
 									data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
 									data-ng-options="formula.formulaName + ' (' + formula.formulaExpression + ')' for formula in formulas track by formula.id"
 									data-ng-model="initiative.result.formula">
-									<option value="">Seleccione una formula...</option>
+									<option value="">Seleccione una fórmula...</option>
 								</select>
 							</div>
 							<small id="formulaSelectHelpBlock"
@@ -252,7 +251,7 @@
 								{{initiative.result.formula.formulaDescription}} </small>
 						</div>
 						<div class="form-group row">
-							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">MÃ©todo
+							<label for="formulaRoundMethod" class="col-sm-2 col-form-label">Método
 								de redondeo</label>
 							<div class="input-group input-group-lg col-sm-10">
 								<div class="input-group-prepend">
@@ -264,7 +263,7 @@
 									data-ng-disabled="voteSession.status == _SESION._FINALIZED || initiative.status == _INICIATIVA._FINALIZED || initiative.status == _INICIATIVA._INITIATED"
 									data-ng-options="roundMethod as roundMethod.name + '('+roundMethod.value+')' for roundMethod in roundMethods track by roundMethod.id"
 									data-ng-model="initiative.result.roundMethod">
-									<option value="">Seleccione una mÃ©todo de redondeo...</option>
+									<option value="">Seleccione una metodo de redondeo...</option>
 								</select>
 							</div>
 
@@ -309,8 +308,8 @@
 									<tr>
 										<th>A favor</th>
 										<th>En contra</th>
-										<th>AbstenciÃ³n</th>
-										<th>No votÃ³</th>
+										<th>Abstención</th>
+										<th>No votar</th>
 										<th>Ausente</th>
 									</tr>
 								</thead>
@@ -389,35 +388,43 @@
 					<div class="card-header">Orden del día:
 						{{sessionView.orderday.nombre}}</div>
 					<div class="card-body">
+						<!-- <div class="alert alert-primary" role="alert" -->
+						<!--data-ng-if="!elm.paragraph.length"> -->
+						<!--  La sesión seleccionada no cuenta con iniciativas. -->
+						<!--</div> -->
 						<div class="container">
-							<div  data-ng-repeat="od in sessionView track by $index">
+
+
+
+							<div class="input-group"
+								data-ng-repeat="od in sessionView.orderday.elementParagraph">
+								
+									<input type="checkbox" name="selectAll"
+										data-ng-click="checkAllOptions(od.paragraph,$event);">
+								
+
 								<ul style="margin-top: 1em; list-style: none"
-									data-ng-repeat="ele in od.elementsOd track by $index">
-									
-<!-- 									<input type="checkbox" name="" -->
-<!-- 										data-ng-click="checkAllOptions(paragraphs,$event)"> -->
-										
-									<div class="input-group">
-										<li style="margin-top: 2em" data-ng-model="pa.checked"
-											data-ng-repeat="pa in ele.paragraphs | filter: {iniciativa: true} track by $index">
+									data-ng-repeat="pa in od.paragraph | filter: {iniciativa: true} track by $index">
 
-											<input type="checkbox" name="Pcontenidotxt"
-											data-ng-click="updateSelected(pa.contenidotxt)">
-											{{pa.contenidotxt}}
+									<li style="margin-top: 2em" data-ng-model="pa.contenidotxt">
 
-											<ul>
-												<li style="margin-top: 2em; list-style: none"
-													id="subParagraphs" data-ng-model="subPa.checked"
-													data-ng-repeat="subPa in pa.subParagraphs | filter: {iniciativa: true } track by $index">
+										<input type="checkbox" name="contenidotxt"
+										data-ng-model="pa.checked"
+										data-ng-click="updateSelected(pa.contenidotxt)">
+										{{pa.contenidotxt}}
 
-													<input type="checkbox" name="gender" value="spContenidotxt"
-													data-ng-click="updateSelected(subPa.contenidotxt)">
+										<ul style="margin-top: 2em"
+											data-ng-repeat="subPa in pa.subParagraphs | filter: {iniciativa: true } track by $index">
+											<li style="margin-top: 2em; list-style: none"
+												id="subParagraphs" data-ng-model="subPa.contenidotxt">
 
-													{{subPa.contenidotxt}}
-												</li>
-											</ul>
-										</li>
-									</div>
+												<input type="checkbox" name="contenidotxt"
+												data-ng-model="pa.checked"
+												data-ng-click="updateSelected(subPa.contenidotxt)">
+												{{subPa.contenidotxt}}
+											</li>
+										</ul>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -427,17 +434,15 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<!--<button  type="button" class="btn btn-primary">Importar
+				<button data-ng-click="" type="button" class="btn btn-primary">Importar
 					Iniciativas</button>
-				 					data-ng-click="addParagraphInit(od);" -->
+
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-
-
-
+	
 </script>
 
 
