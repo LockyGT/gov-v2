@@ -161,7 +161,7 @@
 				"id": 5,
 				"app": "statistics",
 				"index": 5.5,
-				"title": "Reportes estadisticos / Legisladores",
+				"title": "Legisladores",
 				"url": "#!legislatorReport",
 				"icon": "far fa-clipboard",
 				"color": "#0290AD",
@@ -179,7 +179,7 @@
 				"id": 6,
 				"app": "statistics",
 				"index": 5.6,
-				"title": "Reportes estadísticos/ Legislatura",
+				"title": "Legislatura",
 				"url": "#!reporteLegislatura",
 				"icon": "fas fa-clipboard",
 				"color": "peru",
@@ -197,7 +197,7 @@
 				"id": 7,
 				"app": "statistics",
 				"index": 5.7,
-				"title": "Reportes estadísticos / Iniciativas",
+				"title": "Iniciativas",
 				"url": "#!initiativePeriodReport",
 				"icon": "fas fa-paste",
 				"color": "#6E08C4",
@@ -215,7 +215,7 @@
 				"id": 8,
 				"app": "statistics",
 				"index": 5.7,
-				"title": "Reportes estadísticos - Resultados",
+				"title": "Resultados",
 				"url": "#!resultsInitiativesReport",
 				"icon": "fas fa-poll-h",
 				"color": "#BD5133",
@@ -338,7 +338,7 @@
 	{
 		"id": 12,
 		"index": 12.0,
-		"title": "Gaceta",
+		"title": "Gaceta parlamentaria",
 		"url": "#!gazette",
 		"icon": "far fa-newspaper",
 		"color": "#c3ccdb",
@@ -461,8 +461,8 @@
 						"id": 2,
 						"app": "record",
 						"index": 2.2,
-						"title": "Administradores",
-						"url": "#!record-admin",
+						"title": "Administrativos",
+						"url": "#!folders-administrators",
 						"icon": "fas fa-user-tie",
 						"color": "#E85D64",
 						"image": "../img/periodico.png",
@@ -515,22 +515,5 @@
 				"status": 1
 			}
 		]
-	},
-	{
-		"id": 15,
-		"index": 14.0,
-		"title": "Repositorio de Documentos",
-		"url": "#!categoriaDeDocumentos",
-		"icon": "fas fa-copy",
-		"color": "#4286f4",
-		"image": "../img/periodico.png",
-		"alt": "categoriaDeDocumentos",
-		"text": "",
-		"roles": [
-			"OPERADOR"
-		],
-		"levels": 1,
-		"childs": [],
-		"status": 1
 	}
 ]

@@ -1,5 +1,7 @@
 package com.solucionesdigitales.vote.entity.partner;
 
+import java.util.ArrayList;
+
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
@@ -14,7 +16,7 @@ public class DocumentoPartner {
 	private String id;
 	private String idPartner;
 	private String uuidDocumento;
-	private String acrhivo;
+	private ArrayList<String> archivos;
 	@Transient
 	private Documento documento;
 	public String getIdPartner() {
@@ -30,11 +32,11 @@ public class DocumentoPartner {
 	public void setUuidDocumento(String uuidDocumento) {
 		this.uuidDocumento = uuidDocumento;
 	}
-	public String getAcrhivo() {
-		return acrhivo;
+	public ArrayList<String> getArchivos() {
+		return archivos;
 	}
-	public void setAcrhivo(String acrhivo) {
-		this.acrhivo = acrhivo;
+	public void setArchivo(ArrayList<String> archivos) {
+		this.archivos = archivos;
 	}
 	public Documento getDocumento() {
 		return documento;
@@ -48,9 +50,4 @@ public class DocumentoPartner {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
-	
-	
-
 }

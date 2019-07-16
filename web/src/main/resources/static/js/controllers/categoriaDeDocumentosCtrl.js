@@ -1,5 +1,5 @@
 
-app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$window,categoriaDeDocumentosService){
+app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$window,categoriaDeDocumentosService,$state){
 
 	$scope.tiposDePartner = [
 		{	"name":"Legislador",
@@ -34,6 +34,7 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	
 	
 	$scope.getCategoriaDeDocumentosByTipoPartner = (tipoDePartner) =>{
+		console.log('informacion: cambiada: ', tipoDePartner);
 		$scope.categoriaDeDocumentos ={id:null,documentos:[],tipoPartner:tipoDePartner};
 		categoriaDeDocumentosService.get(tipoDePartner).then(function mySuccess(data) {			
 			$scope.tipoDePartner ={};
@@ -51,6 +52,7 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	$scope.save = () =>{
 		//$scope.categoriaDeDocumentos.tipoPartner =	$scope.tipoDePartner.tipo;
 		$scope.create_UUID
+		$scope.categoriaDeDocumentos = 
 		categoriaDeDocumentosService.post($scope.categoriaDeDocumentos).then(function mySuccess(data) {			
 			$scope.categoriaDeDocumentos = data;
 			swal('Exito','Se ha guardad correctamente','success')
@@ -111,13 +113,10 @@ app.controller('categoriaDeDocumentosCtrl', function($scope,partnerService,$wind
 	    return uuid;
 	}
 
-
 	const initController = () => {
    	 	
 		
 	};
-	
-	
 	
 	angular.element(document).ready(function (){
 		initController();

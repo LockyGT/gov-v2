@@ -1,4 +1,4 @@
-app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService){
+app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state,$stateParams,folderAdministratorService){
 	
 	$scope.recordAdministrator  = null;
 	$scope.recordAdministrators = [];
@@ -10,7 +10,12 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		
 		$scope.partner = {
 				status: 1,
-				tipoPartner: 2
+				tipoPartner: 2,
+				section: {
+					contractData: {
+						area: $scope.area
+					}
+				}
 		};
 	};
 	
@@ -270,19 +275,42 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		});
 	};
 	
+	$scope.addDocuments = (leg) =>{
+		$state.go('documentoPartner', {partnerId: leg.id, namePartner: leg.name+" "+leg.apPaterno+" "+leg.apMaterno});
+		
+	};
+	
 	$scope.getPartners = () => {
 		let sendData = {
 				"status": 1,
-				"tipo": 2
+				"tipo": 2,
+				"areaId": $stateParams.id
 		};
 		
-		partnerService.getByStatusAndTipoAndPartie(sendData).then(data => {
+		partnerService.getByStatusAndTipoAndAreaId(sendData).then(data => {
 			$scope.recordAdministrators = data;
 		}, error => {
 			swal.stopLoading();
 			swal('Error', error, "error");
 		});
 	};
+	
+	$scope.getArea = () => {
+		let sendData = {
+				"status": 1,
+				"id": $stateParams.id
+		};
+		
+		folderAdministratorService.getById(sendData).then(data => {
+			$scope.area = data;
+			console.log('Area encontrada: ',data);
+		}, error => {
+			swal.stopLoading();
+			swal('Error', error, "error");
+		});
+	};
+	
+	
 	
 	$scope.fetchFile = filePath => {
 		let sendData = {
@@ -378,6 +406,7 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 	};
 	const initController = () => {
 		$scope.showPartners();
+		$scope.getArea();
 	};
 	angular.element(document).ready(function () {
 		initController();

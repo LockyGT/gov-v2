@@ -72,6 +72,18 @@ public class PartnerController {
 	
 	/**
 	 * 
+	 * @return List<Partner>
+	 */
+	@GetMapping(value="/by/status/tipo/area")
+	public List<Partner> getByStatusAndTipoAndAreaId(@RequestParam(value="status") final int status,
+			@RequestParam(value="tipo") final int tipo,
+			@RequestParam(value="areaId") final String areaId){
+	
+		return  service.fetchByStatusAndTipoAndAreaId(status, tipo, areaId);
+	}
+	
+	/**
+	 * 
 	 * @param sku
 	 * @return Partner
 	 */

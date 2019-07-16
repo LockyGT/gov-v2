@@ -1,7 +1,7 @@
 app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$interval){
 
 	$scope.modulosod = [];
-	$scope.modulood = null;
+	$scope.modulood = {};
 	$scope.icons = [
 		"fab fa-500px", "far fa-bell","far fa-bell-slash", "fas fa-braille", "fas fa-sign-language",
 		"fas fa-tty","fas fa-bus", "fas fa-gas-pump","fas fa-campground", "fas fa-industry", "fas fa-landmark",
@@ -59,7 +59,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 				swal("Exito", "Módulo de orden del día agregado correctamente", "success");
 				swal.stopLoading();
 				$scope.getModulosod();
-				$scope.modulood = null;
+				$scope.modulood = {};
 			} else {
 				swal("Error", "Modulo de orden del día no agregado", "error");
 			}
@@ -88,7 +88,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 				swal.stopLoading();
 				swal("Exito", "Módulo de orden del día actualizado correctamente", "success");
 				$scope.getModulosod();
-				$scope.modulood = null;
+				$scope.modulood = {};
 			} else {
 				swal("Error", "Módulo de orden del día no actualizado", "error");
 			}
@@ -102,20 +102,33 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	$scope.addUpdate = () => {
 		if($scope.modulood != null){
 			if($scope.modulood.id != null){
-				$scope.putModulood();
+				let isRegister = $scope.modulosod.find(function(element){
+					return element.nombre.toLowerCase() == $scope.modulood.nombre.toLowerCase();
+				});
+				if(!isRegister) {
+					$scope.putModulood();
+				} else {
+					swal({
+						  title: "Dato duplicado",
+						  text: "El nombre del módulo ya se encuentra registrado. Por favor intente con otro",
+						  icon: "warning",
+						  button: true
+					});
+				}
+				
 			} else {
 				let isRegister = $scope.modulosod.find(function(element){
 					return element.nombre.toLowerCase() == $scope.modulood.nombre.toLowerCase();
 				});
 				if(!isRegister){
 					$scope.postModulood();
-				}else {
+				} else {
 					swal({
 						  title: "Dato duplicado",
 						  text: "El nombre del módulo ya se encuentra registrado. Por favor intente con otro",
 						  icon: "warning",
 						  button: true
-					})
+					});
 				}
 				
 			}
@@ -217,13 +230,12 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	};
 
 	$scope.updateModuleod = (modulood) =>{
-		
-		$scope.modulood = modulood;
+		angular.copy(modulood, $scope.modulood);
 	};
 
 	$scope.cancelAddUpModule = () =>{
 		$scope.getModulosod();
-		$scope.modulood = null;
+		$scope.modulood = {};
 	};
 
 	const initController = () => {

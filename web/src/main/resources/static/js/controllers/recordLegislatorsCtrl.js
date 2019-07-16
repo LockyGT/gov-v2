@@ -1,4 +1,4 @@
-app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService){
+app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state){
 	
 // $scope.parties = [];
 	$scope.recordLegislator  = null;
@@ -92,6 +92,14 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	
 	};
 	
+	$scope.addDocuments = (leg) =>{
+	
+		$state.go('documentoPartner', {
+			partnerId: leg.id, 
+			namePartner: leg.name+" "+leg.apPaterno+" "+leg.apMaterno,
+			tipoPartner: leg.tipoPartner});
+		
+	};
 	
 	$scope.cancelAddUpModule = () => {
 		$scope.partner  = null;

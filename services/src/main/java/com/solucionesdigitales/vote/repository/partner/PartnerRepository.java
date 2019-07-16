@@ -16,6 +16,8 @@ public interface PartnerRepository extends MongoRepository<Partner, String> {
 	
 //	List<Partner> findAllByStatusAndTipoPartnerOrderByNameAsc(int status, int tipo);
 	List<Partner> findAllByStatusAndTipoPartnerOrderByApPaternoAsc(int status, int tipo);
+	
+	List<Partner> findAllByStatusAndTipoPartnerAndSectionContractDataAreaIdOrderByApPaternoAsc(int status, int tipo, String id);
 		
 	List<Partner> findAllByStatusAndTipoPartnerOrderByApPaternoAscApMaternoAscNameAsc(int status, int tipo);
 	

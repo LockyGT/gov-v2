@@ -1,175 +1,268 @@
 <style>
-
-.files-success input {
-    outline: 4px dashed #28a745;
-    outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    padding: 120px 0px 85px 35%;
-    text-align: center !important;
-    margin: 0;
-    width: 100% !important;
+.file-upload-input {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	outline: none;
+	opacity: 0;
+	cursor: pointer;
 }
 
-
-.files-warning input {
-    outline: 4px dashed #d39e00;
-    outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    padding: 120px 0px 85px 35%;
-    text-align: center !important;
-    margin: 0;
-    width: 100% !important;
+.file-upload-wrap {
+	margin-top: 0;
+	border: 2px dashed #6c757d;
+	position: relative;
+	background-color: #f2f5f4;
 }
 
-.files-danger input {
-    outline: 4px dashed #dc3545;
-    outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    padding: 120px 0px 85px 35%;
-    text-align: center !important;
-    margin: 0;
-    width: 100% !important;
+.file-upload-wrap:hover {
+	/*   background-color: #6c757d; */
+	border: 2px dashed #28a745;
+	/*   color: #fff; */
 }
 
-
-.files-warning input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
- }
- .files-success input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
- }
- .files-danger input:focus{     outline: 2px dashed #f1f1f1;  outline-offset: -10px;
-    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
- }
- 
-.files-warning{ position:relative}
-.files-success{ position:relative}
-.files-danger{ position:relative}
-
-.files-success:after {  pointer-events: none;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 50px;
-    right: 0;
-    height: 56px;
-    content: "";
-    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
-    display: block;
-    margin: 0 auto;
-    background-size: 100%;
-    background-repeat: no-repeat;
+.drag-text {
+	text-align: center;
 }
 
-.files-warning:after {  pointer-events: none;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 50px;
-    right: 0;
-    height: 56px;
-    content: "";
-    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
-    display: block;
-    margin: 0 auto;
-    background-size: 100%;
-    background-repeat: no-repeat;
+.drag-text p {
+	color: #343a40;
+	padding: 10px 0;
+	margin-top: 14px;
+	font-size: .7em;
 }
 
-.files-danger:after {  pointer-events: none;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 50px;
-    right: 0;
-    height: 56px;
-    content: "";
-    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
-    display: block;
-    margin: 0 auto;
-    background-size: 100%;
-    background-repeat: no-repeat;
+.buttons-container {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: 0;
 }
 
-.files-danger input{ background-color:#f1f1f1;}
-.files-success input{ background-color:#f1f1f1;}
-.files-warning input{ background-color:#f1f1f1;}
-
-.files-danger:before {
-    position: absolute;
-    bottom: -10px;
-    left: 10px;  pointer-events: none;
-    width: 100%;
-    right: 0;
-    height: 57px;
-    content: " Arrasta el archivo adentro del cuadro ";
-    display: block;
-    margin: 0 auto;
-    color: #2ea591;
-    font-weight: 600;
-    text-transform: capitalize;
-    text-align: center;
+.buttons-container__item {
+	width: 50%;
+	border: none;
 }
-
-.files-success:before {
-    position: absolute;
-    bottom: -10px;
-    left: 10px;  pointer-events: none;
-    width: 100%;
-    right: 0;
-    height: 57px;
-    content: " Arrasta el archivo adentro del cuadro ";
-    display: block;
-    margin: 0 auto;
-    color: #2ea591;
-    font-weight: 600;
-    text-transform: capitalize; 
-    text-align: center;
-}
-
-.files-warning:before {
-    position: absolute;
-    bottom: -10px;
-    left: 10px;  pointer-events: none;
-    width: 100%;
-    right: 0;
-    height: 57px;
-    content: " Arrasta el archivo adentro del cuadro ";
-    display: block;
-    margin: 0 auto;
-    color: #2ea591;
-    font-weight: 600;
-    text-transform: capitalize;
-    text-align: center;
-}
-
 </style>
 <!-- Page Heading -->
 <h1 class="my-4 toHide">
-	Repositorio de Documentos <i class="fas fa-copy"></i><small></small>
+	Lista de documentos <i class="fas fa-copy"></i><small></small>
 </h1>
-	<div> <span class="badge badge-success  badge-pill ">Archivo cargado</span>
-<span class="badge badge-warning  badge-pill ">Opcional</span>
-<span class="badge badge-danger  badge-pill " >Requerido</span></div>
-<br>
-	<div class="row" >
-	  <div class="col-md-6" ng-repeat="partnerDocument in partnerDocuments">
-             <div  class="form-group " 
-             ng-class="{'files-danger': partnerDocument.documento.requerido  == true && partnerDocument.acrhivo == null,
-             										 'files-warning': partnerDocument.documento.requerido  == false && partnerDocument.acrhivo == null,
-             										  'files-success': partnerDocument.acrhivo != null}" >
-               <label><b>{{partnerDocument.documento.titulo}}</b> </label>
-               <input type="file" class="form-control" custom-on-change="uploadFile" data-id="{{$index}}">
-             </div> 
-             <button class="btn btn-success btn-sm" ng-disabled="partnerDocument.acrhivo == null"  ng-click="downloadFile(partnerDocument);"  style="padding-left: 40%;padding-right: 40%;line-height:0.8;margin-top:-35px;font-weight: 300;" >Descargar archivo</button>
-	  </div>
+<div class="card">
+	<div class="card-header">
+		<div class="row">
+			<div class="btn-group mr-3">
+				<button type="button" class="btn btn-light"
+					data-ng-click="toReturn()">
+					<i class="fas fa-arrow-left"></i> Regresar
+				</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-success"
+					data-ng-click="addNewCategory()" data-toggle="modal"
+					data-target="#modal-new-category">
+					<i class="fas fa-plus"></i> Nueva categoría
+				</button>
+			</div>
+			<div class="col-md-4">Documentos de: {{namePartner}}</div>
+		</div>
 	</div>
+	<div class="card-body">
+		<section class="row">
+			<article class="table-responsive" id="container-form"
+				style="position: relative">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Categoría</th>
+							<th>Sección de carga</th>
+							<th>Documentos de categoria</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							data-ng-repeat="partnerDocument in partnerDocuments | filter: {documento:{status: 1}} track by $index">
+							<td class="table-active position-relative">
+								<p>{{partnerDocument.documento.titulo}}</p>
+								<div class="buttons-container">
+									<button class="buttons-container__item btn-success"
+										data-toggle="modal" data-target="#modal-new-category"
+										data-ng-click="editCategory(partnerDocument.documento)">
+										<i class="fas fa-pen"></i>
+									</button>
+									<button class="buttons-container__item btn-danger"
+										data-ng-click="confirmDeleteCategory(partnerDocument.documento)">
+										<i class="far fa-trash-alt"></i>
+									</button>
+								</div>
+							</td>
+							<td>
+								<div class="file-upload-wrap">
+									<input type="file" class="file-upload-input"
+										custom-on-change="uploadFile" data-id="{{$index}}" multiple
+										data-records-model="filesInfo[$index].files">
+									<div class="drag-text">
+										<p>
+											Arrasta el archivo adentro del cuadro o da click para
+											seleccionar <i class="fas fa-upload"></i>
+										</p>
+									</div>
+								</div>
+								<div data-ng-if="filesInfo[$index]">
+									<p class="mt-3 mb-0 text-secondary">
+										<i class="fas fa-server btn-"></i> Cola de subida
+									</p>
+									<p class="mt-0 text-secondary">Tamaño de la cola:
+										{{filesInfo[$index].files.length}}</p>
+									<div class="row border-bottom">
+										<div class="col-md-6">Nombre</div>
+										<div class="col-md-2">Tamaño</div>
+										<div class="col-md-2">Progreso</div>
+										<div class="col-md-2">Estato</div>
+									</div>
+									<div class="row border-bottom"
+										data-ng-repeat="f in filesInfo[$index].files track by $index">
+										<div class="col-md-6" data-toggle="tooltip"
+											data-placement="right" title="{{f.name}}">{{(f.name >
+											23)? f.name.substring(20,-1)+'...' : f.name}}</div>
+										<div class="col-md-2">{{f.size /1000 | number: 1}}KB</div>
+										<div class="col-md-2"
+											data-ng-class="response?'text-success': 'text-danger'">{{response?
+											'Exito': 'Error'}}</div>
+										<div class="col-md-2 text-center">
+
+											<i class="fas"
+												data-ng-class="response?'fa-check': 'fa-exclamation'"></i> <i
+												class="fas"></i>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="container-fluid"
+									data-ng-if="lengthFiles(partnerDocument.archivos)">
+									<div class="row">
+										<div class="col-md-6">Nombre</div>
+										<div class="col-md-6">Acciones</div>
+									</div>
+									<div class="row"
+										data-ng-repeat="f in partnerDocument.archivos | filter: filterFiles track by $index">
+										<div class="col-md-6" data-toggle="tooltip"
+											data-placement="left" title="{{f.split(',')[2]}}">{{(f.split(',')[2].length
+											>
+											23)?f.split(',')[2].substring(20,-1)+'...':f.split(',')[2]}}</div>
+										<div class="col-md-6 mb-3">
+											<button type="button" class="btn btn-success btn-sm"
+												data-ng-click="downloadFile(f);">Descargar</button>
+											<button type="button" class="btn btn-danger btn-sm"
+												data-ng-click="confirmDelete(partnerDocument,f)">Eliminar</button>
+											<button type="button" class="btn btn-info btn-sm"
+												data-ng-if="isVisible(f.split(',')[3])" data-toggle="modal"
+												data-target="#modal-show-file" data-ng-click="showFile(f)">Ver</button>
+										</div>
+									</div>
+								</div>
+								<div class="alert alert-warning" role="alert"
+									data-ng-if="!lengthFiles(partnerDocument.archivos)">
+									<h6 class="alert-heading">
+										<i class="fas fa-exclamation-triangle"></i> Sin archivos!
+										<button type="button" class="close" data-dismiss="alert"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</h6>
+									<p class="mb-0">No existen documentos disponibles para esta
+										categoria.</p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td><button class="btn btn-success btn-block btn-lg"
+									data-ng-click="addNewCategory()" data-toggle="modal"
+									data-target="#modal-new-category">Nuevo</button></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</article>
+		</section>
+	</div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-new-category" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">{{documentoAux.uuid?
+					'Actualizar': 'Nueva'}} categoría</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					data-ng-click="cancel()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form name="formNewCatecory">
+					<div class="form-group row">
+						<label for="title" class="col-sm-2 col-form-label">Titulo</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="title" required
+								data-ng-model="documentoAux.titulo">
+							<div class="invalid-feedback">Por favor ingrese el título</div>
+							<div class="valid-feedback">¡Se ve bien!</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"
+					data-ng-click="cancel()">Cancelar</button>
+				<button type="button" class="btn btn-primary"
+					data-ng-if="!documentoAux.uuid"
+					data-ng-disabled="formNewCatecory.$invalid"
+					data-ng-click="postCategory()">Guardar</button>
+				<button type="button" class="btn btn-primary"
+					data-ng-if="documentoAux.uuid"
+					data-ng-disabled="formNewCatecory.$invalid"
+					data-ng-click="updateCategory()">Actualizar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal show file-->
+<div class="modal fade" id="modal-show-file" tabindex="-1" role="dialog"
+	aria-labelledby="modalShowFile" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalShowFile">{{showFileName[2]}}</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="embed-responsive embed-responsive-16by9 text-center">
+					<object width="400" height="400" id="object-data"></object>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 

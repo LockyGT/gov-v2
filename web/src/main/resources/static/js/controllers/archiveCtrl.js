@@ -457,7 +457,7 @@ app.controller('archiveCtrl', function($scope, $filter,archiveService,$timeout, 
 	};
 
 	$scope.filterExtention = (extencion) => {
-		let ignores = ["pdf","png", "jpeg"];
+		let ignores = ["pdf"];
 		let filter = $filter('filter')(ignores,extencion);
 		
 		if(filter.length){

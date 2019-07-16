@@ -2,12 +2,15 @@ package com.solucionesdigitales.vote.entity.partner;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 public class ContractData {
 
 	private String contractType;
 	private String job;
 	private String boss;
-	private String area;
+	@DBRef
+	private FolderAdministrator area;
 	private Date startDate;
 	private Date endDate;
 	/**
@@ -50,13 +53,13 @@ public class ContractData {
 	/**
 	 * @return the area
 	 */
-	public String getArea() {
+	public FolderAdministrator getArea() {
 		return area;
 	}
 	/**
 	 * @param area the area to set
 	 */
-	public void setArea(String area) {
+	public void setArea(FolderAdministrator area) {
 		this.area = area;
 	}
 	/**
