@@ -19,9 +19,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.minAge = new Date();
 	};
 
-
-
-
 	$scope.initiativeParagraphs = (orderday) => {
 		$scope.orderday.paragraph = $scope.selection;
 		console.log('parrafo ah enviar',$scope.orderday.paragraph)
@@ -319,9 +316,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.getBuscarFecha = () =>{
-		console.log("--------------------");
 		console.log($scope.filtrosFechas);
-		console.log("--------------------");
 		let dateInit = new Date($scope.filtrosFechas.fecha);
 		let dateEnd = new Date($scope.filtrosFechas.fechaFin);
 		let map = new Object(); 
@@ -354,7 +349,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		//console.log('Obtener OD con status activa', $scope.orderday);
 		orderdayService.getActiveWithAndWithoutReference().then(function success(data){
 			$scope.orderdays =data;
 			console.log('Texto', $scope.orderdays)
@@ -406,24 +400,22 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 
 	$scope.NewVerssionOrderDay = (newFiles)=> {
-		console.log('----------', newFiles)
-		//let data = $scope.orderday;
-		let fechaHoy = new Date($scope.orderday.fecha);
+		const fechaHoy = new Date();
 		console.log('Fecha Hoy', fechaHoy);
 
-		let sumaFecha = new Date();		
-		sumaFecha.setDate(fechaHoy.getDate() + 7);
+		const sumaFecha = new Date($scope.orderday.fecha);		
+		sumaFecha.setDate(sumaFecha.getDate() + 8);
 		console.log('fecha en una semana', sumaFecha);
 
 		fechaHoy.setHours(0,0,0,0);
 		sumaFecha.setHours(0,0,0,0);
-
-		if(fechaHoy <= sumaFecha){
+		
+		if(sumaFecha >= fechaHoy){
 			console.log("Fecha a partir de hoy");
 
 			$scope.NewVerssion(newFiles);
 		}else{
-			swal("Error", "La fecha de crear Version ah vencido", "error");
+			swal("Error", "La fecha de crear Versión ah vencido", "error");
 		}
 	};
 
@@ -446,17 +438,17 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		dataOD.attached.status = 1;
 		dataOD.attached.originFolder = newFiles.originFolder;
 		dataOD.attached.files = $scope.orderday.attached.files.concat(newFiles.files);
-		console.log('Orden del dia enviadad: ', dataOD);
-
+		
 		orderdayService.postNewVerssion(dataOD).then(function success(data){
 			console.log('verision de la Orden del dia', data)
 			if(data){
-				swal.stopLoading();
+				
 				swal("Exito", "Orden del día actualizado correctamente", "success");
 				$scope.attached = {};
 				data.fecha = new Date(data.fecha);
 				$scope.orderday = null;
 				$scope.attached.filesUploads=null;
+				swal.stopLoading();
 				$scope.getOrderDays();
 
 			} else {
@@ -591,9 +583,9 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				swal("Exito", "Anexo guardado correctamente", "success");
 				swal.stopLoading();
 				//$scope.getOrderDays();
-				$scope.isAdd = false;
+				$scope.isAdd = true;
 				$scope.attached.filesUploads = null;
-				
+
 
 			}else{
 				swal("Error", "Los anexos no se guardado", "error");
@@ -607,8 +599,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.addAttachedOd = () =>{
-		//console.log("Anexos guardado",$scope.orderdayAnnexes);
 		console.log('Mostrar anexo de la orden del dia ----+',$scope.orderdayAnnexes)
+		//$scope.isAdd = true;
 		let fecha = new Date();
 		let folderOrigin = $scope.orderdayAnnexes.attached.originFolder ? 
 				$scope.orderdayAnnexes.attached.originFolder : 'attached/' + fecha.getFullYear() + '/' + (fecha.getMonth()+1) + '/' +  $scope.orderdayAnnexes.id 
@@ -622,7 +614,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		storageService.saveAttached(file).then(function success(data){
 			console.log('informacion',data)
 			$scope.saveAnnexes(data);
-			
+
 		}, function error(error){
 			$scope.myWelcome = error.statusText;
 			swal("Error","Anexo no agregado "+$scope.myWelcome, "error");
@@ -720,7 +712,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				};
 			}
 			console.log('Informacion del anexo antes de enviarse: ', dataFiles, $scope.orderday);
-			//$scope.addUpdate(dataFiles);
 			if($scope.orderday.id){
 				storageService.newVersion(dataFiles).then(success=>{
 					console.log('Informacion obtenida: ', success);
@@ -739,8 +730,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 
 	$scope.downloadZip=()=>{
-		console.log('Intentando descargar archivos: prueba -1');
-
 		let fFiles = $filter('filter')($scope.orderdayAnnexes.attached.files, {"status":1});
 		let folder= {
 				serverNames: fFiles.map(f=> f.serverName),
@@ -811,17 +800,18 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.addContentE = function(){
 		$scope.currentElement.paragraph= [];
 		console.log('elementos',$scope.currentElement)
-		
+
 		console.log('Agregar elementos para los parrafos', $scope.currentElement.paragraph);
 		let isExistsElement= $filter('filter')($scope.orderday.elementParagraph,{id: $scope.currentElement.id, status:1});
-		
-//		let index = $scope.orderday.elementParagraph.findIndex(x=>x.elementsOd === currentElement);
-//		console.log(index)
+
 
 		console.log('********************',isExistsElement);
 		if(!isExistsElement.length){
 			$scope.orderday.elementParagraph.push({elementOd: $scope.currentElement, status:1, paragraph:[]});
+
 		}
+//		let index = $scope.elementOd.findIndex( element => element.nombre === nombre );
+//		console.log(index);
 	};
 
 	$scope.addParagraph = function(e) {
@@ -847,7 +837,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 
-	$scope.addIniciative = () =>{
+	$scope.addParagraphInIniciative = () =>{
 		$timeout(()=>{ 
 
 			$scope.orderday = $scope.orderday;
@@ -917,7 +907,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.invalidClassName = '';
 		$scope.isAdd = false;
 		$scope.getOrderDays();
-		//$scope.orderday.paragraph = $scope.selection;
 		$scope.orderday = null;
 	};
 
@@ -926,8 +915,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	const initController = () =>{
 		$scope.getOrderDays();
 		$scope.getElementsOd();
-		//$scope.getElementParagraph();
-
 	};
 
 	angular.element(document).ready(function () {

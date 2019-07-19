@@ -23,6 +23,14 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	$scope.errMsjNoMinutes  = '';
 	$scope.errMsjNoSeconds  = '';
 
+	$timeout(()=>{
+		$(function () {
+			$('[data-toggle="popover"]').popover({
+				animation: true,
+				ontainer: document.getElementById('container-table')
+			})
+		})
+	},500);
 	
 	$scope.roundMethods = [
 		{id: 1, name: "Inferior inmediato", value: "floor"},
@@ -115,26 +123,86 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		}
 	};
 
-/*************************** add OD ***************************************/
+	/*************************** add OD ***************************************/
 
-	
-	$scope.checkAllOptions = (paragraph, e) => {
-		angular.forEach(paragraph, function(el){
-			el.checked = e.target.checked;
+
+	$scope.postInit = (paragraph)=>{
+		initiativeService.post($scope.initiative).then(function mySuccess(data) {
+			console.log('Iniciativas a guardar', data);
+			if(data){				
+				if($scope.voteSession != null ){
+					$scope.voteSession.iniciativas.push(data);
+					console.log('+-----+', data)
+					$scope.updateVoteSession();
+				}				
+				swal("Exito", "Iniciativa agregada correctamente", "success");
+				$scope.getInitiatives();
+				$scope.initiative = null;
+			}else{
+				swal("Error", "Iniciativa no agregada", "error");
+			}	
+		}, 
+		function myError(response) {
+			$scope.myWelcome = response.statusText;
+			swal("Error",$scope.myWelcome, "error");			
 		});
-		//$scope.postInitiative();
-		
-		$scope.updateSelect(paragraph);
 	};
-	
-	$scope.updateSelect = (paragraph) =>{
-		$scope.initiative= {
-				status: 1,
+
+
+//	$scope.checkAllOptions = (voteSession) => {
+//	console.log(voteSession);
+
+//	angular.forEach($scope.voteSession.orderday, function(orderday) {
+//	console.log("parrafo1:", voteSession.orderday);
+
+//	angular.forEach(orderday.elementParagraph, function(elementParagraph) {
+//	console.log(orderday)
+//	console.log("parrafo2:", orderday.elementParagraph);
+
+//	angular.forEach(elementParagraph.paragraph, function(paragraph) {
+//	console.log("parrafo3:",elementParagraph.paragraph);
+
+//	let toggleStatus = !$scope.isAllSelected;
+//	angular.forEach($scope.paragraph, function(itm){ 
+//	itm.selected = toggleStatus; 
+//	console.log("parrafo4", paragraph.contenidotxt);
+//	});
+
+//	});
+//	});
+//	});
+//	};
+
+	//$scope.elementParagraph=[];
+	$scope.toggleAll = (elementParagraph) => {
+		$scope.elementPargraph = $scope.voteSession.orderday.elementParagraph;
+		console.log("######", $scope.elementParagraph);
+
+		for (let sesion in elementParagraph.paragraph) {
+			console.log("Sesion",sesion);
+			
+			for(var i = 0; i < sesion.length; i += 1){
+			console.log($scope.paragraph);
+
 		}
-		$scope.initiative.contenidoOd = paragraph;
-	};	
-	
-	
+		}
+	};
+
+	$scope.optionToggled = function(elementParagraph){
+		
+		console.log(elementParagraph)
+		for(let arreglo in elementParagraph) {
+          console.log(" arreglo2 = " + arreglo);
+          
+          for(let j = 0; j < elementParagraph.length; j ++){
+                  console.log(" elemento = " + elementParagraph.paragraph);
+                  
+                  for(let elemento1 in elementParagraph.paragraph){
+                      console.log(" elemento = " ,elementParagraph.paragraph.contenidotxt);
+                }
+            }
+         }
+	};
 
 	$scope.updateSelected = (paragraph) => {
 		$scope.initiative= {
@@ -146,19 +214,17 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				status : _INICIATIVA._CREATED
 		};
 		$scope.initiative.contenidoOd = paragraph;
+		console.log($scope.initiative)
+		$scope.postInit(paragraph);
 	};
-	
-	$scope.getOdIniciatives = () => {
-		
-	};
-	
-	
-  
+
+
+
 	$scope.addSessionsOd = (voteSession)=>{ 
 		console.log('modal ver orden dia',voteSession)
 		$scope.sessionView= voteSession;
 	};
-/************************************************/
+	/************************************************/
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
 		$scope.initiative = {
@@ -347,6 +413,14 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		$scope.errMsjMinutes  = '';
 		$scope.errMsjSeconds  = '';
 		$scope.initiative = null;
+		$timeout(()=>{
+			$(function () {
+				$('[data-toggle="popover"]').popover({
+					animation: true,
+					ontainer: document.getElementById('container-table')
+				})
+			})
+		},500);
 	};
 
 	$scope.postInitiative = ()=>{
