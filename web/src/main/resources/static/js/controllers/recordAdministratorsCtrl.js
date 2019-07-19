@@ -1,4 +1,4 @@
-app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state,$stateParams,folderAdministratorService){
+app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state,$stateParams,folderAdministratorService, userService, $filter){
 	
 	$scope.recordAdministrator  = null;
 	$scope.recordAdministrators = [];
@@ -11,6 +11,9 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		$scope.partner = {
 				status: 1,
 				tipoPartner: 2,
+				user: {
+					userRol:$scope.roleUser
+				},
 				section: {
 					contractData: {
 						area: $scope.area
@@ -45,7 +48,42 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		}
 	};
 	
-	$scope.update =  recordAdministrator => {
+	$scope.listeningChangePass = () => {
+	
+		$scope.isChangePass = true;
+	};
+	
+	$scope.update = recordAdministrator => {
+		console.log('Informacion a actualiza: ',recordAdministrator);
+		if(recordAdministrator.fechaCumplianos){
+			recordAdministrator.fechaCumplianos = new Date(recordAdministrator.fechaCumplianos);
+		}
+		if(recordAdministrator.user){
+			if(!recordAdministrator.user.userRol){
+				recordAdministrator.user.userRol = $scope.roleUser;
+			}
+		} else {
+			recordAdministrator.user = {
+				userRol: $scope.roleUser
+			};
+		} 
+		if(recordAdministrator.section){
+			if(recordAdministrator.section.contractData) {
+				
+				if(recordAdministrator.section.contractData.startDate){
+					recordAdministrator.section.contractData.startDate =
+						new Date(recordAdministrator.section.contractData.startDate);
+				}
+				
+				if (recordAdministrator.section.contractData.endDate) {
+					recordAdministrator.section.contractData.endDate =
+						new Date(recordAdministrator.section.contractData.endDate);
+				}
+				
+			}
+			
+		}
+		
 		$scope.partner = recordAdministrator;
 		if($scope.partner.foto != null && $scope.partner.foto.filePath != null) {
 			$scope.fetchFile($scope.partner.foto.filePath);
@@ -58,11 +96,36 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 	
 	$scope.submitForm = isValid => {
 		$scope.validClass = {};
+		$scope.message    = {
+				password:'Se ve bien',
+				passwordRepeat: 'Se ve bien',
+				username: 'Se ve bien'
+		};
 		console.log('Informacion del parner: ', $scope.partner);
 		if(isValid) {
+			if($scope.isChangePass){
+				if($scope.partner.user && $scope.partner.user.password){
+					if($scope.partner.user.password === $scope.partner.user.passwordRepeat){
+						$scope.addUpdate();
+					} else {
+						$scope.validClass.password       = 'invalid';
+						$scope.validClass.passwordRepeat = 'invalid';
+						$scope.message.password = 'Las contraseñas no coinciden';
+						$scope.message.passwordRepeat = 'Las contraseñas no coinciden';
+						console.log('Informacio de las contraseñas correctas', $scope.message);
+					}
+				}else {
+					$scope.addUpdate();
+				}
+			} else {
+				$scope.addUpdate();
+			}
+
 			
-			$scope.addUpdate();
 		} else {
+			$scope.validClass.password        = 'valid';
+			$scope.validClass.username        = 'valid';
+			$scope.validClass.passwordRepeat  = 'valid';
 			$scope.validClass.valid           = 'valid';
 			$scope.validClass.name            = 'valid';
 			$scope.validClass.surnameP        = 'valid';
@@ -276,7 +339,10 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 	};
 	
 	$scope.addDocuments = (leg) =>{
-		$state.go('documentoPartner', {partnerId: leg.id, namePartner: leg.name+" "+leg.apPaterno+" "+leg.apMaterno});
+		$state.go('documentoPartner', {
+			partnerId:leg.id,
+			namePartner: leg.name+" "+leg.apPaterno+" "+leg.apMaterno,
+			tipoPartner: leg.tipoPartner});
 		
 	};
 	
@@ -292,6 +358,15 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		}, error => {
 			swal.stopLoading();
 			swal('Error', error, "error");
+		});
+	};
+	
+	$scope.getUserRols = () => {
+		userService.getRol().then( data => {
+			$scope.roleUser = data.find(element => element.roleName.toLowerCase()=='operador');
+			console.log('role-user: ', $scope.roleUser);
+		}, error => {
+			swal('Error', 'Error al obtener los roles: '+error.statusText, "error");
 		});
 	};
 	
@@ -401,13 +476,17 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		$scope.partner = null;
 		$scope.validClass = null;
 	};
+	
 	$scope.toReturn = () => {
 		window.history.back();
 	};
+	
 	const initController = () => {
 		$scope.showPartners();
 		$scope.getArea();
+		$scope.getUserRols();
 	};
+	
 	angular.element(document).ready(function () {
 		initController();
 	});

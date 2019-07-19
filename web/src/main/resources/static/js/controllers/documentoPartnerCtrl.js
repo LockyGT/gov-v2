@@ -219,13 +219,17 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 	
 	$scope.getCategoriaDeDocumentosByTipoPartner = () =>{
 		if($state.params.tipoPartner == 1){
-			$scope.categoriaDeDocumentos ={id:null,documentos:[],tipoPartner:$state.params.tipoPartner,nombreCategoria: 'Legislador'};
+			$scope.categoriaDeDocumentosTemp ={id:null,documentos:[],tipoPartner:$state.params.tipoPartner,nombreCategoria: 'Legislador'};
 		} else if($state.params.tipoPartner == 2) {
-			$scope.categoriaDeDocumentos ={id:null,documentos:[],tipoPartner:$state.params.tipoPartner,nombreCategoria: 'Operador'};
+			$scope.categoriaDeDocumentosTemp ={id:null,documentos:[],tipoPartner:$state.params.tipoPartner,nombreCategoria: 'Operador'};
 		}
 		
 		categoriaDeDocumentosService.get($state.params.tipoPartner).then(function mySuccess(data) {			
-			$scope.categoriaDeDocumentosTemp = data;
+			if(data){
+				console.log('data: ', data);
+				$scope.categoriaDeDocumentosTemp = data;
+			}
+			
 		}, function myError(response) {
 			console.log(response);
 		});
@@ -285,6 +289,7 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 			$scope.categoryIndex = $scope.categoriaDeDocumentosTemp.documentos.findIndex(r => r.uuid === $scope.documentoAux.uuid);
 			$scope.categoriaDeDocumentosTemp.documentos[$scope.categoryIndex] = $scope.documentoAux;
 			categoriaDeDocumentosService.put($scope.categoriaDeDocumentosTemp).then(success => {
+				$scope.documentoAux = {};
 				$('#modal-new-category').modal('hide');
 				swal('Exito','Categoría actualizada correctamente','success');
 				$scope.loadDocuments();
@@ -298,13 +303,13 @@ app.controller('documentoPartnerCtrl', function($scope,partnerService,$window,do
 	};
 	
 	$scope.postCategory = () => {
-		
+	console.log('informacion: ', $scope.documentoAux)
 		if(!$scope.isNotRepeatCategory($scope.documentoAux.titulo)){
 			$scope.documentoAux.uuid = '';
 			$scope.documentoAux.uuid = $scope.createUUID();
-			$scope.documentoAux = {};
 			$scope.categoriaDeDocumentosTemp.documentos.push($scope.documentoAux);
 			categoriaDeDocumentosService.put($scope.categoriaDeDocumentosTemp).then(success => {
+				$scope.documentoAux = {};
 				$('#modal-new-category').modal('hide');
 				swal('Exito','Categoría registrada correctamente','success');
 				$scope.loadDocuments();
