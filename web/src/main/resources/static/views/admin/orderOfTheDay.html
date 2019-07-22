@@ -1,7 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <h1 class="my-4">
-	<small>Orden del día</small>
+	Orden del día <i class="fas fa-paste"></i>
 </h1>
 
 <section data-ng-if="odgazzete === null">
@@ -94,20 +94,18 @@
 								<tr>
 									<th>Fecha</th>
 									<th>Nombre</th>
-									<th>Ver / Descargar</th>
-									<th>Anexos</th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr
-									data-ng-repeat="orderday in publishedOds | filter : searchElement track by orderday.id">
+									data-ng-repeat="orderday in publishedOds | filter : searchElement track by $index">
 									<td>{{orderday.fecha | date:'dd/MM/yyyy'}}</td>
 									<td>{{orderday.nombre}}</td>
 									<td><button type="button" class="btn btn-danger"
 											data-toggle="modal" data-target="#modal-showView-file"
 											data-ng-click="downloadPdf(orderday);">ver</button></td>
-<!-- 									<td><button type="button" class="btn btn-warning" -->
-<!-- 											data-ng-click="downloadPdf(orderday);">Descargar</button></td> -->
 									<td><button type="button" class="btn btn-dark"
 											data-toggle="modal" data-target="#attachments-verssion"
 											data-ng-click="viewAttachmentsV(orderday);">Anexos</button></td>

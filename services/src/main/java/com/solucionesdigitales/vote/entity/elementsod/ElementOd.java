@@ -1,21 +1,17 @@
 package com.solucionesdigitales.vote.entity.elementsod;
 
-import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 
-@Document(collection = "elementsOd")
+@Document(collection = "elementOd")
 public class ElementOd {
 	
 	@Id
 	private String id;
 	private String nombre;
 	private int status;
-	private ArrayList<ParagraphOD> paragraphs;
-	
 	
 	
 	public String getId() {
@@ -30,12 +26,6 @@ public class ElementOd {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public ArrayList<ParagraphOD> getParagraphs() {
-		return paragraphs;
-	}
-	public void setParagraphs(ArrayList<ParagraphOD> paragraphs) {
-		this.paragraphs = paragraphs;
-	}
 	public int getStatus() {
 		return status;
 	}
@@ -44,8 +34,9 @@ public class ElementOd {
 	}
 	@Override
 	public String toString() {
-		return "ElementOd [id=" + id + ", nombre=" + nombre + ", status=" + status + ", paragraphs=" + paragraphs + "]";
+		return "ElementOd [id=" + id + ", nombre=" + nombre + ", status=" + status + "]";
 	}
+	
 	
 	
 	

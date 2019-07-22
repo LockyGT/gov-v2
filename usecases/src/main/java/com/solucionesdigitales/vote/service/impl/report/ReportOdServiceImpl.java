@@ -26,7 +26,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.RomanList;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.solucionesdigitales.vote.entity.elementsod.ElementOd;
+import com.solucionesdigitales.vote.entity.orderday.ElementParagraph;
 import com.solucionesdigitales.vote.entity.orderday.OrderDay;
 import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
@@ -101,13 +101,13 @@ public class ReportOdServiceImpl implements ReportOdService {
 			List listaSubP = new RomanList();
 			ListItem itemSubP = null;
 
-			for (ElementOd elementOd: orderday.getElementsOd()) {
-				if(elementOd.getStatus() == 1) {
-					listItem = new ListItem(elementOd.getNombre()  +"\n\n", fontElement);
+			for (ElementParagraph elementParagraph : orderday.getElementParagraph()) {
+				if(elementParagraph.getStatus() == 1) {
+					listItem = new ListItem(elementParagraph.getElementOd().getNombre()  +"\n\n", fontElement);
 					listItem.setAlignment(Element.ALIGN_JUSTIFIED);
 					listaParagraph = new GreekList();
-					
-					for(ParagraphOD paragraphOd : elementOd.getParagraphs()) {
+
+					for(ParagraphOD paragraphOd : elementParagraph.getParagraph()) {
 						if(paragraphOd.getStatus() == 2) {
 							itemParagraph = new ListItem(paragraphOd.getContenidotxt() + "\n\n" , paragraphContent);
 							itemParagraph.setAlignment(Element.ALIGN_JUSTIFIED);

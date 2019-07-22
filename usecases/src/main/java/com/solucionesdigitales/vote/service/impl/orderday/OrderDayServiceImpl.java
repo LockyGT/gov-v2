@@ -91,7 +91,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 	public OrderDay postNewVerssion(OrderDay entity) {
 		OrderDay nuevaVersion = new OrderDay();
 		nuevaVersion.setFecha(entity.getFecha());
-		nuevaVersion.setElementsOd(entity.getElementsOd());
+		nuevaVersion.setElementParagraph(entity.getElementParagraph());
+		//nuevaVersion.setElementsOd(entity.getElementsOd());
 		nuevaVersion.setNombre(entity.getNombre());
 		nuevaVersion.setId(entity.getId());
 		Optional<OrderDay> od = orderDayRepository.findById(entity.getId());
@@ -120,8 +121,16 @@ public class OrderDayServiceImpl implements OrderDayService {
 
 	@Override
 	public OrderDay putPublishedByOdOriginal(OrderDay entity) {
+		OrderDay replace = new OrderDay();
+		
 		entity.setPublished(true);
-		 return orderDayRepository.save(entity);
+		if(entity.getOdOriginal() != null || entity.getOdOriginal() == entity.getReferencia()) {
+			//replace.setOdOriginal(entity.getOdOriginal());
+			replace = orderDayRepository.save(entity);
+			logger.info("Orden del dia publicada: ["+entity+"]");
+			 
+		}
+		 return replace;
 	}
 
 	
@@ -144,9 +153,10 @@ public class OrderDayServiceImpl implements OrderDayService {
 	}
 
 	@Override
-	public List<OrderDay> getByStatusPublicada(boolean status) {
+	public List<OrderDay> getByStatusPublicada(boolean publicada) {
 		List<OrderDay> orderday= new ArrayList<OrderDay>();
-		orderday= orderDayRepository.findByIsPublishedOrderByFechaDesc(status);
+		orderday= orderDayRepository.findByIsPublishedOrderByFechaDesc(publicada);
+		orderday= orderDayRepository.findByStatus(ORDERDAY_STATUS._ACTIVA);
 		return orderday;
 	}
 
@@ -172,6 +182,7 @@ public class OrderDayServiceImpl implements OrderDayService {
 		if(l1 != null) {
 			res.addAll(l1);
 		}
+		
 		return res;	
 	}
 

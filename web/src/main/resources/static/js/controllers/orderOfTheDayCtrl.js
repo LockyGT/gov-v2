@@ -1,7 +1,7 @@
 app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $scope, $window, $log, $filter, $state,orderdayService, _ORDERDAY,storageService,elementOdService) {
 
 	$scope.odgazzete=null;
-	$scope.orderday={};
+	$scope.orderday=[];
 	$scope.attached = {};
 	$scope.filtrosFechas = {};
 	$scope.filtrosFechas.searchDateStart = new Date();
