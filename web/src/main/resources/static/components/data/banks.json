@@ -1,0 +1,560 @@
+[
+	{
+		"id": 1,
+		"key": "002",
+		"shortName": "BANAMEX",
+		"name": "Banco Nacional de México, S.A., Institución de Banca Múltiple, Grupo Financiero Banamex"
+	},
+	{
+		"id": 2,
+		"key": "006",
+		"shortName": "BANCOMEXT",
+		"name": "Banco Nacional de Comercio Exterior, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 3,
+		"key": "009",
+		"shortName": "BANOBRAS",
+		"name": "Banco Nacional de Obras y Servicios Públicos, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 4,
+		"key": "012",
+		"shortName": "BBVA BANCOMER",
+		"name": "BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer"
+	},
+	{
+		"id": 5,
+		"key": "014",
+		"shortName": "SANTANDER",
+		"name": "Banco Santander (México), S.A., Institución de Banca Múltiple, Grupo Financiero Santander"
+	},
+	{
+		"id": 6,
+		"key": "019",
+		"shortName": "BANJERCITO",
+		"name": "Banco Nacional del Ejército, Fuerza Aérea y Armada, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 7,
+		"key": "021",
+		"shortName": "HSBC",
+		"name": "HSBC México, S.A., institución De Banca Múltiple, Grupo Financiero HSBC"
+	},
+	{
+		"id": 8,
+		"key": "030",
+		"shortName": "BAJIO",
+		"name": "Banco del Bajío, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 9,
+		"key": "032",
+		"shortName": "IXE",
+		"name": "IXE Banco, S.A., Institución de Banca Múltiple, IXE Grupo Financiero"
+	},
+	{
+		"id": 10,
+		"key": "036",
+		"shortName": "INBURSA",
+		"name": "Banco Inbursa, S.A., Institución de Banca Múltiple, Grupo Financiero Inbursa"
+	},
+	{
+		"id": 11,
+		"key": "037",
+		"shortName": "INTERACCIONES",
+		"name": "Banco Interacciones, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 12,
+		"key": "042",
+		"shortName": "MIFEL",
+		"name": "Banca Mifel, S.A., Institución de Banca Múltiple, Grupo Financiero Mifel"
+	},
+	{
+		"id": 13,
+		"key": "044",
+		"shortName": "SCOTIABANK",
+		"name": "Scotiabank Inverlat, S.A."
+	},
+	{
+		"id": 14,
+		"key": "058",
+		"shortName": "BANREGIO",
+		"name": "Banco Regional de Monterrey, S.A., Institución de Banca Múltiple, Banregio Grupo Financiero"
+	},
+	{
+		"id": 15,
+		"key": "059",
+		"shortName": "INVEX",
+		"name": "Banco Invex, S.A., Institución de Banca Múltiple, Invex Grupo Financiero"
+	},
+	{
+		"id": 16,
+		"key": "060",
+		"shortName": "BANSI",
+		"name": "Bansi, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 17,
+		"key": "062",
+		"shortName": "AFIRME",
+		"name": "Banca Afirme, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 18,
+		"key": "072",
+		"shortName": "BANORTE",
+		"name": "Banco Mercantil del Norte, S.A., Institución de Banca Múltiple, Grupo Financiero Banorte"
+	},
+	{
+		"id": 19,
+		"key": "102",
+		"shortName": "THE ROYAL BANK",
+		"name": "The Royal Bank of Scotland México, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 20,
+		"key": "103",
+		"shortName": "AMERICAN EXPRESS",
+		"name": "American Express Bank (México), S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 21,
+		"key": "106",
+		"shortName": "BAMSA",
+		"name": "Bank of America México, S.A., Institución de Banca Múltiple, Grupo Financiero Bank of America"
+	},
+	{
+		"id": 22,
+		"key": "108",
+		"shortName": "TOKYO",
+		"name": "Bank of Tokyo-Mitsubishi UFJ (México), S.A."
+	},
+	{
+		"id": 23,
+		"key": "110",
+		"shortName": "JP MORGAN",
+		"name": "Banco J.P. Morgan, S.A., Institución de Banca Múltiple, J.P. Morgan Grupo Financiero"
+	},
+	{
+		"id": 24,
+		"key": "112",
+		"shortName": "BMONEX",
+		"name": "Banco Monex, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 25,
+		"key": "113",
+		"shortName": "VE POR MAS",
+		"name": "Banco Ve Por Mas, S.A. Institución de Banca Múltiple"
+	},
+	{
+		"id": 26,
+		"key": "116",
+		"shortName": "ING",
+		"name": "ING Bank (México), S.A., Institución de Banca Múltiple, ING Grupo Financiero"
+	},
+	{
+		"id": 27,
+		"key": "124",
+		"shortName": "DEUTSCHE",
+		"name": "Deutsche Bank México, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 28,
+		"key": "126",
+		"shortName": "CREDIT SUISSE",
+		"name": "Banco Credit Suisse (México), S.A. Institución de Banca Múltiple, Grupo Financiero Credit Suisse (México)"
+	},
+	{
+		"id": 29,
+		"key": "127",
+		"shortName": "AZTECA",
+		"name": "Banco Azteca, S.A. Institución de Banca Múltiple."
+	},
+	{
+		"id": 30,
+		"key": "128",
+		"shortName": "AUTOFIN",
+		"name": "Banco Autofin México, S.A. Institución de Banca Múltiple"
+	},
+	{
+		"id": 31,
+		"key": "129",
+		"shortName": "BARCLAYS",
+		"name": "Barclays Bank México, S.A., Institución de Banca Múltiple, Grupo Financiero Barclays México"
+	},
+	{
+		"id": 32,
+		"key": "130",
+		"shortName": "COMPARTAMOS",
+		"name": "Banco Compartamos, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 33,
+		"key": "131",
+		"shortName": "BANCO FAMSA",
+		"name": "Banco Ahorro Famsa, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 34,
+		"key": "132",
+		"shortName": "BMULTIVA",
+		"name": "Banco Multiva, S.A., Institución de Banca Múltiple, Multivalores Grupo Financiero"
+	},
+	{
+		"id": 35,
+		"key": "133",
+		"shortName": "ACTINVER",
+		"name": "Banco Actinver, S.A. Institución de Banca Múltiple, Grupo Financiero Actinver"
+	},
+	{
+		"id": 36,
+		"key": "134",
+		"shortName": "WAL-MART",
+		"name": "Banco Wal-Mart de México Adelante, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 37,
+		"key": "135",
+		"shortName": "NAFIN",
+		"name": "Nacional Financiera, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 38,
+		"key": "136",
+		"shortName": "INTERBANCO",
+		"name": "Inter Banco, S.A. Institución de Banca Múltiple"
+	},
+	{
+		"id": 39,
+		"key": "137",
+		"shortName": "BANCOPPEL",
+		"name": "BanCoppel, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 40,
+		"key": "138",
+		"shortName": "ABC CAPITAL",
+		"name": "ABC Capital, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 41,
+		"key": "139",
+		"shortName": "UBS BANK",
+		"name": "UBS Bank México, S.A., Institución de Banca Múltiple, UBS Grupo Financiero"
+	},
+	{
+		"id": 42,
+		"key": "140",
+		"shortName": "CONSUBANCO",
+		"name": "Consubanco, S.A. Institución de Banca Múltiple"
+	},
+	{
+		"id": 43,
+		"key": "141",
+		"shortName": "VOLKSWAGEN",
+		"name": "Volkswagen Bank, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 44,
+		"key": "143",
+		"shortName": "CIBANCO",
+		"name": "CIBanco, S.A."
+	},
+	{
+		"id": 45,
+		"key": "145",
+		"shortName": "BBASE",
+		"name": "Banco Base, S.A., Institución de Banca Múltiple"
+	},
+	{
+		"id": 46,
+		"key": "166",
+		"shortName": "BANSEFI",
+		"name": "Banco del Ahorro Nacional y Servicios Financieros, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 47,
+		"key": "168",
+		"shortName": "HIPOTECARIA FEDERAL",
+		"name": "Sociedad Hipotecaria Federal, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 48,
+		"key": "600",
+		"shortName": "MONEXCB",
+		"name": "Monex Casa de Bolsa, S.A. de C.V. Monex Grupo Financiero"
+	},
+	{
+		"id": 49,
+		"key": "601",
+		"shortName": "GBM",
+		"name": "GBM Grupo Bursátil Mexicano, S.A. de C.V. Casa de Bolsa"
+	},
+	{
+		"id": 50,
+		"key": "602",
+		"shortName": "MASARI",
+		"name": "Masari Casa de Bolsa, S.A."
+	},
+	{
+		"id": 51,
+		"key": "605",
+		"shortName": "VALUE",
+		"name": "Value, S.A. de C.V. Casa de Bolsa"
+	},
+	{
+		"id": 52,
+		"key": "606",
+		"shortName": "ESTRUCTURADORES",
+		"name": "Estructuradores del Mercado de Valores Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 53,
+		"key": "607",
+		"shortName": "TIBER",
+		"name": "Casa de Cambio Tiber, S.A. de C.V."
+	},
+	{
+		"id": 54,
+		"key": "608",
+		"shortName": "VECTOR",
+		"name": "Nacional Financiera, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 55,
+		"key": "610",
+		"shortName": "B&B",
+		"name": "B y B, Casa de Cambio, S.A. de C.V."
+	},
+	{
+		"id": 56,
+		"key": "614",
+		"shortName": "ACCIVAL",
+		"name": "Acciones y Valores Banamex, S.A. de C.V., Casa de Bolsa"
+	},
+	{
+		"id": 57,
+		"key": "615",
+		"shortName": "MERRILL LYNCH",
+		"name": "Merrill Lynch México, S.A. de C.V. Casa de Bolsa"
+	},
+	{
+		"id": 58,
+		"key": "616",
+		"shortName": "FINAMEX",
+		"name": "Casa de Bolsa Finamex, S.A. de C.V."
+	},
+	{
+		"id": 59,
+		"key": "617",
+		"shortName": "VALMEX",
+		"name": "Valores Mexicanos Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 60,
+		"key": "618",
+		"shortName": "UNICA",
+		"name": "Unica Casa de Cambio, S.A. de C.V."
+	},
+	{
+		"id": 61,
+		"key": "619",
+		"shortName": "MAPFRE",
+		"name": "MAPFRE Tepeyac, S.A."
+	},
+	{
+		"id": 62,
+		"key": "620",
+		"shortName": "PROFUTURO",
+		"name": "Profuturo G.N.P., S.A. de C.V., Afore"
+	},
+	{
+		"id": 63,
+		"key": "621",
+		"shortName": "CB ACTINVER",
+		"name": "Actinver Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 64,
+		"key": "622",
+		"shortName": "OACTIN",
+		"name": "OPERADORA ACTINVER, S.A. DE C.V."
+	},
+	{
+		"id": 65,
+		"key": "623",
+		"shortName": "SKANDIA",
+		"name": "Skandia Vida, S.A. de C.V."
+	},
+	{
+		"id": 66,
+		"key": "626",
+		"shortName": "CBDEUTSCHE",
+		"name": "Deutsche Securities, S.A. de C.V. CASA DE BOLSA"
+	},
+	{
+		"id": 67,
+		"key": "627",
+		"shortName": "ZURICH",
+		"name": "Zurich Compañía de Seguros, S.A."
+	},
+	{
+		"id": 68,
+		"key": "628",
+		"shortName": "ZURICHVI",
+		"name": "Zurich Vida, Compañía de Seguros, S.A."
+	},
+	{
+		"id": 69,
+		"key": "629",
+		"shortName": "SU CASITA",
+		"name": "Hipotecaria Su Casita, S.A. de C.V. SOFOM ENR"
+	},
+	{
+		"id": 70,
+		"key": "630",
+		"shortName": "CB INTERCAM",
+		"name": "Intercam Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 71,
+		"key": "631",
+		"shortName": "CI BOLSA",
+		"name": "Nacional Financiera, Sociedad Nacional de Crédito, Institución de Banca de Desarrollo"
+	},
+	{
+		"id": 72,
+		"key": "632",
+		"shortName": "BULLTICK CB",
+		"name": "Bulltick Casa de Bolsa, S.A., de C.V."
+	},
+	{
+		"id": 73,
+		"key": "633",
+		"shortName": "STERLING",
+		"name": "Sterling Casa de Cambio, S.A. de C.V."
+	},
+	{
+		"id": 74,
+		"key": "634",
+		"shortName": "FINCOMUN",
+		"name": "Fincomún, Servicios Financieros Comunitarios, S.A. de C.V."
+	},
+	{
+		"id": 75,
+		"key": "636",
+		"shortName": "HDI SEGUROS",
+		"name": "HDI Seguros, S.A. de C.V."
+	},
+	{
+		"id": 76,
+		"key": "637",
+		"shortName": "ORDER",
+		"name": "Order Express Casa de Cambio, S.A. de C.V"
+	},
+	{
+		"id": 77,
+		"key": "638",
+		"shortName": "AKALA",
+		"name": "Akala, S.A. de C.V., Sociedad Financiera Popular"
+	},
+	{
+		"id": 78,
+		"key": "640",
+		"shortName": "CB JPMORGAN",
+		"name": "J.P. Morgan Casa de Bolsa, S.A. de C.V. J.P. Morgan Grupo Financiero"
+	},
+	{
+		"id": 79,
+		"key": "642",
+		"shortName": "REFORMA",
+		"name": "Operadora de Recursos Reforma, S.A. de C.V., S.F.P."
+	},
+	{
+		"id": 80,
+		"key": "646",
+		"shortName": "STP",
+		"name": "Sistema de Transferencias y Pagos STP, S.A. de C.V.SOFOM ENR"
+	},
+	{
+		"id": 81,
+		"key": "647",
+		"shortName": "TELECOMM",
+		"name": "Telecomunicaciones de México"
+	},
+	{
+		"id": 82,
+		"key": "648",
+		"shortName": "EVERCORE",
+		"name": "Evercore Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 83,
+		"key": "649",
+		"shortName": "SKANDIA",
+		"name": "Skandia Operadora de Fondos, S.A. de C.V."
+	},
+	{
+		"id": 84,
+		"key": "651",
+		"shortName": "SEGMTY",
+		"name": "Seguros Monterrey New York Life, S.A de C.V"
+	},
+	{
+		"id": 85,
+		"key": "652",
+		"shortName": "ASEA",
+		"name": "Solución Asea, S.A. de C.V., Sociedad Financiera Popular"
+	},
+	{
+		"id": 86,
+		"key": "653",
+		"shortName": "KUSPIT",
+		"name": "Kuspit Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 87,
+		"key": "655",
+		"shortName": "SOFIEXPRESS",
+		"name": "J.P. SOFIEXPRESS, S.A. de C.V., S.F.P."
+	},
+	{
+		"id": 88,
+		"key": "656",
+		"shortName": "EVERCORE",
+		"name": "Evercore Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 89,
+		"key": "659",
+		"shortName": "SKANDIA",
+		"name": "Skandia Operadora de Fondos, S.A. de C.V."
+	},
+	{
+		"id": 90,
+		"key": "901",
+		"shortName": "SEGMTY",
+		"name": "Seguros Monterrey New York Life, S.A de C.V"
+	},
+	{
+		"id": 91,
+		"key": "902",
+		"shortName": "ASEA",
+		"name": "Solución Asea, S.A. de C.V., Sociedad Financiera Popular"
+	},
+	{
+		"id": 92,
+		"key": "670",
+		"shortName": "KUSPIT",
+		"name": "Kuspit Casa de Bolsa, S.A. de C.V."
+	},
+	{
+		"id": 93,
+		"key": "999",
+		"shortName": "N/A",
+		"name": ""
+	}
+]

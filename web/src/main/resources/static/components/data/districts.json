@@ -1,0 +1,142 @@
+[
+	{
+		"id": 1,
+		"number": "I",
+		"name": "CHILPANCINGO DE LOS BRAVO"
+	},
+	{
+		"id": 2,
+		"number": "II",
+		"name": "CHILPANCINGO DE LOS BRAVO"
+	},
+	{
+		"id": 3,
+		"number": "III",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 4,
+		"number": "IV",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 5,
+		"number": "V",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 6,
+		"number": "VI",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 7,
+		"number": "VII",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 8,
+		"number": "VIII",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 9,
+		"number": "IX",
+		"name": "ACAPULCO DE JUÁREZ"
+	},
+	{
+		"id": 10,
+		"number": "X",
+		"name": "TÉCPAN DE GALEANA"
+	},
+	{
+		"id": 11,
+		"number": "XI",
+		"name": "ZIHUATANEJO DE AZUETA"
+	},
+	{
+		"id": 12,
+		"number": "XII",
+		"name": "ZIHUATANEJO DE AZUETA"
+	},
+	{
+		"id": 13,
+		"number": "XIII",
+		"name": "SAN MARCOS"
+	},
+	{
+		"id": 14,
+		"number": "XIV",
+		"name": "AYUTLA DE LOS LIBRES"
+	},
+	{
+		"id": 15,
+		"number": "XV",
+		"name": "SAN LUIS ACATLÁN"
+	},
+	{
+		"id": 16,
+		"number": "XVI",
+		"name": "OMETEPEC"
+	},
+	{
+		"id": 17,
+		"number": "XVII",
+		"name": "COYUCA DE CATALÁN"
+	},
+	{
+		"id": 18,
+		"number": "XVIII",
+		"name": "PUNGARABATO"
+	},
+	{
+		"id": 19,
+		"number": "XIX",
+		"name": "EDUARDO NERI"
+	},
+	{
+		"id": 20,
+		"number": "XX",
+		"name": "TELOLOAPAN"
+	},
+	{
+		"id": 21,
+		"number": "XXI",
+		"name": "TAXCO DE ALARCÓN"
+	},
+	{
+		"id": 22,
+		"number": "XXII",
+		"name": "IGUALA DE INDEPENDENCIA"
+	},
+	{
+		"id": 23,
+		"number": "XXIII",
+		"name": "IGUALA DE INDEPENDENCIA"
+	},
+	{
+		"id": 24,
+		"number": "XXIV",
+		"name": "TIXTLA DE GUERRERO"
+	},
+	{
+		"id": 25,
+		"number": "XXV",
+		"name": "CHILAPA DE ÁLVAREZ"
+	},
+	{
+		"id": 26,
+		"number": "XXVI",
+		"name": "ATLIXTAC"
+	},
+	{
+		"id": 27,
+		"number": "XXVII",
+		"name": "TLAPA DE COMONFORT"
+	},
+	{
+		"id": 26,
+		"number": "XXVIII",
+		"name": "PUNGARABATO"
+	}
+]
