@@ -18,22 +18,25 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.validText=()=>{
 		$scope.minAge = new Date();
 	};
-
-	$scope.initiativeParagraphs = (orderday) => {
-		$scope.orderday.paragraph = $scope.selection;
-		console.log('parrafo ah enviar',$scope.orderday.paragraph)
-		orderdayService.put(orderday).then(function success(data){
-			console.log('Eliminar parrafo', data)
-			if(data){
-				swal("Exito","Elemento eliminado exitosamente", "success");
-				$scope.orderday = null;
-				swal.stopLoading();
-				$scope.getOrderDays();
-			}
-		}, function error(){
-			swal("Errpr","El contenido no se puedo eliminar","error");
-		});
+	$scope.nextTab = () => {
+		$scope.isActive =true;
 	};
+
+//	$scope.initiativeParagraphs = (orderday) => {
+//		$scope.orderday.paragraph = $scope.selection;
+//		console.log('parrafo ah enviar',$scope.orderday.paragraph)
+//		orderdayService.put(orderday).then(function success(data){
+//			console.log('Eliminar parrafo', data)
+//			if(data){
+//				swal("Exito","Elemento eliminado exitosamente", "success");
+//				$scope.orderday = null;
+//				swal.stopLoading();
+//				$scope.getOrderDays();
+//			}
+//		}, function error(){
+//			swal("Errpr","El contenido no se puedo eliminar","error");
+//		});
+//	};
 
 
 	$scope.toggleSelection = function toggleSelection(paragraph) {
@@ -84,19 +87,13 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	};
 
-	$scope.nextTab = () => {
-		$scope.isActive =true;
-	};
-
-	/*************************Metodos de elementos************************/
-
 	/**
 	 * Eliminado de parrafos
 	 */
 	$scope.removeParagraphs = e => {
 		e.status = -1;
 	};
-
+	/*************************Metodos de elementos************************/
 	$scope.addNewElement = (elementOd)=>{ 
 		$scope.elementsOd= elementOd;
 		console.log('Agregar nuevo elemento',elementOd);
@@ -127,7 +124,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			swal("Error",$scope.myWelcome, "error");
 		});
 	};
-
+	
+	
 	$scope.postElement = function(){
 		console.log("Elemento enviado",$scope.elementOd);
 		swal({
@@ -176,10 +174,14 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		elementOdService.put($scope.elementOd).then(function mySuccess(data) {	
 			console.log("elemento actualizadp",data)
 			if(data){
-
+				let name = $scope.currentElement.id;
+				let foundIndex = $scope.orderday.elementParagraph.findIndex( function (elementName){
+					return elementName.elementOd.id == data.id;
+				})
+				$scope.orderday.elementParagraph[foundIndex].elementOd = data; 
+				console.log("--",$scope.orderday);
 				swal("Exito", "Elemento actualizado correctamente", "success");
-
-
+				
 				$scope.getElementsOd();
 				swal.stopLoading();
 				$scope.elementOd = null;
@@ -376,9 +378,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		console.log('*--------------*', newFiles)
-		//$scope.orderday.paragraph.iniciativa = true;
-		//$scope.orderday.paragraph = $scope.selection;
 		$scope.orderday.status = 1;
 		console.log('Orden del dia enviada ',$scope.orderday);
 		orderdayService.post($scope.orderday).then(function success(data){
@@ -390,7 +389,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			} else {
 				swal("Error", "No se ha guardado la Orden del día", "error");
 			}
-//			$scope.isActive =true;
 		}, function error(error){
 			$scope.myWelcome = error.statusText;
 			swal("Error","Orden del día no agregado "+$scope.myWelcome, "error");
@@ -409,7 +407,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 		fechaHoy.setHours(0,0,0,0);
 		sumaFecha.setHours(0,0,0,0);
-		
+
 		if(sumaFecha >= fechaHoy){
 			console.log("Fecha a partir de hoy");
 
@@ -432,23 +430,20 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-		console.log('----------', newFiles)
-
 		let dataOD = $scope.orderday;
 		dataOD.attached.status = 1;
 		dataOD.attached.originFolder = newFiles.originFolder;
 		dataOD.attached.files = $scope.orderday.attached.files.concat(newFiles.files);
-		
+
 		orderdayService.postNewVerssion(dataOD).then(function success(data){
 			console.log('verision de la Orden del dia', data)
 			if(data){
-				
+				swal.stopLoading();
 				swal("Exito", "Orden del día actualizado correctamente", "success");
 				$scope.attached = {};
 				data.fecha = new Date(data.fecha);
 				$scope.orderday = null;
 				$scope.attached.filesUploads=null;
-				swal.stopLoading();
 				$scope.getOrderDays();
 
 			} else {
@@ -798,20 +793,16 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.addContentE = function(){
-		$scope.currentElement.paragraph= [];
+		$scope.currentElement.paragraph = [];
 		console.log('elementos',$scope.currentElement)
 
 		console.log('Agregar elementos para los parrafos', $scope.currentElement.paragraph);
 		let isExistsElement= $filter('filter')($scope.orderday.elementParagraph,{id: $scope.currentElement.id, status:1});
 
-
 		console.log('********************',isExistsElement);
 		if(!isExistsElement.length){
 			$scope.orderday.elementParagraph.push({elementOd: $scope.currentElement, status:1, paragraph:[]});
-
 		}
-//		let index = $scope.elementOd.findIndex( element => element.nombre === nombre );
-//		console.log(index);
 	};
 
 	$scope.addParagraph = function(e) {
@@ -839,22 +830,12 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.addParagraphInIniciative = () =>{
 		$timeout(()=>{ 
-
 			$scope.orderday = $scope.orderday;
-			console.log('Orden del dia actual', $scope.orderday);
-
 			$scope.oderdayCopy = angular.copy($scope.orderday);
 			console.log('Copia de orden del dia',$scope.oderdayCopy);
 
 			orderdayService.put($scope.oderdayCopy).then(function success(data) {
-				console.log('Enviar iniciativa',$scope.oderdayCopy);
-//				if(data){
-//				swal("Exito", "Parrafo enviada a iniciativas correctamente", "success");
-//				swal.stopLoading();
-//				//$scope.getOrderDays();
-//				}else{
-//				swal("Error", "Parrafo no enviada", "error");
-//				}	
+				console.log('Enviar iniciativa',$scope.oderdayCopy);	
 			}, 
 			function myError(response) {
 				$scope.myWelcome = response.statusText;
@@ -909,8 +890,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.getOrderDays();
 		$scope.orderday = null;
 	};
-
-
 
 	const initController = () =>{
 		$scope.getOrderDays();

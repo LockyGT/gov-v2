@@ -175,6 +175,11 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 		templateUrl : './views/admin/reporteQuorum.html',
 		controller : 'reporteQuorumCtrl',
 		resolve: { authenticate: authenticate }
+	}).state('reporteAsistenciaLegisladores', {
+		url : '/reporteAsistenciaLegisladores',
+		templateUrl : './views/admin/reporteAsisteciaLegisladores.html',
+		controller : 'reporteAsisteciaLegisladoresCtrl',
+		resolve: { authenticate: authenticate }
 	}).state('reporteAsistenciasSesiones', {
 		url : '/reporteAsistenciasSesiones',
 		templateUrl : './views/admin/reporteAsistenciasSesiones.html',

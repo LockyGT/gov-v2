@@ -124,6 +124,24 @@
 			{
 				"id": 3,
 				"app": "reports",
+				"index": 5.2,
+				"title": "Lista de Asistencia de Legisladores",
+				"url": "#!reporteAsistenciaLegisladores",
+				"icon": "fas fa-file-contract",
+				"color": "#C0C0C0",
+				"image": "../img/periodico.png",
+				"alt": "Consulta de Asistencias",
+				"text": "",
+				"roles": [
+					"OPERADOR"
+				],
+				"levels": 1,
+				"childs": [],
+				"status": 1
+			},
+			{
+				"id": 4,
+				"app": "reports",
 				"index": 5.3,
 				"title": "Reporte de Presentes",
 				"url": "#!reportePresentes",
@@ -140,7 +158,7 @@
 				"status": 1
 			},
 			{
-				"id": 4,
+				"id": 5,
 				"app": "reports",
 				"index": 5.4,
 				"title": "Asistencias en Sesiones",
@@ -158,7 +176,7 @@
 				"status": 1
 			},
 			{
-				"id": 5,
+				"id": 6,
 				"app": "statistics",
 				"index": 5.5,
 				"title": "Legisladores",
@@ -176,7 +194,7 @@
 				"status": 1
 			},
 			{
-				"id": 6,
+				"id": 7,
 				"app": "statistics",
 				"index": 5.6,
 				"title": "Legislatura",
@@ -194,7 +212,7 @@
 				"status": 1
 			},
 			{
-				"id": 7,
+				"id": 8,
 				"app": "statistics",
 				"index": 5.7,
 				"title": "Iniciativas",
@@ -212,9 +230,9 @@
 				"status": 1
 			},
 			{
-				"id": 8,
+				"id": 9,
 				"app": "statistics",
-				"index": 5.7,
+				"index": 5.8,
 				"title": "Resultados",
 				"url": "#!resultsInitiativesReport",
 				"icon": "fas fa-poll-h",
