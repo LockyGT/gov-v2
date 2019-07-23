@@ -146,27 +146,32 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		});
 	};
 
-	$scope.checkAllOptions = function(orderday){
-		angular.forEach(orderday.elementParagraph,function(e){
+	$scope.checkAllOptions = function(orderday,e){
+		angular.forEach(orderday.elementParagraph,function(el){
 
-			angular.forEach(e.paragraph,function(p){
-				if(p.status != -1 && p.iniciativa != 0){
-					p.checked=true;
+			angular.forEach(el.paragraph,function(p){
+				if(p.status == 2 && p.iniciativa == 1){
+					p.checked = e.target.checked;
+					
 					console.log("Parrafos",p);
-
+					$scope.updateSelected(p);
 					angular.forEach(p.subParagraphs,function(sp){
 						if(sp.status != -1 && sp.iniciativa != 0){
-							sp.checked=true;
-							console.log("Subparrafos", sp);
+							sp.checked = e.target.checked;
+							
+							console.log("Subparrafos", sp)
+							$scope.updateSelected(sp);
 						}
 					});
+					
 				}
 				
 			});
+			
+			
 		});
-		//console.log("Sesion", $scope.sessionView.orderday)
 	};
-
+	
 	$scope.updateSelected = (paragraph) => {
 		$scope.initiative= {
 				status: 1,
@@ -176,8 +181,9 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				result: {},
 				status : _INICIATIVA._CREATED
 		};
-		$scope.initiative.contenidoOd = paragraph;
+		$scope.initiative.contenidoOd = paragraph.contenidotxt;
 		console.log($scope.initiative)
+		console.log(paragraph)
 		$scope.postInit(paragraph);
 	};
 
@@ -187,6 +193,8 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		console.log('modal ver orden dia',voteSession)
 		$scope.sessionView= voteSession;
 	};
+	
+	
 	/********************** END ORDERDAY **************************/
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
