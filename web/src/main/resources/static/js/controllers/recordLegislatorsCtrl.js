@@ -1,4 +1,4 @@
-app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state){
+app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state, factory){
 	
 // $scope.parties = [];
 	$scope.recordLegislator  = null;
@@ -35,6 +35,27 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	};
 	
 	$scope.update = recordLegislator => {
+		if(recordLegislator.fechaCumplianos){
+			recordLegislator.fechaCumplianos = new Date(recordLegislator.fechaCumplianos);
+		}
+
+		if(recordLegislator.section){
+			
+			if(recordLegislator.section.contractData) {
+				
+				if(recordLegislator.section.contractData.startDate){
+					recordLegislator.section.contractData.startDate =
+						new Date(recordLegislator.section.contractData.startDate);
+				}
+				
+				if (recordLegislator.section.contractData.endDate) {
+					recordLegislator.section.contractData.endDate =
+						new Date(recordAdministrator.section.contractData.endDate);
+				}
+				
+			}
+			
+		}
 		$scope.partner  = recordLegislator;
 		if($scope.partner.foto != null && $scope.partner.foto.filePath != null) {
 			$scope.fetchFile($scope.partner.foto.filePath);
@@ -157,6 +178,32 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 		});
 	};
 	
+	$scope.getDistricts = () => {
+		
+		factory.get('components/data/districts.json').then( districts => {
+			$scope.districs = districts;
+			console.log('DIstritos obtenidos_: ',$scope.districs);
+		}, errorData => {
+			swal("Error",$scope.myWelcome, "error");
+		});
+	};
+	
+	$scope.getBanks = () => {
+		factory.get('components/data/banks.json').then( dataBanks => {
+			$scope.banks = dataBanks;
+		}, errorData => {
+			swal("Error", errorData.statusText,"error");
+		});
+	};
+	
+	$scope.getStates = () => {
+		factory.get('components/data/states.json').then( dataStates => {
+			$scope.states = dataStates;
+		}, errorData => {
+			swal("Error", errorData.statusText,"error");
+		});
+	};
+	
 	$scope.getPartners = () => {
 		let sendData = {
 				"status": 1,
@@ -249,7 +296,7 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			$scope.validClass.nss             = 'valid';
 			$scope.validClass.celular         = 'valid';
 			$scope.validClass.job             = 'valid';
-			$scope.validClass.area            = 'valid';
+			$scope.validClass.organ           = 'valid';
 			
 			if(!$scope.partner.name){
 				$scope.validClass.name = 'invalid';
@@ -275,9 +322,7 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			
 			if(!$scope.partner.edad){
 				$scope.validClass.edad = 'invalid';
-			} else if(!$scope.partner.edad.trim().length === 0){
-				$scope.validClass.edad = 'invalid';
-			}
+			} 
 			
 			if(!$scope.partner.sexo){
 				$scope.validClass.sexo = 'invalid';
@@ -286,8 +331,6 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			}
 			
 			if(!$scope.partner.partido){
-				$scope.validClass.partido = 'invalid';
-			} else if($scope.partner.partido.trim().length === 0){
 				$scope.validClass.partido = 'invalid';
 			}
 			
@@ -331,17 +374,43 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 			}else if($scope.partner.section.contractData.job.trim().length === 0){
 				$scope.validClass.job = 'invalid';
 			}
-			if(!$scope.partner.section.contractData.area){
-				$scope.validClass.area = 'invalid';
-			}else if($scope.partner.section.contractData.area.trim().length === 0){
-				$scope.validClass.area = 'invalid';
+			
+			if(!$scope.partner.section.contractData.organ){
+				$scope.validClass.organ = 'invalid';
+			}else if($scope.partner.section.contractData.organ.trim().length === 0){
+				$scope.validClass.organ = 'invalid';
 			}
+			
+//			if(!$scope.partner.section.contractData.area){
+//				$scope.validClass.area = 'invalid';
+//			}else if($scope.partner.section.contractData.area.trim().length === 0){
+//				$scope.validClass.area = 'invalid';
+//			}
 		}
 	};
-	 
+	
+	$scope.calculateEdad = () => {
+		const today = new Date();
+		let resta = today - $scope.partner.fechaCumplianos;
+		let dias = Math.round(resta/ (1000*60*60*24));
+		$scope.partner.edad = Math.floor(dias/365);
+	};
+	
+	$scope.changeUpperCaseCurp = (letters) => {
+		$scope.partner.curp = letters.toUpperCase();
+
+	};
+	
+	$scope.changeUpperCaseRfc = (letters) => {
+		$scope.partner.rfc = letters.toUpperCase();
+	};
+	
 	const initController = () => {
 		$scope.getPoliticalParties();
 		$scope.showPartners();
+		$scope.getDistricts();
+		$scope.getBanks();
+		$scope.getStates();
 	};
 	
 	angular.element(document).ready(function () {

@@ -9,6 +9,7 @@ public class ContractData {
 	private String contractType;
 	private String job;
 	private String boss;
+	private String organ;
 	@DBRef
 	private FolderAdministrator area;
 	private Date startDate;
@@ -61,6 +62,18 @@ public class ContractData {
 	 */
 	public void setArea(FolderAdministrator area) {
 		this.area = area;
+	}
+	/**
+	 * @return the organ
+	 */
+	public String getOrgan() {
+		return organ;
+	}
+	/**
+	 * @param organ the organ to set
+	 */
+	public void setOrgan(String organ) {
+		this.organ = organ;
 	}
 	/**
 	 * @return the startDate

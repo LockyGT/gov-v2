@@ -1,4 +1,4 @@
-app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state,$stateParams,folderAdministratorService, userService, $filter){
+app.controller('recordAdministratorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state,$stateParams,folderAdministratorService, userService, $filter, factory){
 	
 	$scope.recordAdministrator  = null;
 	$scope.recordAdministrators = [];
@@ -53,6 +53,22 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		$scope.isChangePass = true;
 	};
 	
+	$scope.getBanks = () => {
+		factory.get('components/data/banks.json').then( dataBanks => {
+			$scope.banks = dataBanks;
+		}, errorData => {
+			swal("Error", errorData.statusText,"error");
+		});
+	};
+	
+	$scope.getStates = () => {
+		factory.get('components/data/states.json').then( dataStates => {
+			$scope.states = dataStates;
+		}, errorData => {
+			swal("Error", errorData.statusText,"error");
+		});
+	};
+	
 	$scope.update = recordAdministrator => {
 		console.log('Informacion a actualiza: ',recordAdministrator);
 		if(recordAdministrator.fechaCumplianos){
@@ -101,8 +117,8 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 				passwordRepeat: 'Se ve bien',
 				username: 'Se ve bien'
 		};
-		console.log('Informacion del parner: ', $scope.partner);
-		if(isValid) {
+		console.log('Informacion: ', isValid);
+		if(!isValid) {
 			if($scope.isChangePass){
 				if($scope.partner.user && $scope.partner.user.password){
 					if($scope.partner.user.password === $scope.partner.user.passwordRepeat){
@@ -310,10 +326,24 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 			}
 			if(!$scope.partner.section.contractData.area){
 				$scope.validClass.area = 'invalid';
-			}else if($scope.partner.section.contractData.area.trim().length === 0){
-				$scope.validClass.area = 'invalid';
 			}
 		}
+	};
+	
+	$scope.calculateEdad = () => {
+		const today = new Date();
+		let resta = today - $scope.partner.fechaCumplianos;
+		let dias = Math.round(resta/ (1000*60*60*24));
+		$scope.partner.edad = Math.floor(dias/365);
+	};
+	
+	$scope.changeUpperCaseCurp = (letters) => {
+		$scope.partner.curp = letters.toUpperCase();
+
+	};
+	
+	$scope.changeUpperCaseRfc = (letters) => {
+		$scope.partner.rfc = letters.toUpperCase();
 	};
 	
 	$scope.addUpdate = () => {
@@ -371,10 +401,7 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 	};
 	
 	$scope.getArea = () => {
-		let sendData = {
-				"status": 1,
-				"id": $stateParams.id
-		};
+		let sendData = { "status": 1, "id": $stateParams.id };
 		
 		folderAdministratorService.getById(sendData).then(data => {
 			$scope.area = data;
@@ -385,6 +412,16 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		});
 	};
 	
+	$scope.getAreas = () => {
+		let sendData = {"status": 1};
+		folderAdministratorService.get(sendData).then(data => {
+			$scope.areas = data;
+			console.log('Areas encontrada: ',data);
+		}, error => {
+			swal.stopLoading();
+			swal('Error', error, "error");
+		});
+	}
 	
 	
 	$scope.fetchFile = filePath => {
@@ -485,6 +522,8 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		$scope.showPartners();
 		$scope.getArea();
 		$scope.getUserRols();
+		$scope.getBanks();
+		$scope.getStates();
 	};
 	
 	angular.element(document).ready(function () {

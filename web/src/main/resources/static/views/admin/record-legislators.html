@@ -102,37 +102,60 @@ legend.scheduler-border {
 								<div class="col-md-8">
 									<div class="form-group">
 										<label for="nameLegislator">Nombre(s)</label> <input
-											type="text" name="nameLegislator" class="form-control" required
+											type="text" name="nameLegislator" class="form-control" 
+											required pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s ]+" maxlength="255"
 											data-ng-class="validClass.name ? 'is-'+validClass.name:''"
-											data-ng-model="partner.name" id="nameLegislator" maxlength="40">
+											data-ng-model="partner.name" id="nameLegislator">
 										<div class="d-block" 
 											data-ng-class="validClass.name ? validClass.name+'-feedback':''"
 											data-ng-show="validClass.name">
 								        	Por favor ingrese el nombre.
 								      </div>
+								      <div class="d-block invalid-feedback"
+											data-ng-show="formLegislator.nameLegislator.$invalid && !validClass.name && formLegislator.nameLegislator.$dirty">
+											El nombre no debe contener carácteres extraños o se encuentra
+											vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.nameLegislator.$valid && !validClass.name">Se
+											ve bien</div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="surnamePLegislator">Apellido Paterno</label> <input
 												name="surnamePLegislator" type="text" class="form-control"
 												data-ng-class="validClass.surnameP ? 'is-'+validClass.surnameP:''"
-												maxlength="40" data-ng-model="partner.apPaterno" required
-												id="surnamePLegislator">
+												required pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s ]+" maxlength="255"
+												data-ng-model="partner.apPaterno" id="surnamePLegislator">
 											<div class="d-block" data-ng-show="validClass.surnameP"
 												data-ng-class="validClass.surnameP ? validClass.surnameP+'-feedback':''">
 									        	Por favor ingrese el apellido paterno.
 									      </div>
+									      <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.surnamePLegislator.$invalid && !validClass.surnameP && formLegislator.surnamePLegislator.$dirty">
+												El apellido paterno no debe contener carácteres extraños o se
+												encuentra vacío</div>
+											<div class="d-block valid-feedback"
+												data-ng-show="formLegislator.surnamePLegislator.$valid && !validClass.surnameP && partner.apPaterno">Se
+												ve bien</div>
 										</div>
 										<div class="form-group col-md-6">
 											<label for="surnameMLegislator">Apellido Materno</label> <input
 												name="surnamePMegislator" type="text" class="form-control"
-												maxlength="40" id="surnamePMegislator" required
+												id="surnamePMegislator" required 
+												pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s ]+" maxlength="255"
 												data-ng-class="validClass.surnameM ? 'is-'+validClass.surnameM:''"
 												data-ng-model="partner.apMaterno">
 											<div class="d-block" data-ng-show="validClass.surnameM"
 												data-ng-class="validClass.surnameM ? validClass.surnameM+'-feedback':''">
 									        	Por favor ingrese el apellido materno.
 									      </div>
+									      <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.surnamePMegislator.$invalid && !validClass.surnameM && formLegislator.surnamePMegislator.$dirty">
+												El apellido materno no debe contener carácteres extraños o se
+												encuentra vacío</div>
+											<div class="d-block valid-feedback"
+												data-ng-show="formLegislator.surnamePMegislator.$valid && !validClass.surnameM && partner.apMaterno">Se
+												ve bien</div>
 										</div>
 									</div>
 									<div class="form-row">
@@ -141,11 +164,16 @@ legend.scheduler-border {
 												nacimiento</label> <input data-ng-model="partner.fechaCumplianos"
 												name="fechaCumplianosLegislator" data-ng-max="maxDate"
 												type="date" class="form-control" required
+												data-ng-change="calculateEdad()" min="1"
 												data-ng-class="validClass.fechaCumplianos ? 'is-'+validClass.fechaCumplianos:''"
 												id="fechaCumplianosLegislator">
 											<div class="d-block" data-ng-show="validClass.fechaCumplianos"
 												data-ng-class="validClass.fechaCumplianos ? validClass.fechaCumplianos+'-feedback':''">
 									        	Por favor ingrese una fecha correcta.
+									      </div>
+									      <div class="d-block" data-ng-show="formLegislator.fechaCumplianosLegislator.$error.date"
+												class="invalid-feedback">
+									        	No es una fecha valida.
 									      </div>
 										</div>
 										<div class="form-group col-md-4">
@@ -157,6 +185,12 @@ legend.scheduler-border {
 												data-ng-class="validClass.edad ? validClass.edad+'-feedback':''">
 									        	Por favor ingrese la edad
 									      </div>
+   									      <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.edadLegislator.$invalid && !validClass.edad && formLegislator.edadLegislator.$dirty">
+												Ingrese una edad correcta</div>
+											<div class="d-block valid-feedback"
+												data-ng-show="formLegislator.edadLegislator.$valid && !validClass.edadLegislator">Se
+												ve bien</div>
 										</div>
 										<div class="form-group col-md-4">
 											<label for="sexoLegislator">Sexo</label> <select
@@ -164,8 +198,8 @@ legend.scheduler-border {
 												data-ng-class="validClass.sexo ? 'is-'+validClass.sexo:''"
 												class="form-control" name="sexoLegislator">
 												<option value="" selected disabled>Seleccione..</option>
-												<option value="m">Masculino</option>
-												<option value="f">Femenino</option>
+												<option value="Masculino">Masculino</option>
+												<option value="Femenino">Femenino</option>
 											</select>
 											<div class="d-block" data-ng-show="validClass.sexo"
 												data-ng-class="validClass.sexo ? validClass.sexo+'-feedback':''">
@@ -176,21 +210,37 @@ legend.scheduler-border {
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="curpLegislator">Curp</label> <input
+												pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ]+" maxlength="18"
+												data-ng-change="changeUpperCaseCurp(partner.curp)"
 												data-ng-model="partner.curp" name="curpLegislator"
 												data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 												type="text" class="form-control" id="curpLegislator">
 											<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la Curp.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.curpLegislator.$invalid && formLegislator.curpLegislator.$dirty && !validClass.valid">
+												La CURP no debe contener carácteres extraños o se encuentra vacía</div>
+											<div class="d-block valid-feedback"
+												data-ng-show="formLegislator.curpLegislator.$valid && !validClass.valid && partner.curp">Se
+												ve bien</div>
 										</div>
 										<div class="form-group col-md-6">
 											<label for="rfcLegislator">RFC</label> <input
+												pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s ]+" maxlength="13"
 												data-ng-model="partner.rfc" name="rfcLegislator" type="text"
+												data-ng-change="changeUpperCaseRfc(partner.rfc)"
 												data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 												class="form-control" id="rfcLegislator">
 											<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el RFC.
 									      </div>
+									      <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.rfcLegislator.$invalid && formLegislator.rfcLegislator.$dirty && !validClass.valid">
+												El RFC no debe contener carácteres extraños o se encuentra vacío</div>
+											<div class="d-block valid-feedback"
+												data-ng-show="formLegislator.rfcLegislator.$valid && !validClass.valid && partner.rfc">Se
+												ve bien</div>
 										</div>
 									</div>
 								</div>
@@ -205,7 +255,7 @@ legend.scheduler-border {
 									<div class="form-group">
 										<label for="partidoLegislator">Partido político</label> <select
 											data-ng-model="partner.partido" name="partidoLegislator"
-											data-ng-options="partie as partie.name for partie in parties"
+											data-ng-options="partie as partie.name for partie in parties track by $index"
 											data-ng-change="changePolicalParty(partner.partido)" required
 											data-ng-class="validClass.partido ? 'is-'+validClass.partido:''"
 											class="form-control" id="partidoLegislator">
@@ -214,23 +264,35 @@ legend.scheduler-border {
 										<div class="d-block" data-ng-show="validClass.partido"
 											data-ng-class="validClass.partido ? validClass.partido+'-feedback':''">
 									        	Por favor ingrese el partido politico.
-									      </div>
+									     </div>
 									</div>
 									<div class="form-group">
 										<label for="comisionesLegislator">Comisiones</label> <input
 											data-ng-model="partner.comisiones"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="comisionesLegislator" type="text" class="form-control"
 											id="comisionesLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese las comisiones.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.comisionesLegislator.$invalid && formLegislator.comisionesLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.comisionesLegislator.$valid && !validClass.valid && partner.comisiones">Se
+											ve bien</div>
 									</div>
 									<div class="form-group">
-										<label for="distritoLegislator">Distrito</label> <input
-											data-ng-model="partner.distrito" name="distritoLegislator"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											type="text" class="form-control" id="distritoLegislator">
+										<label for="distritoLegislator">Distrito</label> 
+											<select data-ng-model="partner.distrito" name="distritoLegislator"
+													data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+													class="form-control" id="distritoLegislator">
+												<option value="" selected disabled>Seleccione...</option>
+												<option data-ng-repeat="distric in districs" 
+														value="{{distric.number}} {{distric.name}}" >
+															{{distric.number}} {{distric.name}}</option>		
+											</select>
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el distrito.
 									      </div>
@@ -245,6 +307,7 @@ legend.scheduler-border {
 									<div class="form-group">
 										<label for="legislaturaLegislator">Legislatura</label> <input
 											data-ng-model="partner.legislatura" required
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.legislatura ? 'is-'+validClass.legislatura:''"
 											name="legislaturaLegislator" type="text" class="form-control"
 											id="legislaturaLegislator">
@@ -252,6 +315,12 @@ legend.scheduler-border {
 											data-ng-class="validClass.legislatura ? validClass.legislatura+'-feedback':''">
 									        	Por favor ingrese la legislatura.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.legislaturaLegislator.$invalid && formLegislator.legislaturaLegislator.$dirty && !validClass.legislatura">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.legislaturaLegislator.$valid && !validClass.valid && partner.legislatura">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -265,15 +334,23 @@ legend.scheduler-border {
 									<div class="form-group col-md-6">
 										<label for="streetPLegislator">Calle</label> <input
 											data-ng-model="partner.section.homeAddress.street"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											name="streetLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="streetLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la calle.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.streetLegislator.$invalid && formLegislator.streetLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.streetLegislator.$valid && !validClass.valid && partner.section.homeAddress.street">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLegislator">Número ext.</label> <input
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-model="partner.section.homeAddress.numberExt"
 											name="numberExtLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
@@ -281,56 +358,94 @@ legend.scheduler-border {
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el número ext.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberExtLegislator.$invalid && formLegislator.numberExtLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberExtLegislator.$valid && !validClass.valid && partner.section.homeAddress.numberExt">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberIntLegislator">Número Int.</label> <input
 											data-ng-model="partner.section.homeAddress.numberInt"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											name="numberIntLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberIntLegislator" >
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el número int.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberIntLegislator.$invalid && formLegislator.numberIntLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberIntLegislator.$valid && !validClass.valid && partner.section.homeAddress.numberInt">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="cpLegislator">C.P.</label> <input
 											data-ng-model="partner.section.homeAddress.cp" type="text"
+											maxlength="5" pattern="[0-9]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="cpLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el C.P.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.cplLegislator.$invalid && formLegislator.cplLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.cplLegislator.$valid && !validClass.valid && partner.section.homeAddress.cp">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLegislator">Colonia</label> <input
 											data-ng-model="partner.section.homeAddress.colony"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											name="colonyLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="colonyLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la colonia.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.colonyLegislator.$invalid && formLegislator.colonyLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.colonyLegislator.$valid && !validClass.valid && partner.section.homeAddress.colony">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="betweenStreetsLegislator">Entre calles</label> <input
 											data-ng-model="partner.section.homeAddress.betweenStreets"
 											name="betweenStreetsLegislator" type="text"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="betweenStreetsLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese entre que calles.
-									      </div>
+									    </div>
+									    <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.betweenStreetsLegislator.$invalid && formLegislator.betweenStreetsLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.betweenStreetsLegislator.$valid && !validClass.valid && partner.section.homeAddress.betweenStreets">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="stateLegislator">Estado</label> <input
-											data-ng-model="partner.section.homeAddress.state"
-											name="stateLegislator" type="text" class="form-control"
+										<label for="stateLegislator">Estado</label> 
+										<select data-ng-model="partner.section.homeAddress.state"
+											name="stateLegislator" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="stateLegislator">
+												<option value="" selected disabled>Seleccione...</option>
+												<option data-ng-repeat="state in states | orderBy: 'name'" 
+														value="{{state.name}}">{{state.name}}</option>
+										</select>
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el estado.
 									      </div>
@@ -341,10 +456,17 @@ legend.scheduler-border {
 											data-ng-model="partner.section.homeAddress.municipality"
 											name="municipalityLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											class="form-control" id="municipalityLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la Delegación/Municipio.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.municipalityLegislator.$invalid && formLegislator.municipalityLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.municipalityLegislator.$valid && !validClass.valid && partner.section.homeAddress.municipality">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -358,32 +480,53 @@ legend.scheduler-border {
 									<div class="form-group col-md-6">
 										<label for="streetLLegislator">Calle</label> <input
 											data-ng-model="partner.section.laborAddress.street"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="streetLLegislator" type="text" class="form-control"
 											id="streetLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la calle.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.streetLLegislator.$invalid && formLegislator.streetLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.streetLLegislator.$valid && !validClass.valid && partner.section.laborAddress.street">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberExtLLegislator">Número ext.</label> <input
 											data-ng-model="partner.section.laborAddress.numberExt"
 											name="numberExtLLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberExtLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el número ext.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberExtLLegislator.$invalid && formLegislator.numberExtLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberExtLLegislator.$valid && !validClass.valid && partner.section.laborAddress.numberExt">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberIntLLegislator">Número Int.</label> <input
 											data-ng-model="partner.section.laborAddress.numberInt"
 											name="numberIntLLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberIntLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el número int.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberIntLLegislator.$invalid && formLegislator.numberIntLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberIntLLegislator.$valid && !validClass.valid && partner.section.laborAddress.numberInt">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -392,39 +535,62 @@ legend.scheduler-border {
 											data-ng-model="partner.section.laborAddress.cp"
 											name="cpLLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="cpLLegislator">
+											id="cpLLegislator" maxlength="255" pattern="[0-9]+">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el C.P.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.cpLLegislator.$invalid && formLegislator.cpLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.cpLLegislator.$valid && !validClass.valid && partner.section.laborAddress.cp">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="colonyLLegislator">Colonia</label> <input
 											data-ng-model="partner.section.laborAddress.colony"
 											name="colonyLLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="colonyLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la colonia.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.colonyLLegislator.$invalid && formLegislator.colonyLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.colonyLLegislator.$valid && !validClass.valid && partner.section.laborAddress.colony">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="betwennStreetsLLegislator">Entre calles</label> <input
 											data-ng-model="partner.section.laborAddress.betwennStreets"
 											type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="betwennStreetsLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese entre que calles.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.betwennStreetsLLegislator.$invalid && formLegislator.betwennStreetsLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.betwennStreetsLLegislator.$valid && !validClass.valid && partner.section.laborAddress.betwennStreets">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="stateLLegislator">Estado</label> <input
-											data-ng-model="partner.section.laborAddress.state"
-											name="stateLLegislator" type="text" class="form-control"
-											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="stateLLegislator">
+										<label for="stateLLegislator">Estado</label> 
+										<select data-ng-model="partner.section.laborAddress.state"
+												name="stateLLegislator" class="form-control"
+												data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+												id="stateLLegislator">
+											<option value="" selected disabled>Seleccione...</option>
+											<option data-ng-repeat="state in states | orderBy: 'name'" value="{{state.name}}">{{state.name}}</option>
+										</select>
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el estado.
 									      </div>
@@ -434,31 +600,52 @@ legend.scheduler-border {
 										<input
 											data-ng-model="partner.section.laborAddress.municipality"
 											name="municipalityLLegislator" type="text"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="municipalityLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la Delegación/Municipio.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.municipalityLLegislator.$invalid && formLegislator.municipalityLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.municipalityLLegislator.$valid && !validClass.valid && partner.section.laborAddress.municipality">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-3">
 										<label for="numberFixedLLegislator">Número fijo</label> <input
 											data-ng-model="partner.section.laborAddress.numberFixed"
 											name="numberFixedLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											maxlength="25" pattern="[0-9()-\s ]+"
 											id="numberFixedLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el número fijo.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberFixedLegislator.$invalid && formLegislator.numberFixedLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberFixedLegislator.$valid && !validClass.valid && partner.section.laborAddress.numberFixed">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-1">
 										<label for="extLLegislator">Ext</label> <input
 											data-ng-model="partner.section.laborAddress.ext"
+											maxlength="5" pattern="[0-9]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											name="extLLegislator" type="text" class="form-control"
 											id="extLLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el ext.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.extLLegislator.$invalid && formLegislator.extLLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.extLLegislator.$valid && !validClass.valid && partner.section.laborAddress.ext">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -493,11 +680,18 @@ legend.scheduler-border {
 											complementarios</label> <input
 											data-ng-model="partner.section.studies.complementaryStudies"
 											name="complementaryStudiesLegislator" type="text"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ.\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="complementaryStudiesLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese estudios complementarios.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.complementaryStudiesLegislator.$invalid && formLegislator.complementaryStudiesLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.complementaryStudiesLegislator.$valid && !validClass.valid && partner.section.studies.complementaryStudies">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -505,22 +699,36 @@ legend.scheduler-border {
 										<label for="careerLegislator">Carrera/Licenciatura</label> <input
 											data-ng-model="partner.section.studies.career" required
 											name="careerLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ.\s]+"
 											data-ng-class="validClass.career ? 'is-'+validClass.career:''"
 											id="careerLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.career"
 											data-ng-class="validClass.career ? validClass.career+'-feedback':''">
 									        	Por favor ingrese la Carrera/Licenciatura.
-									      </div>
+									     </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.careerLegislator.$invalid && formLegislator.careerLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.careerLegislator.$valid && !validClass.valid && partner.section.studies.career">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-6">
 										<label for="complementaryStudiesOtherLegislator">Otros estudios complementarios</label> <input
 											data-ng-model="partner.section.studies.complementaryStudiesOther"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ.\s]+"
 											name="complementaryStudiesOtherLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="complementaryStudiesOtherLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Ingrese otros estudios complementarios.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.complementaryStudiesOtherLegislator.$invalid && formLegislator.complementaryStudiesOtherLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.complementaryStudiesOtherLegislator.$valid && !validClass.valid && partner.section.studies.complementaryStudiesOther">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
@@ -529,11 +737,18 @@ legend.scheduler-border {
 											Profesional</label> <input
 											data-ng-model="partner.section.studies.professionalLicense"
 											name="professionalLicenseLegislator" type="text"
+											maxlength="30" pattern="[-/,_.A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="professionalLicenseLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la cédula profesional.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.professionalLicenseLegislator.$invalid && formLegislator.professionalLicenseLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.professionalLicenseLegislator.$valid && !validClass.valid && partner.section.studies.professionalLicense">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -545,6 +760,7 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="nssLegislator">NSS</label> <input
+											maxlength="11" pattern="[a-z0-9]+"
 											data-ng-model="partner.nss" name="nssLegislator" type="text"
 											data-ng-class="validClass.nss ? 'is-'+validClass.nss:''"
 											class="form-control" id="nssLegislator" required>
@@ -552,23 +768,37 @@ legend.scheduler-border {
 											data-ng-class="validClass.nss ? validClass.nss+'-feedback':''">
 									        	Por favor ingrese el NSS.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.nssLegislator.$invalid && formLegislator.nssLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.nssLegislator.$valid && !validClass.valid && partner.nss">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="allergiesLegislator">Alergías</label> <input
 											data-ng-model="partner.section.health.allergies"
+											maxlength="255" pattern="[-,_/.A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+"
 											name="allergiesLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="allergiesLegislator">
 										<div class="valid-feedback d-block"  data-ng-show="validClass.valid">
 									        	Por favor ingrese si tiene alergías.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.allergiesLegislator.$invalid && formLegislator.allergiesLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.allergiesLegislator.$valid && !validClass.valid && partner.section.health.allergies">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="surnameMLegislator">Tipo de sangre</label> <input
+										<label for="tipoSangreLegislator">Tipo de sangre</label> <input
 											data-ng-model="partner.section.health.bloodType"
-											name="surnamePMegislator" type="text" class="form-control"
+											maxlength="15" pattern="[-+,_/.A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+"
+											name="tipoSangreLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="surnamePMegislator">
+											id="tipoSangreLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el tipo de sangre.
 									      </div>
@@ -576,14 +806,21 @@ legend.scheduler-border {
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="surnamePLegislator">Enfermedades</label> <input
+										<label for="diseasesLegislator">Enfermedades</label> <input
 											data-ng-model="partner.section.health.diseases"
-											name="surnamePLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[-+,_/.A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+"
+											name="diseasesLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
-											id="surnamePLegislator">
+											id="diseasesLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese si tiene enfermedades.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.diseasesLegislator.$invalid && formLegislator.diseasesLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.diseasesLegislator.$valid && !validClass.valid && partner.section.health.diseases">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -595,16 +832,24 @@ legend.scheduler-border {
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
 										<label for="telefonoLegislator">No. Teléfono</label> <input
+											maxlength="25" pattern="[0-9()-\s]+"
 											data-ng-model="partner.telefono" name="telefonoLegislator"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											type="text" class="form-control" id="telefonoLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el No. Teléfono.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.telefonoLegislator.$invalid && formLegislator.telefonoLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.telefonoLegislator.$valid && !validClass.valid && partner.telefono">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="celularLegislator">No. Celular</label> <input
 											data-ng-model="partner.celular" name="celularLegislator"
+											maxlength="25" pattern="[0-9()-\s]+"
 											data-ng-class="validClass.celular ? 'is-'+validClass.celular:''"
 											type="text" class="form-control" id="celularLegislator" required>
 										<div class="valid-feedback d-block" data-ng-show="validClass.celular"
@@ -620,6 +865,12 @@ legend.scheduler-border {
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el correo.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.emailLegislator.$invalid && formLegislator.emailLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.emailLegislator.$valid && !validClass.valid && partner.email">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -631,32 +882,53 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="personLegislator">Nombre</label> <input
 											data-ng-model="partner.section.contact.person"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											name="personLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="personLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el nombre de contacto.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.personLegislator.$invalid && formLegislator.personLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.personLegislator.$valid && !validClass.valid && partner.section.contact.person">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="relationshipLegislator">Parentesco</label> <input
 											data-ng-model="partner.section.contact.relationship"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#,_/.\s]+"
 											name="relationshipLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="relationshipLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el parentesco.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.relationshipLegislator.$invalid && formLegislator.relationshipLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.relationshipLegislator.$valid && !validClass.valid && partner.section.contact.relationship">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="telephoneCLegislator">Teléfono</label> <input
 											data-ng-model="partner.section.contact.telephone"
+											maxlength="25" pattern="[0-9()-\s]+"
 											name="telephoneCLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="telephoneCLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el teléfono.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.telephoneCLegislator.$invalid && formLegislator.telephoneCLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.telephoneCLegislator.$valid && !validClass.valid && partner.section.contact.telephone">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -673,8 +945,8 @@ legend.scheduler-border {
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											data-ng-model="partner.section.bankData.bank">
 											<option value="" selected disabled>Seleccione...</option>
-											<option value="Bancomer">Bancomer</option>
-											<option value="Banamex">Banamex</option>
+											<option data-ng-repeat="bank in banks | orderBy: 'shortName'"
+													value="{{bank.shortName}}">{{bank.shortName}}</option>
 										</select>
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor seleccione el banco operador.
@@ -683,22 +955,36 @@ legend.scheduler-border {
 									<div class="form-group col-md-4">
 										<label for="numberAccountLegislator">No. de cuenta</label> <input
 											data-ng-model="partner.section.bankData.numberAccount"
+											maxlength="16" pattern="[0-9]+"
 											name="numberAccountLegislator" type="text"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="numberAccountLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el No. de cuenta.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberAccountLegislator.$invalid && formLegislator.numberAccountLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberAccountLegislator.$valid && !validClass.valid && partner.section.bankData.numberAccount">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="numberKeyLegislator">No. de cuenta CLABE</label> <input
 											data-ng-model="partner.section.bankData.numberKey"
+											maxlength="18" pattern="[0-9]+"
 											name="numberKeyLegislator" type="text" class="form-control"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											id="numberKeyLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el No. de cuenta clabe.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.numberKeyLegislator.$invalid && formLegislator.numberKeyLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.numberKeyLegislator.$valid && !validClass.valid && partner.section.bankData.numberKeyt">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
@@ -713,11 +999,18 @@ legend.scheduler-border {
 										<input
 											data-ng-model="partner.section.contractData.contractType"
 											name="coontractTypeLegislator" type="text"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ#-\s]+"
 											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
 											class="form-control" id="coontractTypeLegislator">
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese el tipo de contrato.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.contractTypeLegislator.$invalid && formLegislator.numberKeyLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.contractTypeLegislator.$valid && !validClass.valid && partner.section.contractData.contractType">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="startDateLegislator">Fecha de inicio</label> <input
@@ -728,6 +1021,12 @@ legend.scheduler-border {
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la fecha de inicio.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.startDateLegislator.$invalid && formLegislator.startDateLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.startDateLegislator.$valid && !validClass.valid && partner.section.contractData.startDate">Se
+											ve bien</div>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="endDateLegislator">Fecha fín</label> <input
@@ -738,33 +1037,66 @@ legend.scheduler-border {
 										<div class="valid-feedback d-block" data-ng-show="validClass.valid">
 									        	Por favor ingrese la fecha fín.
 									      </div>
+									     <div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.endDateLegislator.$invalid && formLegislator.endDateLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.endDateLegislator.$valid && !validClass.valid && partner.section.contractData.endDate">Se
+											ve bien</div>
 									</div>
 								</div>
 								<div class="form-row col-12">
 									<div class="form-group col-md-4">
-										<label for="jobLegislator">Órgano de Gobierno</label> <select
-											class="form-control" id="jobLegislator" name="jobLegislator"
-											data-ng-class="validClass.job ? 'is-'+validClass.job:''"
-											data-ng-model="partner.section.contractData.job" required>
+										<label for="organLegislator">Órgano de Gobierno</label> <select
+											class="form-control" id="organLegislator" name="jobLegislator"
+											data-ng-class="validClass.organ ? 'is-'+validClass.organ:''"
+											data-ng-model="partner.section.contractData.organ" required>
 											<option value="" selected disabled>Seleccione...</option>
-											<option value="legislador">Legislador</option>
-											<option value="Otro">Otro</option>
+											<option value="Ninguno">Ninguno</option>
+											<option value="Junta de coordinación politica">Junta de coordinación politica</option>
+											<option value="Mesa directiva">Mesa directiva</option>
+											<option value="Conferencia">Conferencia</option>
 										</select>
-										<div class="valid-feedback d-block" data-ng-show="validClass.job"
-											data-ng-class="validClass.job ? validClass.job+'-feedback':''">
+										<div class="valid-feedback d-block" data-ng-show="validClass.organ"
+											data-ng-class="validClass.organ ? validClass.organ+'-feedback':''">
 									        	Por favor seleccione el puesto laboral.
 									      </div>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="areaLegislator">Puesto</label> <input
-											data-ng-model="partner.section.contractData.area"
-											name="areaLegislator" type="text" class="form-control"
-											data-ng-class="validClass.area ? 'is-'+validClass.area:''"
-											id="areaLegislator" required>
-										<div class="valid-feedback d-block" data-ng-show="validClass.valid"
-											data-ng-class="validClass.area ? validClass.area+'-feedback':''">
-									        	Por favor ingrese el área.
+										<label for="areaLegislator">Puesto</label> 
+										<select data-ng-model="partner.section.contractData.job"
+												name="areaLegislator" class="form-control"
+												data-ng-class="validClass.organ ? 'is-'+validClass.organ:''"
+												id="areaLegislator" required>
+												<option value="" selected disabled>Seleccione...</option>
+												<option value="Ninguno">Ninguno</option>
+												<option value="Presidente">Presidente</option>
+												<option value="Presidente de la mesa directiva">Presidente de la mesa directiva</option>
+												<option value="Primer vicepresidente">Primer vicepresidente</option>
+												<option value="Segundo vicepresidente">Segundo vicepresidente</option>
+												<option value="Secretario">Secretario</option>
+											</select>
+										<div class="valid-feedback d-block" data-ng-show="validClass.organ"
+											data-ng-class="validClass.organ ? validClass.organ+'-feedback':''">
+									        	Por favor ingrese el puesto.
 									      </div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="bossLegislator">Jefe inmediato</label> <input
+											data-ng-model="partner.section.contractData.boss"
+											name="bossLegislator" type="text" class="form-control"
+											maxlength="255" pattern="[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+"
+											data-ng-class="validClass.valid ? 'is-'+validClass.valid:''"
+											id="bossLegislator">
+										<div class="valid-feedback d-block"
+											data-ng-show="validClass.valid">Por favor ingrese el
+											jefe inmediato.</div>
+										<div class="d-block invalid-feedback"
+												data-ng-show="formLegislator.bossLegislator.$invalid && formLegislator.bossLegislator.$dirty && !validClass.valid">
+												Esta ingresando carácteres no validos o se encuentra vacío</div>
+										<div class="d-block valid-feedback"
+											data-ng-show="formLegislator.bossLegislator.$valid && !validClass.valid && partner.section.contractData.boss">Se
+											ve bien</div>
 									</div>
 								</div>
 							</article>
