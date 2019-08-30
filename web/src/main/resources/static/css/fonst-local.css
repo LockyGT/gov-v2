@@ -1,0 +1,80 @@
+.local-font {
+	height: 10rem;
+	display: block;
+    background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	filter: hue-rotate(120deg);
+}
+
+/* Iconos del menú principal */
+.local-font.font-assistance {
+	background-image: url("../img/icons/ASISTENCIA-DEL-DIA.png");
+}
+
+.local-font.font-order-day {
+	background-image: url("../img/icons/ORDEN-DEL-DIA.png");
+}
+
+.local-font.font-political-party {
+	background-image: url("../img/icons/PARTIDOPOLITICO.png");
+}
+
+.local-font.font-reports {
+	background-image: url("../img/icons/REPORTES.png");
+}
+
+.local-font.font-rh {
+	background-image: url("../img/icons/RH.png");
+}
+
+.local-font.font-sessions {
+	background-image: url("../img/icons/SESIONES.png");
+}
+
+/* Iconos de los reportes */
+
+.local-font.font-assists-sessions {
+	background-image: url("../img/icons/reportes/Asistencias-en-sesiones.png");
+}
+.local-font.font-initiatives {
+	background-image: url("../img/icons/reportes/Iniciativas.png");
+}
+.local-font.font-legislators {
+	background-image: url("../img/icons/reportes/Legisladores.png");
+}
+.local-font.font-legislature {
+	background-image: url("../img/icons/reportes/Legislatura.png");
+}
+.local-font.font-lawmakers-assistance {
+	background-image: url("../img/icons/reportes/Lista-de-asistencia-de-Legisladores.png");
+}
+.local-font.font-attendance-list {
+	background-image: url("../img/icons/reportes/Lista-de-asistencia.png");
+}
+.local-font.font-report-present {
+	background-image: url("../img/icons/reportes/Reporte-de-presentes.png");
+}
+.local-font.font-voting-results {
+	background-image: url("../img/icons/reportes/Resultados-de-la-votación.png");
+}
+.local-font.font-results {
+	background-image: url("../img/icons/reportes/Resultados.png");
+}
+
+/* Iconos de recursos humanos */
+.local-font.font-rh-assistance {
+	background-image: url("../img/icons/rh/Asistencias.png");
+}
+.local-font.font-rh-electronic-record {
+	background-image: url("../img/icons/rh/Expediente-electronico.png");
+}
+.local-font.font-rh-organization-chart {
+	background-image: url("../img/icons/rh/Organigrama.png");
+}
+
+
+
+
+
+

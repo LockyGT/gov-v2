@@ -1,5 +1,8 @@
 package com.solucionesdigitales.vote.service.impl.report;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -23,19 +26,21 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	PdfPTable table = new PdfPTable(2);
 	private String page;
 	private Image waterMarkImage;
+	
+
 	/**
 	 * Constructor de la clase, inicializa la imagen que se utilizara en el membrete
 	 * @return 
 	 */
 
-	public  HeaderFooterPageEvent()
+	public  HeaderFooterPageEvent(String dirFolder)
 	{
 		try
 		{
-			waterMarkImage = Image.getInstance("C:\\Users\\Desarrollo\\Downloads\\image-opacity.png");
+			waterMarkImage = Image.getInstance(dirFolder+"/img-pdf/image-opacity.png");
 
-			imagen = Image.getInstance(("http://congresogro.gob.mx/62/img/congreso-guerrero.png"));
-			imagen.scalePercent(9f);
+			imagen = Image.getInstance(dirFolder+"/img-pdf/congreso-guerrero.png");
+			imagen.scalePercent(20f);
 			imagen.setAbsolutePosition(15f, 680f);
 			imagen.setAlignment(Element.ALIGN_LEFT);
 			table.setTotalWidth(350f);  
@@ -44,6 +49,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 		}catch(Exception r)
 		{
 			System.err.println("Error al leer la imagen");
+			System.out.print("Error: "+r.getMessage());
 		}  
 
 	}

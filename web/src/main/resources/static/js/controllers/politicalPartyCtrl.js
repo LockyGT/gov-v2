@@ -202,6 +202,10 @@ app.controller('politicalPartyCtrl', function($scope,$http, $window,$log,factory
 		});
 	};
 
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.getPoliticalParties();
 		jscolor.installByClassName("jscolor");

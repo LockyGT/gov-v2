@@ -44,7 +44,10 @@ app.controller('reporteAsistenciaLegisladoresCtrl', function($rootScope, $timeou
 		});
 	};
 	
-
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.iniciarFecha();
 		$scope.getAttendances(null,null);

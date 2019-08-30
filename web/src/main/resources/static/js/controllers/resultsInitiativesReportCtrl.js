@@ -396,6 +396,10 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	    throw new Error('Bad Hex');
 	}
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () => {
 		$scope.getTypeSession();
 		$scope.getResultsInitiatives();

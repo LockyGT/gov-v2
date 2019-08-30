@@ -44,6 +44,9 @@ app.controller('reporteQuorumCtrl', function($rootScope, $timeout, $filter, $sco
 		});
 	};
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
 
 	const initController = () =>{
 		$scope.iniciarFecha();

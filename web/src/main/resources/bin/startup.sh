@@ -32,7 +32,7 @@ then
 elif [ 2 = $variable1  ];
 then
 	echo "You have selected testing environment "
-	export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+	export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_221
 	export PATH=$JAVA_HOME/bin:${PATH}
 	export APP_CONFIG_PATH=$APP_ROOT_TEST_PATH/config
 	export APP_LIB_PATH=$APP_ROOT_TEST_PATH/lib

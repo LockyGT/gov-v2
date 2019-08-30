@@ -9,11 +9,11 @@
 		data-ng-if="validateRol(m)"
 		data-ng-repeat="m in menus | filter: {status: 1} | orderBy: m.index">
 		<div class="card-panel h-100" style="text-align: center;">
-			<a href="{{m.url}}" data-ng-click="setIndexMenu(m.id)"
+			<a href="{{m.url}}" data-ng-click="setIndexMenu(m.id)" style="display:block; height: 10em"
 				data-ng-if="m.childs.length > 0"> <i class="{{m.icon}} fa-10x" style="color: {{m.color}}"></i>
 				<!-- 				<img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}"> -->
-			</a> <a href="{{m.url}}" data-ng-if="m.childs.length == 0"> <i
-				class="{{m.icon}} fa-10x" style="color: {{m.color}}"></i> <!--  <img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}">-->
+			</a> <a href="{{m.url}}" data-ng-if="m.childs.length == 0" style="display:block; height: 10em;"> <i
+				class="{{m.icon}} fa-10x" style="color: {{m.color}};"></i> <!--  <img class="card-img-top rounded-circle" data-ng-src="{{m.image}}"	alt="{{m.alt}}">-->
 			</a>
 			<div class="card-body">
 				<h4 class="card-title">

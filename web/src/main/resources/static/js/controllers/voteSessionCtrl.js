@@ -681,7 +681,10 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 		}
 	};
 
-
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.iniciarFecha();
 		$scope.getVoteSessions();

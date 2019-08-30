@@ -6,10 +6,16 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.solucionesdigitales.vote.service.report.ReportAdministratorService;
 import com.solucionesdigitales.vote.service.report.ReportService;
 
 
@@ -22,6 +28,9 @@ public class ReportController {
 	
 	@Autowired
 	private ReportService reportService;
+	
+	@Autowired
+	private ReportAdministratorService reportAdministratorService;
 	
 	@GetMapping("/legislator")
 	
@@ -59,5 +68,14 @@ public class ReportController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", reportService.generatedReportLegislatura(sessionsId, initiativesId).toString());
 		return map;
+	}
+	
+	@GetMapping("/report/legislator")
+	public ResponseEntity<byte[]> writePdfAdministrator(@RequestParam(value="idPartner") final String idPartner) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		byte[] content = reportAdministratorService.writePdfAdministrator(idPartner);
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
+		return (response);
 	}
 }

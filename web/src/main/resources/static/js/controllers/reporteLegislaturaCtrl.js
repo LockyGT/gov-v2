@@ -364,6 +364,10 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	    throw new Error('Bad Hex');
 	}
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () => {
 		$scope.getTypeSession();
 		$scope.getResultsInitiatives();

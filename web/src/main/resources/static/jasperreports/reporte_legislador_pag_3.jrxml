@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_legislador_pag_3" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="206496c6-2bf5-4786-8eef-112ff9c59017">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="votes_db"/>
+	<queryString language="MongoDbQuery">
+		<![CDATA[{'collectionName': 'partners'}]]>
+	</queryString>
+	<field name="_id" class="org.bson.types.ObjectId"/>
+	<field name="apMaterno" class="java.lang.String"/>
+	<field name="apPaterno" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="comisiones" class="java.lang.String"/>
+	<field name="curp" class="java.lang.String"/>
+	<field name="distrito" class="java.lang.String"/>
+	<field name="edad" class="java.lang.Integer"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="fechaCumplianos" class="java.util.Date"/>
+	<field name="foto" class="com.mongodb.DBRef"/>
+	<field name="legislatura" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="nss" class="java.lang.String"/>
+	<field name="partido" class="com.mongodb.DBRef"/>
+	<field name="rfc" class="java.lang.String"/>
+	<field name="section.bankData.bank" class="java.lang.String"/>
+	<field name="section.bankData.numberAccount" class="java.lang.String"/>
+	<field name="section.bankData.numberKey" class="java.lang.String"/>
+	<field name="section.contact.person" class="java.lang.String"/>
+	<field name="section.contact.relationship" class="java.lang.String"/>
+	<field name="section.contact.telephone" class="java.lang.String"/>
+	<field name="section.contractData.boss" class="java.lang.String"/>
+	<field name="section.contractData.contractType" class="java.lang.String"/>
+	<field name="section.contractData.endDate" class="java.util.Date"/>
+	<field name="section.contractData.job" class="java.lang.String"/>
+	<field name="section.contractData.startDate" class="java.util.Date"/>
+	<field name="section.health.allergies" class="java.lang.String"/>
+	<field name="section.health.bloodType" class="java.lang.String"/>
+	<field name="section.health.diseases" class="java.lang.String"/>
+	<field name="section.homeAddress.betweenStreets" class="java.lang.String"/>
+	<field name="section.homeAddress.colony" class="java.lang.String"/>
+	<field name="section.homeAddress.cp" class="java.lang.String"/>
+	<field name="section.homeAddress.municipality" class="java.lang.String"/>
+	<field name="section.homeAddress.numberExt" class="java.lang.String"/>
+	<field name="section.homeAddress.numberInt" class="java.lang.String"/>
+	<field name="section.homeAddress.state" class="java.lang.String"/>
+	<field name="section.homeAddress.street" class="java.lang.String"/>
+	<field name="section.laborAddress.betwennStreets" class="java.lang.String"/>
+	<field name="section.laborAddress.colony" class="java.lang.String"/>
+	<field name="section.laborAddress.cp" class="java.lang.String"/>
+	<field name="section.laborAddress.ext" class="java.lang.String"/>
+	<field name="section.laborAddress.municipality" class="java.lang.String"/>
+	<field name="section.laborAddress.numberExt" class="java.lang.String"/>
+	<field name="section.laborAddress.numberFixed" class="java.lang.String"/>
+	<field name="section.laborAddress.numberInt" class="java.lang.String"/>
+	<field name="section.laborAddress.state" class="java.lang.String"/>
+	<field name="section.laborAddress.street" class="java.lang.String"/>
+	<field name="section.studies.career" class="java.lang.String"/>
+	<field name="section.studies.complementaryStudies" class="java.lang.String"/>
+	<field name="section.studies.complementaryStudiesOther" class="java.lang.String"/>
+	<field name="section.studies.lastGrade" class="java.lang.String"/>
+	<field name="section.studies.professionalLicense" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="sku" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="tipoPartner" class="java.lang.Integer"/>
+	<field name="user" class="com.mongodb.DBRef"/>
+	<group name="_id">
+		<groupExpression><![CDATA[$F{_id}]]></groupExpression>
+	</group>
+	<group name="apMaterno">
+		<groupExpression><![CDATA[$F{apMaterno}]]></groupExpression>
+	</group>
+	<group name="apPaterno">
+		<groupExpression><![CDATA[$F{apPaterno}]]></groupExpression>
+	</group>
+	<group name="celular">
+		<groupExpression><![CDATA[$F{celular}]]></groupExpression>
+	</group>
+	<group name="comisiones">
+		<groupExpression><![CDATA[$F{comisiones}]]></groupExpression>
+	</group>
+	<group name="curp">
+		<groupExpression><![CDATA[$F{curp}]]></groupExpression>
+	</group>
+	<group name="distrito">
+		<groupExpression><![CDATA[$F{distrito}]]></groupExpression>
+	</group>
+	<group name="edad">
+		<groupExpression><![CDATA[$F{edad}]]></groupExpression>
+	</group>
+	<group name="email">
+		<groupExpression><![CDATA[$F{email}]]></groupExpression>
+	</group>
+	<group name="fechaCumplianos">
+		<groupExpression><![CDATA[$F{fechaCumplianos}]]></groupExpression>
+	</group>
+	<group name="foto">
+		<groupExpression><![CDATA[$F{foto}]]></groupExpression>
+	</group>
+	<group name="legislatura">
+		<groupExpression><![CDATA[$F{legislatura}]]></groupExpression>
+	</group>
+	<group name="name">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+	</group>
+	<group name="nss">
+		<groupExpression><![CDATA[$F{nss}]]></groupExpression>
+	</group>
+	<group name="partido">
+		<groupExpression><![CDATA[$F{partido}]]></groupExpression>
+	</group>
+	<group name="rfc">
+		<groupExpression><![CDATA[$F{rfc}]]></groupExpression>
+	</group>
+	<group name="section.bankData.bank">
+		<groupExpression><![CDATA[$F{section.bankData.bank}]]></groupExpression>
+	</group>
+	<group name="section.bankData.numberAccount">
+		<groupExpression><![CDATA[$F{section.bankData.numberAccount}]]></groupExpression>
+	</group>
+	<group name="section.bankData.numberKey">
+		<groupExpression><![CDATA[$F{section.bankData.numberKey}]]></groupExpression>
+	</group>
+	<group name="section.contact.person">
+		<groupExpression><![CDATA[$F{section.contact.person}]]></groupExpression>
+	</group>
+	<group name="section.contact.relationship">
+		<groupExpression><![CDATA[$F{section.contact.relationship}]]></groupExpression>
+	</group>
+	<group name="section.contact.telephone">
+		<groupExpression><![CDATA[$F{section.contact.telephone}]]></groupExpression>
+	</group>
+	<group name="section.contractData.boss">
+		<groupExpression><![CDATA[$F{section.contractData.boss}]]></groupExpression>
+	</group>
+	<group name="section.contractData.contractType">
+		<groupExpression><![CDATA[$F{section.contractData.contractType}]]></groupExpression>
+	</group>
+	<group name="section.contractData.endDate">
+		<groupExpression><![CDATA[$F{section.contractData.endDate}]]></groupExpression>
+	</group>
+	<group name="section.contractData.job">
+		<groupExpression><![CDATA[$F{section.contractData.job}]]></groupExpression>
+	</group>
+	<group name="section.contractData.startDate">
+		<groupExpression><![CDATA[$F{section.contractData.startDate}]]></groupExpression>
+	</group>
+	<group name="section.health.allergies">
+		<groupExpression><![CDATA[$F{section.health.allergies}]]></groupExpression>
+	</group>
+	<group name="section.health.bloodType">
+		<groupExpression><![CDATA[$F{section.health.bloodType}]]></groupExpression>
+	</group>
+	<group name="section.health.diseases">
+		<groupExpression><![CDATA[$F{section.health.diseases}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.betweenStreets">
+		<groupExpression><![CDATA[$F{section.homeAddress.betweenStreets}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.colony">
+		<groupExpression><![CDATA[$F{section.homeAddress.colony}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.cp">
+		<groupExpression><![CDATA[$F{section.homeAddress.cp}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.municipality">
+		<groupExpression><![CDATA[$F{section.homeAddress.municipality}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.numberExt">
+		<groupExpression><![CDATA[$F{section.homeAddress.numberExt}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.numberInt">
+		<groupExpression><![CDATA[$F{section.homeAddress.numberInt}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.state">
+		<groupExpression><![CDATA[$F{section.homeAddress.state}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.street">
+		<groupExpression><![CDATA[$F{section.homeAddress.street}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.betwennStreets">
+		<groupExpression><![CDATA[$F{section.laborAddress.betwennStreets}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.colony">
+		<groupExpression><![CDATA[$F{section.laborAddress.colony}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.cp">
+		<groupExpression><![CDATA[$F{section.laborAddress.cp}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.ext">
+		<groupExpression><![CDATA[$F{section.laborAddress.ext}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.municipality">
+		<groupExpression><![CDATA[$F{section.laborAddress.municipality}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberExt">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberExt}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberFixed">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberFixed}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberInt">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberInt}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.state">
+		<groupExpression><![CDATA[$F{section.laborAddress.state}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.street">
+		<groupExpression><![CDATA[$F{section.laborAddress.street}]]></groupExpression>
+	</group>
+	<group name="section.studies.career">
+		<groupExpression><![CDATA[$F{section.studies.career}]]></groupExpression>
+	</group>
+	<group name="section.studies.complementaryStudies">
+		<groupExpression><![CDATA[$F{section.studies.complementaryStudies}]]></groupExpression>
+	</group>
+	<group name="section.studies.complementaryStudiesOther">
+		<groupExpression><![CDATA[$F{section.studies.complementaryStudiesOther}]]></groupExpression>
+	</group>
+	<group name="section.studies.lastGrade">
+		<groupExpression><![CDATA[$F{section.studies.lastGrade}]]></groupExpression>
+	</group>
+	<group name="section.studies.professionalLicense">
+		<groupExpression><![CDATA[$F{section.studies.professionalLicense}]]></groupExpression>
+	</group>
+	<group name="sexo">
+		<groupExpression><![CDATA[$F{sexo}]]></groupExpression>
+	</group>
+	<group name="sku">
+		<groupExpression><![CDATA[$F{sku}]]></groupExpression>
+	</group>
+	<group name="status">
+		<groupExpression><![CDATA[$F{status}]]></groupExpression>
+	</group>
+	<group name="telefono">
+		<groupExpression><![CDATA[$F{telefono}]]></groupExpression>
+	</group>
+	<group name="tipoPartner">
+		<groupExpression><![CDATA[$F{tipoPartner}]]></groupExpression>
+	</group>
+	<group name="user">
+		<groupExpression><![CDATA[$F{user}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="9" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="11" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="9" splitType="Stretch">
+			<staticText>
+				<reportElement x="390" y="0" width="100" height="9" uuid="2ee39724-a882-4d56-9ce2-8e33aa34d4e3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6dce3a25-a04f-4791-a85f-a4320c20e163"/>
+				</reportElement>
+				<text><![CDATA[section.contractData.endDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="239" y="0" width="100" height="9" uuid="86aae00a-add6-4b52-8a19-e2261df918f9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dbf1772-03ed-4bdf-8494-486f412e9dfe"/>
+				</reportElement>
+				<text><![CDATA[section.contractData.job]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="0" width="100" height="9" uuid="c9742bdc-3dc9-4913-9d08-aefaa704b91d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b4767b6-fd93-406a-99ad-b35ea768e56f"/>
+				</reportElement>
+				<text><![CDATA[section.contractData.boss]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="139" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="60" height="1" uuid="008f9ad6-8f30-4278-b9dc-9f38cd605669"/>
+			</line>
+			<staticText>
+				<reportElement x="71" y="4" width="100" height="15" uuid="5af4b6cf-3b29-4d04-87e8-eee326412a5f"/>
+				<text><![CDATA[Datos de contrato]]></text>
+			</staticText>
+			<line>
+				<reportElement x="171" y="10" width="384" height="1" uuid="b5495483-e5bf-4ce4-8747-c3212fe4fdd6"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="30" width="160" height="19" uuid="5913b9d3-ae94-480c-8f2c-e3d71216a2cb"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="30" width="160" height="18" uuid="61f332f0-d5ae-48a6-aa39-212e5d563ee6"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="30" width="150" height="18" uuid="f05d388f-fccb-41c3-ad26-de36faa152bc"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha fín]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="50" width="160" height="19" uuid="a04b77d1-f459-4a69-871f-210552a16704">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fde7bee-257a-4831-812b-9b9c67c66ea0"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contractData.contractType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="50" width="160" height="18" uuid="3157a484-6af3-4adc-800c-3e297bd66c34">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="df6e8681-bbc4-45db-a6ed-5aa21ad152b2"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contractData.startDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="50" width="150" height="18" uuid="94ad57f7-9a54-4813-b018-55b7ad6fe547">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6dce3a25-a04f-4791-a85f-a4320c20e163"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contractData.endDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="70" width="160" height="19" uuid="fc17f417-7cbf-45fd-947d-e1d0eb783ce3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Organo de gobierno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="70" width="160" height="18" uuid="0916f60c-2faf-4a92-a30d-b2e1973863f8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Puesto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="70" width="150" height="18" uuid="a43411c3-9869-42fd-90f9-1ae8116e74f3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jefe inmediato]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="89" width="160" height="20" uuid="76049287-741b-4810-b550-66b20136aba2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dbf1772-03ed-4bdf-8494-486f412e9dfe"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contractData.job}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="90" width="150" height="18" uuid="672c4160-b11a-4187-a4f5-fd6e000393ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b4767b6-fd93-406a-99ad-b35ea768e56f"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contractData.boss}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="1" height="109" uuid="bfb2a3a7-8c95-4ca3-98b0-5e1343dbd7b9"/>
+			</line>
+			<line>
+				<reportElement x="555" y="11" width="1" height="109" uuid="7849e065-10ed-4e45-8746-2ed68a4e7e41"/>
+			</line>
+			<line>
+				<reportElement x="1" y="120" width="553" height="1" uuid="e4cb0913-e27f-4679-9d76-d6c97b9a9a2a"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

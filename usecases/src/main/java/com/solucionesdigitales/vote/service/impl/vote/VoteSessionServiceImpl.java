@@ -81,6 +81,8 @@ public class VoteSessionServiceImpl implements VoteSessionService {
 	@Override
 	public List<VoteSession> findVoteSessionByFechaHoraBetwenAndStatus(LocalDateTime t1, LocalDateTime t2,
 			Integer status) {
+		//Restar un dia a la fecha
+		t1.minusDays(1L);
 		return repo.findVoteSessionByFechaHoraBetweenAndStatusNot(t1, t2, status);
 	}	
 

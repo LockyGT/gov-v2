@@ -331,6 +331,10 @@ app.controller('partnerCtrl', function($rootScope, $timeout, $scope,$http, $wind
 	    	swal("Error", "Por favor rellene todos los campos", "error");
 	    }
 	  };
+	  
+	  $scope.toReturn = () => {
+			window.history.back();
+		};
 
 	const initController = () =>{	
 		$scope.validText();

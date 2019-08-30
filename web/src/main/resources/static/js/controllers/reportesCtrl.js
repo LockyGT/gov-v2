@@ -274,6 +274,9 @@ app.controller('reportesCtrl', function($rootScope, $scope, $http, $window, $log
 			swal("Error","Error al consultar asistencias ", "error");
 		});
 	};
+	$scope.toReturn = () => {
+		window.history.back();
+	};
 	
 	$scope.iniciarFechas=()=>{
 		console.log('Se inicia la fecha');

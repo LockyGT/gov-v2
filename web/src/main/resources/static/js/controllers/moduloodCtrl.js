@@ -53,13 +53,14 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 			closeOnClickOutside: false,
 			closeOnEsc: false
 		});
-
+		console.log('Informacion: ', $scope.modulood);
 		moduloodService.post($scope.modulood).then(function success(data){
+		
 			if(data){
 				swal("Exito", "Módulo de orden del día agregado correctamente", "success");
 				swal.stopLoading();
 				$scope.getModulosod();
-				$scope.modulood = {};
+				$scope.modulood = null;
 			} else {
 				swal("Error", "Modulo de orden del día no agregado", "error");
 			}
@@ -235,7 +236,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 
 	$scope.cancelAddUpModule = () =>{
 		$scope.getModulosod();
-		$scope.modulood = {};
+		$scope.modulood = null;
 	};
 
 	const initController = () => {

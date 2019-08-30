@@ -74,7 +74,10 @@ app.controller('reporteAsistenciasSesionesCtrl', function($rootScope, $timeout, 
 		});
 	};
 
-
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.iniciarFecha();
 		$scope.getAttendances(null,null);

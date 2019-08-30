@@ -178,7 +178,7 @@ app.config(['$stateProvider', '$urlRouterProvider' , function($stateProvider, $u
 	}).state('reporteAsistenciaLegisladores', {
 		url : '/reporteAsistenciaLegisladores',
 		templateUrl : './views/admin/reporteAsisteciaLegisladores.html',
-		controller : 'reporteAsisteciaLegisladoresCtrl',
+		controller : 'reporteAsistenciaLegisladoresCtrl',
 		resolve: { authenticate: authenticate }
 	}).state('reporteAsistenciasSesiones', {
 		url : '/reporteAsistenciasSesiones',

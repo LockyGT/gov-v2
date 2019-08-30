@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_legislador_pag_2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="33cac6da-c9ae-4e5f-b03f-bffeded1dbd1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="votes_db"/>
+	<queryString language="MongoDbQuery">
+		<![CDATA[{'collectionName': 'partners'}]]>
+	</queryString>
+	<field name="_id" class="org.bson.types.ObjectId"/>
+	<field name="apMaterno" class="java.lang.String"/>
+	<field name="apPaterno" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="comisiones" class="java.lang.String"/>
+	<field name="curp" class="java.lang.String"/>
+	<field name="distrito" class="java.lang.String"/>
+	<field name="edad" class="java.lang.Integer"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="fechaCumplianos" class="java.util.Date"/>
+	<field name="foto" class="com.mongodb.DBRef"/>
+	<field name="legislatura" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="nss" class="java.lang.String"/>
+	<field name="partido" class="com.mongodb.DBRef"/>
+	<field name="rfc" class="java.lang.String"/>
+	<field name="section.bankData.bank" class="java.lang.String"/>
+	<field name="section.bankData.numberAccount" class="java.lang.String"/>
+	<field name="section.bankData.numberKey" class="java.lang.String"/>
+	<field name="section.contact.person" class="java.lang.String"/>
+	<field name="section.contact.relationship" class="java.lang.String"/>
+	<field name="section.contact.telephone" class="java.lang.String"/>
+	<field name="section.contractData.boss" class="java.lang.String"/>
+	<field name="section.contractData.contractType" class="java.lang.String"/>
+	<field name="section.contractData.endDate" class="java.util.Date"/>
+	<field name="section.contractData.job" class="java.lang.String"/>
+	<field name="section.contractData.startDate" class="java.util.Date"/>
+	<field name="section.health.allergies" class="java.lang.String"/>
+	<field name="section.health.bloodType" class="java.lang.String"/>
+	<field name="section.health.diseases" class="java.lang.String"/>
+	<field name="section.homeAddress.betweenStreets" class="java.lang.String"/>
+	<field name="section.homeAddress.colony" class="java.lang.String"/>
+	<field name="section.homeAddress.cp" class="java.lang.String"/>
+	<field name="section.homeAddress.municipality" class="java.lang.String"/>
+	<field name="section.homeAddress.numberExt" class="java.lang.String"/>
+	<field name="section.homeAddress.numberInt" class="java.lang.String"/>
+	<field name="section.homeAddress.state" class="java.lang.String"/>
+	<field name="section.homeAddress.street" class="java.lang.String"/>
+	<field name="section.laborAddress.betwennStreets" class="java.lang.String"/>
+	<field name="section.laborAddress.colony" class="java.lang.String"/>
+	<field name="section.laborAddress.cp" class="java.lang.String"/>
+	<field name="section.laborAddress.ext" class="java.lang.String"/>
+	<field name="section.laborAddress.municipality" class="java.lang.String"/>
+	<field name="section.laborAddress.numberExt" class="java.lang.String"/>
+	<field name="section.laborAddress.numberFixed" class="java.lang.String"/>
+	<field name="section.laborAddress.numberInt" class="java.lang.String"/>
+	<field name="section.laborAddress.state" class="java.lang.String"/>
+	<field name="section.laborAddress.street" class="java.lang.String"/>
+	<field name="section.studies.career" class="java.lang.String"/>
+	<field name="section.studies.complementaryStudies" class="java.lang.String"/>
+	<field name="section.studies.complementaryStudiesOther" class="java.lang.String"/>
+	<field name="section.studies.lastGrade" class="java.lang.String"/>
+	<field name="section.studies.professionalLicense" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="sku" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="tipoPartner" class="java.lang.Integer"/>
+	<field name="user" class="com.mongodb.DBRef"/>
+	<group name="_id">
+		<groupExpression><![CDATA[$F{_id}]]></groupExpression>
+	</group>
+	<group name="apMaterno">
+		<groupExpression><![CDATA[$F{apMaterno}]]></groupExpression>
+	</group>
+	<group name="apPaterno">
+		<groupExpression><![CDATA[$F{apPaterno}]]></groupExpression>
+	</group>
+	<group name="celular">
+		<groupExpression><![CDATA[$F{celular}]]></groupExpression>
+	</group>
+	<group name="comisiones">
+		<groupExpression><![CDATA[$F{comisiones}]]></groupExpression>
+	</group>
+	<group name="curp">
+		<groupExpression><![CDATA[$F{curp}]]></groupExpression>
+	</group>
+	<group name="distrito">
+		<groupExpression><![CDATA[$F{distrito}]]></groupExpression>
+	</group>
+	<group name="edad">
+		<groupExpression><![CDATA[$F{edad}]]></groupExpression>
+	</group>
+	<group name="email">
+		<groupExpression><![CDATA[$F{email}]]></groupExpression>
+	</group>
+	<group name="fechaCumplianos">
+		<groupExpression><![CDATA[$F{fechaCumplianos}]]></groupExpression>
+	</group>
+	<group name="foto">
+		<groupExpression><![CDATA[$F{foto}]]></groupExpression>
+	</group>
+	<group name="legislatura">
+		<groupExpression><![CDATA[$F{legislatura}]]></groupExpression>
+	</group>
+	<group name="name">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+	</group>
+	<group name="nss">
+		<groupExpression><![CDATA[$F{nss}]]></groupExpression>
+	</group>
+	<group name="partido">
+		<groupExpression><![CDATA[$F{partido}]]></groupExpression>
+	</group>
+	<group name="rfc">
+		<groupExpression><![CDATA[$F{rfc}]]></groupExpression>
+	</group>
+	<group name="section.bankData.bank">
+		<groupExpression><![CDATA[$F{section.bankData.bank}]]></groupExpression>
+	</group>
+	<group name="section.bankData.numberAccount">
+		<groupExpression><![CDATA[$F{section.bankData.numberAccount}]]></groupExpression>
+	</group>
+	<group name="section.bankData.numberKey">
+		<groupExpression><![CDATA[$F{section.bankData.numberKey}]]></groupExpression>
+	</group>
+	<group name="section.contact.person">
+		<groupExpression><![CDATA[$F{section.contact.person}]]></groupExpression>
+	</group>
+	<group name="section.contact.relationship">
+		<groupExpression><![CDATA[$F{section.contact.relationship}]]></groupExpression>
+	</group>
+	<group name="section.contact.telephone">
+		<groupExpression><![CDATA[$F{section.contact.telephone}]]></groupExpression>
+	</group>
+	<group name="section.contractData.boss">
+		<groupExpression><![CDATA[$F{section.contractData.boss}]]></groupExpression>
+	</group>
+	<group name="section.contractData.contractType">
+		<groupExpression><![CDATA[$F{section.contractData.contractType}]]></groupExpression>
+	</group>
+	<group name="section.contractData.endDate">
+		<groupExpression><![CDATA[$F{section.contractData.endDate}]]></groupExpression>
+	</group>
+	<group name="section.contractData.job">
+		<groupExpression><![CDATA[$F{section.contractData.job}]]></groupExpression>
+	</group>
+	<group name="section.contractData.startDate">
+		<groupExpression><![CDATA[$F{section.contractData.startDate}]]></groupExpression>
+	</group>
+	<group name="section.health.allergies">
+		<groupExpression><![CDATA[$F{section.health.allergies}]]></groupExpression>
+	</group>
+	<group name="section.health.bloodType">
+		<groupExpression><![CDATA[$F{section.health.bloodType}]]></groupExpression>
+	</group>
+	<group name="section.health.diseases">
+		<groupExpression><![CDATA[$F{section.health.diseases}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.betweenStreets">
+		<groupExpression><![CDATA[$F{section.homeAddress.betweenStreets}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.colony">
+		<groupExpression><![CDATA[$F{section.homeAddress.colony}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.cp">
+		<groupExpression><![CDATA[$F{section.homeAddress.cp}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.municipality">
+		<groupExpression><![CDATA[$F{section.homeAddress.municipality}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.numberExt">
+		<groupExpression><![CDATA[$F{section.homeAddress.numberExt}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.numberInt">
+		<groupExpression><![CDATA[$F{section.homeAddress.numberInt}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.state">
+		<groupExpression><![CDATA[$F{section.homeAddress.state}]]></groupExpression>
+	</group>
+	<group name="section.homeAddress.street">
+		<groupExpression><![CDATA[$F{section.homeAddress.street}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.betwennStreets">
+		<groupExpression><![CDATA[$F{section.laborAddress.betwennStreets}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.colony">
+		<groupExpression><![CDATA[$F{section.laborAddress.colony}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.cp">
+		<groupExpression><![CDATA[$F{section.laborAddress.cp}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.ext">
+		<groupExpression><![CDATA[$F{section.laborAddress.ext}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.municipality">
+		<groupExpression><![CDATA[$F{section.laborAddress.municipality}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberExt">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberExt}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberFixed">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberFixed}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.numberInt">
+		<groupExpression><![CDATA[$F{section.laborAddress.numberInt}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.state">
+		<groupExpression><![CDATA[$F{section.laborAddress.state}]]></groupExpression>
+	</group>
+	<group name="section.laborAddress.street">
+		<groupExpression><![CDATA[$F{section.laborAddress.street}]]></groupExpression>
+	</group>
+	<group name="section.studies.career">
+		<groupExpression><![CDATA[$F{section.studies.career}]]></groupExpression>
+	</group>
+	<group name="section.studies.complementaryStudies">
+		<groupExpression><![CDATA[$F{section.studies.complementaryStudies}]]></groupExpression>
+	</group>
+	<group name="section.studies.complementaryStudiesOther">
+		<groupExpression><![CDATA[$F{section.studies.complementaryStudiesOther}]]></groupExpression>
+	</group>
+	<group name="section.studies.lastGrade">
+		<groupExpression><![CDATA[$F{section.studies.lastGrade}]]></groupExpression>
+	</group>
+	<group name="section.studies.professionalLicense">
+		<groupExpression><![CDATA[$F{section.studies.professionalLicense}]]></groupExpression>
+	</group>
+	<group name="sexo">
+		<groupExpression><![CDATA[$F{sexo}]]></groupExpression>
+	</group>
+	<group name="sku">
+		<groupExpression><![CDATA[$F{sku}]]></groupExpression>
+	</group>
+	<group name="status">
+		<groupExpression><![CDATA[$F{status}]]></groupExpression>
+	</group>
+	<group name="telefono">
+		<groupExpression><![CDATA[$F{telefono}]]></groupExpression>
+	</group>
+	<group name="tipoPartner">
+		<groupExpression><![CDATA[$F{tipoPartner}]]></groupExpression>
+	</group>
+	<group name="user">
+		<groupExpression><![CDATA[$F{user}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="9" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="697" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="60" height="1" uuid="e330d637-c1c9-4e58-93ee-140e36a0b754"/>
+			</line>
+			<staticText>
+				<reportElement x="71" y="5" width="100" height="15" uuid="c4ba58c8-7591-433a-82a3-f41ad2ce58d4"/>
+				<text><![CDATA[Domicilio Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="30" width="249" height="20" uuid="04538e66-d5c6-41ba-8208-67bc37a7d8ed"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calle]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="50" width="250" height="20" uuid="766f7c52-d78d-4c42-b0cf-899ae28a0285">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f3f0d3b8-b846-472d-8be7-7db06a5817ad"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.street}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="30" width="100" height="20" uuid="594dbfe0-1a64-4c52-864a-3725c6e47a69"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número Ext.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="50" width="100" height="20" uuid="760c26b0-8bea-4a07-b43d-42ba50f43792">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7ef0901c-17bb-494a-a904-767bb629aeb2"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.numberExt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="31" width="100" height="19" uuid="98341c98-e0fc-4c9f-8971-3ccafa008075"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número Int.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="430" y="50" width="100" height="20" uuid="410336f8-17ec-43d1-8444-dfb3fc1f8f49">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9aae4558-11b2-4015-87de-4ba3eaab0c49"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.numberInt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="70" width="100" height="20" uuid="732d4ca2-7fca-470a-bca4-6196c27421dd"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.P.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="70" width="100" height="20" uuid="df3fd13a-a153-4e9d-8e12-a515843bd0c1"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colonia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="70" width="100" height="20" uuid="4aa9765a-2720-46a2-b469-7292feb20a47"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre calles]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="90" width="100" height="20" uuid="36eb37af-ebbd-48a0-8e4c-2b63997bb7ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="da103f92-f399-42df-a3b7-98d6cbdecaeb"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.cp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="189" y="90" width="151" height="20" uuid="577b6f86-0665-4846-8790-b45abb44dedd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7275c9fb-fdba-4a6b-a2c4-559068178055"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.colony}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="90" width="170" height="20" uuid="8cf8c22d-b7af-4c72-8455-763c87492fcf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="683ade11-1eb1-419f-b0de-683e94c897c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.betwennStreets}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="110" width="140" height="20" uuid="e4126643-47eb-4c59-8ae9-d2b49b5015e0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="110" width="150" height="20" uuid="5824f3de-5cb0-4498-8379-0d761f9cd425"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Delegación/Municipio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="110" width="90" height="20" uuid="2b4a6821-6c4c-4100-bafd-d64ec9d08f49"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número fijo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="110" width="60" height="20" uuid="1ff341f9-d8c9-4990-91a6-8d25a717cc78"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ext.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="130" width="139" height="20" uuid="6821aae4-4ac9-4a1d-b87c-1ffae2c13b48">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee933098-6533-4f06-9c56-c79fda12fe8c"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.state}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="130" width="150" height="20" uuid="9b297874-853c-4707-b794-b6477ed45fda">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8beb5690-175a-4636-ac4d-f9dbdcfdc464"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.municipality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="130" width="90" height="20" uuid="bae0a74c-2ced-44c5-89c9-37e60a7e763a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e9004cb6-bbd9-4f35-a23f-652213fe99b5"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.numberFixed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="130" width="60" height="20" uuid="e7db597d-2efa-4e56-9d82-1e476182de5e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="edfe91ff-d72e-4982-a9b9-35f2fd6da599"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.laborAddress.ext}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="171" y="10" width="384" height="1" uuid="26fde8a5-840e-4bcb-9c4c-33aa88fed220"/>
+			</line>
+			<line>
+				<reportElement x="0" y="10" width="1" height="150" uuid="720349a1-2499-4bd4-99ca-ff2edeb0ff03"/>
+			</line>
+			<line>
+				<reportElement x="0" y="160" width="555" height="1" uuid="6b2fc63c-a57f-43fb-b42f-d51c6e4590d6"/>
+			</line>
+			<line>
+				<reportElement x="556" y="10" width="1" height="151" uuid="2842000d-5684-4604-b9f9-36e5b04c47d8"/>
+			</line>
+			<line>
+				<reportElement x="0" y="190" width="60" height="1" uuid="28413db6-0f67-4181-abab-0e980501ca14"/>
+			</line>
+			<staticText>
+				<reportElement x="69" y="186" width="100" height="14" uuid="857c1986-0af5-4f61-b49c-baff423b8b19"/>
+				<text><![CDATA[Nivel de estudios]]></text>
+			</staticText>
+			<line>
+				<reportElement x="168" y="191" width="387" height="1" uuid="73297f85-fc2a-415d-a23c-960b7137702f"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="210" width="251" height="19" uuid="7970771a-6b2d-47c4-aa47-5df8f62419ec"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Último grado de estudios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="210" width="240" height="19" uuid="c2c48fd2-b640-4780-8bc3-ec62d564168e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estudios complementarios]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="230" width="250" height="20" uuid="e6be5521-f427-405c-897c-d7aa541c1882">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="84b0ed98-7fc6-4806-b93a-5d4482a8cb1b"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.studies.lastGrade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="250" width="251" height="20" uuid="43bf5896-de15-4f34-98f1-b987c8e01bd6"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrera/Licenciatura]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="230" width="240" height="20" uuid="4db46c15-04b0-4b59-ba37-174f591171fb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2c59f270-ea66-4a6e-9c53-522f58cae684"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.studies.complementaryStudies}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="270" width="250" height="20" uuid="51308787-e6bc-4645-b7fb-fd8ef883f7fa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6a29e563-5797-429f-a6c0-6e7a68a9b99f"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.studies.career}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="250" width="240" height="20" uuid="8ae9e2d5-f03a-487d-a53f-2c6193732897"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Otros estududios complementarios]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="270" width="240" height="20" uuid="bd14efc9-06c2-422a-909d-9b48e2ae369e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="79b76626-df78-4d2e-8118-7b182ee50a67"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.studies.complementaryStudiesOther}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="290" width="249" height="20" uuid="d98b09f3-d740-4531-9c3d-cddfe4a77929"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cédula Profesional]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="310" width="250" height="20" uuid="63574355-f49a-4405-96ca-cef1181d2c7f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b77d7b6a-08d1-48e1-b5c8-2f311d8fa815"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.studies.professionalLicense}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="190" width="1" height="150" uuid="5565a146-c754-4c62-952c-7e879a52ac56"/>
+			</line>
+			<line>
+				<reportElement x="555" y="191" width="1" height="150" uuid="a4e78acf-0f12-4778-af86-97dd33e7a493"/>
+			</line>
+			<line>
+				<reportElement x="0" y="340" width="555" height="1" uuid="7429dbd2-58f3-4de0-8fc8-07fd32598506"/>
+			</line>
+			<line>
+				<reportElement x="0" y="370" width="60" height="1" uuid="dda4f124-d7f6-4a38-b272-0ad2956b1fe4"/>
+			</line>
+			<staticText>
+				<reportElement x="70" y="366" width="80" height="14" uuid="3320836b-d135-4ae6-b7c3-4f68064df03a"/>
+				<text><![CDATA[Datos de salud]]></text>
+			</staticText>
+			<line>
+				<reportElement x="160" y="371" width="395" height="1" uuid="caaf08fb-18b1-403d-86e4-3ea6f3451a84"/>
+			</line>
+			<staticText>
+				<reportElement x="21" y="390" width="139" height="20" uuid="9080212d-0f12-4299-83d1-cddee20cb307"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NSS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="410" width="140" height="20" uuid="419f13ad-a6c8-4db2-a3e2-03124ecb18a4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="63cf426d-b3b9-44ad-92d8-64bd2efd8d60"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nss}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="183" y="393" width="198" height="17" uuid="e048179f-9fb3-49e8-a8cc-7223550ce322"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alergías]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="183" y="410" width="197" height="20" uuid="f21ac0a8-3cf7-4871-aa4f-d155c2895e30">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b349bc3b-64a0-47b3-a576-3fac45d9efa2"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.health.allergies}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="402" y="390" width="140" height="20" uuid="45142612-5eb0-4a47-b51b-fc0f14775ffb"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de sangre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="410" width="141" height="20" uuid="bb6545ab-1909-4b53-998b-f64850394cfd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2d549222-a564-4e01-bd5b-43a99962f5d8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{section.health.bloodType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="430" width="139" height="20" uuid="81ab81c5-dab8-41c2-abbd-4c6f3a1569f5"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enfermedades]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="450" width="360" height="20" uuid="298d56c6-2f27-4137-82b2-6cabb68a78ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4e6a71c3-f52e-432e-9957-fe1a22cc53e4"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{section.health.diseases}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="556" y="371" width="1" height="111" uuid="585e957b-98cc-4171-a5c3-1934e6221a6d"/>
+			</line>
+			<line>
+				<reportElement x="0" y="370" width="1" height="112" uuid="225efd26-ab3d-4daf-a0ce-236ebe1d7a4e"/>
+			</line>
+			<line>
+				<reportElement x="0" y="481" width="555" height="1" uuid="e8974d44-27cb-4a21-958c-e6fdb12647ff"/>
+			</line>
+			<line>
+				<reportElement x="0" y="510" width="60" height="1" uuid="158a3be2-efa6-4936-9b7b-c9fc1c3c035d"/>
+			</line>
+			<staticText>
+				<reportElement x="70" y="506" width="159" height="14" uuid="8d1854b5-8f77-408c-8f32-4322238f3ec4"/>
+				<text><![CDATA[Datos de contacto personales]]></text>
+			</staticText>
+			<line>
+				<reportElement x="230" y="511" width="325" height="1" uuid="a678b9ba-c252-4032-9e1c-0bd20fdcdccd"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="530" width="100" height="20" uuid="dad5e37b-8ac3-4517-a06c-4a8138fcbb8c"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="530" width="100" height="20" uuid="8fb3d296-c1f8-4df9-8853-51bf5c109dc2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parentesco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="530" width="89" height="20" uuid="04105ee0-7dbb-467a-b410-d415fe1c8682"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="550" width="220" height="20" uuid="7354a33d-4036-4e5c-9d6b-7275914b517f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97014cf8-255c-411c-b970-743fbf420b09"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contact.person}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="550" width="160" height="20" uuid="2e244d57-7e97-4413-8369-30aa7efc1355">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dd96162f-96e0-40ba-835b-ddd53220f205"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contact.relationship}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="550" width="89" height="20" uuid="8715882c-6ac5-4c9f-83a0-c98514c577b1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c81f930-211e-48cd-8ef4-9508e03f6e51"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.contact.telephone}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="511" width="1" height="69" uuid="77fc9a5c-bb04-4b6a-a8a3-1537fece1b09"/>
+			</line>
+			<line>
+				<reportElement x="555" y="511" width="1" height="69" uuid="83db3ab0-ccbc-4f68-910c-87c23cf0cb53"/>
+			</line>
+			<line>
+				<reportElement x="0" y="581" width="555" height="1" uuid="61832068-8dc0-40a2-92ed-dcc7476ee3c2"/>
+			</line>
+			<line>
+				<reportElement x="0" y="610" width="60" height="1" uuid="0921a1fc-6198-4c75-b045-1ae58a61a0c0"/>
+			</line>
+			<staticText>
+				<reportElement x="71" y="605" width="89" height="15" uuid="809ddd67-05ed-4f31-989c-650af9c44da7"/>
+				<text><![CDATA[Datos bancarios]]></text>
+			</staticText>
+			<line>
+				<reportElement x="160" y="611" width="395" height="1" uuid="89293822-a32e-4d31-977e-55e3e68ef2aa"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="630" width="160" height="20" uuid="cc2df241-5fb3-4c29-9701-1788aa9f60a8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banco operador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="630" width="159" height="20" uuid="9e3b20f9-cb4b-45ab-98d9-225a2daa53a9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. de cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="630" width="149" height="20" uuid="7b6c6652-a6a7-4269-9065-22f438b94904"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. de cuenta CLABE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="650" width="160" height="20" uuid="f74a5e0e-e819-41f1-a686-cc0ff656ecfe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="979b7145-6417-419a-914b-f3c29d7f1ade"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.bankData.bank}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="650" width="159" height="20" uuid="4e899c59-a8db-4086-9993-5b905c9d885e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1e0c63c9-e6f9-4841-ae1e-dffc0d265981"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.bankData.numberAccount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="650" width="149" height="20" uuid="7b91c3d1-e16f-43a7-8542-854f96ad5324">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5a242861-3250-41e8-b287-bd68e11ded8b"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section.bankData.numberKey}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="611" width="1" height="70" uuid="cc51736e-cbdc-4c99-93e7-fd2466f62e5a"/>
+			</line>
+			<line>
+				<reportElement x="554" y="612" width="1" height="70" uuid="6a594b5f-d783-430f-953f-3484900dc72b"/>
+			</line>
+			<line>
+				<reportElement x="0" y="682" width="554" height="1" uuid="e9a73c98-d7e5-4b27-9532-5f787e98fb4c"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="10" splitType="Stretch"/>
+	</summary>
+</jasperReport>

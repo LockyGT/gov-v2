@@ -352,6 +352,10 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 		return body;
 	}
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () => {
 		$scope.getTypeSessions();
 		$scope.getResultsInitiatives();

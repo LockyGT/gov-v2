@@ -18,6 +18,7 @@ public interface VoteSessionRepository extends MongoRepository<VoteSession, Stri
 	List<VoteSession> findVoteSessionByStatus(Integer status);	
 	List<VoteSession> findVoteSessionByFechaHora(LocalDateTime fecha);
 	List<VoteSession> findVoteSessionByFechaHoraBetweenAndStatusNot(LocalDateTime t1,LocalDateTime t2, Integer status);
+	//List<VoteSession> findVoteSessionByFechaHoraBetweenAndStatusNot(LocalDateTime t1,LocalDateTime t2, Integer status);
 	List<VoteSession> findVoteSessionByFechaHoraGreaterThanEqualAndStatusNot(LocalDateTime fecha, Integer status);
 	List<VoteSession> findVoteSessionByFechaHoraAndStatusNot(LocalDateTime vsTime, Integer status);
 	

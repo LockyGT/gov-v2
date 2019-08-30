@@ -11,9 +11,9 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 		$scope.partner = {
 				status: 1,
 				tipoPartner: 2,
-				user: {
-					userRol:$scope.roleUser
-				},
+//				user: {
+//					userRol:$scope.roleUser
+//				},
 				section: {
 					contractData: {
 						area: $scope.area
@@ -118,7 +118,8 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 				username: 'Se ve bien'
 		};
 		console.log('Informacion: ', isValid);
-		if(!isValid) {
+		if(isValid) {
+		
 			if($scope.isChangePass){
 				if($scope.partner.user && $scope.partner.user.password){
 					if($scope.partner.user.password === $scope.partner.user.passwordRepeat){
@@ -454,6 +455,12 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 			closeOnEsc: false
 		});
 		
+		
+		
+		if($scope.partner.user) {
+			$scope.partner.user.userRol = $scope.roleUser; 
+		}
+		console.log('Administrador a guardar', $scope.partner);
 		partnerService.post($scope.partner).then(data => {
 			if(data){
 				swal("Exito", "Expediente electrónico agregado correctamente", "success");
@@ -482,6 +489,10 @@ app.controller('recordAdministratorsCtrl', function($scope, factory, partnerServ
 			closeOnEsc: false
 		});
 		
+		if($scope.partner.user) {
+			$scope.partner.user.userRol = $scope.roleUser; 
+		}
+		console.log('Administrador a actualizar', $scope.partner);
 		partnerService.put($scope.partner).then(data => {
 			if(data) {
 				swal("Exito", "Expediente electrónico actualizado correctamente", "success");

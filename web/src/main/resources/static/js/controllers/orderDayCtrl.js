@@ -796,10 +796,10 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$scope.currentElement.paragraph = [];
 		console.log('elementos',$scope.currentElement)
 
-		console.log('Agregar elementos para los parrafos', $scope.currentElement.paragraph);
-		let isExistsElement= $filter('filter')($scope.orderday.elementParagraph,{id: $scope.currentElement.id, status:1});
+		//console.log('Agregar elementos para los parrafos', $scope.currentElement.paragraph);
+		let isExistsElement= $filter('filter')($scope.orderday.elementParagraph,{elementOd:{id: $scope.currentElement.id, status:1}});
 
-		console.log('********************',isExistsElement);
+		//console.log('********************',isExistsElement);
 		if(!isExistsElement.length){
 			$scope.orderday.elementParagraph.push({elementOd: $scope.currentElement, status:1, paragraph:[]});
 		}

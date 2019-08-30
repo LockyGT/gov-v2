@@ -99,6 +99,7 @@ app.controller('organigramaCtrl', function($scope,_PARTNER,partnerService,$windo
 	     }else if($scope.dataToDisplay.length !== 0 && $scope.chart.getSelection().length !== 0){
 	    	 if(!$scope.validateIfExists(legislador.id)){
 		    	 $scope.parent = $scope.dataToDisplay[$scope.chart.getSelection()[0].row][0].v;
+		    	 console.log("Parent: ", $scope.parent);
 		    	 $scope.dataToDisplay.push([{v: legislador.id, f:legislador.name +' '+legislador.apPaterno+ ' ' + legislador.apMaterno}, $scope.parent , '']);
 		    	 $scope.popullateChart();
 	    	 }else{

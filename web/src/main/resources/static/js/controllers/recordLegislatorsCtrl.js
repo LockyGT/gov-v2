@@ -1,4 +1,4 @@
-app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state, factory){
+app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService,$timeout,storageService, $state, factory,pdfAdministratorService, $sce){
 	
 // $scope.parties = [];
 	$scope.recordLegislator  = null;
@@ -109,8 +109,15 @@ app.controller('recordLegislatorsCtrl', function($scope, factory, partnerService
 	};
 	
 	$scope.createPDF = recordLegislator => {
-		$scope.recordLegisladorTmp = recordLegislator;
-	
+//		$scope.recordLegisladorTmp = recordLegislator;
+		let sendData = {idPartner:1};
+		pdfAdministratorService.getPdf(sendData).then(arraybuffer => {
+			let f = new Blob([arraybuffer], {type: 'application/pdf'});
+			let fileURL = URL.createObjectURL(f);
+			$scope.content = $sce.trustAsResourceUrl(fileURL);
+		}, error => {
+			console.log('Error en obtener el PDF: ', error);
+		});
 	};
 	
 	$scope.addDocuments = (leg) =>{

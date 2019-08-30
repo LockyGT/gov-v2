@@ -41,7 +41,10 @@ app.controller('reportePresentesCtrl', function($rootScope, $timeout, $filter, $
 		});
 	};
 
-
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.iniciarFecha();
 		$scope.getAttendances(null,null);

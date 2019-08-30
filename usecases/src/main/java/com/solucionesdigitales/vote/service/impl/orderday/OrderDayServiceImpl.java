@@ -155,8 +155,8 @@ public class OrderDayServiceImpl implements OrderDayService {
 	@Override
 	public List<OrderDay> getByStatusPublicada(boolean publicada) {
 		List<OrderDay> orderday= new ArrayList<OrderDay>();
-		orderday= orderDayRepository.findByIsPublishedOrderByFechaDesc(publicada);
-		orderday= orderDayRepository.findByStatus(ORDERDAY_STATUS._ACTIVA);
+		//orderday= orderDayRepository.findByIsPublishedOrderByFechaDesc(publicada);
+		orderday= orderDayRepository.findByStatusOrderByFechaDesc(ORDERDAY_STATUS._ACTIVA);
 		return orderday;
 	}
 

@@ -152,6 +152,10 @@ app.controller('quorumCtrl', function($rootScope, $scope, $rootScope,quorumServi
 		});
 	};
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	const initController = () =>{
 		$scope.connect();
 		console.log($scope.userSession);

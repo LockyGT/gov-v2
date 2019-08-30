@@ -125,7 +125,9 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 
 	/*************************** add ORDERDAY ***********************************/
 	$scope.postInit = (paragraph)=>{
+		$scope.initiative.tiposVotos = $scope.voteOptions;
 		initiativeService.post($scope.initiative).then(function mySuccess(data) {
+			
 			console.log('Iniciativas a guardar', data);
 			if(data){				
 				if($scope.voteSession != null ){
@@ -153,14 +155,13 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				if(p.status == 2 && p.iniciativa == 1){
 					p.checked = e.target.checked;
 					
-					console.log("Parrafos",p);
-					$scope.updateSelected(p);
+					$scope.updateSelected(p.contenidoOd);
 					angular.forEach(p.subParagraphs,function(sp){
 						if(sp.status != -1 && sp.iniciativa != 0){
 							sp.checked = e.target.checked;
 							
 							console.log("Subparrafos", sp)
-							$scope.updateSelected(sp);
+							$scope.updateSelected(sp.contenidoOd);
 						}
 					});
 					
@@ -181,7 +182,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				result: {},
 				status : _INICIATIVA._CREATED
 		};
-		$scope.initiative.contenidoOd = paragraph.contenidotxt;
+		$scope.initiative.contenidoOd = paragraph;
 		console.log($scope.initiative)
 		console.log(paragraph)
 		$scope.postInit(paragraph);

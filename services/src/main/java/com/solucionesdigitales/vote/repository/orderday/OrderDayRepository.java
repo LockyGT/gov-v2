@@ -28,5 +28,7 @@ public interface  OrderDayRepository extends MongoRepository<OrderDay, String> {
 	List<OrderDay> findByIsApproved(boolean status);
 	List<OrderDay> findByIsPublishedAndFechaBetween(boolean status,Date dateStart, Date dateEnd);
 	List<OrderDay> findByStatusAndFechaBetween(int status, LocalDateTime f1, LocalDateTime f2);
+
+	List<OrderDay> findByStatusOrderByFechaDesc(int activa);
 	
 }

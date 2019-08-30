@@ -7,6 +7,12 @@
 	<div class="card w-95">
 		<div class="card-header">
 			<form class="form-inline" name="formFiltros">
+				<div class="btn-group mr-3">
+					<button type="button" class="btn btn-light"
+						data-ng-click="toReturn()">
+						<i class="fas fa-arrow-left"></i> Regresar
+					</button>
+				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusqueda" class="sr-only">Fecha de</label> 
 						<input
@@ -14,6 +20,10 @@
 						data-ng-max="fechaBusquedaFin" name="fechaInicio"
 						data-ng-model="fechaBusqueda" required="required"
 						data-ng-class="formFiltros.fechaInicio.$invalid ? 'is-invalid': ''">
+					<span class="invalid-feedback d-block"
+					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">
+					Rango de fechas inválido!
+				</span>
 				</div>
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="txtFechaBusquedaFin" class="sr-only">Fecha al </label>
@@ -26,10 +36,7 @@
 					data-ng-click="getAttendances(fechaBusqueda,fechaBusquedaFin)">
 					Buscar
 				</button>
-				<span class="invalid-feedback d-block"
-					data-ng-show="formFiltros.fechaInicio.$invalid || formFiltros.fechaFin.$invalid">
-					Rango de fechas inválido!
-				</span>
+				
 			</form>
 		</div>
 		<div class="card-body">

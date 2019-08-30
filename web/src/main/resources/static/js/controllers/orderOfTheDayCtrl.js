@@ -50,7 +50,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 
 	$scope.getBetweenDatesPublished = (filtrosFechas) => {
 		swal({
-			title: "Consultandos Ordenes del día",
+			title: "Consultando Ordenes del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -85,7 +85,7 @@ app.controller('orderOfTheDayCtrl', function($rootScope, $timeout, $filter, $sco
 
 	$scope.getPostOrderDays = function (){
 		swal({
-			title: "Concultando Orden del día",
+			title: "Consultando Ordenes del día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {

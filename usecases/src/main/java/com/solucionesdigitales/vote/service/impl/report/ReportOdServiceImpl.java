@@ -54,7 +54,7 @@ public class ReportOdServiceImpl implements ReportOdService {
 			file = Paths.get(dirFolder,"", "Orden-Del-Día.pdf");
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(FILE_NAME));
 
-			HeaderFooterPageEvent event = new HeaderFooterPageEvent();
+			HeaderFooterPageEvent event = new HeaderFooterPageEvent(dirFolder);
 			writer.setPageEvent(event);
 			document.open();
 			document.addTitle(orderday.getNombre());

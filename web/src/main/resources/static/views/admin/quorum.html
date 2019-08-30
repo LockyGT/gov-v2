@@ -1,25 +1,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
 <h1 class="my-4">
-	<br> ASISTENCIAS {{voteSession != null ? (' DE SESIÓN: '+voteSession.nombre ) : ''}} <small></small>
+	<br> ASISTENCIAS {{voteSession != null ? (' DE SESIÓN:
+	'+voteSession.nombre ) : ''}} <small></small>
 </h1>
 <section>
 	<div class="card w-95">
 		<div class="card-header">
-
-			<div class="text-left">
-
-				<div class="spinner-grow text-dark" role="status"
-					data-ng-if="fetching">
-					<span class="sr-only">actualizando...</span>
+			<div class="row">
+				<div class="btn-group mr-3">
+					<button type="button" class="btn btn-light"
+						data-ng-click="toReturn()">
+						<i class="fas fa-arrow-left"></i> Regresar
+					</button>
 				</div>
-				PRESENTES {{nuPresentes}} DE {{totalLegisladores}}
+				<div class="text-left btn-group">
+
+					<div class="spinner-grow text-dark" role="status"
+						data-ng-if="fetching">
+						<span class="sr-only">actualizando...</span>
+					</div>
+					PRESENTES {{nuPresentes}} DE {{totalLegisladores}}
+				</div>
 			</div>
 			<div class="text-right">
-				<div class="btn-group btn-group-lg" role="group" aria-label="Basic example" data-ng-if="voteSession != null">
-					<button type="button" class="btn btn-info" data-ng-click="getQuorumToday()">
-						Actualizar
-					</button>
+				<div class="btn-group btn-group-lg" role="group"
+					aria-label="Basic example" data-ng-if="voteSession != null">
+					<button type="button" class="btn btn-info"
+						data-ng-click="getQuorumToday()">Actualizar</button>
 					<!-- <button
 						data-ng-if="userSession.user.userRol.roleName == 'OPERADOR'"
 						class="btn btn-dark" data-ng-click="confirmReset()">Reiniciar
