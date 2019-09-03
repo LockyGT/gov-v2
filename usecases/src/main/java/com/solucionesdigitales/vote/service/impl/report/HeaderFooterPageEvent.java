@@ -37,11 +37,11 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	{
 		try
 		{
-			waterMarkImage = Image.getInstance(dirFolder+"/img-pdf/image-opacity.png");
+			waterMarkImage = Image.getInstance(dirFolder+"/img-pdf/logo-g.png");
 
 			imagen = Image.getInstance(dirFolder+"/img-pdf/congreso-guerrero.png");
 			imagen.scalePercent(20f);
-			imagen.setAbsolutePosition(15f, 680f);
+			imagen.setAbsolutePosition(30f, 680f);
 			imagen.setAlignment(Element.ALIGN_LEFT);
 			table.setTotalWidth(350f);  
 

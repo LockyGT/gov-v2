@@ -127,12 +127,11 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	$scope.postInit = (paragraph)=>{
 		$scope.initiative.tiposVotos = $scope.voteOptions;
 		initiativeService.post($scope.initiative).then(function mySuccess(data) {
-			
 			console.log('Iniciativas a guardar', data);
 			if(data){				
 				if($scope.voteSession != null ){
 					$scope.voteSession.iniciativas.push(data);
-					console.log('+-----+', data)
+					console.log("data", data)
 					$scope.updateVoteSession();
 				}				
 				swal("Exito", "Iniciativa agregada correctamente", "success");
@@ -150,11 +149,11 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 
 	$scope.checkAllOptions = function(orderday,e){
 		angular.forEach(orderday.elementParagraph,function(el){
-
 			angular.forEach(el.paragraph,function(p){
 				if(p.status == 2 && p.iniciativa == 1){
 					p.checked = e.target.checked;
 					
+					console.log("Parrafos", p);
 					$scope.updateSelected(p.contenidoOd);
 					angular.forEach(p.subParagraphs,function(sp){
 						if(sp.status != -1 && sp.iniciativa != 0){
@@ -164,12 +163,8 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 							$scope.updateSelected(sp.contenidoOd);
 						}
 					});
-					
 				}
-				
 			});
-			
-			
 		});
 	};
 	
@@ -183,8 +178,8 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				status : _INICIATIVA._CREATED
 		};
 		$scope.initiative.contenidoOd = paragraph;
-		console.log($scope.initiative)
-		console.log(paragraph)
+		console.log("Seleccion de iniciativas:",$scope.initiative)
+		//console.log(paragraph)
 		$scope.postInit(paragraph);
 	};
 

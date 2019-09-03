@@ -111,4 +111,7 @@
 .has-error{
 	color-border:red;
 }
+.content-modal{
+max-width: 100vh;
+}
 

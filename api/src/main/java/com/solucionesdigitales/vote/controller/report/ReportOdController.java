@@ -18,7 +18,6 @@ import com.solucionesdigitales.vote.service.report.ReportOdService;
 @RestController
 @RequestMapping("reportOd")
 public class ReportOdController {
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReportOdController.class);
 
 	@Autowired

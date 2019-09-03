@@ -1,5 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Page Heading -->
+
+
 <h1 class="my-4">
 	Orden del día <i class="fas fa-paste"></i>
 </h1>
@@ -85,7 +87,7 @@
 						data-ng-if="publishedOds.length == 0">
 						<div class="alert alert-primary" role="alert"
 							data-ng-if="!publishedOds.length">No se han encontrado
-							Orden del dia para el rango de fechas seleccionado - seleccione
+							Orden del día para el rango de fechas seleccionado - seleccione
 							otro rango de fechas para realizar la busqueda.</div>
 					</div>
 					<div class="table-responsive" data-ng-if="publishedOds.length > 0">
@@ -203,9 +205,10 @@
 	</div>
 </div>
 <!--MODAL MUESTRA EL CONTENIDO DE LOS DOCUMENTOS ANEXADOS EN LA OD-->
-<div class="modal fade bd-example-modal-lg" id="show-file" tabindex="-1"
+
+<div class="modal fade" id="show-file" tabindex="-1"
 	role="dialog" aria-labelledby="showFile" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered"
+	<div class="modal-dialog content-modal modal-lg modal-dialog-centered"
 		role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -228,9 +231,9 @@
 </div>
 
 <!-- Modal show file(PDF) ORDER OF THE DAY-->
-<div class="modal fade" id="modal-showView-file" tabindex="-1" role="dialog"
+<div class="modal fade bd-example-modal-lg" id="modal-showView-file" tabindex="-1" role="dialog"
 	aria-labelledby="modalShowFile" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered"
+	<div class="modal-dialog content-modal modal-lg modal-dialog-centered"
 		role="document">
 		<div class="modal-content">
 			<div class="modal-header">

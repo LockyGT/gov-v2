@@ -32,6 +32,7 @@ import com.solucionesdigitales.vote.entity.orderday.ParagraphOD;
 import com.solucionesdigitales.vote.repository.orderday.OrderDayRepository;
 import com.solucionesdigitales.vote.service.report.ReportOdService;
 
+
 @Service("reportOdService")
 public class ReportOdServiceImpl implements ReportOdService {
 
@@ -47,7 +48,7 @@ public class ReportOdServiceImpl implements ReportOdService {
 		Path file= null;
 
 		OrderDay orderday = orderDayRepository.findFirstById(orderdayId);
-		Document document = new Document(PageSize.LETTER, 85, 85, 135, 135);
+		Document document = new Document(PageSize.LETTER, 75, 75,130,90);
 		try {
 
 			String FILE_NAME = dirFolder + "/Orden-Del-Día.pdf";
@@ -71,7 +72,7 @@ public class ReportOdServiceImpl implements ReportOdService {
 
 			Font paragraphContent = new Font();
 			paragraphContent.setFamily(FontFamily.TIMES_ROMAN.toString());
-			paragraphContent.setSize(12);
+			paragraphContent.setSize(10);
 
 			Font subTitleF = new Font();
 			subTitleF.setSize(9);
@@ -80,33 +81,38 @@ public class ReportOdServiceImpl implements ReportOdService {
 			// Agregar Parrafos
 			Paragraph paragraphTitle = new Paragraph();
 			paragraphTitle.add(Chunk.NEWLINE);
-			paragraphTitle.add(new Phrase("Orden del Día", fontitle));
+			paragraphTitle.add(new Phrase("ORDEN DEL DÍA", fontitle));
 			paragraphTitle.setAlignment(Element.ALIGN_CENTER);
 			document.add(paragraphTitle);
 
 			Paragraph subTitle = new Paragraph();
 			subTitle.add(Chunk.NEWLINE);
-			subTitle.add(new Phrase("*PASE DE LISTA DE ASISTENCIA." + "\n", subTitleF));
+			subTitle.add(new Phrase("*PASE DE LISTA DE ASISTENCIA."+"\n", subTitleF));
+			subTitle.setSpacingAfter(10f);
+			subTitle.setSpacingAfter(10f);
 			subTitle.add(new Phrase("*DECLARATORIA DE QUÓRUM." + "\n\n\n", subTitleF));
 			subTitle.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(subTitle);
 
+			
 
-			List lista = new List(true);
+			List lista = new List(List.ORDERED);
 			ListItem listItem = null;
 
-			List listaParagraph = new GreekList();
+			List listaParagraph = new List(List.LOWERCASE);
 			ListItem itemParagraph = null;
 
 			List listaSubP = new RomanList();
 			ListItem itemSubP = null;
-
+			
+            
 			for (ElementParagraph elementParagraph : orderday.getElementParagraph()) {
 				if(elementParagraph.getStatus() == 1) {
 					listItem = new ListItem(elementParagraph.getElementOd().getNombre()  +"\n\n", fontElement);
 					listItem.setAlignment(Element.ALIGN_JUSTIFIED);
-					listaParagraph = new GreekList();
-
+					listaParagraph = new List(List.ORDERED, List.ALPHABETICAL);
+					listaParagraph.setLowercase(List.LOWERCASE);
+					
 					for(ParagraphOD paragraphOd : elementParagraph.getParagraph()) {
 						if(paragraphOd.getStatus() == 2) {
 							itemParagraph = new ListItem(paragraphOd.getContenidotxt() + "\n\n" , paragraphContent);
@@ -117,6 +123,7 @@ public class ReportOdServiceImpl implements ReportOdService {
 								if(subParagraphOd.getStatus() == 2) {
 									itemSubP = new ListItem(subParagraphOd.getContenidotxt() + "\n\n",paragraphContent);
 									itemSubP.setAlignment(Element.ALIGN_JUSTIFIED);
+									itemSubP.setFirstLineIndent(10);
 									listaSubP.add(itemSubP);
 
 								}
@@ -129,11 +136,9 @@ public class ReportOdServiceImpl implements ReportOdService {
 					lista.add(listItem);
 					document.add(listItem);
 					document.add(listaParagraph);
-					document.add(listaSubP);
+					//document.add(listaSubP);
 				}
 			}
-
-
 			document.close();
 			final Resource resource = new UrlResource(file.toUri());
 			return resource;

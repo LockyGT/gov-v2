@@ -72,7 +72,7 @@ app.controller('elementOdCtrl', function($log, $timeout,$filter, $scope,$http, $
 			closeOnEsc: false
 		});
 
-		console.log('Actualizar elemenmto de la OD', $scope.elementOd)
+		console.log('Actualizar elemento de la OD', $scope.elementOd)
 		elementOdService.put($scope.elementOd).then(function mySuccess(data) {			
 			if(data){
 				swal.stopLoading();
