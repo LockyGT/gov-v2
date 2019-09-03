@@ -1,7 +1,7 @@
 app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$interval){
 
 	$scope.modulosod = [];
-	$scope.modulood = {};
+	$scope.modulood = null;
 	$scope.icons = [
 		"fab fa-500px", "far fa-bell","far fa-bell-slash", "fas fa-braille", "fas fa-sign-language",
 		"fas fa-tty","fas fa-bus", "fas fa-gas-pump","fas fa-campground", "fas fa-industry", "fas fa-landmark",
@@ -31,7 +31,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 		},600);
 	};
 	
-	$scope.getModulosod = () =>{
+	$scope.getModulosod = () => {
 		moduloodService.get().then(function success(data){
 			$scope.modulosod = data;
 		}, function error(response){
@@ -89,7 +89,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 				swal.stopLoading();
 				swal("Exito", "Módulo de orden del día actualizado correctamente", "success");
 				$scope.getModulosod();
-				$scope.modulood = {};
+				$scope.modulood = null;
 			} else {
 				swal("Error", "Módulo de orden del día no actualizado", "error");
 			}
@@ -231,6 +231,7 @@ app.controller('moduloodCtrl', function($scope, moduloodService, $timeout,$inter
 	};
 
 	$scope.updateModuleod = (modulood) =>{
+		$scope.modulood = {};
 		angular.copy(modulood, $scope.modulood);
 	};
 
