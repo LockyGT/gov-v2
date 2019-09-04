@@ -395,13 +395,15 @@
 <!-- 						data-ng-if="!elm.paragraph.length"> -->
 <!-- 						 La sesión seleccionada no cuenta con iniciativas. -->
 <!-- 						</div> -->
+
+
+
+				
 						<div class="container">
 
 							<div class="form-group">
-<!-- 							<button type="button" class="btn btn-outline-dark" data-ng-click="checkAllOptions(sessionView.orderday,$event);">Importar todo</button> -->
 								<div class="form-check">
-								
-									<input class="form-check-input" name="selectAll"
+									<input class="form-check-input check-opt" name="selectAll"
 								data-ng-click="checkAllOptions(sessionView.orderday,$event);" type="checkbox" id="gridCheck">
 									<label class="form-check-label" for="gridCheck">Importar todo</label>
 								</div>
@@ -409,7 +411,6 @@
 
 							<div class="input-group"
 								data-ng-repeat="sd in sessionView.orderday.elementParagraph track by $index">
-
 								<div style="margin-top: 1em"
 									data-ng-repeat="pa in sd.paragraph | filter: {iniciativa: true} track by $index">
 
@@ -418,7 +419,6 @@
 										data-ng-click="updateSelected(pa.contenidotxt)">
 										<label class="form-check-label" for="gridCheck">{{pa.contenidotxt}}</label>
 
-								
 									<div style="margin-top: 1em"
 										data-ng-repeat="subp in pa.subParagraphs | filter: {iniciativa: true} track by $index">
 

@@ -31,6 +31,8 @@ public class Initiative {
 	
 	private String contenidoOd;
 	
+	
+	
 	/**
 	 * @return the id
 	 */

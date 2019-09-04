@@ -454,10 +454,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			if($scope.orderday.id){
 				$scope.NewVerssionOrderDay(newFiles);
 				$scope.isAdd = false;
-				//$scope.orderday.nombre = true;
 			} else {
 				$scope.postOrderDay(newFiles);
-				//$scope.orderday.nombre = true;
 			}
 		} else {
 			swal("Error","Falta información para completar el proceso","error");

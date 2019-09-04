@@ -529,6 +529,7 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 	};
 
 	$scope.openInitiativesFromSession = (voteSession) =>{
+		console.log("Ver iniciatives de la sesion", voteSession);
 		VoteSessionHasInitiativesService.setVoteSession(voteSession);
 		$state.transitionTo('iniciativas');
 	};

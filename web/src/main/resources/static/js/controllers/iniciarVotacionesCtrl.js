@@ -86,7 +86,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		});
 	};
 
-	/************************* Get VoteSessions ***********************************/
+	/************** Get VoteSessions *************/
 	$scope.getVoteSessions = () =>{
 		voteSessionService.getById().then(function mySuccess(data) {			
 			$scope.voteSessions = data;
@@ -107,11 +107,10 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	};
 
 	$scope.getInitiatives = () =>{
-
 		if($scope.voteSession === null){
-			initiativeService.get().then(function mySuccess(data) {			
+			initiativeService.get().then(function mySuccess(data) {	
 				$scope.initiatives = data;
-
+				console.log("iniciativas obtenidas", $scope.initiatives);
 			}, 
 			function myError(response) {			
 				console.error("error:iniciativas no obtenidas! " + response);	
@@ -123,8 +122,9 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 		}
 	};
 
-	/*************************** add ORDERDAY ***********************************/
+	/************ add ORDERDAY *************/
 	$scope.postInit = (paragraph)=>{
+		console.log("CONTENIDO-PARRAFO", paragraph);
 		$scope.initiative.tiposVotos = $scope.voteOptions;
 		initiativeService.post($scope.initiative).then(function mySuccess(data) {
 			console.log('Iniciativas a guardar', data);
@@ -150,17 +150,17 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	$scope.checkAllOptions = function(orderday,e){
 		angular.forEach(orderday.elementParagraph,function(el){
 			angular.forEach(el.paragraph,function(p){
-				if(p.status == 2 && p.iniciativa == 1){
+				if(p.status != -1 && p.iniciativa != 0){
 					p.checked = e.target.checked;
 					
 					console.log("Parrafos", p);
-					$scope.updateSelected(p.contenidoOd);
+					$scope.updateSelected(p.contenidotxt);
 					angular.forEach(p.subParagraphs,function(sp){
 						if(sp.status != -1 && sp.iniciativa != 0){
 							sp.checked = e.target.checked;
 							
 							console.log("Subparrafos", sp)
-							$scope.updateSelected(sp.contenidoOd);
+							$scope.updateSelected(sp.contenidotxt);
 						}
 					});
 				}
@@ -191,7 +191,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 	};
 	
 	
-	/********************** END ORDERDAY **************************/
+	/************* END ORDERDAY *****************/
 	$scope.addInitiative= ()=>{
 		document.getElementById("initName").focus(); 
 		$scope.initiative = {
@@ -200,7 +200,6 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				seconds : 30,
 				result: {},
 				status : _INICIATIVA._CREATED
-
 		};
 	};
 
