@@ -161,11 +161,15 @@ app.controller('voteSessionCtrl', function($rootScope, $timeout, $filter, $scope
 			closeOnEsc: false
 		});
 		let dateNow = new Date();
-		dateNow.setTime( dateNow.getTime() - dateNow.getTimezoneOffset()*60*1000 );
+		
+		//dateNow.setTime( dateNow.getTime() - dateNow.getTimezoneOffset()*60*1000 );
+		console.log("fecha",dateNow);
 		let map = new Object(); 
 		map['fecha'] = dateNow;
 		voteSessionService.getInDateBetween(map).then(function mySuccess(data) {
+			console.log("Obtener sesiones del dia",data);
 			$scope.voteSessions = data;
+			console.log("sesiones obtenidad", $scope.voteSessions);
 			angular.forEach($scope.voteSessions, function(val, key){
 				if(val.fechaHora != null && val.fechaHora.length > 0){	
 					val.fechaHora = new Date(val.fechaHora);

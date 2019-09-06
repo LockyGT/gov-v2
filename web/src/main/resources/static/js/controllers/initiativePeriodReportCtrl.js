@@ -24,6 +24,7 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 			initiativesId: $scope.selected.initiatives.map(f => f.id)
 		};
 		
+		
 		if($scope.selected.sessions.length && $scope.selected.initiatives.length){
 			reportService.getInitiative(dataReport).then(success => {
 				$scope.initiativeReport = JSON.parse(success.data);
@@ -46,15 +47,25 @@ app.controller('initiativePeriodReportCtrl', function($scope, reportService,vote
 	};
 	
 	$scope.getSessionsBetweenDates = (selected) => {
-		let sendData = {
-			"dateStart": selected.startDate,
-			"dateEnd": selected.endDate,
-			"status": 0
-		};
+//		let sendData = {
+//			"dateStart": selected.startDate,
+//			"dateEnd": selected.endDate,
+//			"status": 0
+//		};
 		
+		let startDate = new Date($scope.selected.startDate);
+		let dateEnd = new Date($scope.selected.endDate);
+		
+		let sendData = new Object(); 
+		sendData['status']= 0;
+		sendData['dateStart'] = startDate;
+		sendData['dateEnd'] = dateEnd;
+		
+	
 		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
 			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data=>{
 				$scope.sessions = data;
+				console.log("Sesiones Obtenidas", $scope.sessions);
 				$scope.initiatives = [];
 				console.log('Error en los datos: ', data);
 				

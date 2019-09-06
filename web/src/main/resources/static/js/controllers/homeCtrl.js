@@ -6,6 +6,11 @@ app.controller('HomeController', function($scope, $rootScope, $stateParams, $sta
 
 	$scope.subMenus = [];
 	
+	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	$scope.setIndexMenu=(index)=>{
 		console.log(index);
 		MenuHasSubMenuService.setIndexMenu(index);

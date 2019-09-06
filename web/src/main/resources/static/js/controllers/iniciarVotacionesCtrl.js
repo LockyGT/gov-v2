@@ -153,6 +153,7 @@ app.controller('iniciarVotacionesCtrl', function($timeout, $rootScope,$filter, $
 				if(p.status != -1 && p.iniciativa != 0){
 					p.checked = e.target.checked;
 					
+					console.log("check", p.checked);
 					console.log("Parrafos", p);
 					$scope.updateSelected(p.contenidotxt);
 					angular.forEach(p.subParagraphs,function(sp){

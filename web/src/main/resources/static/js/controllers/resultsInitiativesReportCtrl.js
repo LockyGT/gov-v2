@@ -68,15 +68,24 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	};
 	
 	$scope.getSessionsBetweenDates = (selected) => {
-		let sendData = {
-			"dateStart": selected.startDate,
-			"dateEnd": selected.endDate,
-			"status": 0
-		};
+//		let sendData = {
+//			"dateStart": selected.startDate,
+//			"dateEnd": selected.endDate,
+//			"status": 0
+//		};
+		
+		let startDate = new Date($scope.selected.startDate);
+		let dateEnd = new Date($scope.selected.endDate);
+		
+		let sendData = new Object(); 
+		sendData['status']= 0;
+		sendData['dateStart'] = startDate;
+		sendData['dateEnd'] = dateEnd;
 		
 		if (($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)) {
 			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data => {
 				$scope.sessions = data;
+				console.log("Sesiones obtenidas", $scope.sessions);
 				$scope.initiatives = [];
 				$scope.filter = {};
 				console.log('Sesiones optenidos: ', $scope.sessions);
@@ -182,7 +191,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 	};
 	
 	$scope.printTable = () => {
-		$scope.resultsReport.title = 'Resultados - Periodos';
+		$scope.resultsReport.title = 'Resultados - Reportes Estadísticos';
 		$scope.resultsReport.headRows = [{date:'Fecha', typeSessions:'Tipo de sesión',session:'Sesión',
 			initiative:'Iniciativa', present:'Presentes', formula:'Formula de cálculo', method: 'Método de redondeo',
 			result:'Resultado'}];
@@ -217,7 +226,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		$scope.tabView = tabIndex;
 	};
 	
-	$scope.toReturn = () => {
+	$scope.toReturnBar = () => {
 		$scope.reporteBar =  null;
 		$scope.reportePie = null;
 	};
@@ -349,7 +358,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 			windowContent += '<head>';
 			windowContent += '</head>';
 			windowContent += '<body>';
-			windowContent += '<h1 class="my-4">Reporte legisladores</h1>';
+			windowContent += '<h1 class="my-4">Reportes estadísticos - Resultados</h1>';
 			windowContent += '<img src="'
 					+ canvas.toDataURL() + '"/>';
 			windowContent += '</body>';
@@ -404,6 +413,7 @@ app.controller('resultsInitiativesReportCtrl', function($scope, voteSessionServi
 		$scope.getTypeSession();
 		$scope.getResultsInitiatives();
 		$scope.getFormula();
+		$scope.getSessionsBetweenDates();
 	};
 	
 	angular.element(document).ready(function () {

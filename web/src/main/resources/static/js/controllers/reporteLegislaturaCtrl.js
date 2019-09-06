@@ -57,17 +57,27 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	};
 	
 	$scope.getSessionsBetweenDates = (selected) => {
-		let sendData = {
-			"dateStart": selected.startDate,
-			"dateEnd": selected.endDate,
-			"status": 0
-		};
+//		let sendData = {
+//			"dateStart": selected.startDate,
+//			"dateEnd": selected.endDate,
+//			"status": 0
+//		};
+		
+		let startDate = new Date($scope.selected.startDate);
+		let dateEnd = new Date($scope.selected.endDate);
+		
+		let sendData = new Object(); 
+		sendData['status']= 0;
+		sendData['dateStart'] = startDate;
+		sendData['dateEnd'] = dateEnd;
+		
 		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
 			$scope.getTypeSession();
 			$scope.getResultsInitiatives();
 			
 			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then(data => {
 				$scope.sessions = data;
+				console.log("Sesiones obtenidas", $scope.sessions);
 				$scope.initiatives = [];
 				$scope.filter = {};
 				$scope.filterInfo = {};
@@ -173,7 +183,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 	};
 	
 	$scope.printTable = () => {
-		$scope.legislaturaReport.title = 'Legislatura - periodo';
+		$scope.legislaturaReport.title = 'Legislatura - Reportes Estadísticos';
 		$scope.legislaturaReport.headRows = [{date:"Fecha", typeSession:"Tipo de sesión", session:"Sesión", initiative:"Iniciativa", result:"Resultado"}];
 		$scope.legislaturaReport.footRows = [{date:'', typeSession:'', session:'',initiative:'', result:''}];
 		$scope.legislaturaReport.bodyRows = bodyRows($scope.legislaturaReport.data);
@@ -193,7 +203,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 		$scope.tabView = tabIndex;
 	};
 	
-	$scope.toReturn = () => {
+	$scope.toReturnBar = () => {
 		$scope.reporteBar =  null;
 		$scope.reportePie = null;
 		$scope.sessionSelected = null;
@@ -319,7 +329,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 			windowContent += '<head>';
 			windowContent += '</head>';
 			windowContent += '<body>';
-			windowContent += '<h1 class="my-4">Reporte Legislaturas</h1>';
+			windowContent += '<h1 class="my-4">Reportes estadísticos - Legislatura</h1>';
 			windowContent += '<img src="'
 					+ canvas.toDataURL() + '"/>';
 			windowContent += '</body>';
@@ -372,6 +382,7 @@ app.controller('reporteLegislaturaCtrl', function($scope, voteSessionService,rep
 		$scope.getTypeSession();
 		$scope.getResultsInitiatives();
 		$scope.getFormula();
+		$scope.getSessionsBetweenDates();
 	};
 
 	angular.element(document).ready(function () {

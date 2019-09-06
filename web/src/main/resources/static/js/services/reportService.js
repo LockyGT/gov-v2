@@ -44,7 +44,7 @@ app.service('reportService', function($q, factory, $filter){
 	};
 	
 	self.printPdf = (dataTable) => {
-		const doc = new jsPDF();
+		const doc = new jsPDF('landscape');
 		
 		const totalPagesExp = "{total_pages_count_string}";
 		
