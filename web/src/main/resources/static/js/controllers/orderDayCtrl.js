@@ -75,12 +75,10 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	$scope.removeParagraphs = e => {
 		e.status = -1;
 	};
-	/*************************Metodos de elementos************************/
+	/* Metodos de elementos */
 	$scope.addNewElement = (elementOd)=>{ 
 		$scope.elementsOd= elementOd;
-		console.log('Agregar nuevo elemento',elementOd);
 	};	
-
 
 	$scope.getElementsOd = () =>{
 		swal({
@@ -109,9 +107,8 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 
 	$scope.postElement = function(){
-		console.log("Elemento enviado",$scope.elementOd);
 		swal({
-			title: "Guardando elemento de la ORDEN DEL DIA",
+			title: "Guardando elemento de la orden de día",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -122,7 +119,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			closeOnEsc: false
 		});
 		$scope.elementOd.status = 1;
-		console.log('Elemento enviado ',$scope.elementOd);
 		elementOdService.post($scope.elementOd).then(function success(data){
 			if(data){
 				swal("Exito", "Elemento agregado correctamente", "success");
@@ -202,7 +198,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				$scope.getElementsOd();
 			}
 		}, function error(){
-			swal("Errpr","Elemento no eliminado","error");
+			swal("Error","Elemento no eliminado","error");
 		});
 	};
 
@@ -210,7 +206,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		if($scope.elementOd != null){
 			if($scope.elementOd.id != null){
 				$scope.putElement();
-				//$scope.isAdd = false;
 			} else {
 				let isRegister = $scope.elementsOd.find(function(element){
 					return element.nombre.toLowerCase() == $scope.elementOd.nombre.toLowerCase();
@@ -220,7 +215,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				}else {
 					swal({
 						title: "Elemento Existente",
-						text: "El nombre del elemento ya existe. Por favor intente con otro",
+						text: "El nombre del elemento ya existe, Por favor intente con otro nombre.",
 						icon: "warning",
 						button: true
 					})
@@ -256,7 +251,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 
-	/***********************End elements mt********************/
+	/* End elements mt */
 
 	$scope.verVersiones = (orderday)=>{ 
 		let odOriginal = "";
@@ -372,6 +367,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 
 	$scope.NewVerssionOrderDay = (newFiles)=> {
 		const fechaHoy = new Date();
+		
 		const sumaFecha = new Date($scope.orderday.fecha);		
 		sumaFecha.setDate(sumaFecha.getDate() + 8);
 
@@ -529,14 +525,53 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 			swal("Error",$scope.myWelcome, "error");				
 		});		
 	};
+	
+	// != duplicar archivos
+
+	$scope.newAttached = () =>{
+		let newArray = [];
+		
+		angular.forEach($scope.orderday.attached,(att)=> {
+			console.log("anexos", att);
+			angular.forEach(att.files, (elem)=>{
+				
+				if(!newArray.some(originalName=> valor[0] === elem[0] && valor[1] === elem[1]))  
+					newArray.push(elem);
+				else {
+					angular.forEach(newArray,(valor,index)=> {
+						if(valor[0]=== elem[0] && valor[1] === elem[1]) newArray.splice(index,1);
+					});
+					
+					$scope.addAttachedOd();
+				}
+			});
+			
+		})
+		
+	}
+
 
 	$scope.saveAnnexes = (files) =>{
+
+//		let isRegister = $scope.orderdayAnnexes.attached.files.find(function(element){
+//		return element.attached.toLowerCase() == $scope.attached.files.toLowerCase();
+//		});
+//		if(!isRegister){
+//		}else {
+//		swal({
+//		title: "Archivo Existente",
+//		text: "El archivo ya existe, Favor de agregar otro archivo.",
+//		icon: "warning",
+//		button: true
+//		})
+//		}
+		
 		let dataOD = $scope.orderdayAnnexes;
-		console.log('OD', $scope.orderdayAnnexes)
 		dataOD.attached.status = 1;
 		dataOD.attached.originFolder = files.originFolder;
 		dataOD.attached.files = $scope.orderdayAnnexes.attached.files.concat(files.files);
 		console.log('Orden del dia y anexo enviadad.', dataOD);
+
 		orderdayService.put(dataOD).then(function success(data) {
 			console.log('Anexo guardado', data)
 			if(data){
@@ -545,7 +580,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 				//$scope.getOrderDays();
 				$scope.isAdd = true;
 				$scope.attached.filesUploads = null;
-
 
 			}else{
 				swal("Error", "Los anexos no se guardado", "error");
@@ -559,16 +593,16 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.addAttachedOd = () =>{
-		console.log('Mostrar anexo de la orden del dia ----+',$scope.orderdayAnnexes)
-		//$scope.isAdd = true;
 		let fecha = new Date();
 		let folderOrigin = $scope.orderdayAnnexes.attached.originFolder ? 
 				$scope.orderdayAnnexes.attached.originFolder : 'attached/' + fecha.getFullYear() + '/' + (fecha.getMonth()+1) + '/' +  $scope.orderdayAnnexes.id 
+
 				let file = {
 						files: $scope.attached.filesUploads,
 						folder: folderOrigin,
 						userId: 'guadalupe'
 				}; 
+
 
 		console.log('Anexo a guardar en la orden del dia',file)
 		storageService.saveAttached(file).then(function success(data){
@@ -611,7 +645,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 	};
 
 	$scope.addOrderday = () => {
-		
+
 		$scope.orderday = {
 				fecha:new Date(),
 				nombre:'',
@@ -621,7 +655,7 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 					files:[]
 				}
 		}
-		
+
 	};
 
 	$scope.invalidClassName = '';
@@ -796,8 +830,6 @@ app.controller('orderDayCtrl', function($timeout,$rootScope,orderdayService, $sc
 		$timeout(()=>{ 
 			$scope.orderday = $scope.orderday;
 			$scope.oderdayCopy = angular.copy($scope.orderday);
-			console.log('Copia de orden del dia',$scope.oderdayCopy);
-
 			orderdayService.put($scope.oderdayCopy).then(function success(data) {
 				console.log('Enviar iniciativa',$scope.oderdayCopy);	
 			}, 

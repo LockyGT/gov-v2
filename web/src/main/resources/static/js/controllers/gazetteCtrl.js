@@ -7,6 +7,10 @@ app.controller('gazetteCtrl', function($scope, $rootScope, $stateParams, $state,
 
 	$scope.subMenus = [];
 	
+	$scope.toReturn = () => {
+		window.history.back();
+	};
+	
 	$scope.setIndexMenu=(index)=>{
 		console.log(index);
 		MenuHasSubMenuService.setIndexMenu(index);

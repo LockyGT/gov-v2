@@ -20,8 +20,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 	$scope.filterInfo        = {};
 	
 	$scope.getReportLegislator = () => {
-		
-		
 		if($scope.selected.legislators.length && $scope.selected.initiatives.length
 				&& $scope.selected.voteOptions.length){
 			console.log('Informacion seleccionada: ', $scope.selected.legislators);
@@ -43,17 +41,27 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		}
 	};
 	
-	
 	$scope.getSessionsBetweenDates = (selected) => {
-		let sendData = {
-			"dateStart":selected.startDate,
-			"dateEnd":selected.endDate,
-			"status": 0
-		};
+// 			let sendData = {
+//				"dateStart":selected.startDate,
+//				"dateEnd":selected.endDate,
+//				"status": 0
+//			};
+
+		let startDate = new Date($scope.selected.startDate);
+		let dateEnd = new Date($scope.selected.endDate);
+		
+		let sendData = new Object(); 
+		sendData['status']= 0;
+		sendData['dateStart'] = startDate;
+		sendData['dateEnd'] = dateEnd;
+		
+		console.log(sendData);
 		if(($scope.selected.startDate <= $scope.selected.endDate) && ($scope.selected.endDate <= $scope.maxSearchDate)){
 			voteSessionService.getInDateBetweenEndBetweenAndStatus(sendData).then( data => {
 
 				$scope.sessions = data;
+				console.log("obtener sesiones",$scope.sessions);
 				$scope.initiatives = [];
 			}, error => {
 				console.log('Error al obtener las sesiones: ', error);
@@ -195,7 +203,6 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 //	Inicia la impresion del reporte
 	$scope.printTable = () => {
 		$scope.legislatorsReport.title ="Legisladores";
-		
 		$scope.legislatorsReport.headRows = [{politicalparty: "Partido", legislator: "Legislador",
 			district:"Distrito", commision: "Comisión", date: "Fecha", 
 			vote:"Voto", initiatives: "Iniciativas",time:"Tiempo", result: "Resultado"}];
@@ -376,7 +383,7 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		$scope.tabView = tabIndex;
 	};
 	
-	$scope.toReturn = () => {
+	$scope.toReturnBar = () => {
 		$scope.reporteBar = null;
 		$scope.reportePie = null;
 	};
@@ -431,10 +438,12 @@ app.controller('legislatorReportCtrl', function($scope, voteSessionService,$http
 		window.history.back();
 	};
 	
+	
 	const initController = () => {
 		$scope.getPoliticalParties();
 		$scope.getLegislator();
 		$scope.getVoteOptions();
+		$scope.getSessionsBetweenDates();
 	};
 	
 	angular.element(document).ready(function () {

@@ -1,6 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<h1>Reportes estadísticos - Resultados</h1>
+<h1>Resultados - Reportes Estadísticos</h1>
 <section data-ng-if="reporteBar === null && reportePie === null">
 	<div class="card w-95">
 		<div class="card-header">
@@ -114,9 +114,9 @@
 			</form>
 		</div>
 		<div class="card-body">
-			<div class="table-responsive">
+			<div class="table-responsive" data-ng-if="resultsReport.data.length == 0">
 				<div class="alert alert-primary" role="alert"
-					data-ng-if="!resultsReport.data">No se ha encontrado
+					data-ng-if="!resultsReport.data.length">No se ha encontrado
 					información con los datos ingresados</div>
 			</div>
 			<div class="table-responsive">
@@ -246,7 +246,7 @@
 			</div>
 		</div>
 		<div id="cardFooter" class="card-footer">
-			<button type="button" class="btn btn-info" data-ng-click="toReturn()">Regresar</button>
+			<button type="button" class="btn btn-info" data-ng-click="toReturnBar()">Regresar</button>
 			<button type="button" class="btn btn-dark" data-ng-click="printImg()">Imprimir</button>
 		</div>
 	</div>

@@ -294,7 +294,7 @@
 								data-ng-repeat="ar in records | filter: searchArchive track by ar.id">
 								<td>{{ar.fecha | date:'dd-MM-yyyy'}}</td>
 								<td>{{ar.nombre}}</td>
-								<td data-toggle="popover" title="Información" data-content="{{ar.descripcion}}">{{(ar.descripcion.length > 60)? ar.descripcion.substring(60,-1)+'...':ar.descripcion}}</td>
+								<td data-toggle="popover" title="Información" data-content="{{ar.descripcion}}">{{(ar.descripcion.length > 30)? ar.descripcion.substring(30,-1)+'...':ar.descripcion}}</td>
 								<td><button type="button" class="btn btn-info"
 										data-ng-if="ar.id != null" data-toggle="modal"
 										data-ng-click="showDocument(ar)"
