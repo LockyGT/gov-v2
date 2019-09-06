@@ -19,6 +19,7 @@ app.controller('electronicFileCtrl', function($scope, $rootScope, $stateParams, 
 	$scope.getSubMenu=(indexMenu)=>{
 		factory.get('components/data/menu/index_menu.json').then(function mySuccess(data) {				
 			$scope.menus = data;
+			console.log("Menus Electronic", $scope.menus);
 			angular.forEach($scope.menus, function(val, key){
 				if(val.id == 14){	
 					angular.forEach(val.childs, function(val1, key1){

@@ -444,7 +444,7 @@
 			{
 				"id": 1,
 				"app": "rrhh",
-				"index": 14.1,
+				"index": 1.0,
 				"title": "Expediente electrónico",
 				"url": "#!electronic-file",
 				"icon": "local-font font-rh-electronic-record",
@@ -460,7 +460,7 @@
 					{
 						"id": 1,
 						"app": "record",
-						"index": 2.1,
+						"index": 1.0,
 						"title": "Legisladores",
 						"url": "#!record-legislators",
 						"icon": "fas fa-id-badge",
@@ -478,7 +478,7 @@
 					{
 						"id": 2,
 						"app": "record",
-						"index": 2.2,
+						"index": 2.0,
 						"title": "Administrativos",
 						"url": "#!folders-administrators",
 						"icon": "fas fa-user-tie",

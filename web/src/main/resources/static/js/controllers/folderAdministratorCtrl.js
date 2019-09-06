@@ -91,7 +91,7 @@ app.controller('folderAdministratorCtrl', function($scope, folderAdministratorSe
 	
 	$scope.post = () => {
 		swal({
-			title: "Guardando ára para administrativios",
+			title: "Guardando área para administrativios",
 			text: "Por favor espere...",
 			icon: 'info',
 			button: {
@@ -102,6 +102,7 @@ app.controller('folderAdministratorCtrl', function($scope, folderAdministratorSe
 			closeOnEsc: false
 		});
 		
+		$scope.folder.status=1;
 		folderAdministratorService.post($scope.folder).then(data => {
 			if(data) {
 				swal("Exito", "Área agregada correctamente", "success");

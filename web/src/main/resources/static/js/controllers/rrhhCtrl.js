@@ -19,6 +19,7 @@ app.controller('rrhhCtrl', function($scope, $rootScope, $stateParams, $state, Lo
 	$scope.getSubMenu=(indexMenu)=>{
 		factory.get('components/data/menu/index_menu.json').then(function mySuccess(data) {				
 			$scope.menus = data;
+			console.log("Menu", $scope.menus)
 			angular.forEach($scope.menus, function(val, key){
 				if(val.id == indexMenu){	
 					$scope.subMenus = val.childs;
